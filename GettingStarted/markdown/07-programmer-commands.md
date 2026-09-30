@@ -65,13 +65,19 @@ and the catalogue.
 
 **Both are terminal editors**, so both work over ssh as well as at the console.
 
-**`micro` highlights SD BASIC.** The verb copies SD's syntax file into your
-`~/.config/micro/syntax` the first time it is used. **`nano` does not yet**: the
-multiuser product installs a system-wide `sdbasic.nanorc`, and Solo, which
-writes nothing outside your home directory, does not. **It applies to a `bp`
-record and to nothing else.** SD names the working copy so the editor can
-recognise the language — a record edited out of any other file is treated as
-plain text, which is correct for a VOC entry or a data record.
+**Both highlight SD BASIC.** The `micro` verb copies SD's syntax file into your
+`~/.config/micro/syntax` the first time it is used. The multiuser product gives
+`nano` a system-wide `sdbasic.nanorc`; Solo writes nothing outside your home
+directory, so the `nano` verb instead starts nano with `--rcfile`, naming
+`~/SDCoreSolo/nanocfg/sd.nanorc`, which SD rewrites before every session. **That
+file is a copy of your own nano settings** — `/etc/nanorc`, `~/.nanorc` and
+`~/.config/nano/nanorc`, whichever exist — with SD's syntax included at the end,
+so your line numbers, tabs and colours still apply. (Copied, not included: nano
+refuses an `include` of a file that itself sets options, which `/etc/nanorc`
+does.) **It applies to a `bp` record and to nothing else.** SD names the working
+copy so the editor can recognise the language — a record edited out of any other
+file is treated as plain text, which is correct for a VOC entry or a data record.
+If you run `nano` yourself, outside SD, it is unchanged.
 
 **`ed` is unaffected and is still there.**
 
