@@ -80,7 +80,7 @@ and then fails at run time:
 
 ```
 000002B3: Unable to load 'TALLY' object code at line 62 of
-/home/sd/user_accounts/don/bp.out/zzobj
+/home/you/SDCoreSolo/user_accounts/sduser/bp.out/zzobj
 ```
 
 **A local function must be declared before it is used.**

@@ -1,5 +1,5 @@
 Title: SD TCL - Locks
-Subtitle: The two kinds of lock, giving back the ones your session holds, and what you cannot do without an administrator.
+Subtitle: The two kinds of lock, giving back the ones your session holds, and what you cannot do without ADMIN.
 
 **There are two unrelated things called a lock, and knowing which is which is
 most of what this page has to say.** They do not interact, and the names do not
@@ -18,18 +18,17 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-## Only one lock verb is in an ordinary account
+## Only one lock verb needs no `ADMIN`
 
-**Inspecting locks and forcing them open are SDSYS's verbs.**
-`list.readu`, `list.locks`, `lock`, `clear.locks` and `unlock` are not in an
-ordinary account's VOC at all, so the names are not recognised. They are in
-the **administrator documentation**, under *Sessions and Locks*, which is a
-separate set your administrator may or may not have given you.
+**Inspecting locks and forcing them open need `ADMIN`.** `list.readu`,
+`list.locks`, `lock`, `clear.locks` and `unlock` are in your account, and each
+one refuses with *Command requires administrator privileges* until you type
+`ADMIN`. They are described under *Sessions and locks* in the GettingStarted set.
 
-**What every account has is `release`**, which gives back locks this session
-holds. That is the whole of the TCL lock interface for an ordinary programmer,
-and the reason is defensible: a lock you took is yours to give back, and a lock
-somebody else took is not yours to look at or remove.
+**What needs nothing is `release`**, which gives back locks this session holds.
+That is the whole of the TCL lock interface without `ADMIN`, and the reason is
+defensible: a lock you took is yours to give back, and looking at the table or
+taking somebody else's is an administrator's act.
 
 ## Giving your own locks back: `release`
 
@@ -60,20 +59,19 @@ nothing releases implicitly.
 
 ## What to do when something is stuck
 
-You cannot see the lock table without the administrator verbs, so the useful
-sequence is:
+You cannot see the lock table without `ADMIN`, so the useful sequence is:
 
 | | |
 |---|---|
 | 1 | **`release`** anything you know your own session took |
 | 2 | `status` and `pstat`, on [SD TCL - Processes and Phantoms](30-sd-tcl-processes-and-phantoms.html), to see whether the program you think is holding it is still alive |
-| 3 | if it is not yours, **report the file and record to an administrator** — they can list who holds it and force it open |
+| 3 | if it is not yours, type `ADMIN`, then `list.readu` to see who holds it and, once you know the holder is dead, `unlock` to force it open |
 
 **A dead session's database locks are not released.** A session killed from
 outside SD keeps both its user-table entry and its record and file locks, so
-everything wanting that record waits for a process that is not there. **Nothing
-an ordinary account can type will clear that**, and guessing at it wastes time —
-the recovery is `sd -cleanup`, run as SDSYS, an administrator's.
+everything wanting that record waits for a process that is not there. **`release`
+will not clear that**; the recovery is `sd -cleanup`, typed at a terminal — it
+needs no `sudo` and no `ADMIN`.
 
 ## Task locks, and why you will rarely meet one
 
@@ -81,29 +79,28 @@ A task lock protects something that is **not a file** — a nightly job, an
 external resource, a sequence that must not run twice at once. Two programs
 agree that lock 7 means *this job*, and the number carries no other meaning.
 
-**Taking and releasing one is `lock` and `clear.locks`, both administrator
-verbs**, so in practice task locks are taken from **inside a program** with the
-BASIC `lock` and `unlock` statements, which any account may compile and run.
-That is the route to reach for; the TCL verbs exist for an administrator
-inspecting or clearing the table by hand.
+**Taking and releasing one is `lock` and `clear.locks`, both of which need
+`ADMIN`**, so in practice task locks are taken from **inside a program** with the
+BASIC `lock` and `unlock` statements, which you may compile and run. That is the
+route to reach for; the TCL verbs exist for inspecting or clearing the table by
+hand.
 
 > **A task lock held by a killed session is not given back by `sd -cleanup`.**
 > It stays held, by a user number nothing is behind, until SD itself is
 > restarted — a defect, and it is recorded in the project's fix lists. If a job
 > guarded by a task lock will not start again after a crash, that is the first
-> thing to suspect, and clearing it needs an administrator.
+> thing to suspect, and clearing it needs `ADMIN` and `unlock tasklock`.
 
-## Who has these verbs
+## Which verbs need `ADMIN`
 
 | | |
 |---|---|
-| **standard** | `release` |
-| **administrator** | `list.readu` `list.locks` `lock` `clear.locks` `unlock` |
+| **no `ADMIN`** | `release` |
+| **`ADMIN` first** | `list.readu` `list.locks` `lock` `clear.locks` `unlock` |
 
 **The split is between your locks and everybody's.** Giving back what you hold
-is something any session may do. Looking at the machine's lock table, taking a
-numbered flag, or forcing another session's lock open are all administrator
-verbs, and `unlock` needs an SDSYS session on top of that.
+is something any session may do. Looking at the computer's lock table, taking a
+numbered flag, or forcing another session's lock open are administrator acts.
 
 ## See also
 

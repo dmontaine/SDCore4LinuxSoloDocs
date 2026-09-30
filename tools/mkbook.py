@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 """mkbook.py - assemble one HTML "book" per set, for a single merged PDF.
 
-    python3 tools/mkbook.py --set Administrator --out Administrator/book/Administrator.html
-
-22 Sep 2026 - ported from SD Core for Windows' docs repo, unchanged but for
-PRODUCT/VERSION and the SET_BLURB text below - the assembly itself has no
-Windows-specific path or API code.
+    python tools\\mkbook.py --set User --out User\\book.html
 
 WHY THIS EXISTS.  The release ships PDF only, and 86 separate PDFs is not a
 document - it is a pile of fragments with no continuous page numbers, no
@@ -58,13 +54,11 @@ LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/'
 # still reads.  They are here rather than imported from add_nav.py because that
 # module runs work at import time.
 SET_BLURB = {
-    'GettingStarted': 'Installing SD Core for Linux, and finding your way '
-                      'around it for the first time.',
-    'User':           'Using SD Core for Linux: SD BASIC, TCL, the '
+    'GettingStarted': 'Installing SD Core for Linux Solo, and finding your '
+                      'way around it for the first time.',
+    'User':           'Using SD Core for Linux Solo: SD BASIC, TCL, the '
                       'dictionaries and the file system.',
-    'Administrator':  'Running an SD Core for Linux installation: accounts, '
-                      'security, remote access and the machine.',
-}
+}   # Administrator merged, Solo ruling 38
 
 BOOK_CSS = """
 /* --- mkbook.py: what makes a pile of pages into one document ------------- */
@@ -140,7 +134,6 @@ BOOK = """<!DOCTYPE html>
 PRETTY = {
     'GettingStarted': 'Getting Started',
     'User': 'User Guide',
-    'Administrator': 'Administrator Guide',
 }
 
 
@@ -229,8 +222,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--set', required=True)
     ap.add_argument('--out', required=True)
-    ap.add_argument('--product', default='SD Core for Linux')
-    ap.add_argument('--version', default='L1.1-1')
+    ap.add_argument('--product', default='SD Core for Linux Solo')
+    ap.add_argument('--version', default='LS1.1-1')
     args = ap.parse_args()
 
     set_name = args.set

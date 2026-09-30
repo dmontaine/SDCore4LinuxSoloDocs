@@ -162,7 +162,9 @@ DOCUMENTS = {
  # systemd's sdclient.socket unit, not a start-up config value, and there
  # is no config-file mechanism here widening an API session's file access
  # beyond its own account (see 07's own "The API" section).
- 'Administrator/markdown/07-sd-admin-configuration.md': """
+ # 30 Sep 26 SD Core for Linux Solo (LSOLO 11): the Administrator set is merged
+ # into GettingStarted; configuration is page 16.
+ 'GettingStarted/markdown/16-configuration.md': """
    APILOGIN CMDSTACK CODEPAGE CREATUSR DEADLOCK DEBUG DUMPDIR ERRLOG
    EXCLREM FDS FILERULE FIXUSERS FLTDIFF FSYNC GDI GRPDIR GRPSIZE INTPREC
    JNLDIR JNLMODE LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN MUSTLOCK NETFILES

@@ -129,31 +129,26 @@ ct voc name
 Displays the record field by field. This is the way to see what a VOC
 entry actually contains without an editor.
 
-## The VOC and account creation
+## The VOC and the account
 
-`CREATE.ACCOUNT` copies the VOC from `NEWVOC` in the system directory —
-**399 records**, counted directly, and identical for every ordinary
-account. SDSYS's own VOC is copied from `voc_template` instead — **424
-records** — which carries the administration verbs `NEWVOC` does not:
-`create.account`, `delete.account`, `modify.account`, `config`, `set.date`,
-`update.accounts`, `clean.account`, `list.readu`, `list.locks`, `lock`,
-`unlock`, `listu`, `remote.ssh`, `remote.api`, and the rest of the set the
-*Administrator* documentation covers. **Unlike SD Core for Windows, there is
-no separate `grant`/`revoke`/`list.grants` set** — `modify.account
-add`/`delete` folds the grant into one place; see *Accounts and Security* in
-the Administrator set.
+The installer copies the account's VOC from `newvoc` in the system directory —
+**414 records**, counted directly. (SDSYS's own VOC, which nobody signs in to, is
+built from `voc_template` instead — **422 records**, the same verbs plus a few
+system file pointers.) `update.accounts`, which needs
+`ADMIN`, and an upgrade, add to the account's VOC whatever a new release ships;
+neither takes anything away.
 
-**What SDSYS alone can do is in the VOC, not in the verb.** An ordinary
-account does not have `create.account` because the VOC record for it is
-not there, not because a security subroutine refuses it. The name is
-simply not recognised. This is the design: what only SDSYS may do is
-withheld by giving or withholding the record, the same mechanism the old
-account tiers used before they were removed.
+**Administration is in the verb, not in the VOC.** Your account has `config`,
+`set.date`, `clean.account`, `list.readu`, `list.locks`, `lock`, `unlock`,
+`listu`, `update.accounts` and the rest — and each one refuses with *Command
+requires administrator privileges* until `ADMIN`. There is no `create.account`,
+`delete.account`, `modify.account`, `remote.ssh` or `remote.api` anywhere: an
+unknown name is simply not recognised. See *Administrator commands* in the
+GettingStarted set.
 
 ## Case on disk
 
-Since 18 Aug 2026 the VOC ids are stored in lower case — `list`,
-`create.account` and so on. This changes nothing about what you type —
+The VOC ids are stored in lower case — `list`, `create.file` and so on. This changes nothing about what you type —
 SD tries a name as typed, then lower, then upper. What it changes is what
 SD prints back: `CT VOC LIST` answers `VOC list`.
 
@@ -171,7 +166,11 @@ has no on-disk name to fold.
 and `ED VOC`*name* is how you edit a VOC record by hand. But there is no
 verb whose purpose is to create or modify VOC entries — `set.file` writes
 one kind, `.s` writes two, and everything else is done with `ED` or with
-`copy from voc`.
+`copy from voc`. **On Solo every direct change to the VOC needs `ADMIN`** —
+`ed voc`, a program's `write` or `delete` to it, `copy` into it, `.s` and `.d`
+with a name — and is refused with *The VOC can only be changed after ADMIN*
+without it. What SD writes to the VOC itself — `create.file`'s entry, the command
+stack — is not gated.
 
 **`PROC` is removed.** A `PQ`-type record is refused by name. Nothing
 that ships is type `PQ`, so this can only be met in a VOC record somebody
@@ -184,7 +183,7 @@ and there is no shipped example to look at.
 above — present but undispatchable, its type field reading
 `Verb - Full screen editor` rather than `V`. That was reversed 26 Aug
 2026: it is a real `V` record now, a working full-screen editor. See [SD
-VOC - Structure and Usage](32-sd-voc-structure-and-usage.html#what-sdsyss-own-voc-holds).
+VOC - Structure and Usage](32-sd-voc-structure-and-usage.html#what-the-shipped-voc-holds).
 
 ## See also
 

@@ -290,10 +290,38 @@ conversion code other than `D` is set, `display` names that too.
 
 **`date.format` with no keyword prints nothing** — like `pterm`, it wants one.
 
-**Setting the machine's date is a different thing entirely** — it is an
-administrator verb, it changes the clock for the whole installation rather than
-for your session, and it is in the **administrator documentation** under
-*Accounts and Security*.
+**Setting the session's date is a different thing** — `set.date` needs `ADMIN`,
+and it moves the date SD reports in your session only, not the computer's clock.
+It is described under *Administrator commands* in the GettingStarted set.
+
+## Currency and separators: `nls`
+
+```
+nls
+nls currency | thousands | decimal
+nls currency | thousands | decimal value
+nls default
+```
+
+Three values control how a number is written: the currency symbol, the thousands
+separator and the decimal separator. **`nls` with nothing after it shows all
+three**, one to a line (measured on a Solo tree):
+
+```
+Currency symbol     : '$'
+Thousands separator : ','
+Decimal separator   : '.'
+```
+
+Naming one of the three shows just that one. Naming one and a value sets it, and
+**`nls default`** puts all three back to `$`, `,` and `.`. A setting lasts for the
+session: the next session starts from the defaults. Anything other than the three
+names is refused, *"x is not a recognised NLS key"*.
+
+These are the same three values that **`getnls`** and **`setnls`** read and set
+from SD BASIC (see [Data Conversion](06-sd-basic-data-conversion.html)). SD Core
+is English only; `nls` has nothing to do with the language of messages, month
+names or day names.
 
 ## Waiting
 

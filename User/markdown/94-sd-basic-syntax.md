@@ -21,7 +21,7 @@ either case.
 
 **What is not here, and where it went.** Everything on this card is something
 an application may use. Names that an ordinary program **cannot** compile are
-in the administrator documentation, under *SD Basic - Restricted Commands*: the
+on the [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html) page (96): the
 restricted statements, the internal-only functions, and the one name that is in
 the compiler's table with nothing behind it. **If you are looking for something
 and it is not here, that is where to look before concluding it does not

@@ -12,12 +12,10 @@ here in lower case, which is what this port uses on disk. In the tables,
 *italics* mark something you supply and **bold** marks a word typed as it
 stands; braces mark an optional part.
 
-> **Every record on this page was read from a stock account VOC.** The
-> records were written by `CREATE.ACCOUNT`, which copies them from
-> `newvoc` — not `voc_template`, which is SDSYS's own, larger VOC and
-> what the counts below are taken from. Every ordinary account gets the
-> same set; there is no smaller or larger starting VOC to choose between
-> any more.
+> **The records on this page were read from a stock account VOC.** On Solo the
+> installer's account step copies the whole of the shipped `newvoc` into the
+> account's VOC, so the shapes are the same; **the counts below are Solo's own**,
+> taken from the shipped `newvoc`.
 
 ## The ten record types
 
@@ -44,33 +42,32 @@ load-bearing and the remaining thirty are not.**
 supported"* rather than being dispatched, because the record itself is
 valid PROC and it is the interpreter that is gone.
 
-### What SDSYS's own VOC holds
+### What the shipped VOC holds
 
-Counted directly from `voc_template` in the system directory — SDSYS's own
-VOC, 424 records, by each record's own field-1 type character:
+Counted directly from `newvoc` in the system directory — the VOC a new account
+starts with, 414 records, by each record's own field-1 type character (the type
+is the first character; a record whose field 1 reads `Verb to ...` is `V`):
 
 | Type | Count |
 |---|---|
-| `V` | 140 |
-| `K` | 248 |
-| `F` | 15 |
+| `V` | 139 |
+| `K` | 249 |
+| `F` | 8 |
 | `R` | 10 |
-| `PA` | 4 |
+| `PA` | 1 |
 | `PH` | 2 |
 | `S` | 2 |
 | `Q` | 2 |
 | `X` | 1 |
 
-**The `V` count here is the literal type character, not the dispatchable
-total.** `break`, `count`, `display` and `off` are type `K` — the four
-keyword-verbs described below — so the 144 figure used elsewhere on this page
-for "everything the command processor can run as a verb" is this 140 plus
-those four.
+**The four keyword-verbs are among the 249 `K` records.** `break`, `count`,
+`display` and `off` are counted as keywords here and are also verbs, so Solo has
+139 + 4 = **143 verbs**.
 
-**An ordinary account's `newvoc` holds 399** — the same shape of table,
-smaller only because it lacks SDSYS's own administration verbs and a few
-system file pointers; it is not a *different kind* of VOC, and every
-ordinary account's copy is identical.
+**Your account's VOC starts as a copy of exactly this**, and what you add to it
+is yours. The account and grant commands are not in it — see *Differences from
+multiuser SD Core for Linux L1.1-1* in the GettingStarted set. (SDSYS's own VOC,
+which nobody signs in to, is built from the larger `voc_template`: 422 records.)
 
 > **`edit` used to be exactly this kind of trap** — a record present in the
 > VOC whose old type field read `Verb - Full screen editor` rather than `V`,
@@ -99,27 +96,25 @@ dictionary.
 | `2` | data path — a name in the account directory, or `@SDSYS/`*name* for a system file |
 | `3` | dictionary path, or empty if none |
 
-### The eight pointers into @SDSYS
+### The pointers into @SDSYS
 
-A stock account VOC carries eight F-records whose data path begins
-`@SDSYS/`. They point at files in the system directory that every account
-needs:
+Seven of the shipped `F` records have a data path that begins `@SDSYS/`. They
+point at files in the system directory — on Solo, the installation directory
+itself — that the account needs:
 
-| VOC id | Field 2 |
-|---|---|
-| `voc` | `@SDSYS/voc.dic` (field 3 — the dictionary) |
-| `newvoc` | `@SDSYS/newvoc` |
-| `messages` | `@SDSYS/messages` |
-| `syscom` | `@SDSYS/syscom` |
-| `$MAP` | `@SDSYS/...` |
-| `dict.dic` | `@SDSYS/...` |
-| `sd.voclib` | `@SDSYS/...` |
-| `$ipc` | (system IPC file) |
+| VOC id | Field 2 | Field 3 |
+|---|---|---|
+| `voc` | `voc` | `@SDSYS/voc.dic` — the dictionary |
+| `newvoc` | `@SDSYS/newvoc` | `@SDSYS/voc.dic` |
+| `syscom` | `@SDSYS/syscom` | |
+| `$map` | `@SDSYS/$map` | `@SDSYS/$map.dic` |
+| `dict.dict` | `@SDSYS/dict.dic` | `@SDSYS/dict.dic` |
+| `sd.voclib` | `@SDSYS/sd.voclib` | `@SDSYS/voc.dic` |
+| `global.bp.out` | `@SDSYS/global.bp.out` | |
 
-These are **read-only to a network session**. The account-root gate in
-the file engine allows them on read paths but sets `FV_RDONLY` on the
-file variable, so every write path in the engine refuses them. SDSYS is
-exempt; an ordinary account cannot write these files.
+`global.bp.out` is the SD Core for Linux server's directory of compiled programs
+on a managed computer, and is empty otherwise; you cannot write to it, `ADMIN` or
+not. See *Managed mode* in the GettingStarted set.
 
 ### The $ACC record
 
@@ -147,22 +142,24 @@ target, and the remaining fields carry options.
 
 | Field 2 | Field 3 | What it does |
 |---|---|---|
-| `CA` | *catalogue name* | a catalogued program — 95 of the shipped verbs |
+| `CA` | *catalogue name* | a catalogued program — 94 of the shipped verbs |
 | `IN` | *number* | internal verb *n*, handled by the command processor itself — 43 verbs |
 | `OS` | *text* | an operating-system command — `sh` and `!`, and nothing else |
 | `CS` | *path* | a locally catalogued function |
 
-Those four rows account for all but four of SDSYS's 144 `V` records. The
-remaining four are the keyword records described above — `break`, `count`,
-`display` and `off` — where field 2 holds a keyword number rather than a
+The first three rows account for all 139 of Solo's `V` records. The
+remaining four verbs are the keyword records described above — `break`,
+`count`, `display` and `off` — where field 2 holds a keyword number rather than a
 dispatch type, and it is field 3 that marks the record as a verb.
 
 Field 4 carries dispatch options and **field 5 names a security subroutine**.
-If field 5 is present, that subroutine is called before the verb runs and
-can refuse it. **None of the shipped verbs uses field 5** — what SDSYS alone
-can do is withheld by giving or withholding the VOC record itself, not by a
-security subroutine — but the mechanism is there for a site that wants a
-verb guarded rather than absent.
+If field 5 is present, that subroutine is called before the verb runs and can
+refuse it. **None of the shipped verbs uses field 5** — what needs `ADMIN` is
+checked by the verb's own code, not by a security subroutine — but the
+mechanism is there for a site that wants a verb guarded rather than absent.
+**Field 4 does matter to the deny list** (see *Managed mode* in the
+GettingStarted set): SD denies a verb by what it runs — the same field 2, field 3
+and field 4 — so two names that dispatch identically are denied together.
 
 ### Internal verbs
 
@@ -277,18 +274,17 @@ supplier` parse.
 
 ```
 001  X
-002  L1.1-1
+002  LS1.1-1
 ```
 
-This is `$release`, and it is SDSYS's **only** X-record. An X-record is
+This is `$release`, and it is the shipped VOC's **only** X-record. An X-record is
 **not a command** — it is miscellaneous data the VOC holds so that a program
 can read it by name with `read` from BASIC or `ct` from the command line.
 
 **The licence and the contributor list are not VOC records at all**, despite
 looking like the obvious candidates. `config gpl` and `config contrib` shell
-out to `less` against two plain files in the system directory,
-`sdsys/licence` and `sdsys/contrib` — see *Account Maintenance* in the
-Administrator set.
+out to `less` against two plain files in the system directory, `licence` and
+`contrib`, in `~/SDCoreSolo`.
 
 ## Continued in
 

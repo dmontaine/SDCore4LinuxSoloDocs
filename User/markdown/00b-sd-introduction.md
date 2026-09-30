@@ -1,7 +1,7 @@
 Title: SD Core - Introduction and Getting Started
 Subtitle: What a multivalue database is, what SD is, the four components, and your first session.
 
-This page orients you to SD Core for Linux: what a multivalue database is,
+This page orients you to SD Core for Linux Solo: what a multivalue database is,
 where SD came from, what the pieces are, and how to take your first steps. It
 is the only page in this set that assumes nothing.
 
@@ -25,7 +25,7 @@ that carries these marks, and `extract`, `insert`, `delete` and
 
 ## What SD is
 
-SD Core for Linux is built from upstream `sdb64`, a MultiValue database
+SD Core for Linux Solo is built from upstream `sdb64`, a MultiValue database
 with elements found in the main SD version and in ScarletDME. ScarletDME
 was a fork of the original GPL release of OpenQM 2.6.6.
 
@@ -40,10 +40,11 @@ If you have used OpenQM, or upstream `sdb64`, much of SD Core will still be
 familiar: the same data model, the same query processor, the same
 BASIC.
 
-**SD Core for Linux is Linux only.** There are no `#ifdef` branches
-keeping Windows alive in this source — SD Core for Windows is a separate
-project, kept in behavioural parity by deliberate policy, and this is not
-a build of it.
+**SD Core for Linux Solo is Linux only, and for one user.** It is the
+single-user edition of SD Core for Linux: one account, `sduser`, installed in
+your home directory and run as you. There are no `#ifdef` branches keeping
+Windows alive in this source — SD Core Solo for Windows is a separate project,
+kept in behavioural parity by deliberate policy, and this is not a build of it.
 
 SD Core is free software under the GNU General Public Licence v3. `config gpl`
 displays the licence and `config contrib` the list of contributors. Installing
@@ -64,22 +65,15 @@ means cloning the source and building it — see the GettingStarted set.
 sd
 ```
 
-You land in **the SD account with your own name**. Nothing asks for a
-password — Linux has already authenticated you, at the console or over
-ssh.
+**You land in the one SD account, `sduser`, after the account password** — the
+one you chose when installing. Being signed in to Linux is not enough: SD asks.
+If the computer was installed from a control file there is no password yet, and
+`sd` asks you to choose one. The GettingStarted set's *Your first thirty
+minutes* walks through it.
 
-If `sd` answers *Account ... not in register*, you are in the wrong
-account or your group membership has not taken effect yet. If it
-answers *not registered for SD use*, you are not in the `sdusers`
-group.
-
-> **You must log out and back in after being added to `sdusers`.**
-> Group membership is fixed at login, the same as any Linux service.
-> Until you get a new session you cannot read the data tree at all, and
-> the symptom looks like a broken install.
-
-SD is already running. It is a `systemd` service — `sd.service`,
-`sdclient.socket` — enabled at every boot. You do not type `sd -start`.
+SD is already running. It is your own systemd user service, `sd-solo.service`,
+so you do not type `sd -start`. Open a new terminal after installing: one that
+was open before the install may not have `~/.local/bin` on its PATH yet.
 
 ## Your first file and record
 
@@ -92,9 +86,9 @@ ed customers 1001
 to insert, type your lines, a full stop on its own line to stop
 inserting, then `fi` to file and exit.
 
-Every account can also use `nano` or `micro` (both full-screen editors
-with syntax highlighting) — unconditionally, with no permission to grant
-first. `edit` aliases `ed` here, not a full-screen editor.
+You can also use `nano` or `micro` (both full-screen editors; `micro`
+highlights SD BASIC) — with nothing to unlock first. `edit` aliases `ed` here,
+not a full-screen editor.
 
 ```
 list customers
@@ -113,7 +107,7 @@ in `nano`, in `micro`, or in any text editor you like — the folder is on
 disk at:
 
 ```
-/home/sd/user_accounts/<account>/bp
+~/SDCoreSolo/user_accounts/sduser/bp
 ```
 
 Compile and catalogue it from inside SD:
@@ -129,22 +123,24 @@ Then run it by name:
 myprog
 ```
 
-## Becoming an administrator
+## Administrator commands
 
-**There is no `logto` route to it.** SDSYS, the one administrator account,
-is reached only by logging in to the machine itself, locally, as the
-`sdsys` account, its own password — a fresh session, not a command typed
-from inside one you already have. `logto sdsys` from any other account is
-refused outright, whatever route it came in by.
+**There is no separate administrator account.** A few commands — `config`,
+`listu`, editing the VOC directly — refuse with *Command requires
+administrator privileges* until you unlock them for the session:
 
-**This needs the console, or a desktop-sharing view of it** (VNC,
-TeamViewer) — a real local login, which counts as local because it *is*.
-`sdsys` has no ssh or API route to arrive over, ever, from anywhere.
+```
+admin
+```
+
+Type the administrator password chosen at installation, or, on a managed
+computer, the global password. It lasts until you leave SD or type
+`admin off`. See *Administrator commands* in the GettingStarted set.
 
 ## What is not in SD Core
 
 The following were in OpenQM, in ScarletDME, or in upstream `sdb64`, and
-are not in SD Core for Linux:
+are not in SD Core for Linux Solo:
 
 | Gone | Why |
 |---|---|
@@ -153,7 +149,7 @@ are not in SD Core for Linux:
 | `sed`, `update.record`, `modify` editors | Gone; use `nano`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |
 | `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core is English only (NLS, for currency and separators, is kept) |
-| Unattended install | Not supported; the installer asks questions and sets passwords that cannot be scripted around |
+| Accounts other than `sduser` | Solo has one account. `create.account`, `grant` and the rest are gone |
 
 **Embedded Python is not on this list** — a real difference from SD Core
 for Windows, which dropped and later restored a narrower form of it. This

@@ -138,10 +138,9 @@ the long form means *I have moved* — which makes `who` the quick way to find
 out whether a `logto` actually took effect.
 
 **`SDSYS` cannot appear after `from` here, because `logto sdsys` is refused
-outright from any other account.** Administering SD means logging in to the
-machine itself, locally, as the `sdsys` account, its own password, and
-starting a fresh session, not `logto`-ing there from one you already have —
-see the *Administrator* set's *Accounts and Security* chapter.
+outright.** SDSYS is never entered on a Solo computer; the administrator
+commands are in your own account behind `ADMIN`. There is only one account, so
+`logto` has nowhere else to go.
 
 ## What is not here
 
@@ -154,9 +153,9 @@ documentation is the help system.**
 
 **Unlike SD Core for Windows, `umask` is a real, typeable verb here** —
 internal verb 35, with a VOC record (`newvoc/umask`) in every account, kept
-deliberately because it is a real, live mechanism on this port. See
-*Accounts and Security* in the **administrator documentation** for what it
-does and why Linux keeps it. `umask()` from SD BASIC works too.
+deliberately because it is a real, live mechanism on this port: it sets the
+permissions of the files SD and its shell commands create. `umask()` from SD
+BASIC works too.
 
 **PROC is removed.** So are `sed` and `update.record`. A `PQ`-type VOC record
 is **refused by name** rather than being reported as a bad dispatch code,
@@ -169,21 +168,16 @@ there is no shipped example to look at.
 
 ## Who has these verbs
 
-Everything on this page is in a **standard** account except the last two, which
-are administrator-only:
+Everything on this page is in your account, and none of it needs `ADMIN`:
 
 | | |
 |---|---|
-| **standard** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `logto` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
+| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `logto` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
-**Everything on this page is in a standard account.** An account that does not
-have a verb does not have the VOC record for it — the name is simply not
-recognised rather than refused.
-
-**The two `OS` verbs are the exception and are not documented here.** `sh` and
-`!` reach the Windows shell, are administrator-tier, and are gated a second time
-by a list of who may use them. They are in the **administrator documentation**,
-under *Operating System Access*, which is a separate set.
+**The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
+shell with your own permissions, need no `ADMIN`, and refuse a command that
+carries a shell metacharacter. They are described under *Operating system access*
+in the GettingStarted set.
 
 ## See also
 

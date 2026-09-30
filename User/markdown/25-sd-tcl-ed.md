@@ -371,7 +371,7 @@ is reported as line 2.
 
 ## Who has it
 
-**Every account has `ed`, `edit`, `nano` and `micro`, and all of them
+**Your account has `ed`, `edit`, `nano` and `micro`, and all of them
 simply run** — unlike SD Core for Windows, there is no permission behind
 `nano`/`micro` to grant first. See [The nano Screen
 Editor](26-sd-tcl-edit.html).

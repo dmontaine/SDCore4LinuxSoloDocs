@@ -327,8 +327,8 @@ runs inside the caller's transaction, so it is bound by the same locking rule.
 
 **`testlock()` and `getlocks()` are internal-only and an ordinary program
 cannot call them.** They are in the compiler's internal intrinsic list, which
-only a program compiled with `$internal` in an administrator's `SDSYS` session
-may reach.
+only a program compiled with `$internal`, which the compiler allows only in the
+installer's own internal session, may reach.
 
 **And the compiler does not say so.** `v = testlock(5)` in an ordinary account
 produces, at the **last line of the program**:

@@ -5,7 +5,7 @@ Fix all rendered HTML pages:
 2. Widen the page layout - increase max-widths significantly
 3. Make the pagenav visible and prominent
 
-Works on all HTML files in GettingStarted/html, User/html, Administrator/html.
+Works on all HTML files in GettingStarted/html and User/html.
 The set list is SETS below; keep this line in step with it.
 """
 
@@ -14,7 +14,8 @@ import re
 
 DOCS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SETS = ["GettingStarted", "User", "Administrator"]
+# 28 Sep 26 SD Core Solo for Windows: the Administrator set is merged (ruling 38).
+SETS = ["GettingStarted", "User"]
 
 # ── New CSS for pagenav (placed prominently in the main column) ──
 

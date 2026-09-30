@@ -47,7 +47,7 @@ if len(sys.argv) < 2:
 
 NEWVOC = sys.argv[1]
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SETS = ('GettingStarted', 'User', 'Administrator')
+SETS = ('GettingStarted', 'User')   # Administrator merged, Solo ruling 38
 
 
 def field(rec, n):
@@ -119,7 +119,7 @@ ALLOWED = {
     411: 'SD BASIC names accepted by the compiler - docmap.py computes it',
     372: 'SD BASIC names an application may use - the 94 syntax card',
     447: 'the SD BASIC roster, application plus restricted - mksyntax.py',
-    75:  'SD BASIC names an application may NOT use - Administrator/10',
+    75:  'SD BASIC names an application may NOT use - User/96',
 }
 
 # ***THE PATTERN IS NUMBER-THEN-PLURAL-VERBS AND NOTHING ELSE, WHICH IS A

@@ -180,36 +180,32 @@ out.append('folds case, so any of this may be typed in either case.')
 out.append('')
 out.append('> **This page is generated, and it is checked for completeness rather')
 out.append('> than proof-read for it.** The roster is computed from SD\'s own VOC:')
-out.append('> every verb record in `newvoc`, plus the ones only `voc_template`')
-out.append('> has, which is **%d** verbs, and `tools/mktclsyntax.py` refuses to' % len(verbs))
+out.append('> every verb record in `newvoc`, which is **%d** verbs, and' % len(verbs))
+out.append('> `tools/mktclsyntax.py` refuses to')
 out.append('> write the page if any of them has no line. The shapes come from the')
 out.append('> subject documents, where each verb is described in full.')
 out.append('')
-out.append('**The "who" column is the VOC, not an opinion.** It is computed by')
-out.append('reading `newvoc` and `voc_template` directly, so it cannot drift from')
-out.append('what an account actually gets. **A verb your account does not have is')
-out.append('not refused — the name is simply not recognised.**')
-out.append('')
-out.append('| | | |')
-out.append('|---|---|---|')
-out.append('| **every account** | %d verbs | `newvoc`, identical for every ordinary account |' % by_who['ordinary'])
-out.append('| **SDSYS only** | %d more | in `voc_template` but not `newvoc` |' % by_who['sdsys'])
+out.append('**The roster is the VOC, not an opinion.** It is computed by')
+out.append('reading `newvoc` directly, so it cannot drift from what the account')
+out.append('actually gets. **A verb your account does not have is not refused — the')
+out.append('name is simply not recognised.** Solo has one account, and it has all')
+out.append('%d of them; whether a verb needs `ADMIN` is in the GettingStarted set.' % by_who['ordinary'])
+if by_who['sdsys']:
+    sys.exit('REFUSED: %d verbs only in voc_template; Solo has no SDSYS-only verbs' % by_who['sdsys'])
 out.append('')
 out.append('## The verbs')
 out.append('')
-out.append('| | syntax | who |')
-out.append('|---|---|---|')
+out.append('| | syntax |')
+out.append('|---|---|')
 
 WHOMARK = {'ordinary': '', 'sdsys': 'S'}
-# 29 Sep 2026 - A shape's "|" (this OR that) is escaped for the table.  Left
-# bare it ended the cell: 37 rows rendered their alternatives as extra cells
-# and lost the "who" column, in the page and the bound PDF alike.
 for v in sorted(verbs):
-    out.append('| **`%s`** | %s | %s |' % (v, shapes[v].replace('|', '\\|'), WHOMARK[verbs[v][2]]))
+    # 29 Sep 26 - a shape's own "|" means "this or that", and a bare one ENDS the
+    # table cell, so alternatives rendered as extra cells and lost the who
+    # column (found by the Linux port on its copy of this script).  Escaped.
+    out.append('| **`%s`** | %s |'
+               % (v, shapes[v].replace('|', '\\|')))
 
-out.append('')
-out.append('**Blank in the who column means every account has it**; `S` is SDSYS')
-out.append('alone.')
 out.append('')
 
 text = '\n'.join(out) + '\n'

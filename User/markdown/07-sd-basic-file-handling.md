@@ -192,7 +192,7 @@ On a newly created dynamic file:
 |---|---|---|
 | `0` | is this variable an open file? | `1` |
 | `1` | the VOC name it was opened by | `ZZWORK` |
-| `2` | the path on disk | `/home/sd/user_accounts/don/zzwork` |
+| `2` | the path on disk | `/home/you/SDCoreSolo/user_accounts/sduser/zzwork` |
 | `3` | file type | `3` |
 | `5` | modulus | |
 | `6` | minimum modulus | `1` |
@@ -269,7 +269,7 @@ things about it changed:
 | | |
 |---|---|
 | **VFS** | the virtual file system layer has been **removed from the C entirely**. `fileinfo()` never reports a VFS type, and the type code is gone |
-| **The data tree** | `/usr/local/sdsys` and the account directories are protected by ordinary Linux file permissions — see *Security* in the **Getting Started** set for exactly what that does and does not guarantee here |
+| **The data tree** | `~/SDCoreSolo` and the account directory are protected by ordinary Linux file permissions — see *Security* in the **Getting Started** set for exactly what that does and does not guarantee here |
 
 ## See also
 

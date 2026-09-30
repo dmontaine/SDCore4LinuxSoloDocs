@@ -287,9 +287,8 @@ which is what a fresh account reports. **`off`** clears it again.
 
 **Output is written to a file under the account's own `prt` directory,
 then handed to whatever command `SPOOLER` in `sd.conf` names** — `lpr` or
-`lp` on a CUPS-enabled machine, or any other shell command an
-administrator configures. See the *Administrator* set's *Configuration*
-chapter for the setting itself, and
+`lp` on a CUPS-enabled machine, or any other shell command you
+configure. See *Configuration* in the GettingStarted set for the setting itself, and
 [SD Basic - Printing](13-sd-basic-printing.html#printing-on-this-port)
 for what a report that assumed a different printing model needs to know.
 

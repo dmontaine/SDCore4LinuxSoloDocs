@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 Add prev/next navigation to every HTML page in each documentation set,
-create a master index page, and create User and Administrator set
-index pages.
+create a master index page, and create the set index pages.
 
 Works on the rendered HTML files in <set>/html/ directories.
 Each page gets a navigation bar inserted before the </footer> with:
@@ -10,8 +9,7 @@ Each page gets a navigation bar inserted before the </footer> with:
 
 Also creates:
   - index.html at the repo root (master index)
-  - User/html/index.html (User set index)
-  - Administrator/html/index.html (Administrator set index)
+  - GettingStarted/html/index.html and User/html/index.html (set indexes)
 
 Each index entry links to the page and shows its source markdown file.
 
@@ -19,14 +17,8 @@ A SET INDEX DOES NOT LINK BACK TO THE MASTER INDEX, and that is deliberate
 rather than an omission.  Each set is handed out on its own, so the master
 index is not there for whoever received one set - the link was a 404 in every
 delivered copy, and check_all_links.py reported exactly that three times during
-the W1.0-0 audit (SD Core for Windows' own docs repo).  The master index is
-for browsing the tree locally and links downward only.
-
-22 Sep 2026 - ported from SD Core for Windows' docs repo, unchanged but for
-PRODUCT/VERSION, the SETS descriptions, and the get_title() regex below,
-which had SD Core for Windows' own product name written into it literally
-rather than built from PRODUCT - it would have matched nothing on this fork
-and silently fallen through to the tp-title fallback every time.
+the W1.0-0 audit.  The master index is for browsing the tree locally and links
+downward only.
 """
 
 import os
@@ -43,22 +35,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mkdoc
 
 DOCS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PRODUCT = "SD Core for Linux"
-VERSION = "L1.1-1"
+PRODUCT = "SD Core for Linux Solo"
+VERSION = "LS1.1-1"
 
 # ── Set definitions ──────────────────────────────────────────
 
 SETS = {
     "GettingStarted": {
-        "desc": "Installing and running SD Core on Linux, and what differs from OpenQM and SD Core for Windows.",
+        "desc": "Installing, running and administering SD Core for Linux Solo, managed mode, and what differs from the multiuser SD Core for Linux.",
     },
     "User": {
-        "desc": "For programmers and operators. SDBasic, TCL, the VOC, dictionaries, the file system, and the client API.",
+        "desc": "For programmers and operators. SDBasic, TCL, the VOC, dictionaries, the file system, the client API, and what an ordinary program may not compile.",
     },
-    "Administrator": {
-        "desc": "For administrators. Accounts, security, remote access, encryption, configuration, installation, and what an ordinary program may not compile.",
-    },
-}
+}   # Administrator merged, Solo ruling 38
 
 
 # ── The page order is READ, not typed ────────────────────────

@@ -141,7 +141,7 @@ none is mangled. The full rules are on
 
 ## Who has these verbs
 
-**Every account has `micro`, `nano`, `edit` and `ed`, and all four simply
+**Your account has `micro`, `nano`, `edit` and `ed`, and all four simply
 run** — unlike SD Core for Windows, there is no permission behind
 `micro`/`nano` to grant first. See [SD TCL - The nano Screen
 Editor](26-sd-tcl-edit.html#no-gate-every-account-reaches-both-unconditionally).

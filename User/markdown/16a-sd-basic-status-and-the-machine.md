@@ -89,10 +89,10 @@ the command line that started the program: `RUN BP ZZMATH`.
 
 | | Value |
 |---|---|
-| `@who` | `DON` — **upper case** |
-| `@logname`, `@user` | `don` — **lower case** |
-| `@path` | `/home/sd/user_accounts/don` |
-| `@sdsys` | `/usr/local/sdsys` |
+| `@who` | `sduser` — always, on a Solo computer |
+| `@logname`, `@user` | `sduser` |
+| `@path` | `/home/you/SDCoreSolo/user_accounts/sduser` |
+| `@sdsys` | `/home/you/SDCoreSolo` — the installation directory itself |
 | `@user.no` | `67`, the same as `system(18)` |
 | `@tty` | **empty in a piped session** |
 | `@system.return.code` | `1` |
@@ -115,9 +115,10 @@ os.execute command {capturing variable}
 account here — there is no permission to check first.** `OS.EXECUTE`
 executes at the account's own Linux permissions, the same wall that
 already governs what that account's user could do at a shell prompt
-outside SD. This port keeps no second, SD-level gate behind it — see the
-*Administrator* set's *Accounts and Security* chapter, "There is no
-second wall for `sh` or `os.execute`."
+outside SD. This port keeps no second, SD-level gate behind it — see
+*Operating system access* in the GettingStarted set. (`OS.EXECUTE` is not
+subject to the metacharacter filter that the `sh` verb applies to a typed
+command.)
 
 ## LOGMSG
 
@@ -163,8 +164,8 @@ Internal-only: `kernel()`, `ospath()`, `option()`, `pterm()`, `sdext()`,
 `testlock()` and `getlocks()`.
 The compiler's list is longer than that; those seven are the ones this page
 put in front of it. They are reachable only from a program compiled
-with `$internal`, which additionally requires an administrator in the `SDSYS`
-account.
+with `$internal`, which the compiler allows only in the installer's own
+internal session.
 
 **And some statements are restricted the same way.** These are
 *"Unrecognised statement"* in an ordinary account: `set.modes`, `reset.modes`,

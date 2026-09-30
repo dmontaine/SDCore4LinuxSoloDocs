@@ -33,13 +33,15 @@ count voc
 ```
 
 ```
-418 record(s) counted
+417 record(s) counted
 ```
 
-**That number is particular to the account it was run in.** Every account has
-a `voc`, and no two need hold the same records — every ordinary account
-starts with the same set as every other, but local additions can differ, and
-`SDSYS`'s is larger to begin with. The counts on this page came from SDSYS.
+**That number is particular to the account it was run in** — 417 is what a
+freshly installed Solo account counted. The `voc` of your account starts as the
+shipped set and local additions differ. **The other counts on this page were
+taken on the multiuser SD Core for Linux's SDSYS account, whose VOC is larger**,
+so a query over the VOC gives a slightly smaller answer on Solo; the queries
+themselves, and what they show about the language, are unchanged.
 
 ## The verbs
 

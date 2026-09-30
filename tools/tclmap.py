@@ -123,7 +123,7 @@ DOCS = [
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
    autologout bell clear.prompts clearinput clearprompts date date.format echo
-   hush logmsg pterm sleep term time
+   hush logmsg nls pterm sleep term time
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status
@@ -131,34 +131,28 @@ DOCS = [
  ('User', '31-sd-tcl-locks.md', """
    release
  """),
- ('Administrator', '01-accounts-and-security.md', """
-   create.account modify.account modify.password umask
+ # 30 Sep 26 SD Core for Linux Solo (LSOLO 11): the Administrator set is merged
+ # into GettingStarted, as in Solo for Windows.  The account and grant verbs and
+ # remote.api and remote.ssh are not in Solo.  Each surviving verb is assigned
+ # where the rewritten page explains it - including admin, set.password,
+ # deny.verbs and sync.global.catalog, which Solo added.
+ ('User', '19a-sd-tcl-the-command-stack.md', """
+   umask
  """),
- # THE MAINTENANCE VERBS MOVED TO 01a AND ONLY ONE OF THEM SAID SO.  tclmap
- # reported set.date and passed the other four, because 01 still MENTIONS
- # clean.account, config, delete.account and update.accounts - in the "two
- # gates" paragraph and in a refusal example - and a backtick is evidence.
- # That is the incidental-mention false positive this script exists for,
- # arriving from the other direction: the name is on the page and the
- # explanation is not.  Each verb is assigned where it is actually explained.
- ('Administrator', '01a-account-maintenance.md', """
-   clean.account config delete.account set.date update.accounts
+ ('GettingStarted', '05-account-types.md', """
+   set.password
  """),
- ('Administrator', '02-sessions-and-locks.md', """
+ ('GettingStarted', '06-administrator-commands.md', """
+   admin clean.account config set.date update.accounts
+ """),
+ ('GettingStarted', '06a-sessions-and-locks.md', """
    clear.locks list.locks list.readu listu lock logout unlock
  """),
- ('Administrator', '03-operating-system-access.md', """
+ ('GettingStarted', '06b-operating-system-access.md', """
    sh !
  """),
- # 22 Sep 26 - LINUX FORK.  grant/list.grants/revoke, append.sd.path and
- # ssh.server do not exist on this port (no os.users-style OS-access gate to
- # wrap, and no SD-managed ssh server/PATH tool - the distribution owns
- # both).  Their Linux equivalents: usermod -aG folded into modify.account
- # (01, above), and sshd/PATH left to the distribution and the installer.
- # remote.api/remote.ssh stay, same verb names, ufw/systemd underneath
- # instead of the Windows firewall/service - see 05's own page.
- ('Administrator', '05-remote-access-and-the-machine.md', """
-   remote.api remote.ssh
+ ('GettingStarted', '15-managed-mode.md', """
+   deny.verbs sync.global.catalog
  """),
 ]
 

@@ -8,11 +8,11 @@ disagree with each other.
 
 <!--LICENCE-BLOCK-->
 
-## The other two sets
+## The other set
 
-The documentation is three separate sets, and each is handed out on its own:
-**GettingStarted**, **User** and **Administrator**. Each carries its own copy
-of this page, under the same copyright and the same licence.
+The documentation is two separate sets, and each is handed out on its own:
+**GettingStarted** and **User**. Each carries its own copy of this page, under
+the same copyright and the same licence.
 
 ## The set this page belongs to
 

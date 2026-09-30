@@ -13,14 +13,14 @@ record. The record id is the file name.
 
 | | |
 |---|---|
-| On disk | `/home/sd/user_accounts/<account>/<filename>/` |
+| On disk | `~/SDCoreSolo/user_accounts/sduser/<filename>/` |
 | Record id | the file name |
 | Readable by | any text editor or Linux program |
 | Record ids | matched case insensitively |
 | `create.file` option | `no.case` for explicit case-insensitive ids |
 
-The `bp` file is a directory file. VOC, `batch.jobs`, and the
-dictionaries are all directory files.
+The `bp` file is a directory file. The dictionaries, and on a managed computer
+`global.bp.out`, are directory files too.
 
 > SD writes directory file records with the platform's own (LF) line
 > endings, and reads either LF or CR+LF correctly — see *Other hardening*
@@ -47,9 +47,9 @@ records that hash to it. `analyse.file` reports the structure of a real file:
 
 ```
 :analyse.file zzauditf
-Account           : /home/sd/user_accounts/don
+Account           : /home/you/SDCoreSolo/user_accounts/sduser
 File name         : zzauditf
-Path name         : /home/sd/user_accounts/don/zzauditf
+Path name         : /home/you/SDCoreSolo/user_accounts/sduser/zzauditf
 Type              : Dynamic, version 2
 Group size        : 2 (2048 bytes)
 Large record size : 1638

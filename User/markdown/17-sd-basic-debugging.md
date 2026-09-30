@@ -251,7 +251,7 @@ From inside a program run from the command prompt:
 
 ```
 >STACK
-1: /home/sd/user_accounts/don/bp.out/zzdbg @ 9
+1: /home/you/SDCoreSolo/user_accounts/sduser/bp.out/zzdbg @ 9
 Command processor
 ```
 

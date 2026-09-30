@@ -122,14 +122,12 @@ ordinary source reads normally.
 ## No gate — every account reaches both, unconditionally
 
 **Unlike SD Core for Windows, there is no `os.users`-style permission
-behind `nano` or `micro` here.** Every account has both verbs, and both run
-the moment they are typed — there is no record to grant, and nothing
-SDSYS needs to set up first. This port keeps no second wall behind an
-editor's own reach onto the machine: what an account's Linux user may
-read or write outside SD is exactly what an editor run from inside SD may
-touch, because they are the same permissions. See the *Administrator*
-set's *Accounts and Security* chapter, "There is no second wall for `sh`
-or `os.execute`."
+behind `nano` or `micro` here.** Your account has both verbs, and both run
+the moment they are typed — there is no record to grant. This port keeps no
+second wall behind an editor's own reach onto the machine: what your Linux
+user may read or write outside SD is exactly what an editor run from inside
+SD may touch, because they are the same permissions. See *Security and the
+operating system* in the GettingStarted set.
 
 **A session with no terminal is still refused**, an API session or a
 script driving SD down a pipe having nowhere to draw a full screen:

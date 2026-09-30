@@ -1,22 +1,20 @@
 Title: SD Glossary
 Subtitle: Terms used in SD Core documentation, from account to VOC.
 
-This glossary defines the terms used throughout the SD Core for Linux
+This glossary defines the terms used throughout the SD Core for Linux Solo
 documentation set. Terms are listed in alphabetical order.
 
 ## A
 
 **Account** — a workspace: a directory containing one or more files, a
-VOC, and its own `bp` source file. An account maps to a Linux group
-(`sdu_<name>` for user accounts, `sdg_<name>` for group accounts).
-Entry to an account is membership of its Linux group.
+VOC, and its own `bp` source file. SD Core for Linux Solo has one, `sduser`, in
+`~/SDCoreSolo/user_accounts/sduser`. Entry to it is the account password.
 
-**Administrator** — SDSYS, the one privileged account. There is no
-tier or keyword that makes any other account an administrator; being
-able to `sudo`, able to or not, grants nothing. SDSYS is
-reached only by logging in to the machine locally as the `sdsys`
-account, its own password — no elevation needed, since being that
-account already is the privilege.
+**Administrator** — a session that has unlocked the administrator commands
+with `ADMIN` and the administrator password (or that signed in with the global
+password on a managed computer). There is no separate administrator
+account and no way to make another: SDSYS, the system account, is never
+entered.
 
 **Alternate key index** — a secondary access path to records in a file,
 built from the values in a nominated field. Created with
@@ -50,8 +48,8 @@ shipped source for the system programs.
 **Catalogue** — the registry of compiled programs. A catalogued program
 can be run by name from any account that can reach it. Private
 catalogue is per-account; local catalogue puts the VOC entry in the
-account's own VOC; global catalogue is system-wide and requires an
-administrator.
+account's own VOC; global catalogue is system-wide and is changed by nobody
+in a session — on a managed computer it is the SD Core server's.
 
 **Common block** — a named memory area shared between subroutines.
 Declared with `common` or `common /name/`. Used for passing data
@@ -103,12 +101,9 @@ possibly in another account. A remote file pointer.
 
 ## G
 
-**Group** — (1) a Linux group used for account membership. (2) In a
-dynamic file, the bucket that holds records hashed to the same slot.
-
-**Group account** — a shared workspace with no Linux user account and no
-sign-in of its own. Created with `create.account group`. Reached with
-`logto` or through an F-pointer.
+**Group** — in a dynamic file, the bucket that holds records hashed to the same
+slot. (The multiuser product also uses the word for a Linux group and for a
+*group account*; Solo has neither.)
 
 ## I
 
@@ -151,7 +146,7 @@ by `analyse.file`.
 ## P
 
 **p-code** — the compiled bytecode that SD executes. Stored in the
-pcode library in `/usr/local/sdsys/bin` and loaded into shared memory at
+pcode library in `~/SDCoreSolo/bin` and loaded into shared memory at
 start-up.
 
 **Paragraph** — a VOC entry of type `PA` that holds a sequence of
@@ -209,14 +204,10 @@ reduced starting set to default to.
 **Subvalue mark** — the delimiter (char 252) that separates subvalues
 within a multivalue.
 
-**Suspended** — an account state, not a tier, that denies all entry.
-Reversible with `modify.account <name> unsuspended`. Does not touch the
-VOC or Linux group membership.
-
-**systemd unit** — how SD runs on Linux. `sd.service` (the daemon) and
-`sdclient.socket` (the API listener) are created by the installer,
-enabled to start at boot, and removed by the uninstaller. Stopping
-`sd.service` ends every session on the machine.
+**systemd unit** — how SD runs on Linux. `sd-solo.service` (the daemon) and,
+with an API, `sd-solo-api.socket` (the listener) are **user** units created by
+the installer, and removed by the uninstaller. Stopping `sd-solo.service` ends
+every session on the computer.
 
 ## T
 

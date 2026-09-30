@@ -5,9 +5,12 @@ The SDClient API lets an external application connect to SD, open
 files, read and write records, execute commands, call subroutines,
 and manage select lists — all through a single shared library.
 
-**The API is a normal way for any account to use SD**, not a facility reserved
-for developers and administrators. A person running a custom GUI program that
-talks to SD needs API access and may need nothing else.
+**The API is a normal way to use SD**, not a facility reserved for developers
+and administrators. A person running a custom GUI program that talks to SD needs
+API access and may need nothing else. **On SD Core for Linux Solo the API is off
+unless you chose it when installing** (always on in managed mode), and it signs
+in to the one account, `sduser`, with the account password — see *API access* in
+the GettingStarted set.
 
 ## The library
 
@@ -24,7 +27,7 @@ Windows, which ships a separate pair for QM-heritage applications.
 ### Where it is, and how to use it
 
 Built to `bin/` under the source tree, installed alongside the server
-under `/usr/local/sdsys/bin`. Link against it (`-lsdcli`) or load it at
+under `~/SDCoreSolo/bin`. Link against it (`-lsdcli`) or load it at
 runtime (`dlopen("sdclilib.so", ...)`) the ordinary way for a Linux shared
 library — there is no PATH-order concern the way a Windows DLL search has,
 because Linux resolves a shared library by its own rules (`rpath`,
@@ -38,29 +41,22 @@ The header, `sdclilib.h`, ships with the source tree at
 
 | | |
 |---|---|
-| `SDConnect(host, port, user, pass, account)` | over the network, to port **4243** |
-| `SDConnectLocal(account)` | on the same machine. Sends no password and never did |
+| `SDConnect(host, port, user, pass, account)` | over the network, to port **4243** (or the one you chose). Use `127.0.0.1` for this computer; `user` is `sduser` |
+| `SDConnectLocal(account)` | **disabled on Solo.** Returns false at once |
 
 > **`SDConnectUDS` (Unix Domain Socket) is not available, on either
 > port.** It sent its credential over the socket in a way that predates
-> SCRAM, and was removed here for the same reason the old cleartext API
-> login was: `SDConnect` and `SDConnectLocal` are the two routes.
+> SCRAM, and was removed for the same reason the old cleartext API login was.
 
-### How SDConnectLocal actually works here
+### Why SDConnectLocal is disabled
 
-**Unlike SD Core for Windows, where `SDConnectLocal` runs the server
-binary found beside the loaded DLL** (so a copy of the library sitting
-somewhere else fails to find it), **this port `fork()`s and `exec()`s the
-server directly, at a path it already knows** — the installation's own
-`bin/sd`, not a path relative to wherever `sdclilib.so` happened to be
-loaded from. Communication is over a pair of pipes to the child process,
-not a socket. There is nothing to copy alongside your application for a
-local connection to work; the library finds the server itself.
-
-`SDConnectLocal` sends no password at all. It takes the identity of the
-process that called it (`setuid`/`setgid` to match, before the child
-process starts) and checks that account's grants, so the account has to
-be one the calling Linux user may enter.
+`SDConnectLocal` sends no password, and every SD Core for Linux Solo session
+proves the account password. It also could not work: it `fork()`s and `exec()`s
+the server at a path it finds from `/etc/sd.conf` (or `$SD_CONFIG`), which a Solo
+tree does not have — so before it was disabled it **hung for ever** waiting on a
+child that never started. It now returns false immediately and the error text
+(`SDError()`) reads *SDConnectLocal is not available in SD Core for Linux Solo -
+connect with SDConnect and the account password*.
 
 **The login is SCRAM-SHA-256.** A client that sends a password in
 clear is refused. The server sets a puzzle only someone who knows the
@@ -68,14 +64,11 @@ password can answer, and the password itself is never sent in any
 form. The server also proves itself to the client — another program
 that grabbed the port before SD started cannot pretend to be SD.
 
-> **Run `modify.password` again for every account that uses the API**
-> after upgrading. The stored credentials changed shape and the old
-> ones cannot be converted — the password was never kept anywhere, by
-> design.
-
-A session is confined to its own account. An API session can open
-everything inside its own account and the shipped SDSYS files every
-account needs, but cannot open, rename, delete or list anything else.
+**A session is confined to its own account** on the multiuser product: an API
+session can open everything inside its own account and the shipped SDSYS files
+every account needs, but cannot open, rename, delete or list anything else. **That
+confinement has not been measured on Solo**, so do not rely on it there — see
+*API access* in the GettingStarted set.
 
 ## Server status codes
 
@@ -95,7 +88,7 @@ account needs, but cannot open, rename, delete or list anything else.
 | Function | Returns | Description |
 |---|---|---|
 | `SDConnect(host, port, user, pass, account)` | Boolean | connect over TCP |
-| `SDConnectLocal(account)` | Boolean | connect on the same machine |
+| `SDConnectLocal(account)` | Boolean | **disabled on Solo** — always false |
 | `SDConnected()` | Boolean | is a session active |
 | `SDDisconnect()` | none | end the current session |
 | `SDDisconnectAll()` | none | end all sessions |
@@ -250,7 +243,7 @@ Per-arity `CFUNCTYPE` definitions are provided for `SDCall` and
 
 | | |
 |---|---|
-| `sh` and `OS.EXECUTE` | **not refused over the API on this port** — unlike SD Core for Windows, both run at the account's own Linux permissions the same as any other session. `SDCLIENT` in `sd.conf` is the configurable control, if a site wants one; see the *Administrator* set's *Configuration* chapter |
-| Open files outside the account | refused (status 3035 — *not permitted*) |
+| `sh` and `OS.EXECUTE` | **not refused over the API on this port** — unlike SD Core for Windows, both run at the account's own Linux permissions the same as any other session. `SDCLIENT` in `sd.conf` is the configurable control, if a site wants one; see *Configuration* in the GettingStarted set |
+| Open files outside the account | refused on the multiuser product (status 3035 — *not permitted*); **not measured on Solo** |
 | Reach the credential file | never, and cannot be added |
 | Enumerate accounts | refused; all three failure cases give the same message |

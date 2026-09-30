@@ -91,12 +91,14 @@ itself.
 | **local** | a VOC entry in the account, so the name works only there |
 | **global** | `gcat` in the system account — **every account sees it** |
 
-**Global cataloguing requires administrator privilege, and on this port that
-means an SDSYS session** — logged in to the machine locally, as `sdsys`.
-Without it you get *"Command requires administrator privileges"*. **The
-same gate applies to an implicit global
-catalogue** — one chosen by a `*`, `!`, `_` or `$` prefix on the call name
-rather than by the `global` keyword — so the prefix is not a way round it.
+**Nobody catalogues globally on Solo — `ADMIN` or not.** `catalog ... global` is
+refused with *"The global catalogue holds the SD Core server's programs from
+GLOBAL.BP.OUT and is changed only by SYNC.GLOBAL.CATALOG"*. **The same refusal
+applies to an implicit global catalogue** — one chosen by a `*`, `!`, `_` or `$`
+prefix on the call name rather than by the `global` keyword — so the prefix is
+not a way round it. On a managed computer the global catalogue is the SD Core
+for Linux server's, and only it can change it — see *Managed mode* in the
+GettingStarted set. Catalogue your own programs `private` or `local`.
 
 Private and local cataloguing need none of this and work in a programmer's own
 account.

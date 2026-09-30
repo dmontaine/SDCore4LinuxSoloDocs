@@ -21,15 +21,14 @@ marks a word typed as it stands; braces mark an optional part.
 
 ## What is not on this page
 
-**Seeing other people's sessions, and ending them, are administrator verbs.**
-`listu` lists every session on the machine and `logout` *n* ends one, and
-neither is in an ordinary account's VOC. They are documented in the
-**administrator documentation**, under *Sessions and Locks*, which is a
-separate set your administrator may or may not have given you.
+**Seeing the sessions, and ending them, are administrator verbs.** `listu`
+lists every session on the computer, and `logout all` ends every one but yours;
+both need `ADMIN` first. They are documented under *Sessions and locks* in the
+GettingStarted set. `logout` *n* and `sd -k`, which end one session by number,
+need nothing.
 
-**`logout` with no argument is the exception and every account has it** — it
-ends your own session and is `quit` under another name. That is worth knowing
-before typing it intending to list something.
+**`logout` with no argument ends your own session** — it is `quit` under another
+name, which is worth knowing before typing it intending to list something.
 
 What is here is **your own processes**: what this session is doing, work you
 started in the background, and how to look at either.
