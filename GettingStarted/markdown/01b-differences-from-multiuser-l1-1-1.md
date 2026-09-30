@@ -76,7 +76,10 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 - **The audit trail is not append-only.** The multiuser product could make it
   so with `chattr +a`, which needs root; Solo cannot, so you can edit your own
   audit trail. It is a record for you, not evidence against you.
-- **The API's TLS relay is not confined** beyond running as you.
+- **The API's TLS relay cannot become `nobody`**, because nothing in Solo is
+  root. Instead a system-call filter locks it down before it touches the
+  network: it can copy bytes and nothing else, and it is killed if it tries to
+  open a file, make a connection or run a program.
 
 ## What might stop working
 
