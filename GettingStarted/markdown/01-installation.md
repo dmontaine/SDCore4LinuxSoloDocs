@@ -1,202 +1,178 @@
-Title: Installing SD Core
-Subtitle: What the installer does to the machine, and the choices it puts in front of you.
+Title: Installing
+Subtitle: What the installer asks, what it puts where, and the control file for installing many computers.
 
-There is a compiler to run. `installsdai.sh` clones the source from
-`github.com/dmontaine/SDCore4Linux` and builds it on your machine — there is
-no prebuilt package and no installer binary. A clone builds; that is why
-installing means building.
+**The installer is one script, `installsolo.sh`, and it installs for the Linux
+user who runs it.** Everything goes into that user's home directory, in
+`~/SDCoreSolo`. Nothing is installed for other users of the computer, nothing
+is written outside your home directory, and SD never runs as root — the script
+refuses to run as root, and so does `sd`.
 
-This is a real difference from SD Core for Windows, which ships as a single
-installer carrying its own compiled runtime. Windows has one target and one
-ABI; this port currently supports Debian and Ubuntu (detected from
-`/etc/os-release`) and builds from source so that changes elsewhere in the
-system — library versions, kernel, `libssl` — are accounted for at build
-time rather than papered over by a bundled runtime.
+**There is no prebuilt package.** The script downloads the source from
+`github.com/dmontaine/SDCore4LinuxSolo` (the `main` branch) into a temporary
+directory, `~/.sdsolotmp`, builds it there, installs it, and deletes the
+download when it ends. It can be carried on a USB stick: it needs the network
+only for the build packages and that download.
 
 ## Before you start
 
-**Run it as yourself, not as root and not with `sudo`.** The script refuses
-outright if `$EUID` is 0 — building as root would leave build artefacts
-root-owned, and the script needs to know who "the installing user" is to
-create your own SD account. It asks for your `sudo` password itself, at the
-one point where it is needed, and checks up front that you can `sudo` at
-all: a caller who cannot is refused in words, before anything changes,
-rather than partway through with `sudo`'s own error.
+| | |
+|---|---|
+| Distribution | Debian or Ubuntu based, Fedora or RHEL based, openSUSE based, or Arch based — read from `/etc/os-release`. Any other is refused in words before anything changes |
+| Rights | your own ordinary user. **`sudo` is used for four things and only those:** installing the build packages, opening a firewall port you asked for, the optional `sshd_config.d` block, and `loginctl enable-linger` |
+| The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers) with `sudo`; with it, it only checks they are there |
+| A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
 
-**SD cannot be installed silently.** This is deliberate, not a missing
-feature. The script asks two questions whose answers cannot be defaulted
-safely — whether to open ssh and the API to other computers — and ends by
-setting three passwords at the terminal.
+**The multiuser SD Core for Linux must not be installed.** If
+`/usr/local/sdsys` or `/etc/sd.conf` exists the installer stops with a
+message saying so: the two cannot share a computer, because both use API port
+4243 and the same shared-memory name.
 
-**The installer does not ask where to put SD.** The roots are fixed. See
-[What lands where](#what-lands-where).
+**It refuses to start, and changes nothing, if the directory it would install
+into is not empty** and is not a Solo tree, or if a Solo tree is already
+there (see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html)).
 
-**It refuses to start, and changes nothing, if SD is already installed** —
-`/usr/local/sdsys/bin/sd` existing is the test. Uninstall first (see
-[Upgrading and uninstalling](01a-upgrading-and-uninstalling.html)).
-
-## Getting the installer
-
-Clone the repository, or fetch `installsdai.sh` on its own — the script
-itself clones the source it actually builds from, so having the whole
-repository first is a convenience, not a requirement:
+## Running it
 
 ```sh
-git clone https://github.com/dmontaine/SDCore4Linux
-cd SDCore4Linux
-chmod +x installsdai.sh
-./installsdai.sh
+git clone https://github.com/dmontaine/SDCore4LinuxSolo
+bash SDCore4LinuxSolo/installsolo.sh
 ```
 
-The script downloads its own working copy of the source to
-`~/.sdb64tmp`, builds from there, and deletes it when the install
-finishes — it does not use the clone you ran it from as the build tree.
+Or fetch just `installsolo.sh`: it clones the source it actually builds from,
+so having the repository first is a convenience. **Run it as yourself.** It asks
+its questions at the terminal; every one can be answered by an option instead
+(`bash installsolo.sh --help` lists them), which is how it is scripted.
 
 ## What you are asked
 
-After confirming you want to continue, two questions, both defaulting to
-**no**:
+### 1. The mode
 
-```
-Allow ssh access from other computers? enables sshd at boot, opens port 22 (y/N)
-Allow API access from other computers? opens TCP port 4243 (y/N)
-```
+| | |
+|---|---|
+| **Standalone** | a database for this computer only. The default |
+| **Managed client of an SD Core server** | a computer an SD Core for Linux server also manages. See [Managed mode](15-managed-mode.html) |
 
-**Answering "no" to both is a real, supported deployment**, not a degraded
-one — it gives a working SD reachable only at this machine's own keyboard,
-over `ssh localhost`, or by a local API client. Both settings have a verb
-that changes them later (`remote.ssh`, `remote.api` — see the Administrator
-set's *Remote access and the machine*), so nothing here is a one-time
-choice.
+**The mode cannot be changed later except by a new installation.** It decides
+whether a global password exists, and nothing sets or clears that afterwards.
 
-**Neither question is about whether an ssh server or an API listener
-exist.** They always do — `openssh-server` is installed as an ordinary
-package regardless of the answer, and SD's API socket is always defined
-(`sdclient.socket`, activated by `systemd` independently of whether `sd`
-itself is running). What the two questions actually decide:
+### 2. The passwords
 
-| Question | "no" (default) | "yes" |
-|---|---|---|
-| ssh | `sshd` is left however the box already had it; the SD boundary (below) is written to `sshd_config` regardless, ready for whenever ssh is turned on | `sshd` is enabled at boot and `ufw allow 22/tcp` is added |
-| API | `sdclient.socket` listens on `127.0.0.1:4243` only — a remote client reaches it by tunnelling over ssh (`ssh -L 4243:127.0.0.1:4243 <host>`) | the socket is rebound to `0.0.0.0:4243` and `ufw allow 4243/tcp` is added |
+Asked in this order, each typed twice, shown as stars:
 
-**The ssh boundary is applied either way, and it is what actually confines
-SD accounts.** Every account except SDSYS is `ForceCommand`'d into `sd` the
-moment it connects over ssh — it never reaches a plain shell that way — and
-SDSYS is refused a network login outright, at the door, however the two
-questions above were answered. This step is **non-fatal**: if `sshd_config`
-has already been customised, the installer warns rather than aborting (SD
-is otherwise installed and working) and prints the exact command to apply
-it by hand once the conflict is resolved:
+| | |
+|---|---|
+| **Account password** | the password every SD session asks for — at the keyboard, over ssh and through the API |
+| **Administrator password** | unlocks the administrator commands, with `ADMIN` |
+| **Global password** | managed mode only. The SD Core for Linux server signs in with it, and it also unlocks the administrator commands |
 
-```sh
-sudo /usr/local/sbin/ssh-forcecommand --install
-```
+**Every password needs at least 8 characters, with a lower-case letter, an
+upper-case letter, a digit and a symbol** — letters, digits and punctuation
+only, no spaces. A password that breaks the rule is asked for again, up to
+three times. The global password must differ from both of the others;
+otherwise the server, signing in with the same name, would land in an ordinary
+session. See [The account and its passwords](05-account-types.html).
+
+### 3. The API and ssh — standalone only
+
+| | |
+|---|---|
+| **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4243 unless you give `--api-port` (1024–65535: a user cannot bind lower) |
+| **ssh straight into sd** | if you say yes, the installer asks for a public key file and adds it to your `~/.ssh/authorized_keys` with a forced command, so that key lands in `sd`. See [ssh access](08-ssh-access.html) |
+| **The `sshd_config.d` block** | optional, needs `sudo`: makes every ssh login of your user — password too — land in `sd`. See [ssh access](08-ssh-access.html) |
+| **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
+
+**In managed mode the API and ssh are not asked**: the API is open to the
+network on the port given, and ssh is required — the server has to reach the
+computer from elsewhere. If the computer has `ufw` running, the installer opens
+the API port with `sudo`; otherwise it tells you to allow it yourself.
+
+The last question is **Continue?** Answering no changes nothing.
 
 ## What lands where
 
-| What | Where |
-|---|---|
-| Binaries | `/usr/local/bin` |
-| The changelog | shipped with the source tree |
-| Configuration | `/etc/sd.conf` |
-| The SDSYS account | `/usr/local/sdsys` |
-| User accounts | `/home/sd/user_accounts` |
-| Group accounts | `/home/sd/group_accounts` |
-
-### Configuration
-
-Server and client both read `SD_CONFIG` first and fall back to
-`/etc/sd.conf`. It is installed once and left alone on a later install over
-a kept database, so your edits survive both an upgrade and a reinstall.
-
-## What the installer creates on the machine
+Everything is under `~/SDCoreSolo`. **SDSYS is that directory itself** — there
+is no `sdsys` subdirectory as there is on Windows.
 
 | | |
 |---|---|
-| `sdusers` | the Linux group every SD account belongs to. Everyone who uses SD needs it |
-| `sdsys` | the one administrator account — a real Linux user with its own home, shell and password, never `root` |
-| `sdu_<name>` | one supplementary group per account, created by `create.account` |
-| `sd.service`, `sdclient.socket` | the `systemd` units that run SD and its API listener, enabled to start at boot |
-| the ssh boundary | a fenced block in `/etc/ssh/sshd_config`, `ForceCommand`ing every `sdusers` member except `sdsys` into `sd`, and denying `sdsys` a network login outright |
+| `bin/` | `sd`, its daemon and the other programs |
+| `sd.conf` | the configuration. See [Configuration](16-configuration.html) |
+| `user_accounts/sduser` | the one SD account, and your data |
+| `$cred/` | the credential store: the verifiers for the three passwords, and the kept copy of the account password. Mode 700 |
+| `gcat/`, `gpl.bp.out/`, `voc`, `messages/`, `syscom/`… | SD's own files: the global catalogue, the system programs (compiled only — no source is installed), the messages, SD's own VOC and dictionaries |
+| `global.bp.out/`, `solo.policy/` | on a managed computer, the SD Core for Linux server's programs and the list of commands denied to you. See [Managed mode](15-managed-mode.html) |
+| `audit`, `errlog` | the audit trail and the error log |
+| `tools/` | `solo-service.sh`, `solo-ssh.sh` and `deletesolo.sh` — see [The installed scripts](17-the-installed-scripts.html) |
+| `.sdcore-install` | which commit was installed, when, and in which mode |
+| `~/.local/bin/sd` | a link to `~/SDCoreSolo/bin/sd`, so `sd` works from any new terminal (if `~/.local/bin` is on your PATH — the installer says so if it is not) |
+| `~/.config/systemd/user/` | the service: `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service` |
 
-**Group membership needs a fresh login to take effect**, the same as on any
-Linux box — if you were just added to `sdusers`, log out and back in (or
-start a new session) before expecting `sd` to work.
+**Everything the installer creates is private to you**: files 0600, directories
+0700. The directory can be moved: SD finds its own files from where its
+programs are, not from a path written into it. The service units, the ssh key
+line and the link name the directory by its full path, and do not move with it.
 
-## Ownership and administration
+**`--home DIR`** installs somewhere else. The path must be absolute and must not
+contain a space, a quote, a backslash, `$`, a backtick or `%`.
 
-**Being SDSYS means being logged in to the machine as the `sdsys` Linux
-user, at its own password, on a local session** — the keyboard, or a
-desktop-sharing view of it (VNC, TeamViewer). There is no `sudo` or `su`
-route into it: a session that reaches the `sdsys` account any way other
-than a real login as `sdsys` is refused, and `sdsys` cannot sign in over
-ssh at all. See [Security](12-security.html).
+## Installing many computers: the control file
 
-## The full-screen editors
+**A file passed as `--control-file` answers the installer's questions.** It is
+for **managed mode only** — its presence makes the install managed — and it is
+how one USB stick sets up several computers.
 
-**The installer installs `micro` as an ordinary package**, because the
-`micro` verb runs it. `nano` normally ships with Debian and Ubuntu already;
-if `/usr/share/nano` exists, the installer adds SD's own BASIC syntax
-highlighting to it system-wide (`/usr/share/nano/sdbasic.nanorc`). Neither
-is offered as a choice — an account with an editor verb that does nothing
-is worse than either answer. **`ed`**, the line editor, needs nothing and
-always works.
+```sh
+bash installsolo.sh --control-file /media/stick/sd-solo-setup.conf
+```
 
-If `micro`'s package install fails, the install still succeeds; `micro`'s
-own syntax file still needs a per-user copy (`~/.config/micro/syntax`),
-which the installer also stages where it can.
+| | |
+|---|---|
+| `admin-password=` | the administrator password |
+| `global-password=` | the global password |
+| `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. See [Managed mode](15-managed-mode.html) |
+| `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd` |
+| `ssh-match=yes` | also write the `sshd_config.d` block (needs `sudo`) |
+| `enable-linger=yes` | run `loginctl enable-linger` |
+
+**The account password is deliberately not in it.** On a computer installed
+from a control file, the user sets the account password **the first time they
+run `sd` at that computer's keyboard**. Until then ssh and the API accept only
+the global password — the server can reach the computer, and nobody else can.
+(Give `--account-password-file` as well if you would rather set it at install
+time.)
+
+**A blank answer is asked for**, and one that breaks the password rules is
+refused. The repository carries `sd-solo-setup.conf.sample`, which explains each
+item and shows a sample answer, commented out, above the line for your answer;
+copy it and fill it in. **A commented sample is never taken as an answer.**
+
+**The file holds passwords in clear text.** Keep the stick safe, and do not
+leave the file on a computer after installing.
+
+## What the installer checks when it finishes
+
+It signs in as `sduser` and runs `WHO`, and then confirms that **`sd -internal`
+is closed**: the door the installer itself uses is a one-shot, opened only by a
+marker file the installer writes immediately before each of its own steps, and
+it is shut when the install ends. The last line of a good install is:
+
+```
+SOLO INSTALL COMPLETE /home/you/SDCoreSolo
+```
+
+**If a step fails the installer stops and says which**, with the end of its
+log. Nothing is put back — a failed first install leaves whatever it had made;
+remove it with `deletesolo.sh` and start again.
 
 ## Changing any of it afterwards
 
-Both remote-access settings have a verb that changes them later, which is
-why an upgrade does not ask the two questions again. Both are SDSYS's, and
-both report when given no keyword:
-
 | | |
 |---|---|
-| `remote.ssh on` \| `off` | who may reach the ssh server from off this machine |
-| `remote.api on` \| `local` \| `off` | whether SD opens its API socket, and who may reach it |
-
-They are covered in the Administrator set, under *Remote access and the
-machine*.
-
-## At the end
-
-The install ends by setting three passwords, at the terminal, each with its
-own numbered heading — asked at most three times, and skipped with a clear
-"kept from the previous install" if one from an earlier install (or an
-earlier attempt) is already there:
-
-```
-1 of 3: Password for the SD <you> account
-2 of 3: Password for the LINUX sdsys account
-3 of 3: Password for the SD sdsys account
-```
-
-**These are three different things, deliberately kept apart:**
-
-| | What it unlocks |
-|---|---|
-| 1. Your own SD password | reaching your account through the SD API (SCRAM) — not needed at all for a local `sd` session, which your Linux login already reaches |
-| 2. `sdsys`'s Linux password | logging in to the machine **as** `sdsys` — the only way to administer SD |
-| 3. `sdsys`'s SD password | reaching SDSYS through the API — and even with it, SD admits `sdsys` over the API only from a process already running as `sdsys` on this machine |
-
-All three are required — the closing summary names any that are still
-missing and prints the exact `MODIFY.PASSWORD` command to set it,
-afterward, as `sdsys`.
-
-The closing summary also restates: **SD is administered only by logging in
-as `sdsys`, its own password, and running `sd`** — that session has every
-admin verb. There is no `sudo` or `su` route into it, and `sdsys` cannot
-log in over ssh; a desktop-sharing view of the console works because it is
-a local login.
-
-It then offers to reboot, so that group membership changes and the
-`systemd` units take effect cleanly. After rebooting (or a fresh login),
-open a terminal and type `sd`.
+| The mode | a new installation: uninstall (keeping your data if you want it), then install |
+| The API or ssh choices | uninstall and install again, or use the scripts in `~/SDCoreSolo/tools` — see [The installed scripts](17-the-installed-scripts.html) |
+| The passwords | `SET.PASSWORD`, `SET.PASSWORD ADMIN`, and on a managed computer `SET.PASSWORD GLOBAL` from the server. See [The account and its passwords](05-account-types.html) |
 
 ## Continued in
 
-[Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) — upgrading
-an existing installation, and uninstalling.
+[Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) —
+installing a new release over an existing one, and taking SD off the computer.

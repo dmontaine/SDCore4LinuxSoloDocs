@@ -1,193 +1,116 @@
 Title: API access
-Subtitle: The client API, the port it answers on, the login that replaced the old one, and what a remote session may reach.
+Subtitle: The client API, the port it answers on, its login, and what an API session is.
 
-The client API is a normal way for any account to use SD. A person running a
-custom GUI program that talks to SD needs API access and may need nothing
-else — no ssh, no terminal. **Every ordinary account has it, unconditionally
-— there is no per-account choice, unlike SD Core for Windows:**
+**The client API lets a program on this computer, or another one, use SD as a
+back-end data store.** Application code uses `SDConnect()` and the rest of the
+client library as with any SD Core — see [Client distribution](10-client-distribution.html).
 
-```
-create.account user jane
-```
-
-Your application code does not change. `SDConnect()` and `SDConnectLocal()`
-take the same arguments and return the same things. **What changed is
-underneath: the login protocol, the port, the identity a session runs as, and
-what it is allowed to open.**
-
-> **SDSYS is the one exception, and it has no API access at all**, from
-> anywhere, under any setting — see
-> [Reaching the port is not getting in](#reaching-the-port-is-not-getting-in)
-> below. Every other account has it by default; there is nothing to grant.
-
-## The login is SCRAM-SHA-256, and the old one is gone
-
-**A client that sends a password in clear is refused.** It gets *"Cleartext
-login is no longer supported; this server requires SCRAM authentication"* and
-the connection drops.
-
-The API used to send the user name and password as plain text — anything able
-to watch the connection could read the password. It now runs a challenge and
-response: the server sets a puzzle only someone who knows the password can
-answer, and **the password itself is never sent in any form.**
-
-**The server also proves itself to you.** It finishes by returning a value
-only the real server can compute, and the client refuses the connection if it
-does not match. Another program that grabbed the port before SD started cannot
-pretend to be SD in order to collect passwords.
-
-### What you have to do
+## Is it on?
 
 | | |
 |---|---|
-| **Use a client library from this release or later.** | An older one is refused outright |
-| **Run `modify.password` again for every account that uses the API.** | The stored credentials changed shape and the old ones cannot be converted |
+| **Standalone** | only if you chose `local` or `open` when installing (`--api`). Off by default |
+| **Managed** | always on, and open to other computers, because the SD Core for Linux server connects through it |
 
-**An account whose password has not been re-set is refused, and the refusal
-reads as a wrong password.** From the server's point of view there is no
-credential to check. If a working client suddenly cannot log in after an
-upgrade, this is the first thing to try.
+**Off means there is no listener at all**: the installer writes no socket unit,
+and SD opens no port.
 
-The old credentials cannot be converted because **the password was never kept
-anywhere, by design** — there is nothing to convert them from.
+## Signing in
 
-**Programs using the `!sdclient` class are covered.** The class module BASIC
-programs use to reach another SD server speaks the new login too. Your code
-does not change — `connect()` takes the same arguments — but the program has to
-be running under this release **at both ends**.
+| | |
+|---|---|
+| **User name** | always `sduser` |
+| **Password** | the account password — or, on a managed computer, the global password, which the server uses |
+| **Account** | `sduser` |
 
-**`SDConnectLocal()` connections are unaffected.** They send no password and
-never did.
+**The login is SCRAM-SHA-256, inside TLS 1.3.** The password is never sent in
+any form; the server sets a challenge only someone who knows the password can
+answer, and then proves itself back, so a program that grabbed the port before
+SD started cannot collect passwords by pretending to be SD.
+
+**A client that sends a password in clear is refused** with *"Cleartext login is
+no longer supported; this server requires SCRAM authentication"*.
+
+**A wrong password is refused**, and the refusal is written to the audit trail —
+for example `API REFUSED user=sduser reason=wrong password`.
+
+**The only account an API session may enter is `sduser`.** Asking for SDSYS, or
+any other name, is answered *User not allowed in requested account* — the same
+wording for an account that does not exist, so the API cannot be used to find
+out what accounts there are. **The administrator password is not an API login**:
+it is refused.
+
+**On a computer installed from a control file**, until the account password has
+been chosen at the keyboard, only the global password is accepted.
+
+**`SDConnectLocal` is disabled.** It sends no password, which Solo does not
+allow. A client that calls it gets, at once, *SDConnectLocal is not available in
+SD Core for Linux Solo - connect with SDConnect and the account password*. Use
+`SDConnect` to this computer's own address instead (`127.0.0.1`).
 
 ## The port
 
-**Whether SD listens for the API at all is `systemd`'s `sdclient.socket`
-unit**, activated independently of whether `sd` itself is running — not a
-line in `sd.conf`. It defaults to `127.0.0.1:4243`, local only.
+**The API is a systemd socket unit**, `sd-solo-api.socket`, listening on TCP
+port 4243 unless you chose another when installing (`--api-port`, 1024–65535 —
+a user cannot bind lower). **Each connection starts one SD session**
+(`sd-solo-api@.service`), so the API works whether or not anything else is
+connected.
 
-**Reaching the port from another computer is off unless you say so during
-installation.** Answering yes rebinds the socket to `0.0.0.0:4243` and
-adds a `ufw allow 4243/tcp` rule; answering no leaves it local-only. Change
-it afterward, as SDSYS:
+| | |
+|---|---|
+| `local` | listens on `127.0.0.1` — this computer only |
+| `open` | listens on `0.0.0.0` — every address the computer has. A firewall on the computer must allow the port; the installer opens it with `ufw` if `ufw` is running and says so if it cannot |
+| `off` | no socket unit |
+
+**To change it afterwards**, run the service script again with the new choice —
+it stops the old listener first:
 
 ```
-remote.api on | local | off
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api open --api-port 4243
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api local
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api off
 ```
 
-`on` and `local` restart the socket unit (not SD itself — no session is
-ended); `off` stops it. See
-[Administrator commands](06-administrator-commands.html).
-
-**If you tunnel, you no longer need to.** `ssh -L 4243:127.0.0.1:4243
-user@host` still works, but the design expects a direct connection to
-port 4243 once you have opened it — tunnelling is only for a `local`-only
-install reached from elsewhere.
+Each of those was measured: `open` listens on `0.0.0.0`, `off` leaves nothing
+listening and the unit not active, `local` is `127.0.0.1` again. **An `open` API
+on a computer with a firewall still needs the firewall told**; that part is
+yours.
 
 > **`APILOGIN` is not an off switch.** It decides whether the API demands a
 > password. `APILOGIN=0` is the **weaker** setting, not the safer one. Do not
 > reach for it.
 
-## Reaching the port is not getting in
+**Linger matters here too.** Without it the socket, like SD, stops when your last
+session ends; see [Running SD](03-running-sd.html).
 
-A caller must clear two gates, in this order:
+## An API session is you
 
-1. **Complete the SCRAM exchange** against a password held for that account —
-   so **an account with no password cannot connect at all**.
-2. **Not be SDSYS.** Every ordinary account already has API access; there is
-   no separate group to join for it.
+**It runs as your Linux user**, in the account `sduser`, with the same rights as
+a session at the keyboard — including `sh` and `OS.EXECUTE`, which a remote
+client can therefore use. Records an API session creates are yours, and if your
+Linux user may not read something, the API session may not read it either.
 
-**SDSYS clears neither gate, ever, from any address including this
-machine's own loopback.** It has no SD credential to complete a SCRAM
-exchange with by design, and there is no keyword that changes this: it is
-not a rule the API enforces about *where* SDSYS connects from, it is that
-SDSYS has no way to authenticate over the API at all. See
-[Accounts](05-account-types.html#sdsys-is-the-only-administrator).
+**A session signed in with the global password is a server session**, with the
+administrator commands unlocked. See [Managed mode](15-managed-mode.html).
 
-**Failed API logins are written to the audit trail**, with the reason and
-the address they came from. See [Other hardening](13-hardening.html).
-
-## A session is confined to its own account
-
-| | |
-|---|---|
-| **Allowed** | everything inside its own account, and the shipped SDSYS files every account needs — messages, `syscom`, the dictionaries, `sd.voclib`. Ordinary programs are unaffected |
-| **Not allowed** | opening, renaming, deleting or listing anything else |
-
-**A refused `OPEN` takes the `ELSE` branch**, distinguishing a containment
-refusal from a genuinely missing file.
-
-**A suspended account is refused here too, and deliberately says nothing
-about why.** `modify.account fred suspended` denies the API as well as ssh,
-and the message is the one this page already gives for an account that does
-not exist and for one you are not granted:
-
-```
-User not allowed in requested account
-```
-
-**All three answer identically on purpose**, so the API cannot be used to
-enumerate which accounts exist or what state they are in. If you are debugging
-a client that has suddenly stopped connecting, `list accounts` from SDSYS
-is where the answer is — a suspended account shows it in that listing.
-
-### If your data lives outside an account
-
-**There is no config-file mechanism here that widens an API session's
-reach — a real difference from SD Core for Windows's `NETDIRS` setting,
-which this port does not have** (checked against `config.c` directly:
-`APIPORT` and `NETDIRS` are not parameters this port's configuration file
-accepts at all). An API session's file access is exactly its own account's,
-full stop — the same "no second wall" reasoning that removed the
-`sh-on`/`os-on` switches (see
-[Security and the operating system](12a-security-and-the-operating-system.html)).
-If data needs to be reachable from more than one account, put it somewhere
-every account can already open on its own terms, or reach it through a
-program running in the account that owns it.
-
-## An API session runs as you
-
-**Records an API session creates are owned by the account that logged in**,
-and the session reaches files with your Linux permissions rather than a
-service account's. If your account may not read something, the API session
-may not read it either.
-
-**This is a real `setuid`, not a filtered credential** — SD drops root's
-privilege entirely (`initgroups`/`setgid`/`setuid`, `K$ASSUME.USER`) before
-the session is ever marked logged in. **If the identity cannot be assumed,
-the login is refused outright** rather than continued under any other
-identity:
-
-```
-Authentication succeeded but the session could not take your Linux identity
-```
-
-Because the privilege drop is one atomic system call that either succeeds
-or is checked and refused, there is no window in which a session could
-believe it is you while actually running as something else — the failure
-mode SD Core for Windows had to add a specific alarm for (a filtered
-access token that could silently fail to apply) does not have a Linux
-equivalent to guard against here.
-
-## `sh` and `OS.EXECUTE` over the API
-
-**Unlike SD Core for Windows, there is no blanket refusal of `sh` or
-`OS.EXECUTE` for a session that arrived over the API on this port.** Both
-already run at the account's own Linux permissions unconditionally for
-every session, console or API alike — the same "no second wall" reasoning
-applies here too: an API session already runs as the real account
-(`setuid`, above), so it already has exactly the reach that account's own
-login shell has, no more. `SDCLIENT` in `sd.conf` is the configurable
-control, if you want one: non-zero disables file access outright for an
-API session, and `2` additionally refuses any subroutine not compiled as
-callable from a client. It defaults to `0`, which permits everything — see
-the *Administrator* set's *Configuration* chapter.
+**Not measured on Solo:** whether an API session is confined to the account's own
+directory as the multiuser product's is. The multiuser API refuses `OPEN` of
+anything outside the account, distinguishing a containment refusal from a missing
+file; Solo runs the same login code, but that containment has not been tested on
+it, so do not rely on it as a boundary. `SDCLIENT` in `sd.conf` is the
+configurable control: `1` refuses `CALL` and `EXECUTE` from a client, and `2`
+allows a call only to a subroutine compiled as callable from a client (`0`, the
+default, allows everything).
 
 ## Client libraries
 
 | | |
 |---|---|
-| The shared library | `sdclilib.so` |
-| Source | built as part of this port, or standalone at <https://github.com/dmontaine/linuxsdclilib> |
+| The shared library | `sdclilib.so`, in `~/SDCoreSolo/bin` |
+| Source | built as part of this release, or standalone at <https://github.com/dmontaine/linuxsdclilib> |
 
-**Must come from this release or later.** A client library that predates
-SCRAM is refused by the server.
+**Use a client library from this release or later.** One that predates SCRAM is
+refused. See [Client distribution](10-client-distribution.html).
+
+**Programs using the `!sdclient` class** — SD BASIC reaching another SD over the
+API — speak the same login, from this release at both ends.

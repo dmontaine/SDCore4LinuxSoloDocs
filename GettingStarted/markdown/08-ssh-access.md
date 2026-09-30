@@ -1,131 +1,131 @@
 Title: ssh access
-Subtitle: How people reach SD on this machine over ssh, and the one thing it costs you.
+Subtitle: Reaching SD on this computer over ssh, what the installer sets up, and what it costs.
 
-**Every ordinary account SD creates has ssh access, unconditionally — there
-is no per-account choice.** Only SDSYS is different: it has no remote route
-at all, ssh or otherwise. This page covers the ssh route for ordinary
-accounts; [API access](09-api-access.html) covers the other.
-
-**Unlike SD Core for Windows, an ordinary account is *not* denied a local
-login at this machine.** SD keeps no second wall behind ssh here — see
-[Security and the operating system](12a-security-and-the-operating-system.html#there-is-no-second-wall)
-for why that turns out not to matter: a local login and an ssh session that
-reaches `sh` end up at the identical native permissions, so there is
-nothing a console login would grant an account that ssh does not already.
-
-## How it is done
-
-**One rule, on the ssh server, not per account:**
+**An ssh sign-in can land inside SD.** ssh checks who you are as it would for
+any sign-in; then, instead of a shell, you get `sd`, which asks for the account
+password.
 
 ```
-Match Group sdusers,!sdsys
-    ForceCommand /usr/local/bin/sd
-Match User sdsys
-    DenyUsers sdsys
+ssh you@this-computer
+Password:                            <- SD's account password
+:
 ```
 
-Every `sdusers` member is `ForceCommand`'d into `sd` the instant they
-connect over ssh — they never reach a shell that way, whatever the
-connection is asked to run. `sdsys` is refused a network login outright,
-before authentication even matters: there is no session for `ForceCommand`
-to apply to.
+## Two ways to set it up
 
-**This is applied once, to the ssh server, regardless of the two questions
-the installer asked.** Whether remote ssh access is turned on only decides
-whether `sshd` is enabled at boot and reachable from other computers (see
-[Installing SD Core](01-installation.html#what-you-are-asked)); the
-boundary above is written to `sshd_config` either way, so `ssh localhost`
-is confined the same as a connection from anywhere else.
+| | Needs `sudo` | Whose logins land in SD |
+|---|---|---|
+| **The key line** — the default | no | logins with that key only. Every other way in, and every other key you own, is unchanged |
+| **The `Match` block** — optional | yes | **every** ssh login of your user, key or password, and your user then has no shell over ssh at all |
 
-## An ssh session lands inside SD
+**Both are done by `tools/solo-ssh.sh`**, which the installer runs when you give
+it a key (`--ssh-key FILE`, or the `ssh-public-key-file` line of a control file)
+and, for the block, `--ssh-match`. It can be run again at any time.
 
-**That applies to everyone who can reach ssh at all**, except `sdsys` — see
-[SDSYS has no remote door](#sdsys-has-no-remote-door) below.
+### The key line
 
-### The cost: scp and sftp stop working inbound, over ssh
+```
+bash ~/SDCoreSolo/tools/solo-ssh.sh key-add    ~/SDCoreSolo  ~/.ssh/id_ed25519.pub
+bash ~/SDCoreSolo/tools/solo-ssh.sh key-list   ~/SDCoreSolo
+bash ~/SDCoreSolo/tools/solo-ssh.sh key-remove ~/SDCoreSolo  ~/.ssh/id_ed25519.pub
+```
 
-**No file can be pushed to this machine over ssh this way, by anybody**
-who is `ForceCommand`'d into `sd`. The command is forced, so there is no
-file-transfer subsystem left to run. This is the accepted cost of the
-boundary above.
+`key-add` appends the public key to your `~/.ssh/authorized_keys` with these
+options in front:
 
-**The cost is inbound, over ssh, only.** `scp` or `rsync` run **on** this
-machine, connecting outward, makes it the client — `sshd_config`'s
-`ForceCommand` is never consulted for an outbound connection. And **unlike
-SD Core for Windows, this port does not deny a local login**, so an
-account can also simply log in at the machine directly to move a file, or
-reach it through SD's own file access (an editor, or an API client) rather
-than needing a separate remote-desktop product.
+```
+command="/home/you/SDCoreSolo/bin/sd",restrict,pty ssh-ed25519 AAAA… you@laptop
+```
 
-## Reaching the machine from the network
+| | |
+|---|---|
+| `command=` | **that key runs `sd` and nothing else.** Whatever the client asks to run — a shell, `scp`, `sftp` — it gets `sd` instead |
+| `restrict` | turns off every forwarding and agent facility for that key |
+| `pty` | gives `sd` the terminal it needs |
 
-**Whether remote ssh access is turned on is a plain yes/no from the
-installer**, defaulting to no (see
-[Installing SD Core](01-installation.html#what-you-are-asked)). Answering
-yes enables `sshd` at boot and adds a `ufw allow 22/tcp` rule; answering no
-leaves `sshd` and the firewall exactly as the box already had them — the
-installer does not narrow an existing, wider rule on your behalf. Change it
-afterward with `remote.ssh on`/`off` — see
-[Administrator commands](06-administrator-commands.html).
+**It never touches your other keys.** A key without the forced command still
+gets a shell, exactly as before — which is the point of choosing this route by
+default. **Adding the same key twice adds one line**, because the lines are
+recognised by their command string, and `key-remove` and `key-list` find those
+lines and no others.
 
-**Connecting to SD on your own machine is unaffected either way.**
-`ssh localhost` needs no firewall rule for loopback traffic and works
-whether or not remote access is turned on. **A local-only installation is
-served entirely by `ssh localhost`.**
+**This is the first thing to check if a key still gives you a shell**: a copy
+of the key that is also in `authorized_keys` *without* the forced command wins,
+because ssh takes the first line that matches.
 
-## What ssh confinement does not mean
+### The `Match` block
 
-**The `ForceCommand` rule controls *what an ssh connection may run*, not
-*where an account may otherwise log in*.** Confining a session to SD over
-ssh is this page's rule; there is no separate permit list gating `sh` or
-`OS.EXECUTE` once inside SD — every account reaches both unconditionally,
-at its own Linux permissions. See
-[Security and the operating system](12a-security-and-the-operating-system.html).
+```
+bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo              # print what it would write
+bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo --apply      # write it (needs sudo)
+bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo --remove
+```
 
-**And ssh confinement does not give accounts isolation from each other's
-data.** Every SD process opens the database under the invoking user's own
-Linux identity, so everyone who uses SD needs file access to the tree and
-can, in principle, read another account's directory from outside SD if the
-file permissions allow it. See [Security](12-security.html).
+It writes one file, `/etc/ssh/sshd_config.d/50-sd-solo-<your user>.conf`:
 
-## SDSYS has no remote door
+```
+Match User you
+    ForceCommand /home/you/SDCoreSolo/bin/sd
+    DisableForwarding yes
+```
 
-**SDSYS cannot ssh in, from this machine or any other.** `Match User sdsys`
-denies it outright, at the ssh server, before authentication starts — there
-is no session for `ForceCommand` to ever apply to. The same is true of the
-API; see [API access](09-api-access.html).
+| | |
+|---|---|
+| `Match User` | **only your Linux user** is affected. Everyone else signs in as before |
+| `ForceCommand` | every ssh login of yours runs `sd` and nothing else |
+| `DisableForwarding` | no port forwarding for you, which `ForceCommand` alone would not stop |
 
-**Nothing changes for ordinary accounts.** Every account `create.account`
-makes reaches ssh from wherever `sdusers` membership allows, whether or
-not the Linux account behind it happens to also be in `sudo` or `wheel` —
-group membership outside `sdusers` has never been what SD asks about.
+**The change is checked before it stays**: `sshd -t` must accept the new
+configuration before the ssh server is reloaded, and if it does not, the file is
+put back. `--apply` refuses if `sshd_config` has no `Include
+/etc/ssh/sshd_config.d/*.conf` line, since the block would then do nothing. The
+uninstaller removes the block, and leaves the rest of the sshd configuration as
+it was.
 
-### Where administration happens
+> **Not measured.** The text of the block and its syntax (`sshd -t`) are tested;
+> writing it into a real `/etc/ssh` with `sudo`, reloading, and removing it are
+> written and have not been run. Check that your ssh password login lands in SD
+> before relying on it, and keep another way into the computer open while you do.
 
-**At this machine's own console only** — a real login as `sdsys`, its own
-password, either physically at the keyboard or through a desktop-sharing
-view of it (VNC, TeamViewer), which counts as local because it *is* a
-local session from the machine's own point of view.
+## The cost: no scp or sftp to that key, and no shell
 
-### Why
+**A key with the forced command cannot copy files in or give you a shell.** The
+command is forced, so there is no file-transfer subsystem left to run and no
+shell. That is the accepted cost of landing in SD.
 
-This is a deliberate policy choice, not a technical limitation the way it
-is on some ports: SDSYS's refusal over ssh is checked against the kernel's
-own audit loginuid, set once by a real login and unforgeable by `sudo`,
-`su`, or a service account — there is no route to SDSYS that this check
-does not catch, ssh included, because ssh authentication does not produce
-the kind of login record it looks for. See
-[Accounts](05-account-types.html#sdsys-is-the-only-administrator).
+**The cost is inbound only.** `scp` or `rsync` running **on** this computer,
+connecting outward, is an ssh *client* and is not affected. So copy files by
+pulling them from here — or use another key for file transfer.
 
-### If you rely on remote administration today
+**To reach Linux from an ssh session, use `sh`** inside SD — see
+[Operating system access](06b-operating-system-access.html).
 
-**It does not work, and that is deliberate.** Use the console, or a
-service- or session-based remote desktop, logged in as `sdsys`. An account
-that needs ordinary, non-administrative work from another machine was
-never an administration question — every ordinary account already has
-ssh access by default.
+## Reaching the computer from the network
 
-**Scheduled tasks are affected too.** A cron job or a systemd timer has no
-terminal login either, so nothing can become SDSYS to run one. List the
-command in the SD system file `batch.jobs`, run from an ordinary account —
-see [Scheduled jobs](04-scheduled-jobs.html).
+**The installer does not install or start an ssh server, and does not open port
+22.** Those are the computer's, not yours. If none is running it warns and prints
+the command (`sudo systemctl enable --now ssh`, or `sshd` on some distributions).
+
+| | |
+|---|---|
+| **Standalone** | ssh is optional. `ssh localhost` works whenever an ssh server is running, with no firewall rule |
+| **Managed** | ssh must be reachable from the SD Core for Linux server, so the server's address has to be able to reach port 22. Managed mode needs the ssh server running; the installer says so if it is not |
+
+## What an ssh session is
+
+**It is you**: the same account, `sduser`, and the same rights as a session at
+the keyboard.
+
+**On a computer installed from a control file**, before the account password has
+been chosen at the keyboard, an ssh session is told:
+
+```
+This account has no password yet. Set it at this computer's keyboard first; until then only the global password is accepted.
+```
+
+**SD has to be running for the forced `sd` to find it.** With linger on it always
+is. Without linger your systemd user manager, and SD with it, start when you
+first sign in, and an ssh sign-in counts — but **that has not been measured**: if
+a first connection is told *SD has not been started*, connect again, and enable
+linger (see [Running SD](03-running-sd.html)) if ssh is how you mostly reach this
+computer.

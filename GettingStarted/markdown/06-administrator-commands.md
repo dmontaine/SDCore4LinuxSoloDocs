@@ -1,149 +1,147 @@
 Title: Administrator commands
-Subtitle: The verbs only SDSYS has, and how to use them.
+Subtitle: ADMIN, the commands that need it, and the maintenance verbs.
 
-**These verbs are not in an ordinary account's VOC at all.** SD Core used to
-give an *administrator-tier* account a larger VOC than a *programmer*
-account's; that model is gone. Every ordinary account now gets the same VOC
-— see [Accounts](05-account-types.html) — and administration is not a verb
-an account can be given. It is SDSYS, a single Linux user the installer
-makes, reached by logging in to the machine itself, locally, as `sdsys`,
-its own password, and running `sd`. Typing one of these verbs from any
-other account says it is not recognised, not that you lack permission for
-it.
+**The administrator commands are in your own account, and they need `ADMIN`
+first.** There is no separate administrator account to sign in to, and no
+`sdsys` Linux user to become.
 
-## Accounts
+## `ADMIN`
 
 ```
-create.account  user <name>
-create.account  group <name>
-delete.account  <name> {remove.home}
-modify.account  <name> add|delete <user>
-modify.account  <name> suspended|unsuspended
+:admin
+Administrator password:
+Administrator commands unlocked for this session
+```
+
+**Type the administrator password** — or, on a managed computer, the global
+password. **It lasts until you leave SD or type `ADMIN OFF`**:
+
+```
+:admin off
+Administrator commands locked
+```
+
+| | |
+|---|---|
+| *Wrong password - administrator commands stay locked* | one try; type `ADMIN` again |
+| *Administrator commands are already unlocked* | nothing to do |
+| *No administrator password is set on this system* | the installation did not set one; install again |
+
+**A session signed in with the global password is already unlocked.**
+
+**Every attempt is recorded** in the audit trail, unlocked or refused. The
+password is never displayed, stored or logged.
+
+## What needs it
+
+**Refused without `ADMIN`, with *Command requires administrator privileges*:**
+
+| | |
+|---|---|
+| `SET.PASSWORD ADMIN` | change the administrator password — [The account and its passwords](05-account-types.html) |
+| `CONFIG` | report or set configuration — except `CONFIG GPL` and `CONFIG CONTRIB`, which need nothing |
+| `SET.DATE` | set the session's date |
+| `CLEAN.ACCOUNT` | empty the account's scratch files |
+| `UPDATE.ACCOUNTS` | refresh the account's VOC |
+| `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
+| `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
+| anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
+
+**Refused without `ADMIN`, with *The VOC can only be changed after ADMIN*:**
+editing the VOC directly — `ED VOC`, a program's `WRITE` or `DELETE` to the
+VOC, `COPY` into it — and saving or deleting a sentence with `.S` and `.D`.
+What SD writes to the VOC as a side effect of an ordinary command —
+`CREATE.FILE`'s entry, the command stack — is not gated.
+
+**Refused even with `ADMIN`**: changing the global catalogue (`CATALOG ...
+GLOBAL`, `DELETE.CATALOG` of a global entry, a write to `global.bp.out`), and
+the commands that are the SD Core for Linux server's — see
+[Managed mode](15-managed-mode.html).
+
+**`LOGOUT` on its own needs nothing** — it ends your own session, like `QUIT`
+— **and nor does `sd -k`**, because it is a switch on the program, not a
+command in a session. **`sh` needs nothing either**; see
+[Operating system access](06b-operating-system-access.html). **Nor does
+`SET.PASSWORD`** for your own account password — it asks for the current one
+instead; see [The account and its passwords](05-account-types.html).
+
+## The maintenance verbs
+
+### `CONFIG`
+
+```
+config                     report every setting
+config lptr                the same, to the default printer
+config param value         set one, for this session only
+config gpl                 display the licence
+config contrib             display the contributors
+```
+
+**`config param value` sets a private, session-local value, not the
+installation's.** The installation's settings live in `sd.conf` and are read
+when SD starts — see [Configuration](16-configuration.html). This form
+overrides one for the session you are in: the right tool for trying a value,
+the wrong one for changing the installation.
+
+| | |
+|---|---|
+| *New parameter value required* | `config numlocks` with nothing after it. **The report form is `config` alone** |
+| *Not a recognised private configuration parameter name* | the name cannot be set per session |
+| *Invalid value for this parameter* | it can, and the value is wrong |
+
+### `SET.DATE`
+
+```
+set.date date
+```
+
+**Sets the date SD reports in this session, not the computer's clock.** SD
+keeps an offset from the real date for the session; `DATE()` and `TIMEDATE()`
+return the new date until the session ends. Other sessions and Linux are not
+affected. The argument goes through SD's `D` conversion, so anything
+`iconv(…, 'D')` accepts will do:
+
+| | |
+|---|---|
+| *Date required* | nothing after `set.date` |
+| *Invalid date format* | the argument is not a date SD can read |
+
+It is for testing date-dependent code without touching the clock.
+
+### `CLEAN.ACCOUNT`
+
+```
+:clean.account
+Cleaned $COMO
+Cleaned $hold
+Cleaned $savedlists
+```
+
+Empties the account's captured transcripts (`$COMO`), its hold file of reports
+(`$hold`) and its saved select lists (`$savedlists`). **Nothing else is
+touched** — no data file, no program, no dictionary. A como capture that is
+running is left alone and says so.
+
+### `UPDATE.ACCOUNTS`
+
+```
 update.accounts {all}
-clean.account
 ```
 
-Covered in full in [Accounts](05-account-types.html) and
-[Managing accounts](05a-managing-accounts.html). The points worth repeating
-here:
+**Copies SD's shipped command definitions into your VOC**, adding what is
+missing and leaving your own VOC records alone. An upgrade runs it for you, so
+you will not normally type it. With one account, `all` and no keyword do the
+same thing.
 
-- **There is no `ssh`/`api`/`none` keyword.** Every ordinary account has
-  both by default, unconditionally; only SDSYS is different, and that is
-  not a setting.
-- **`modify.account add`/`delete`** is the grant — Linux group membership,
-  with SD's own audit line on top. There is no separate `grant`/`revoke`
-  pair of verbs.
-- **`suspended`/`unsuspended`** is a state, not a tier — nothing about the
-  VOC moves either way, because every account's VOC is the whole of `newvoc`
-  regardless.
-- **`update.accounts`** only ever adds VOC records it finds missing, from a
-  release that shipped verbs the account was created before. Since every
-  account already has the whole VOC, this now matters only after an
-  *upgrade* — a fresh account never needs it, and **the installer runs
-  `update.accounts all` for you** when you keep your accounts.
-- **`delete.account`** keeps the Linux user's home directory unless you
-  add `remove.home` — a person's own files and ssh keys live there.
+**It never takes anything away.** A record you removed stays removed. To keep
+your own version of one of SD's records, put `[locked]` in field 1 **after the
+type code** — `V[locked]`, `PA[locked]` — and it is left alone. **A verb is
+updated anyway**, because a locked verb would go on naming a program this
+release replaced; you are told which ones.
 
-**`clean.account`** tidies an account's workspace. **`update.accounts`** is
-the one you run in each account after upgrading SD.
+## Not here
 
-## Passwords
-
-```
-modify.password {<account>}
-```
-
-**A password cannot be typed on the command line.** **`modify.password`**
-refuses one given as an argument. A password on a command line is visible to
-any local user through `ps`, so SD prompts for it instead, masked.
-
-Run with no argument it changes your own; from SDSYS, naming an account
-changes that account's — every account, including SDSYS's own. The password
-matters for **API logins only**. Console and ssh logins ask for nothing —
-see [Security](12-security.html).
-
-**SDSYS's *Linux* login password is a different thing entirely** — set
-once, during installation, and changed afterward the ordinary Linux way
-(`passwd`), not with this verb. See
-[Accounts](05-account-types.html#sdsys-is-the-only-administrator).
-
-## Locks and sessions
-
-```
-lock / unlock
-list.locks / clear.locks
-listu / list.readu
-logout
-```
-
-**`unlock` is the one to know about.** It clears a record lock left behind
-by a session that died holding one. Without it the only way to release such
-a lock is to stop and restart SD, which disconnects everybody.
-
-**`listu`** and **`list.readu`** report sessions and read locks; **`logout`**
-ends another session.
-
-## System state
-
-```
-config
-set.date
-```
-
-**`config`** reports the configuration parameters in force. **`set.date`**
-sets the date *this session* sees, for testing date-dependent programs; the
-machine's clock and every other session are untouched.
-
-## The remote doors
-
-```
-remote.api on | local | off
-remote.ssh on | off
-umask {mask}
-```
-
-These set up the machine's own remote-access surface rather than any
-one account's — see [ssh access](08-ssh-access.html) and
-[API access](09-api-access.html) for what each one does. There is no
-`ssh.server`/`append.sd.path` pair here: this port does not manage an ssh
-server as an installable feature (the distribution's own package does that)
-and puts `sd` on `PATH` at install time rather than as a toggle.
-
-## The shell — `sh` and `!`
-
-**Unlike SD Core for Windows, there is no permit list to keep and nothing
-to grant.** `sh`, `!` and `OS.EXECUTE` run for every account, from the
-moment it is created, at that account's own Linux permissions —
-unconditionally. There is no `os.users` file, no `sh-on`/`os-on` switch on
-`modify.account`, and nothing an administrator needs to do before an
-account can use them. This port keeps no second wall behind the one Linux
-itself already provides: what an account's Linux user may read, write or
-run outside SD is exactly what it may do through `sh` inside SD, because
-they are the same permissions. See the *Administrator* set's *Accounts and
-security* chapter, "There is no second wall for `sh` or `os.execute`."
-
-**`sh` gives a real, full shell** — pipes, redirection and chaining all
-work: `sh dir | more`. **`!` (`os.command`), the single-line inline form,
-sanitizes shell metacharacters before running** — a safety measure against
-an accidental injection in a one-liner, applied uniformly to every account
-rather than tied to who is running it. Neither is a permission tier;
-both simply do what their shape suggests.
-
-### Neither is available over the API
-
-**`sh`** and `OS.EXECUTE` are refused to a session that arrived over the
-API. An API session is not treated as a local session for any purpose, and
-SDSYS has no API route to arrive over in the first place — see
-[API access](09-api-access.html).
-
-## The full list
-
-**`create.account`** · **`delete.account`** · **`modify.account`** ·
-**`update.accounts`** · **`clean.account`** · **`unlock`** · **`config`** ·
-**`listu`** · **`list.readu`** · **`list.locks`** · **`clear.locks`** ·
-**`lock`** · **`logout`** · **`set.date`** · **`remote.api`** ·
-**`remote.ssh`** · **`umask`**
-
-**`sh`, `!` and `modify.password` are not on this list** — every account
-has them; what SDSYS has that an ordinary account does not is the right to
-name a different account with `modify.password`.
+There is no `APPEND.SD.PATH`: the installer links `sd` into `~/.local/bin`, and
+whether that directory is on your PATH is between you and your shell's startup
+file. There are no `CREATE.ACCOUNT`, `DELETE.ACCOUNT`, `MODIFY.ACCOUNT`,
+`GRANT`, `REVOKE` or `LIST.GRANTS` — see [Not in SD Core](14-not-in-sd-core.html).
