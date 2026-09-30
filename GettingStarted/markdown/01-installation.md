@@ -17,7 +17,7 @@ only for the build packages and that download.
 
 | | |
 |---|---|
-| Distribution | Debian or Ubuntu based, Fedora or RHEL based, openSUSE based, or Arch based — read from `/etc/os-release`. Any other is refused in words before anything changes |
+| Distribution | Debian or Ubuntu based, Fedora based, openSUSE based, or Arch based — read from `/etc/os-release`. RHEL and its clones (Rocky, Alma) are not supported. Any other, and those, are refused in words before anything changes |
 | Rights | your own ordinary user. **`sudo` is used for four things and only those:** installing the build packages, opening a firewall port you asked for, the optional `sshd_config.d` block, and `loginctl enable-linger` |
 | The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
