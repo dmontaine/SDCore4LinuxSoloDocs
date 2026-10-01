@@ -1,6 +1,6 @@
 # SD Core for Linux Solo — documentation
 
-Documentation for **SD Core for Linux Solo LS1.1-1**, a personal SD Core for one
+Documentation for **SD Core for Linux Solo LS1.1-2**, a personal SD Core for one
 Linux user. The source is in a separate repository, `SDCore4LinuxSolo`; nothing
 here is needed to build SD, and nothing there is needed to build these pages.
 

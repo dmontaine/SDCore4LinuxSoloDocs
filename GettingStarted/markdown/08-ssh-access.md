@@ -82,10 +82,22 @@ put back. `--apply` refuses if `sshd_config` has no `Include
 uninstaller removes the block, and leaves the rest of the sshd configuration as
 it was.
 
-> **Not measured.** The text of the block and its syntax (`sshd -t`) are tested;
-> writing it into a real `/etc/ssh` with `sudo`, reloading, and removing it are
-> written and have not been run. Check that your ssh password login lands in SD
-> before relying on it, and keep another way into the computer open while you do.
+> **Measured, and not measured.** The text of the block and its syntax (`sshd -t`)
+> are tested, and **writing it into a real `/etc/ssh` through the installer's
+> `--ssh-match` has been run once** (30 Sep 2026): the file appeared, and an ssh
+> login with a key reached `sd` with no shell. **Removing it with `--remove`, and a
+> *password* login landing in SD, have not been run.** Check that your ssh password
+> login lands in SD before relying on it, and keep another way into the computer
+> open while you do.
+
+## On a managed computer: the server's key (LS1.1-2)
+
+**You do not add the server's key.** On a managed computer the server installs it
+itself, over the API, after signing in with the global password; the key line it
+writes is the same kind as the one above (`command="…/bin/sd",restrict,pty`), so
+that key reaches `sd` and nothing else. At most four such lines are kept, and the
+keys you added yourself are never touched. `key-list` shows every key line SD wrote,
+the server's included. See [Managed mode](15-managed-mode.html).
 
 ## The cost: no scp or sftp to that key, and no shell
 

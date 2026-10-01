@@ -28,6 +28,24 @@ any form; the server sets a challenge only someone who knows the password can
 answer, and then proves itself back, so a program that grabbed the port before
 SD started cannot collect passwords by pretending to be SD.
 
+**The client library pins the server's certificate (LS1.1-2).** The first
+connection from a client to an address and port is trusted, and its certificate is
+remembered — the SHA-256 of the whole certificate — in `~/.sdcore/known_servers`
+(or the file named by the environment variable `SD_KNOWN_SERVERS`), one line,
+`<host>:<port> <64 hex digits>`, per server. Any later connection to the same
+address and port that presents another certificate is **refused before a single
+byte of the login is sent**, with a message that names both fingerprints and the
+line to remove. A reinstalled computer has a new certificate: remove its line,
+connect again, and the new certificate is remembered. **A store the client cannot
+read or write refuses the connection** rather than connecting unchecked. This is
+done in the client library, so it applies to every program that uses `SDConnect`.
+**The very first connection is trusted**, as with ssh: someone in the middle at
+that moment would be remembered instead of the computer.
+
+**A managed computer's server can ask this computer to install its ssh key** over
+the API, once it has signed in with the global password: see
+[Managed mode](15-managed-mode.html).
+
 **A client that sends a password in clear is refused** with *"Cleartext login is
 no longer supported; this server requires SCRAM authentication"*.
 

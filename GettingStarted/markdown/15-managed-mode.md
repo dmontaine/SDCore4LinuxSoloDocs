@@ -43,6 +43,38 @@ See [The account and its passwords](05-account-types.html).
 user has chosen an account password.** Until the user does, at that computer's
 keyboard, the global password is the only one accepted.
 
+## The server's ssh key (LS1.1-2)
+
+**The server installs its own ssh key.** The server knows only this computer's
+address and the name `sduser` — not the Linux user name that ssh needs. So after
+it signs in over the API, it asks this computer to install the server's public
+key, and the computer answers with its Linux user name, its host name, the key's
+fingerprint and the fingerprint of its ssh server's host key. From then on the
+server reaches this computer over ssh with that key and the global password. The
+same request lists and removes the server's keys.
+
+- **Only a session signed in with the global password may ask.** The account
+  password and `ADMIN` are refused with *Only the SD Core server may manage ssh
+  keys*.
+- **The key can start `sd` and nothing else** — no shell, no forwarding. It is the
+  same kind of key line as the one you add yourself, in the Linux user's
+  `~/.ssh/authorized_keys`: see [ssh access](08-ssh-access.html).
+- **At most four server keys are kept.** A fifth is refused (*The ssh key request
+  was refused: four Solo ssh keys are already installed*). **Your own ssh keys are
+  never listed, counted or touched.**
+- **Every use is in the audit trail**, with the key's fingerprint and the address
+  it came from, never the key itself.
+- **It does nothing on a standalone computer**, which has no global password.
+- **SD Core Solo for Windows answers the same request in the same words.**
+
+**The server's certificate is pinned.** The first time the server's client library
+connects to this computer's address and port, it remembers the computer's TLS
+certificate. If a later connection to the same address presents a different one,
+the library refuses it before sending anything, and says which line to remove.
+Reinstalling this computer gives it a new certificate, so the server's line for it
+has to be removed (the message names the file) before the server can connect
+again. The very first connection is trusted. See [API access](09-api-access.html).
+
 ## The server's programs: `GLOBAL.BP.OUT`
 
 **The global catalogue of a managed computer holds the server's programs.** The

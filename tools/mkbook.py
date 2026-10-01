@@ -223,7 +223,7 @@ def main():
     ap.add_argument('--set', required=True)
     ap.add_argument('--out', required=True)
     ap.add_argument('--product', default='SD Core for Linux Solo')
-    ap.add_argument('--version', default='LS1.1-1')
+    ap.add_argument('--version', default='LS1.1-2')
     args = ap.parse_args()
 
     set_name = args.set

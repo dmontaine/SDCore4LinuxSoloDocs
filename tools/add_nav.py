@@ -36,7 +36,7 @@ import mkdoc
 
 DOCS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRODUCT = "SD Core for Linux Solo"
-VERSION = "LS1.1-1"
+VERSION = "LS1.1-2"
 
 # ── Set definitions ──────────────────────────────────────────
 

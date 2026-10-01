@@ -30,14 +30,19 @@ prints, and `sshd -t` accepts it. The key route was run against a private `sshd`
 a key with the forced command gets SD and no shell, and a key without it gets a
 shell.
 
-**Not known.** Writing the block into the machine's real `/etc/ssh` with `sudo`,
-reloading `sshd`, and removing it again (`match --apply`, `match --remove`). The
-package installation (`apt`, `dnf`, `zypper`, `pacman`) and the `ufw` rule were
-also not run by the tests. And **linger**: whether SD really survives your last
-sign-out and is there for a cron job or an ssh login that arrives afterwards.
+**Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--ssh-match`
+and `--enable-linger` ran the package installation (`apt`), wrote the block into
+the real `/etc/ssh/sshd_config.d`, checked it with `sshd -t` and reloaded `sshd`;
+an ssh login with the key then reached `sd` with no shell, and linger was on.
+
+**Not known.** Removing the block again (`match --remove`); a **password** login
+landing in SD through the block; the package installation on `dnf`, `zypper` and
+`pacman`; the `ufw` rule. And **linger**: that it is on is measured, but whether SD
+really survives your last sign-out and is there for a cron job or an ssh login that
+arrives afterwards is not.
 
 **To settle it.** Run each once on a computer you can afford to lock yourself out
-of; enable linger, sign out, and connect again from elsewhere.
+of; sign out with linger on, and connect again from elsewhere.
 
 ### An install from the published branch
 
@@ -76,6 +81,28 @@ as a boundary. `sdclilib.so` and the server were run end to end against SCRAM, t
 account-only rule and the wrong-password refusals.
 
 **To settle it.** An API client that tries to `OPEN` a file outside the account.
+
+### The server's ssh key and the pinned certificate (LS1.1-2)
+
+**Known.** On a managed scratch tree, over a real SCRAM and TLS login: the server's
+key is installed, repeated, listed, removed, capped at four, and refused for the
+account password; shell syntax in a key is not run; the installed key reaches `sd`
+through a private `sshd` with the global password. The client library remembers a
+server's certificate, accepts the same one again, and refuses a replaced one before
+any login byte is sent, and the remedy in its message works.
+
+**Not known.** All of it was measured between programs on **one computer**, over
+the loopback address: the address recorded in the audit trail was `127.0.0.1`, and
+a client and a server on different computers have not been tried. The **SD Core for
+Linux server itself** is not in this product, so no real server has installed a key
+or been pinned — what was run is the client library every `SDConnect` caller uses
+and a test client. A login through the computer's own `sshd` with the server's key,
+and Windows Solo's side of the same request, were run by its own tests, not
+together with this one.
+
+**To settle it.** Have a second computer sign in with the global password, ask for
+its key to be installed, and then connect over ssh with that key; reinstall the
+managed computer and confirm the client is refused until the pin is removed.
 
 ## Sessions
 

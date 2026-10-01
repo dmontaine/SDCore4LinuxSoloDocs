@@ -78,6 +78,16 @@ it**: the user of the computer owns the files and can change them from outside
 SD. What managed mode protects is what happens *inside* SD. See
 [Managed mode](15-managed-mode.html).
 
+**The server can also put an ssh key on the computer (LS1.1-2).** Only a session
+signed in with the global password may, at most four keys are kept, each can start
+`sd` and nothing else, and every use is audited. That is the global password
+reaching one step further — into the Linux user's `authorized_keys` — so **whoever
+holds the global password can now also reach this computer over ssh as `sduser`**.
+It could already run the administrator commands. **On the client side, the library
+pins the computer's TLS certificate on first use**, which stops someone posing as
+the computer from collecting a login proof to crack offline; the first connection
+is trusted. See [API access](09-api-access.html).
+
 ## What you can do further
 
 **Lock a session into one application** by removing `basic` and `run` from the

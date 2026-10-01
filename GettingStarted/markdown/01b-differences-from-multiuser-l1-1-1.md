@@ -53,7 +53,9 @@ computer was installed. The server can put compiled programs into the global
 catalogue (`GLOBAL.BP.OUT`, `SYNC.GLOBAL.CATALOG`) and keep a list of commands
 the user may not run (`DENY.VERBS`). An installer control file,
 `sd-solo-setup.conf`, sets up many computers the same way, leaving the account
-password to be chosen at first login. See [Managed mode](15-managed-mode.html).
+password to be chosen at first login. From LS1.1-2 the server can also install its
+own ssh key over the API, and the client library pins a server's TLS certificate
+the first time it connects. See [Managed mode](15-managed-mode.html).
 
 ## Installing and running
 
