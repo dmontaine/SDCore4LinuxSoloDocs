@@ -142,14 +142,15 @@ release replaced; you are told which ones.
 ### `BACKUP.ACCOUNT` and `RESTORE.ACCOUNT`
 
 ```
-backup.account all to directory
-restore.account archive all
+backup.account {to directory}
+restore.account archive
 ```
 
-After `ADMIN`, `backup.account all to directory` writes **one zip file**, named
-for the computer and the time, holding the account's files and a plain-text
-description of it. `restore.account archive all` puts the account back, on this
-computer or another one. **A backup from another person's SD Core Solo replaces
+There is one account, so **neither command needs a name** (`all`, and the
+account's name, are still accepted). After `ADMIN`, `backup.account` writes
+**one zip file**, named for the computer and the time, holding the account's
+files and a plain-text description of it. `restore.account archive` puts the
+account back, on this computer or another one. **A backup from another person's SD Core Solo replaces
 this account's data**, so it says what will be replaced and asks first. A backup
 made here restores on SD Core Solo for Windows, and the other way round.
 
@@ -169,7 +170,7 @@ stop SD and start it). The account as it was is kept beside it, in
 settings; follow symbolic links in the account (any it finds are named and left
 out); or restore a Solo backup onto the multi-user SD Core.
 
-**`restore.account latest all` restores the most recent backup without your
+**`restore.account latest` restores the most recent backup without your
 naming it.** `latest` stands where the archive name goes: SD looks in the
 directory saved by `set.backup.directory`, picks **the newest backup made on this
 computer with `all`**, prints which one it chose (*The most recent backup is …*),
