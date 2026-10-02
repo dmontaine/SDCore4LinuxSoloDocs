@@ -2,7 +2,7 @@ Title: ssh access
 Subtitle: Reaching SD on this computer over ssh, what the installer sets up, and what it costs.
 
 **An ssh sign-in can land inside SD.** ssh checks who you are as it would for
-any sign-in; then, instead of a shell, you get `sd`, which asks for the account
+any sign-in; then, instead of a shell, you get `sd-solo`, which asks for the account
 password.
 
 ```
@@ -34,14 +34,14 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh key-remove ~/SDCoreSolo  ~/.ssh/id_ed25519.p
 options in front:
 
 ```
-command="/home/you/SDCoreSolo/bin/sd",restrict,pty ssh-ed25519 AAAA… you@laptop
+command="/home/you/SDCoreSolo/bin/sd-solo",restrict,pty ssh-ed25519 AAAA… you@laptop
 ```
 
 | | |
 |---|---|
-| `command=` | **that key runs `sd` and nothing else.** Whatever the client asks to run — a shell, `scp`, `sftp` — it gets `sd` instead |
+| `command=` | **that key runs `sd-solo` and nothing else.** Whatever the client asks to run — a shell, `scp`, `sftp` — it gets `sd-solo` instead |
 | `restrict` | turns off every forwarding and agent facility for that key |
-| `pty` | gives `sd` the terminal it needs |
+| `pty` | gives `sd-solo` the terminal it needs |
 
 **It never touches your other keys.** A key without the forced command still
 gets a shell, exactly as before — which is the point of choosing this route by
@@ -65,14 +65,14 @@ It writes one file, `/etc/ssh/sshd_config.d/50-sd-solo-<your user>.conf`:
 
 ```
 Match User you
-    ForceCommand /home/you/SDCoreSolo/bin/sd
+    ForceCommand /home/you/SDCoreSolo/bin/sd-solo
     DisableForwarding yes
 ```
 
 | | |
 |---|---|
 | `Match User` | **only your Linux user** is affected. Everyone else signs in as before |
-| `ForceCommand` | every ssh login of yours runs `sd` and nothing else |
+| `ForceCommand` | every ssh login of yours runs `sd-solo` and nothing else |
 | `DisableForwarding` | no port forwarding for you, which `ForceCommand` alone would not stop |
 
 **The change is checked before it stays**: `sshd -t` must accept the new
@@ -85,7 +85,7 @@ it was.
 > **Measured, and not measured.** The text of the block and its syntax (`sshd -t`)
 > are tested, and **writing it into a real `/etc/ssh` through the installer's
 > `--ssh-match` has been run once** (30 Sep 2026): the file appeared, and an ssh
-> login with a key reached `sd` with no shell. **Removing it with `--remove`, and a
+> login with a key reached `sd-solo` with no shell. **Removing it with `--remove`, and a
 > *password* login landing in SD, have not been run.** Check that your ssh password
 > login lands in SD before relying on it, and keep another way into the computer
 > open while you do.
@@ -94,8 +94,8 @@ it was.
 
 **You do not add the server's key.** On a managed computer the server installs it
 itself, over the API, after signing in with the global password; the key line it
-writes is the same kind as the one above (`command="…/bin/sd",restrict,pty`), so
-that key reaches `sd` and nothing else. At most four such lines are kept, and the
+writes is the same kind as the one above (`command="…/bin/sd-solo",restrict,pty`), so
+that key reaches `sd-solo` and nothing else. At most four such lines are kept, and the
 keys you added yourself are never touched. `key-list` shows every key line SD wrote,
 the server's included. See [Managed mode](15-managed-mode.html).
 
@@ -135,7 +135,7 @@ been chosen at the keyboard, an ssh session is told:
 This account has no password yet. Set it at this computer's keyboard first; until then only the global password is accepted.
 ```
 
-**SD has to be running for the forced `sd` to find it.** With linger on it always
+**SD has to be running for the forced `sd-solo` to find it.** With linger on it always
 is. Without linger your systemd user manager, and SD with it, start when you
 first sign in, and an ssh sign-in counts — but **that has not been measured**: if
 a first connection is told *SD has not been started*, connect again, and enable

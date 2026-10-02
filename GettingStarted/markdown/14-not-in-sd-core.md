@@ -98,7 +98,7 @@ test can be deleted.**
 
 The `TAPE`/`RESTORE` subsystem is gone, along with the assumption of a tape-backed
 sequential medium it was built around. Back up and restore SD data the ordinary
-Linux way — at the file level, with the daemon stopped (`sd -stop`), or through
+Linux way — at the file level, with the daemon stopped (`sd-solo -stop`), or through
 your own export/import BASIC.
 
 ## Language and locale
@@ -135,7 +135,7 @@ the User set. What has gone is the TCL verb that encrypted a field in place, and
 | Gone | Notes |
 |---|---|
 | `CREATUSR` | `config` no longer lists it; a `CREATUSR` line in `sd.conf` is still accepted and ignored |
-| `APPEND.SD.PATH` | never existed on Linux: the installer links `sd` into `~/.local/bin` |
+| `APPEND.SD.PATH` | never existed on Linux: the installer links `sd-solo` into `~/.local/bin` |
 
 **`umask` is kept, deliberately, and is not on this list** — a real difference
 from SD Core for Windows, where it was removed as inert. It is a live mechanism
@@ -159,7 +159,7 @@ catalogued `pcl` routine are both still there.
 These are not removals. They are stated here because a reader coming from another
 MultiValue system will otherwise assume they exist.
 
-**`scp` and `sftp` do not work inbound over an ssh key that lands in `sd`**, which
+**`scp` and `sftp` do not work inbound over an ssh key that lands in `sd-solo`**, which
 is the accepted cost of that landing. See [ssh access](08-ssh-access.html).
 
 **The cleartext API login is gone**, and a client that still sends a password in

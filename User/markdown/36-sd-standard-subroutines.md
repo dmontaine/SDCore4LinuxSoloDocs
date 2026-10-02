@@ -122,7 +122,7 @@ that has not unlocked `ADMIN`, and some change the state of the computer.
 | `!GETPU` `!SETPU` | read and set per-user values |
 | `!CRED_SET` `!CRED_VERIFY` | write and check a credential in the credential store |
 | `!SD_GET_SALT` `!SD_KEY_FROM_PW` | the key derivation behind that credential |
-| `!SOLO_STORE_PW` | keep the copy of the account password that lets `sd <command>` sign in without typing |
+| `!SOLO_STORE_PW` | keep the copy of the account password that lets `sd-solo <command>` sign in without typing |
 | `!PW_COMPLEX` | SD's password rule — 8 characters with a lower-case letter, an upper-case letter, a digit and a symbol |
 | `!VOC_GUARD` | the `ADMIN` test for a direct change to the VOC, and the refusal of a write to `gcat`, `global.bp.out` and the deny list without the global password |
 | `!EUID_SET` `!EUID_RESTORE` | **do nothing on Solo** — the multiuser product's `setuid`/`setgid` calls |

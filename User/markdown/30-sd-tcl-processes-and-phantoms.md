@@ -24,7 +24,7 @@ marks a word typed as it stands; braces mark an optional part.
 **Seeing the sessions, and ending them, are administrator verbs.** `listu`
 lists every session on the computer, and `logout all` ends every one but yours;
 both need `ADMIN` first. They are documented under *Sessions and locks* in the
-GettingStarted set. `logout` *n* and `sd -k`, which end one session by number,
+GettingStarted set. `logout` *n* and `sd-solo -k`, which end one session by number,
 need nothing.
 
 **`logout` with no argument ends your own session** — it is `quit` under another
@@ -129,7 +129,7 @@ never started.
 > to know.** When SD is fed commands down a pipe, the phantom child inherits
 > that pipe. The job then never completes — not even after the parent session
 > has exited — and the only way out is to kill the process, which leaves an
-> entry in the user table that needs `sd -cleanup`, run as SDSYS, to clear.
+> entry in the user table that needs `sd-solo -cleanup`, run as SDSYS, to clear.
 > **`phantom` is for a person at a prompt, or for a program, and not for a
 > piped script.** The listings above are quoted from the verb's own message
 > texts for that reason.

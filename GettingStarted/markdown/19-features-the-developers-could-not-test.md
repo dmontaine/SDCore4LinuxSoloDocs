@@ -33,7 +33,7 @@ shell.
 **Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--ssh-match`
 and `--enable-linger` ran the package installation (`apt`), wrote the block into
 the real `/etc/ssh/sshd_config.d`, checked it with `sshd -t` and reloaded `sshd`;
-an ssh login with the key then reached `sd` with no shell, and linger was on.
+an ssh login with the key then reached `sd-solo` with no shell, and linger was on.
 
 **Not known.** Removing the block again (`match --remove`); a **password** login
 landing in SD through the block; the package installation on `dnf`, `zypper` and
@@ -86,7 +86,7 @@ account-only rule and the wrong-password refusals.
 
 **Known.** On a managed scratch tree, over a real SCRAM and TLS login: the server's
 key is installed, repeated, listed, removed, capped at four, and refused for the
-account password; shell syntax in a key is not run; the installed key reaches `sd`
+account password; shell syntax in a key is not run; the installed key reaches `sd-solo`
 through a private `sshd` with the global password. The client library remembers a
 server's certificate, accepts the same one again, and refuses a replaced one before
 any login byte is sent, and the remedy in its message works.
@@ -106,9 +106,9 @@ managed computer and confirm the client is refused until the pin is removed.
 
 ## Sessions
 
-### `sd` started from inside a running session
+### `sd-solo` started from inside a running session
 
-**Known.** From `sh`, a command that runs `sd` — for example `sh /full/path/sd who`
+**Known.** From `sh`, a command that runs `sd-solo` — for example `sh /full/path/sd who`
 — starts a **separate, nested one-shot session** and returns its output. There is
 no guard against it, unlike SD Core for Windows, which refuses. There is no
 interactive `sh` from TCL to be left in (a bare `sh` is refused), so the

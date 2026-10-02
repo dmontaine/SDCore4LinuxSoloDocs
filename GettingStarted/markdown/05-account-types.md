@@ -12,14 +12,14 @@ signs in with.
 **There is no way to make another account**, and none is needed: every
 session — at the keyboard, over ssh, through the API, or a command from a
 script — lands in `sduser`. SD's own system account, SDSYS, exists but is never
-entered: `sd -asdsys` is refused, and the administrator commands are in your
+entered: `sd-solo -asdsys` is refused, and the administrator commands are in your
 own account behind `ADMIN`.
 
 ## Three passwords
 
 | | Set | Asked | Unlocks |
 |---|---|---|---|
-| **Account password** | at installation, or at the first `sd` on a computer installed from a control file; changed with `SET.PASSWORD` | by every session | the account |
+| **Account password** | at installation, or at the first `sd-solo` on a computer installed from a control file; changed with `SET.PASSWORD` | by every session | the account |
 | **Administrator password** | at installation; changed with `SET.PASSWORD ADMIN` | by `ADMIN` | the administrator commands, for the rest of the session |
 | **Global password** | at installation, managed mode only; changed with `SET.PASSWORD GLOBAL` by the server | by `ADMIN`, and by any session in place of the account password | the account **and** the administrator commands. It is the SD Core for Linux server's |
 
@@ -36,11 +36,11 @@ land in an ordinary session.
 
 | | |
 |---|---|
-| `sd` at a terminal | `Password:`, three tries, then the session ends |
-| `sd` with its input piped | the first line of the input, one try |
+| `sd-solo` at a terminal | `Password:`, three tries, then the session ends |
+| `sd-solo` with its input piped | the first line of the input, one try |
 | ssh | the same as a terminal, after ssh has authenticated you (by the key the installer added, or by your Linux password if you wrote the `Match` block) |
 | the API | the client library's password, checked by SCRAM — see [API access](09-api-access.html) |
-| `sd <command>` | the kept copy, below — no typing |
+| `sd-solo <command>` | the kept copy, below — no typing |
 
 **A wrong one is answered `Wrong password`.** On a managed computer the global
 password is accepted in its place, and that session also has the administrator
@@ -53,7 +53,7 @@ whoever knows it.
 ### The kept copy
 
 **SD keeps a copy of the account password for you**, in
-`~/SDCoreSolo/$cred/$stored`. A command on the `sd` command line signs in with
+`~/SDCoreSolo/$cred/$stored`. A command on the `sd-solo` command line signs in with
 it, which is what lets scripts and scheduled jobs use SD — see
 [Scheduled jobs](04-scheduled-jobs.html). The installer writes it, and
 `SET.PASSWORD` updates it.
@@ -62,7 +62,7 @@ it, which is what lets scripts and scheduled jobs use SD — see
 no session unlock a secret for you, so SD cannot encrypt it in a way the job
 could then open. The file is mode 0600 in a 0700 directory, so only your Linux
 user can read it — anyone who can read your files can read it, as they could
-read a `~/.pgpass`. Removing the file makes `sd <command>` ask for the password
+read a `~/.pgpass`. Removing the file makes `sd-solo <command>` ask for the password
 on its input instead; the account still works.
 
 **It proves the account password only.** It never unlocks the administrator
@@ -89,13 +89,13 @@ password; otherwise it says why and leaves the password as it was.
 
 **`SET.PASSWORD` also updates the kept copy.** If it cannot, it says *The new
 password could not be kept for commands given on the sd command line* — the
-password is changed, but commands on the `sd` command line will fail until it
+password is changed, but commands on the `sd-solo` command line will fail until it
 is set again.
 
 ### The first password on a managed computer
 
 **A computer installed from a control file has no account password yet.** The
-first `sd` typed at that computer's keyboard asks you to choose one:
+first `sd-solo` typed at that computer's keyboard asks you to choose one:
 
 ```
 This account has no password yet. Choose one now - SD Core for Linux Solo asks for it every time it is used.
@@ -106,7 +106,7 @@ password, and a confirmation that does not match is refused and counted. An
 empty answer gives up, and nothing is set.
 
 **Only the console offers it.** A session over ssh, through the API, or a
-command on the `sd` command line is never asked to choose — otherwise whoever
+command on the `sd-solo` command line is never asked to choose — otherwise whoever
 reached the computer first would own the account. **Until the password is set,
 only the global password is accepted** there, and the answer is:
 
@@ -115,7 +115,7 @@ This account has no password yet. Set it at this computer's keyboard first; unti
 ```
 
 So the SD Core for Linux server can reach a computer it has just set up, and
-nobody else can. Choosing the password also keeps the copy for `sd <command>`
+nobody else can. Choosing the password also keeps the copy for `sd-solo <command>`
 and gives the account the global password's salt, so the server still signs in
 afterwards.
 

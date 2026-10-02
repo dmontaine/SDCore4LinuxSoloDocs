@@ -59,7 +59,7 @@ the commands that are the SD Core for Linux server's — see
 [Managed mode](15-managed-mode.html).
 
 **`LOGOUT` on its own needs nothing** — it ends your own session, like `QUIT`
-— **and nor does `sd -k`**, because it is a switch on the program, not a
+— **and nor does `sd-solo -k`**, because it is a switch on the program, not a
 command in a session. **`sh` needs nothing either**; see
 [Operating system access](06b-operating-system-access.html). **Nor does
 `SET.PASSWORD`** for your own account password — it asks for the current one
@@ -181,7 +181,7 @@ reads it back.
 
 ## Not here
 
-There is no `APPEND.SD.PATH`: the installer links `sd` into `~/.local/bin`, and
+There is no `APPEND.SD.PATH`: the installer links `sd-solo` into `~/.local/bin`, and
 whether that directory is on your PATH is between you and your shell's startup
 file. There are no `CREATE.ACCOUNT`, `DELETE.ACCOUNT`, `MODIFY.ACCOUNT`,
 `GRANT`, `REVOKE` or `LIST.GRANTS` — see [Not in SD Core](14-not-in-sd-core.html).

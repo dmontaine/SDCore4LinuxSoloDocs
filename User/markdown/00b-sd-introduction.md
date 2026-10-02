@@ -62,17 +62,17 @@ means cloning the source and building it — see the GettingStarted set.
 ## Signing in
 
 ```
-sd
+sd-solo
 ```
 
 **You land in the one SD account, `sduser`, after the account password** — the
 one you chose when installing. Being signed in to Linux is not enough: SD asks.
 If the computer was installed from a control file there is no password yet, and
-`sd` asks you to choose one. The GettingStarted set's *Your first thirty
+`sd-solo` asks you to choose one. The GettingStarted set's *Your first thirty
 minutes* walks through it.
 
 SD is already running. It is your own systemd user service, `sd-solo.service`,
-so you do not type `sd -start`. Open a new terminal after installing: one that
+so you do not type `sd-solo -start`. Open a new terminal after installing: one that
 was open before the install may not have `~/.local/bin` on its PATH yet.
 
 ## Your first file and record

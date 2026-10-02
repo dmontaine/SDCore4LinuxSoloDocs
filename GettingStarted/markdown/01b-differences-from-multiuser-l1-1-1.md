@@ -23,7 +23,7 @@ product. The User set applies to both.
 | multiuser L1.1-1 | Solo |
 |---|---|
 | a local sign-in asks for no SD password — Linux has authenticated you | **every session asks for the account password**: at the keyboard, over ssh, and through the API |
-| a command on the command line (`sd list customers`) needs no password | it uses **a copy of the account password kept for you**, in a file only you can read, so scripts and scheduled jobs need no typing |
+| a command on the command line (`sd list customers`) needs no password | **`sd-solo list customers`** uses **a copy of the account password kept for you**, in a file only you can read, so scripts and scheduled jobs need no typing |
 | administration is being SDSYS | **administration is `ADMIN`** and a password set at installation |
 | `modify.password`, run by SDSYS | **`SET.PASSWORD`**: your own account password with no `ADMIN` (it asks the current one), `SET.PASSWORD ADMIN` after `ADMIN`, `SET.PASSWORD GLOBAL` by the SD Core for Linux server only. It also updates the kept copy |
 
@@ -65,8 +65,8 @@ the first time it connects. See [Managed mode](15-managed-mode.html).
 | `deletesdcore.sh`, and an upgrade is uninstall-keeping-accounts then install | `deletesdsolo.sh`, and **`installsdsolo.sh --upgrade`** upgrades in place with a safety copy that is put back if anything fails |
 | a system `sd.service` and `sdclient.socket` | user units: **`sd-solo.service`**, and with an API `sd-solo-api.socket`. They run as you, and stop when your last session ends unless you enabled linger |
 | the system programs' BASIC source is installed | **compiled programs only**; no system source is installed |
-| `sd -internal` needs `sudo` | **`sd -internal` is closed** once the installer has finished: it needs a one-shot marker file the installer writes before each of its own steps |
-| each account lands in `sd` over ssh (`ForceCommand` for the group) | **a key line the installer adds to your `authorized_keys` forces `sd`**; a `sshd_config.d` block for password logins is optional and needs `sudo`. There is no shell over ssh for that key, and `scp`/`sftp` to it do not work |
+| `sd -internal` needs `sudo` | **`sd-solo -internal` is closed** once the installer has finished: it needs a one-shot marker file the installer writes before each of its own steps |
+| each account lands in `sd` over ssh (`ForceCommand` for the group) | **a key line the installer adds to your `authorized_keys` forces `sd-solo`**; a `sshd_config.d` block for password logins is optional and needs `sudo`. There is no shell over ssh for that key, and `scp`/`sftp` to it do not work |
 
 See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 
@@ -95,4 +95,4 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
   (`CATALOG ... LOCAL`) instead.
 - **Anything that expects `/usr/local/sdsys`, `/etc/sd.conf` or `/home/sd`.**
   Use `~/SDCoreSolo`.
-- **`sd` started by root, `sudo`, or another user.** It refuses.
+- **`sd-solo` started by root, `sudo`, or another user.** It refuses.

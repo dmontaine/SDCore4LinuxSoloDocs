@@ -11,12 +11,12 @@ this order:
 |---|---|---|
 | 1 | `installsdsolo.sh` | asks the questions, or reads the options and the control file; refuses before changing anything if it should |
 | 2 | `git clone`, `make` | downloads the source to `~/.sdsolotmp` and builds it there |
-| 3 | `gplbld/solo-stage.sh` | lays the tree out in your home directory and runs the bootstrap: `sd -i`, `SECOND.COMPILE`, the dictionaries, `THIRD.COMPILE`, then makes the account, sets the passwords, sets the deny list, and runs `SYNC.GLOBAL.CATALOG`. On an upgrade, `--upgrade`, which first makes the safety copy — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
+| 3 | `gplbld/solo-stage.sh` | lays the tree out in your home directory and runs the bootstrap: `sd-solo -i`, `SECOND.COMPILE`, the dictionaries, `THIRD.COMPILE`, then makes the account, sets the passwords, sets the deny list, and runs `SYNC.GLOBAL.CATALOG`. On an upgrade, `--upgrade`, which first makes the safety copy — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 | 4 | `tools/solo-service.sh install` | the systemd user units |
 | 5 | `tools/solo-ssh.sh key-add`, `match --apply` | only if you asked |
-| 6 | the self-check | a session as `sduser`, and that `sd -internal` is closed |
+| 6 | the self-check | a session as `sduser`, and that `sd-solo -internal` is closed |
 
-**Every step that talks to SD does it through `sd -internal`, one session at a
+**Every step that talks to SD does it through `sd-solo -internal`, one session at a
 time.** Each session needs a marker file — `$internal` in the tree — that the
 installer writes immediately before starting it and that SD deletes on admission.
 A marker older than ten minutes is refused, and consumed. **That is why the door

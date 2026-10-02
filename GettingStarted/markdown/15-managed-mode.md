@@ -25,7 +25,7 @@ up many computers from one USB stick.
 **As `sduser`, with the global password.** Over the API that is the whole of it.
 Over ssh the server first gets past ssh's own sign-in — your key line, or your
 Linux password if you wrote the `Match` block — and then gives SD the global
-password when `sd` asks. One account name carries two passwords: SD tries the
+password when `sd-solo` asks. One account name carries two passwords: SD tries the
 account password first and the global password second, which is why the two must
 differ.
 
@@ -56,7 +56,7 @@ same request lists and removes the server's keys.
 - **Only a session signed in with the global password may ask.** The account
   password and `ADMIN` are refused with *Only the SD Core server may manage ssh
   keys*.
-- **The key can start `sd` and nothing else** — no shell, no forwarding. It is the
+- **The key can start `sd-solo` and nothing else** — no shell, no forwarding. It is the
   same kind of key line as the one you add yourself, in the Linux user's
   `~/.ssh/authorized_keys`: see [ssh access](08-ssh-access.html).
 - **At most four server keys are kept.** A fifth is refused (*The ssh key request

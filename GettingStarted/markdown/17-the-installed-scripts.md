@@ -7,7 +7,7 @@ reasons: so that a step which failed during the installation can be run again
 without reinstalling, and so that a choice made at install time can be changed
 afterwards.
 
-**They are shell scripts, not SD verbs.** Nothing here is typed at an `sd`
+**They are shell scripts, not SD verbs.** Nothing here is typed at an `sd-solo`
 prompt. **None of them needs `root`, and each refuses to run as root.** Where
 something does need `sudo` — linger, the `sshd_config.d` block — the script says
 so and, where it can, prints the one command to run.
@@ -57,9 +57,9 @@ bash ~/SDCoreSolo/tools/solo-service.sh status
 | `--enable-linger` | also runs `loginctl enable-linger`. **Linger is a persistent setting of your account, so it is opt-in.** Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
 
 `sd-solo.service` is a one-shot that remains after exit
-(`Type=oneshot`, `RemainAfterExit=yes`): `sd -start` forks a daemon that forks
+(`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks
 again, and `Type=forking` would make systemd guess the wrong main process.
-`sd-solo-api@.service` runs one `sd -n -q` per API connection.
+`sd-solo-api@.service` runs one `sd-solo -n -q` per API connection.
 
 ## `solo-ssh.sh`
 

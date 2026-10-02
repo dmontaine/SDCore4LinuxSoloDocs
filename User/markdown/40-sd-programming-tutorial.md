@@ -24,7 +24,7 @@ created a file called `customers` as the Introduction suggests, you
 already have `bp` — every account gets one.
 
 ```
-sd
+sd-solo
 ```
 
 You land at the `:` prompt. That is TCL — the command processor. From

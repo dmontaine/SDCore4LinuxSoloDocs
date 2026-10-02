@@ -25,7 +25,7 @@ the marker file `.sdcoresolo`). The server and the client both read the
 It is plain text in one section, and **the shipped file names no path**:
 
 ```
-[sd]
+[sd-solo]
 GRPSIZE=2
 NUMUSERS=20
 SORTMEM=4096
@@ -115,8 +115,8 @@ The parameters that can be changed this way are `CODEPAGE`, `DUMPDIR`, `EXCLREM`
 `SAFEDIR`, `SDCLIENT`, `SH`, `SH1`, `SORTMEM`, `SORTMRG`, `SORTWORK`, `SPOOLER`,
 `TEMPDIR`, `TERMINFO` and `YEARBASE`.
 
-Everything else takes effect only when SD is next started (`sd -stop`, then
-`sd -start`). That includes every limit which sizes the shared memory segment.
+Everything else takes effect only when SD is next started (`sd-solo -stop`, then
+`sd-solo -start`). That includes every limit which sizes the shared memory segment.
 
 ## Sessions and limits
 
@@ -171,7 +171,7 @@ you set it, choose a directory only you can read.
 
 **There is no `APIPORT` and no `NETDIRS` in `sd.conf`.** Whether SD listens for
 the API at all, and on which port, is your systemd user unit
-`sd-solo-api.socket`, activated independently of any running `sd` process; it is
+`sd-solo-api.socket`, activated independently of any running `sd-solo` process; it is
 changed by running `tools/solo-service.sh install` again — see
 [API access](09-api-access.html).
 

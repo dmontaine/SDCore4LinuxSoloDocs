@@ -15,7 +15,7 @@ in lower case.
 such. SD keeps a SCRAM-SHA-256 verifier in the credential store, the API login
 proves knowledge of the password without sending it, and the primitives behind
 that exchange are the ones listed further down. (The one password SD does keep is
-the account password's copy for `sd <command>` — see
+the account password's copy for `sd-solo <command>` — see
 [The account and its passwords](05-account-types.html).)
 
 **For encrypting application data**, this release does not provide a usable

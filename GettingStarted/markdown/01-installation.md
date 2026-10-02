@@ -5,7 +5,7 @@ Subtitle: What the installer asks, what it puts where, and the control file for 
 user who runs it.** Everything goes into that user's home directory, in
 `~/SDCoreSolo`. Nothing is installed for other users of the computer, nothing
 is written outside your home directory, and SD never runs as root — the script
-refuses to run as root, and so does `sd`.
+refuses to run as root, and so does `sd-solo`.
 
 **There is no prebuilt package.** The script downloads the source from
 `github.com/dmontaine/SDCore4LinuxSolo` (the `main` branch) into a temporary
@@ -77,8 +77,8 @@ session. See [The account and its passwords](05-account-types.html).
 | | |
 |---|---|
 | **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
-| **ssh straight into sd** | if you say yes, the installer asks for a public key file and adds it to your `~/.ssh/authorized_keys` with a forced command, so that key lands in `sd`. See [ssh access](08-ssh-access.html) |
-| **The `sshd_config.d` block** | optional, needs `sudo`: makes every ssh login of your user — password too — land in `sd`. See [ssh access](08-ssh-access.html) |
+| **ssh straight into sd-solo** | if you say yes, the installer asks for a public key file and adds it to your `~/.ssh/authorized_keys` with a forced command, so that key lands in `sd-solo`. See [ssh access](08-ssh-access.html) |
+| **The `sshd_config.d` block** | optional, needs `sudo`: makes every ssh login of your user — password too — land in `sd-solo`. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
 
 **In managed mode the API and ssh are not asked**: the API is open to the
@@ -95,7 +95,7 @@ is no `sdsys` subdirectory as there is on Windows.
 
 | | |
 |---|---|
-| `bin/` | `sd`, its daemon and the other programs |
+| `bin/` | `sd-solo`, its daemon and the other programs |
 | `sd.conf` | the configuration. See [Configuration](16-configuration.html) |
 | `user_accounts/sduser` | the one SD account, and your data |
 | `$cred/` | the credential store: the verifiers for the three passwords, and the kept copy of the account password. Mode 700 |
@@ -104,7 +104,7 @@ is no `sdsys` subdirectory as there is on Windows.
 | `audit`, `errlog` | the audit trail and the error log |
 | `tools/` | `solo-service.sh`, `solo-ssh.sh` and `deletesdsolo.sh` — see [The installed scripts](17-the-installed-scripts.html) |
 | `.sdcore-install` | which commit was installed, when, and in which mode |
-| `~/.local/bin/sd` | a link to `~/SDCoreSolo/bin/sd`, so `sd` works from any new terminal (if `~/.local/bin` is on your PATH — the installer says so if it is not) |
+| `~/.local/bin/sd-solo` | a link to `~/SDCoreSolo/bin/sd-solo`, so `sd-solo` works from any new terminal (if `~/.local/bin` is on your PATH — the installer says so if it is not) |
 | `~/.config/systemd/user/` | the service: `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service` |
 
 **Everything the installer creates is private to you**: files 0600, directories
@@ -130,13 +130,13 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `admin-password=` | the administrator password |
 | `global-password=` | the global password |
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. See [Managed mode](15-managed-mode.html) |
-| `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd` |
+| `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo` |
 | `ssh-match=yes` | also write the `sshd_config.d` block (needs `sudo`) |
 | `enable-linger=yes` | run `loginctl enable-linger` |
 
 **The account password is deliberately not in it.** On a computer installed
 from a control file, the user sets the account password **the first time they
-run `sd` at that computer's keyboard**. Until then ssh and the API accept only
+run `sd-solo` at that computer's keyboard**. Until then ssh and the API accept only
 the global password — the server can reach the computer, and nobody else can.
 (Give `--account-password-file` as well if you would rather set it at install
 time.)
@@ -151,7 +151,7 @@ leave the file on a computer after installing.
 
 ## What the installer checks when it finishes
 
-It signs in as `sduser` and runs `WHO`, and then confirms that **`sd -internal`
+It signs in as `sduser` and runs `WHO`, and then confirms that **`sd-solo -internal`
 is closed**: the door the installer itself uses is a one-shot, opened only by a
 marker file the installer writes immediately before each of its own steps, and
 it is shut when the install ends. The last line of a good install is:

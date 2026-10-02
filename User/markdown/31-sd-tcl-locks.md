@@ -70,7 +70,7 @@ You cannot see the lock table without `ADMIN`, so the useful sequence is:
 **A dead session's database locks are not released.** A session killed from
 outside SD keeps both its user-table entry and its record and file locks, so
 everything wanting that record waits for a process that is not there. **`release`
-will not clear that**; the recovery is `sd -cleanup`, typed at a terminal — it
+will not clear that**; the recovery is `sd-solo -cleanup`, typed at a terminal — it
 needs no `sudo` and no `ADMIN`.
 
 ## Task locks, and why you will rarely meet one
@@ -85,7 +85,7 @@ BASIC `lock` and `unlock` statements, which you may compile and run. That is the
 route to reach for; the TCL verbs exist for inspecting or clearing the table by
 hand.
 
-> **A task lock held by a killed session is not given back by `sd -cleanup`.**
+> **A task lock held by a killed session is not given back by `sd-solo -cleanup`.**
 > It stays held, by a user number nothing is behind, until SD itself is
 > restarted — a defect, and it is recorded in the project's fix lists. If a job
 > guarded by a task lock will not start again after a crash, that is the first

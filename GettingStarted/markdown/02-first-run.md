@@ -10,11 +10,11 @@ not a reference — every step links to the page that explains it properly.
 `~/.local/bin` on its PATH yet — and type:
 
 ```
-sd
+sd-solo
 ```
 
 **SD is already running.** It is your own systemd user service, so you do not
-type `sd -start`. See [Running SD](03-running-sd.html).
+type `sd-solo -start`. See [Running SD](03-running-sd.html).
 
 **It asks for the account password**, the one you chose when installing. On a
 computer installed from a control file there is none yet, and it asks you to
@@ -116,7 +116,7 @@ off
 **From a terminal**, not from inside SD:
 
 ```
-sd list customers
+sd-solo list customers
 ```
 
 **It runs the one command and returns, with no password prompt.** A command on
@@ -134,7 +134,7 @@ what lets a script or a scheduled job use SD. See
    signs in as `sduser` with the account password, on port 4249, and needs a client library from this release, because the old
    cleartext login is gone. See [API access](09-api-access.html) and
    [Client distribution](10-client-distribution.html).
-3. **ssh straight into `sd`**, if you gave the installer a public key: `ssh
+3. **ssh straight into `sd-solo`**, if you gave the installer a public key: `ssh
    <your Linux user>@localhost` lands at SD's password prompt. See
    [ssh access](08-ssh-access.html).
 4. **An upgrade.** `bash installsdsolo.sh --upgrade` — see
@@ -152,4 +152,4 @@ what lets a script or a scheduled job use SD. See
 question.
 
 **When you report something, say which build.** The release stamp is on the
-sign-on banner, in `sd --version`, and in `~/SDCoreSolo/changelog`.
+sign-on banner, in `sd-solo --version`, and in `~/SDCoreSolo/changelog`.

@@ -86,7 +86,7 @@ Windows, is not currently left on the machine afterward.** The installer
 deletes its whole temporary build tree once installation finishes, and
 `sdtic` was only ever in that tree. To compile a custom definition after
 the fact, build it yourself from a clone of the source
-(`make sd` in `sdb_ai/sd64` produces `bin/sdtic`) rather than expect a
+(`make` in `sdb_ai/sd64` produces `bin/sdtic`) rather than expect a
 copy already on the machine.
 
 ```

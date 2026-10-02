@@ -53,7 +53,7 @@ or ssh.
 **`(logout pending)`** after the name means somebody has asked that session to
 end and it has not gone. See below.
 
-**`sd -u`**, from a terminal, lists the same sessions without an SD session of
+**`sd-solo -u`**, from a terminal, lists the same sessions without an SD session of
 your own, and needs no `ADMIN`.
 
 ## Ending a session: `logout`
@@ -76,7 +76,7 @@ Force logout initiated for user 27
 the same user name, and on a Solo computer every session is `sduser`.
 **`logout all` needs `ADMIN`.** It leaves your own session alone.
 
-**`sd -k n`** and **`sd -k all`**, from a terminal, do the same from outside SD.
+**`sd-solo -k n`** and **`sd-solo -k all`**, from a terminal, do the same from outside SD.
 
 ### When a session will not end
 
@@ -90,10 +90,10 @@ is the usual one — is refused while it is there. **Recovery is not another
 `logout`:**
 
 ```
-sd -cleanup
+sd-solo -cleanup
 ```
 
-from a terminal — no `sudo`, no `ADMIN` — and `sd -stop` then `sd -start` if
+from a terminal — no `sudo`, no `ADMIN` — and `sd-solo -stop` then `sd-solo -start` if
 that does not take it.
 
 **Confirm the session is actually dead before clearing it.** `pstat` *n*
@@ -269,7 +269,7 @@ on the computer*.
 **Task locks are released when a session ends normally.** They are not part of
 any file, so nothing has to be written back.
 
-> **`sd -cleanup` does not give them back, and that is a defect.** It releases a
+> **`sd-solo -cleanup` does not give them back, and that is a defect.** It releases a
 > dead session's record locks and file locks and leaves its task locks held, by
 > a user number nothing is behind, until SD itself is restarted. `list.locks`
 > shows the number with an owner and `clear.locks` refuses it because it is not
@@ -281,4 +281,4 @@ any file, so nothing has to be written back.
 | | |
 |---|---|
 | `listu`, `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock`, `logout all` | `ADMIN` first |
-| `logout`, `logout n`, `sd -u`, `sd -k`, `sd -cleanup` | nothing |
+| `logout`, `logout n`, `sd-solo -u`, `sd-solo -k`, `sd-solo -cleanup` | nothing |

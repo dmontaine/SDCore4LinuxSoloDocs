@@ -40,7 +40,7 @@ via-the-bang-form
 `~/SDCoreSolo/user_accounts/sduser`, and runs to completion with its output
 shown; there is no terminal for it to take over. Your PATH is the one SD was
 started with — under systemd that is the user manager's, which normally does not
-include `~/.local/bin`, so `sd` itself is not found by name inside `sh` (use
+include `~/.local/bin`, so `sd-solo` itself is not found by name inside `sh` (use
 the full path).
 
 ## A filter on the command, not on you

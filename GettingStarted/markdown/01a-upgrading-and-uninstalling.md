@@ -36,7 +36,26 @@ satisfied. The upgrade prints its path.
 | | |
 |---|---|
 | **replaced** | the programs (`bin/`), the system programs and their catalogue, SD's messages, the VOC templates and SD's own VOC and dictionaries, and the other files the release ships |
-| **kept, byte for byte** | your account and its data (`user_accounts/sduser`), the credential store `$cred` (all three passwords and the kept copy), `sd.conf`, the audit trail and the error log (the audit trail keeps its old lines and appends), the service units and the ssh key line, and on a managed computer the server's programs in `global.bp.out` and the list of denied commands in `solo.policy` |
+| **kept, byte for byte** | your account and its data (`user_accounts/sduser`), the credential store `$cred` (all three passwords and the kept copy), `sd.conf`, the audit trail and the error log (the audit trail keeps its old lines and appends), the service units and the ssh key line (renamed in place if they name the old server file, below), and on a managed computer the server's programs in `global.bp.out` and the list of denied commands in `solo.policy` |
+
+**Upgrading an installation made before the server was renamed `sd-solo`.**
+The server used to be installed as `bin/sd`, and `sd` was the command that
+started it. An upgrade of such an installation also:
+
+- **stops SD by its old name**, so the old daemon does not keep running;
+- **removes the old `~/.local/bin/sd`** if it is this installation's (a link to
+  `bin/sd`, or the launcher an earlier test build made). **A file of your own
+  called `sd` is left alone, without a message**; plain `sd` is SD Core's name
+  now, and this release never makes it;
+- **moves the systemd user units and the ssh key lines it added** to the new
+  file name, and leaves every other key line as it was;
+- **if an `sshd_config.d` block written by an earlier release still names the
+  old file, leaves a link at `bin/sd`** so ssh keeps working, and prints the
+  command that fixes it for good: `bash ~/SDCoreSolo/tools/solo-ssh.sh match
+  ~/SDCoreSolo --apply` (needs `sudo`; it also removes the link).
+
+A program or script of your own that starts SD Core Solo by the file name
+`bin/sd` must now say `bin/sd-solo`.
 
 **Then it brings your account up to the release.** Replacing files is not
 enough on its own: your account's VOC was built by the release that installed
@@ -81,7 +100,7 @@ It says what it will remove, and asks whether to keep your data:
 | `--yes` | do not ask "Continue?" — the data choice is still required when there is no terminal |
 
 **What it removes:** the systemd user units, and it stops SD; the
-`~/.local/bin/sd` link (only if it points at this tree); the ssh key lines this
+`~/.local/bin/sd-solo` link (only if it points at this tree); the ssh key lines this
 product added to your `authorized_keys` (**your other keys are not touched**);
 the `sshd_config.d` block, if you had written one (that needs `sudo`); and the
 installation directory.
