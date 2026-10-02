@@ -169,6 +169,43 @@ stop SD and start it). The account as it was is kept beside it, in
 settings; follow symbolic links in the account (any it finds are named and left
 out); or restore a Solo backup onto the multi-user SD Core.
 
+**`restore.account latest all` restores the most recent backup without your
+naming it.** `latest` stands where the archive name goes: SD looks in the
+directory saved by `set.backup.directory`, picks **the newest backup made on this
+computer with `all`**, prints which one it chose (*The most recent backup is …*),
+and restores from it exactly as if you had typed its name. If there is none it
+says *No backup of ALL made on this computer was found in …* and changes
+nothing. The choice is made from the file name alone (`SD-<computer>-all-<yyyymmdd-hhmmss>.zip`);
+the backup it picks is still checked against its own contents before anything is
+changed, and one made on another computer is never picked. `no.query` skips the
+questions, as with a named archive.
+
+### `SET.BACKUP.DIRECTORY`
+
+```
+set.backup.directory directory
+set.backup.directory
+```
+
+After `ADMIN`, saves the directory that `backup.account` writes to and
+`restore.account` reads from, so it need not be typed each time. **It creates the
+directory if it is not there**, checks that you can write to it, and keeps it in
+`sd.conf` (`BACKUPDIR=`), where it takes effect at once — no restart. On its own
+it shows the saved directory and changes nothing.
+
+With a directory saved, `backup.account` no longer needs `to`; with none saved it
+asks for one and saves the answer exactly as this verb would. `restore.account`
+does the same for an archive named without a directory. `to directory`, or an
+archive name that carries a directory, still works and changes nothing that is
+saved.
+
+**The directory must be a full path** — a relative one is refused. It may hold
+only letters, digits and `. _ @ + = , : / -` and a space, with no `//` and no `.`
+or `..` part, and is refused with the reason if it does not. **It is made readable
+by you only**, because a backup holds your account's files. An earlier release
+refuses to start if `sd.conf` holds a `BACKUPDIR` line, so take the line out
+before going back to one.
+
 ### `SETTINGS.REPORT`
 
 ```
