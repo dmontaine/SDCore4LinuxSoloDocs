@@ -146,9 +146,10 @@ backup.account {to directory}
 restore.account archive
 ```
 
-There is one account, so **neither command needs a name** (`all`, and the
-account's name, are still accepted). After `ADMIN`, `backup.account` writes
-**one zip file**, named for the computer and the time, holding the account's
+There is one account, so **neither command needs a name**: with none, they fill
+in the account's name, `sduser`, exactly as if you had typed it (`all`, and the
+name, are still accepted). After `ADMIN`, `backup.account` writes
+**one zip file**, named for the computer, the account and the time, holding the account's
 files and a plain-text description of it. `restore.account archive` puts the
 account back, on this computer or another one. **A backup from another person's SD Core Solo replaces
 this account's data**, so it says what will be replaced and asks first. A backup
@@ -173,10 +174,11 @@ out); or restore a Solo backup onto the multi-user SD Core.
 **`restore.account latest` restores the most recent backup without your
 naming it.** `latest` stands where the archive name goes: SD looks in the
 directory saved by `set.backup.directory`, picks **the newest backup made on this
-computer with `all`**, prints which one it chose (*The most recent backup is …*),
-and restores from it exactly as if you had typed its name. If there is none it
-says *No backup of ALL made on this computer was found in …* and changes
-nothing. The choice is made from the file name alone (`SD-<computer>-all-<yyyymmdd-hhmmss>.zip`);
+computer that holds your account**, prints which one it chose (*The most recent
+backup is …*), and restores from it exactly as if you had typed its name. If
+there is none it says *No backup of sduser made on this computer was found in …*
+and changes nothing. The choice is made from the file name alone
+(`SD-<computer>-sduser-<yyyymmdd-hhmmss>.zip`, or the same with `all`);
 the backup it picks is still checked against its own contents before anything is
 changed, and one made on another computer is never picked. `no.query` skips the
 questions, as with a named archive.
