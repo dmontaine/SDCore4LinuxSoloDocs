@@ -8,7 +8,7 @@ This page continues [Installing](01-installation.html).
 **Run the installer with `--upgrade` while the old release is installed:**
 
 ```sh
-bash installsolo.sh --upgrade
+bash installsdsolo.sh --upgrade
 ```
 
 (`--home DIR` if you installed somewhere other than `~/SDCoreSolo`.) Without
@@ -60,16 +60,16 @@ SOLO UPGRADE COMPLETE /home/you/SDCoreSolo
 
 **Limits.** An upgrade replaces every file it lists, so a system file you edited
 by hand is replaced; edit `sd.conf` (kept) or your account (kept), not SD's own
-files. A tree that was not installed by `installsolo.sh` (it has no
+files. A tree that was not installed by `installsdsolo.sh` (it has no
 `.sdcore-install` record) is refused rather than guessed at.
 
 ## Uninstalling
 
-**`deletesolo.sh` is in the installed directory, `~/SDCoreSolo/tools`, and in
+**`deletesdsolo.sh` is in the installed directory, `~/SDCoreSolo/tools`, and in
 the source repository.** Run it as yourself, not with `sudo`:
 
 ```sh
-bash ~/SDCoreSolo/tools/deletesolo.sh
+bash ~/SDCoreSolo/tools/deletesdsolo.sh
 ```
 
 It says what it will remove, and asks whether to keep your data:

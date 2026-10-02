@@ -46,7 +46,7 @@ proves one.
 
 | | |
 |---|---|
-| `SDConnect()` | over the network, to port **4243** unless you chose another. Use `127.0.0.1` for this computer. Signs in as `sduser` with the account password |
+| `SDConnect()` | over the network, to port **4249**. Use `127.0.0.1` for this computer. Signs in as `sduser` with the account password |
 | `SDConnectLocal()` | **not available.** It returns at once, with the error *SDConnectLocal is not available in SD Core for Linux Solo - connect with SDConnect and the account password*. (Before this was fixed it hung for ever on Solo, because the library looks for `/etc/sd.conf`, which a Solo tree does not have.) |
 
 BASIC programs reaching another SD server use the `!sdclient` class, which

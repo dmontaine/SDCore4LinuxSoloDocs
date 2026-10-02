@@ -139,6 +139,46 @@ type code** — `V[locked]`, `PA[locked]` — and it is left alone. **A verb is
 updated anyway**, because a locked verb would go on naming a program this
 release replaced; you are told which ones.
 
+### `BACKUP.ACCOUNT` and `RESTORE.ACCOUNT`
+
+```
+backup.account all to directory
+restore.account archive all
+```
+
+After `ADMIN`, `backup.account all to directory` writes **one zip file**, named
+for the computer and the time, holding the account's files and a plain-text
+description of it. `restore.account archive all` puts the account back, on this
+computer or another one. **A backup from another person's SD Core Solo replaces
+this account's data**, so it says what will be replaced and asks first. A backup
+made here restores on SD Core Solo for Windows, and the other way round.
+
+**Every backup is checked as it is made**, and one that does not match the
+account is deleted rather than kept. A backup or restore starts only when no
+other session is logged in, and no one can log in — at the terminal, over ssh or
+through the API — until it has finished.
+
+**A restore of the account you are using cannot happen while SD is running.**
+`restore.account` checks the archive, prepares it, and says so; the restore
+happens the next time SD starts (`systemctl --user restart sd-solo.service`, or
+stop SD and start it). The account as it was is kept beside it, in
+`.sdrestore.previous`, until the next restore, and every step is written to
+`sdrestore.log` in the SD Core Solo folder.
+
+**It does not:** carry a password; back up SD's own system files or the
+settings; follow symbolic links in the account (any it finds are named and left
+out); or restore a Solo backup onto the multi-user SD Core.
+
+### `SETTINGS.REPORT`
+
+```
+settings.report {directory}
+```
+
+Writes, or shows, a **plain-text record** of the settings — `sd.conf`, the
+policy, the mode, the API and ssh, the service — to keep for reference. Nothing
+reads it back.
+
 ## Not here
 
 There is no `APPEND.SD.PATH`: the installer links `sd` into `~/.local/bin`, and

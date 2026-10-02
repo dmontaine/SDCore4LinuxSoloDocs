@@ -9,7 +9,7 @@ this order:
 
 | Step | What runs | What it does |
 |---|---|---|
-| 1 | `installsolo.sh` | asks the questions, or reads the options and the control file; refuses before changing anything if it should |
+| 1 | `installsdsolo.sh` | asks the questions, or reads the options and the control file; refuses before changing anything if it should |
 | 2 | `git clone`, `make` | downloads the source to `~/.sdsolotmp` and builds it there |
 | 3 | `gplbld/solo-stage.sh` | lays the tree out in your home directory and runs the bootstrap: `sd -i`, `SECOND.COMPILE`, the dictionaries, `THIRD.COMPILE`, then makes the account, sets the passwords, sets the deny list, and runs `SYNC.GLOBAL.CATALOG`. On an upgrade, `--upgrade`, which first makes the safety copy — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 | 4 | `tools/solo-service.sh install` | the systemd user units |

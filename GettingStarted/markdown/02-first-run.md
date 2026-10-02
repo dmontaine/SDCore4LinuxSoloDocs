@@ -131,14 +131,13 @@ what lets a script or a scheduled job use SD. See
    records. Then query it — the query processor is where most of the surface
    area is.
 2. **A client program against the API**, if you chose it when installing. It
-   signs in as `sduser` with the account password, on port 4243 unless you chose
-   another, and needs a client library from this release, because the old
+   signs in as `sduser` with the account password, on port 4249, and needs a client library from this release, because the old
    cleartext login is gone. See [API access](09-api-access.html) and
    [Client distribution](10-client-distribution.html).
 3. **ssh straight into `sd`**, if you gave the installer a public key: `ssh
    <your Linux user>@localhost` lands at SD's password prompt. See
    [ssh access](08-ssh-access.html).
-4. **An upgrade.** `bash installsolo.sh --upgrade` — see
+4. **An upgrade.** `bash installsdsolo.sh --upgrade` — see
    [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 
 ## When something goes wrong

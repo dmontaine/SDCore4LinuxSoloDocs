@@ -61,8 +61,8 @@ the first time it connects. See [Managed mode](15-managed-mode.html).
 
 | multiuser L1.1-1 | Solo |
 |---|---|
-| `installsdai.sh`, run by a user who can `sudo`, installs for the computer | `installsolo.sh` installs for **one user, all in `~/SDCoreSolo`**, run as that user. `sudo` only for the build packages, a firewall rule, the optional `sshd_config.d` block and linger |
-| `deletesdai.sh`, and an upgrade is uninstall-keeping-accounts then install | `deletesolo.sh`, and **`installsolo.sh --upgrade`** upgrades in place with a safety copy that is put back if anything fails |
+| `installsdcore.sh`, run by a user who can `sudo`, installs for the computer | `installsdsolo.sh` installs for **one user, all in `~/SDCoreSolo`**, run as that user. `sudo` only for the build packages, a firewall rule, the optional `sshd_config.d` block and linger |
+| `deletesdcore.sh`, and an upgrade is uninstall-keeping-accounts then install | `deletesdsolo.sh`, and **`installsdsolo.sh --upgrade`** upgrades in place with a safety copy that is put back if anything fails |
 | a system `sd.service` and `sdclient.socket` | user units: **`sd-solo.service`**, and with an API `sd-solo-api.socket`. They run as you, and stop when your last session ends unless you enabled linger |
 | the system programs' BASIC source is installed | **compiled programs only**; no system source is installed |
 | `sd -internal` needs `sudo` | **`sd -internal` is closed** once the installer has finished: it needs a one-shot marker file the installer writes before each of its own steps |

@@ -69,8 +69,8 @@ SD Core for Linux Solo - connect with SDConnect and the account password*. Use
 ## The port
 
 **The API is a systemd socket unit**, `sd-solo-api.socket`, listening on TCP
-port 4243 unless you chose another when installing (`--api-port`, 1024–65535 —
-a user cannot bind lower). **Each connection starts one SD session**
+port 4249, which is fixed: there is no option to move it. (SD Core for Linux
+uses 4247, so the two can share a computer.) **Each connection starts one SD session**
 (`sd-solo-api@.service`), so the API works whether or not anything else is
 connected.
 
@@ -84,7 +84,7 @@ connected.
 it stops the old listener first:
 
 ```
-bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api open --api-port 4243
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api open
 bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api local
 bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api off
 ```

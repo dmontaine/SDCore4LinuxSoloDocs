@@ -41,7 +41,7 @@ The header, `sdclilib.h`, ships with the source tree at
 
 | | |
 |---|---|
-| `SDConnect(host, port, user, pass, account)` | over the network, to port **4243** (or the one you chose). Use `127.0.0.1` for this computer; `user` is `sduser` |
+| `SDConnect(host, port, user, pass, account)` | over the network, to port **4249**. Use `127.0.0.1` for this computer; `user` is `sduser` |
 | `SDConnectLocal(account)` | **disabled on Solo.** Returns false at once |
 
 > **`SDConnectUDS` (Unix Domain Socket) is not available, on either

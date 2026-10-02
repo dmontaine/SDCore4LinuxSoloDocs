@@ -28,23 +28,23 @@ caller should look for and not the exit code alone: `SOLO SERVICE READY …`,
 `SOLO SERVICE REMOVED`, `SOLO DELETE COMPLETE …`, and the installer's
 `SOLO INSTALL COMPLETE …` or `SOLO UPGRADE COMPLETE …`.
 
-## `installsolo.sh` — in the source repository
+## `installsdsolo.sh` — in the source repository
 
 ```sh
-bash installsolo.sh [options]
-bash installsolo.sh --upgrade [--home DIR]
+bash installsdsolo.sh [options]
+bash installsdsolo.sh --upgrade [--home DIR]
 ```
 
 Installs, or upgrades. **It is not copied into the installed directory**: it
 downloads the source, and the source contains it. Its options are listed by
-`bash installsolo.sh --help` and described on
+`bash installsdsolo.sh --help` and described on
 [Installing](01-installation.html) and
 [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 
 ## `solo-service.sh`
 
 ```sh
-bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo [--api off|local|open] [--api-port N] [--enable-linger]
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo [--api off|local|open] [--enable-linger]
 bash ~/SDCoreSolo/tools/solo-service.sh remove
 bash ~/SDCoreSolo/tools/solo-service.sh status
 ```
@@ -75,10 +75,10 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh match      ~/SDCoreSolo [--apply | --remove]
 [ssh access](08-ssh-access.html). **`match --apply` and `--remove` need `sudo`,
 and are written but not measured.**
 
-## `deletesolo.sh`
+## `deletesdsolo.sh`
 
 ```sh
-bash ~/SDCoreSolo/tools/deletesolo.sh [--home DIR] [--keep-data | --delete-data] [--yes]
+bash ~/SDCoreSolo/tools/deletesdsolo.sh [--home DIR] [--keep-data | --delete-data] [--yes]
 ```
 
 Removes SD — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).

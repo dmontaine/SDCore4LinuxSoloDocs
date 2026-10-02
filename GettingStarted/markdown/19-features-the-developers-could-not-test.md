@@ -53,7 +53,7 @@ uninstall were run against what it made.
 **Not known.** An install of the published `main` branch on GitHub, over the real
 network, on any distribution other than the one it was developed on.
 
-**To settle it.** Run `installsolo.sh` from a fresh clone on each distribution
+**To settle it.** Run `installsdsolo.sh` from a fresh clone on each distribution
 family.
 
 ### A first install from a control file, over ssh and the API
