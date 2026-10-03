@@ -141,6 +141,15 @@ use the computer's own ssh server, on port 22.
 
 **The installer does not open port 22**, and Solo does not use it.
 
+**`open` lets anyone who can reach port 4251 try your Linux password.** Solo's ssh checks the password of
+the user who owns it, with nothing of its own in front: no lockout beyond what the computer's own login
+setup has (on Ubuntu's default, none; each wrong try costs about two seconds), and no limit on how many
+connections are tried at once beyond systemd's default of 64. **Use `local`** unless something has to
+reach this computer from elsewhere; if you must `open` it, **restrict the firewall rule to the addresses
+that need it**, choose a strong Linux password, and consider keys. The same exposure exists for the
+computer's own ssh server on port 22. SD Core for Windows has the same cost, and there Windows' account
+lockout can then lock the owner out of his own account.
+
 ## What an ssh session is
 
 **It is you**: the same account, `sduser`, and the same rights as a session at
