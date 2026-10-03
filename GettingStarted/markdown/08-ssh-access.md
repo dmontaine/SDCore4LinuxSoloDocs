@@ -37,9 +37,9 @@ who used both could not tell them apart.
 
 | | |
 |---|---|
-| **At install** | `--ssh off` (the default), `--ssh local` (this computer only) or `--ssh open` (reachable from the network). Giving a key with `--ssh-key FILE` turns it on, `local`, unless you say otherwise. A managed computer is always `open` |
+| **At install** | **on, `local` (this computer only), unless you say otherwise**, as SD Core Solo for Windows does. `--ssh off`, `--ssh local` or `--ssh open` (reachable from the network) answers it. A managed computer is always `open`. The API is different: it is off unless you ask for it |
 | **Later** | `bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo local` (or `open`, or `off`) |
-| **After an upgrade** | ssh is on, `local`, only if you used ssh before; everything it keeps is below |
+| **After an upgrade** | ssh is on, `local`, only if you used ssh before (an upgrade keeps what you had); everything it keeps is below |
 
 **The installer installs the ssh server package** when ssh is on (`openssh-server`, which provides
 the `sshd` program, with your `sudo`), and on Debian and Ubuntu installing it also starts the computer's
@@ -142,14 +142,32 @@ use the computer's own ssh server, on port 22.
 **The installer does not open port 22**, and Solo does not use it.
 
 **`open` lets anyone who can reach port 4251 try your Linux password.** Solo's ssh checks the password of
-the user who owns it, with nothing of its own in front: no lockout beyond what the computer's own login
-setup has (measured on the Ubuntu test computer: no lockout in its PAM setup, and each wrong try cost one to
-three seconds), and no limit on how many connections are tried at once beyond systemd's default of 64 in all and
-none per address (`MaxConnections=64`, `MaxConnectionsPerSource=0`). **Use `local`** unless something has to
-reach this computer from elsewhere; if you must `open` it, **restrict the firewall rule to the addresses
-that need it**, choose a strong Linux password, and consider keys. The same exposure exists for the
-computer's own ssh server on port 22. SD Core for Windows has the same cost, and there Windows' account
-lockout can then lock the owner out of his own account.
+the user who owns it (measured on the Ubuntu test computer: no lockout in that computer's own PAM setup,
+each wrong try cost one to three seconds, and systemd allows 64 connections at a time and none-per-address
+by default, `MaxConnections=64`, `MaxConnectionsPerSource=0`). **Solo therefore has a lockout of its own**
+(below). **Use `local`** unless something has to reach this computer from elsewhere; if you must `open`
+it, **restrict the firewall rule to the addresses that need it**, choose a strong Linux password, and
+consider keys. The same exposure exists for the computer's own ssh server on port 22.
+
+## The lockout: three wrong passwords lock the address
+
+**Three wrong Linux passwords from one address within ten minutes lock that address for ten minutes.**
+A connection from it is closed at once, before any password is asked, and the lock lifts by itself.
+
+| | |
+|---|---|
+| **Per address, not per account** | the Linux account is never locked, so someone guessing cannot lock **you** out of your own account (which is what Windows' account lockout can do), and the computer's own login and ssh server on port 22 are not touched |
+| **Only a wrong password counts** | not a key the server does not know: an ssh agent that offers several keys is not punished for it |
+| **A sign-in forgets the failures** | and a connection that makes the third wrong try is cut at once, whatever the client says it may try |
+| **Who is locked** | `bash ~/SDCoreSolo/tools/solo-ssh.sh locked ~/SDCoreSolo` lists the addresses; `unlock ~/SDCoreSolo ADDRESS` (or no address, for all) lets them back in. The state is `~/SDCoreSolo/sshd/guard.json`, mode `0600` |
+| **How** | systemd starts `tools/solo-sshguard.py` for each connection, which runs the `sshd` itself and reads its log; it reads the address from the connection, never from anything the client sends. Every line is in the journal: `journalctl --user -u 'sd-solo-ssh@*'` |
+
+**What it does not stop:** a guess spread over **many addresses** (each gets its three), and connections
+already open when the lock engages: by reading the guard's code (not measured), each of them is cut at its
+next wrong password, so each gets one more guess. On a computer where everyone shares one address (behind one NAT), they share the lock.
+**Measured** with a fake `sshd` for the rules and with the real `sshd` end to end (the first two wrong
+passwords get the ordinary refusal, the fourth connection is refused, `locked` names the address and
+`unlock` lets it in again). **Not measured:** through the installed Solo's own systemd unit.
 
 ## What an ssh session is
 
@@ -190,7 +208,7 @@ connection is told *SD has not been started*, connect again, and enable linger (
 owner's Linux password was accepted (`Accepted password`) through Solo's own systemd unit and landed in SD, which then
 asked for the SD account password.
 
-**Not measured:** reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
+**Not measured:** the lockout through the installed Solo's own systemd unit; the install default (ssh on, `local`) on a fresh install; reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
 the `ufw` firewall; a distribution other than Ubuntu, and a PAM setup other than Ubuntu's (the check uses the
 `sshd` PAM service; it logs two harmless refusals for a process that is not root, and a stricter stack may
 refuse the session).

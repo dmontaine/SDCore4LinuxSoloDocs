@@ -43,6 +43,14 @@ the new file with a copy of the old one, the old `sshd_config.d` block was remov
 **Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--enable-linger`
 ran the package installation (`apt`), and linger was on.
 
+**The lockout (built 2 Oct 2026): known in pieces.** Three wrong passwords from one address in ten
+minutes lock that address for ten minutes. The rules were run with a fake `sshd` over real loopback
+connections from separate addresses (a wrong password counts, a key does not, a sign-in forgets
+the failures, the window and the end of a lock are honoured), and with the real `sshd` and a
+terminal typing wrong passwords. **Not known:** the same through the installed Solo's own systemd
+unit, a guess spread over many addresses (not stopped), and the new default, ssh on and `local` at
+install, end to end on a fresh install.
+
 **Not known.** Reaching port 4251 from another computer (`--ssh open`) and the firewall rule
 for it; a sign-in over ssh after a restart with linger off; the package installation on
 `dnf`, `zypper` and `pacman`; the `ufw` rule for either port. And **linger**: that it is on is

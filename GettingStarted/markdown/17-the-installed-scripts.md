@@ -62,7 +62,8 @@ bash ~/SDCoreSolo/tools/solo-service.sh status
 (`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks
 again, and `Type=forking` would make systemd guess the wrong main process.
 `sd-solo-api@.service` runs one `sd-solo -n -q` per API connection, and
-`sd-solo-ssh@.service` one `sshd -i` per ssh connection, on Solo's own configuration.
+`sd-solo-ssh@.service` one `sshd -i` per ssh connection, on Solo's own configuration, started through
+`tools/solo-sshguard.py`, which counts wrong passwords per address (see `solo-ssh.sh locked` below).
 
 ## `solo-ssh.sh`
 
@@ -73,6 +74,8 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh key-remove ~/SDCoreSolo PUBKEY_FILE
 bash ~/SDCoreSolo/tools/solo-ssh.sh key-list   ~/SDCoreSolo
 bash ~/SDCoreSolo/tools/solo-ssh.sh migrate    ~/SDCoreSolo
 bash ~/SDCoreSolo/tools/solo-ssh.sh match      ~/SDCoreSolo [--remove]
+bash ~/SDCoreSolo/tools/solo-ssh.sh locked     ~/SDCoreSolo
+bash ~/SDCoreSolo/tools/solo-ssh.sh unlock     ~/SDCoreSolo [ADDRESS]
 ```
 
 | | |
@@ -81,6 +84,8 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh match      ~/SDCoreSolo [--remove]
 | `key-add`, `key-remove`, `key-list` | the keys in Solo's key file. `--authorized-keys FILE` names another file. Ends `SOLO SSH KEY ADDED <file>`, `SOLO SSH KEY REMOVED <n>` or `SOLO SSH KEYS <n>` |
 | `migrate` | moves the Solo key lines an earlier release put in your `~/.ssh/authorized_keys` into Solo's key file, after a copy of the old file. Ends `SOLO SSH MIGRATED <n>`. The upgrade runs it |
 | `match` | says whether the old `sshd_config.d` block is still there; with `--remove` (**needs `sudo`**) removes it. Ends `SOLO SSH MATCH PRESENT\|ABSENT\|REMOVED <file>` |
+| `locked` | lists the addresses locked out for three wrong passwords in ten minutes, with the time each lock ends. Ends `SOLO SSH GUARD LOCKED <n>` |
+| `unlock` | lets one address back in, or every address when none is named. Ends `SOLO SSH GUARD UNLOCKED <n>` |
 
 What each does is on [ssh access](08-ssh-access.html). **`match --remove` has been run once** (2 October 2026), by hand,
 after an upgrade.
