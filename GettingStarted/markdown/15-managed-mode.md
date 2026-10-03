@@ -15,7 +15,7 @@ with:
 |---|---|
 | **a global password** | set at installation, in the installer's questions or in the control file. The server signs in with it |
 | **the API, on and open** | reachable from other computers — the server's way in |
-| **ssh, on and open** | Solo's own listener on port 4251, reachable from other computers, key login only. The installer installs the ssh server package for it and opens the port in `ufw` if that is running; otherwise it tells you to allow TCP 4251 |
+| **ssh, on and open** | Solo's own listener on port 4251, reachable from other computers: your Linux password, or the server's key. The installer installs the ssh server package for it and opens the port in `ufw` if that is running; otherwise it tells you to allow TCP 4251 |
 
 See [Installing](01-installation.html), including the **control file** that sets
 up many computers from one USB stick.

@@ -73,8 +73,8 @@ forced-command line in your `~/.ssh/authorized_keys`, and optionally a block in
 - **says so if the ssh server program is not installed**, and prints what to run
   once it is.
 
-Port 4251 takes **keys only**: a password login that worked through the old
-block does not work on the new port.
+Port 4251 takes your **Linux account name and password**, as the old block did, and
+a key if you have one in Solo's key file; SD then asks the account password.
 
 **Then it brings your account up to the release.** Replacing files is not
 enough on its own: your account's VOC was built by the release that installed

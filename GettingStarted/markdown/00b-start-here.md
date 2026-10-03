@@ -103,8 +103,8 @@ grant commands are gone. See
 still works — SD converts it — but nothing can exist in two casings. See
 [Lower case](11-lower-case.html).
 
-**5. An ssh key can land inside SD, and the API login is SCRAM.** With a key
-in Solo's own key file, ssh on Solo's own port, 4251, lands at SD's
+**5. ssh can land inside SD, and the API login is SCRAM.** ssh on Solo's own port, 4251,
+takes your Linux account name and password (or a key, if you add one) and lands at SD's
 prompt, asked for the account password. Clients built against the old
 cleartext API login will not connect. See [ssh access](08-ssh-access.html) and
 [API access](09-api-access.html).

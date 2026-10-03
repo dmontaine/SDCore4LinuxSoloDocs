@@ -2,14 +2,22 @@ Title: ssh access
 Subtitle: Reaching SD on this computer over ssh, on Solo's own port, what the installer sets up, and what it costs.
 
 **An ssh sign-in on port 4251 lands inside SD.** SD Core for Linux Solo runs its own
-small ssh server for itself. You sign in with a key, and instead of a shell you
-get `sd-solo`, which asks for the account password.
+small ssh server for itself. You sign in with your Linux account name and password,
+and instead of a shell you get `sd-solo`, which asks for the SD account password.
 
 ```
 ssh -p 4251 you@this-computer
+you@this-computer's password:        <- your Linux password
 Password:                            <- SD's account password
 :
 ```
+
+**Your password is not sent in clear text.** ssh agrees a key exchange and a cipher with the
+server first (on the test computer, `mlkem768x25519-sha256` and `chacha20-poly1305@openssh.com`),
+and the password travels inside that encrypted channel. **The first time you connect, ssh shows
+the server's host key fingerprint: check it** against `~/SDCoreSolo/sshd/ssh_host_ed25519_key.pub`
+(`ssh-keygen -lf` on that file), because that is what stops someone posing as your computer.
+The API is different: it uses SCRAM, where the server never receives the password at all.
 
 ## How it is arranged (LS1.1-3)
 
@@ -17,7 +25,7 @@ Password:                            <- SD's account password
 |---|---|
 | **Its own port, 4251** | fixed, not an option — like the API's port 4249. The computer's own ssh server, on port 22, is **not used and not touched** |
 | **Run by you, with no `sudo`** | systemd starts one `sshd` for each connection, as your own user, from a socket on port 4251. Nothing stays running between connections |
-| **Key login only** | an ssh server that is not root cannot check your Linux password, so there is no password login on this port. SD then asks for the account password, as it does everywhere |
+| **Your Linux account name and password** | checked by the computer's own login check (PAM) even though this ssh server is not root: it can check the password of the user it runs as. **It is your Linux password, nobody else's.** SD then asks for the account password, as it does everywhere. A key is an optional extra |
 | **Nothing else** | every sign-in runs `sd-solo`: no shell, no `scp` or `sftp`, no port forwarding |
 
 **Because the two ssh servers are separate, you can have both products.** If you
@@ -37,7 +45,11 @@ who used both could not tell them apart.
 the `sshd` program, with your `sudo`), and on Debian and Ubuntu installing it also starts the computer's
 own ssh server on port 22. That is the package's doing; the installer does not change it.
 
-## Keys
+## Keys (optional)
+
+**You do not need a key.** Add one if you would rather sign in without typing the Linux
+password, or on a computer that cannot type it (the SD Core server's key, on a managed computer,
+is added this way too).
 
 ```
 bash ~/SDCoreSolo/tools/solo-ssh.sh key-add    ~/SDCoreSolo  ~/.ssh/id_ed25519.pub
@@ -67,7 +79,7 @@ runs.** What it says:
 | | |
 |---|---|
 | `ForceCommand ~/SDCoreSolo/bin/sd-solo` | every sign-in runs `sd-solo`, whatever the client asks for |
-| `PasswordAuthentication no`, `AuthenticationMethods publickey` | keys only |
+| `UsePAM yes`, `PasswordAuthentication yes` | your Linux password, checked by PAM. `PubkeyAuthentication yes` as well: a key in the key file also works |
 | `AllowUsers you` | only your Linux user |
 | `DisableForwarding yes` | no port forwarding, which `ForceCommand` alone would not stop |
 | `StrictModes yes` | see below |
@@ -106,9 +118,9 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo --remove
 **Remove it.** Solo no longer uses it, and while it is there it still sends your port-22 ssh
 logins into Solo.
 
-## The cost: no password, no shell, no scp or sftp
+## The cost: no shell, no scp or sftp
 
-**On this port there is no password login, no shell and no file copy.** The command is
+**On this port there is no shell and no file copy.** The command is
 forced, so there is no file-transfer subsystem left to run and no shell. That is the accepted
 cost of landing in SD.
 
@@ -152,14 +164,21 @@ connection is told *SD has not been started*, connect again, and enable linger (
 **Measured on one computer (Ubuntu 26.10, OpenSSH 10.5), 2 October 2026:**
 
 - a key login through the generated configuration reaches the forced command and a command the client sends is not run;
-  a key that is not in the file, and a password, are refused; forwarding is refused, by the configuration and by `restrict`
+  a key that is not in the file is refused; forwarding is refused, by the configuration and by `restrict`
   each on its own, and a control with both removed lets it through; `StrictModes` refuses a key file at `0666`;
+- **the Linux password**: a private `sshd` run as the user, not root, with the same settings, checked a **wrong** password
+  through PAM's own helper and refused it (also through the real systemd unit), and **the owner's correct password was
+  accepted** and the forced command ran as him; the key exchange and cipher were agreed before the password was sent;
 - the systemd units start one `sshd` per connection and leave no failed units;
-- **a real `sd-solo` session over port 4251** on the installed Solo: the password was asked, `WHO` answered
+- **a real `sd-solo` session over port 4251** on the installed Solo with a key: the password was asked, `WHO` answered
   `sduser`, a stranger's key was refused, and port 4251 presented Solo's own host key while port 22 presented a
   different one;
 - an upgrade from the previous release: the Solo key line moved to the new file with its backup, the units
   came up, and removing the old block was done by hand.
 
-**Not measured:** reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a
-restart with linger off; a computer without the `ufw` firewall; a distribution other than Ubuntu.
+**Not measured:** a Linux-password sign-in through the installed Solo's own systemd unit (the wrong
+password was; the correct one was measured on a private `sshd` started the same way); reaching port 4251 from
+another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
+the `ufw` firewall; a distribution other than Ubuntu, and a PAM setup other than Ubuntu's (the check uses the
+`sshd` PAM service; it logs two harmless refusals for a process that is not root, and a stricter stack may
+refuse the session).

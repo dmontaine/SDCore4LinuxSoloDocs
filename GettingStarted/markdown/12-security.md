@@ -40,7 +40,7 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | The VOC | direct edits need `ADMIN`; the global catalogue is changed by nobody in a session |
 | The daemon | runs as you, never as root; SD refuses to start as root |
 | Files | mode 0600, directories 0700, from the installer and from every file SD creates (`umask 077`) |
-| ssh | Solo's own listener on port 4251, run by you with no `sudo`; your own key, forced into `sd-solo`, no password login, no shell, no forwarding — see [ssh access](08-ssh-access.html) |
+| ssh | Solo's own listener on port 4251, run by you with no `sudo`; your Linux account name and password (inside ssh's encrypted channel, checked by PAM) or a key, forced into `sd-solo`, no shell, no forwarding — see [ssh access](08-ssh-access.html) |
 | The API | off unless chosen (always on in managed mode); SCRAM inside TLS 1.3; only the one account — see [API access](09-api-access.html) |
 | `sd-solo -internal` | closed once the installer has finished |
 

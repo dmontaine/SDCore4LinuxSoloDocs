@@ -77,7 +77,7 @@ session. See [The account and its passwords](05-account-types.html).
 | | |
 |---|---|
 | **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
-| **ssh straight into sd-solo** | `off` (the default), `local` or `open`, on Solo's own port 4251, fixed. If it is on, the installer asks for a public key file and adds it to Solo's own key file, so that key lands in `sd-solo`; key login only. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
+| **ssh straight into sd-solo** | `off` (the default), `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
 
 **In managed mode the API and ssh are not asked**: the API is open to the

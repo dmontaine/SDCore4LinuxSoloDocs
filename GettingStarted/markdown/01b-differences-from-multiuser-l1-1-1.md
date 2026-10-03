@@ -66,7 +66,7 @@ the first time it connects. See [Managed mode](15-managed-mode.html).
 | a system `sd.service` and `sdclient.socket` | user units: **`sd-solo.service`**, and with an API `sd-solo-api.socket`, and with ssh `sd-solo-ssh.socket`. They run as you, and stop when your last session ends unless you enabled linger |
 | the system programs' BASIC source is installed | **compiled programs only**; no system source is installed |
 | `sd -internal` needs `sudo` | **`sd-solo -internal` is closed** once the installer has finished: it needs a one-shot marker file the installer writes before each of its own steps |
-| each account lands in `sd` over ssh on port 22 (`ForceCommand` for the group) | **Solo runs its own ssh listener on port 4251**, as you, with no `sudo` and no change to the computer's ssh server, so both products can be installed and reached together. Key login only, straight into `sd-solo`; no shell, no `scp`/`sftp`, no forwarding. See [ssh access](08-ssh-access.html) |
+| each account lands in `sd` over ssh on port 22 (`ForceCommand` for the group) | **Solo runs its own ssh listener on port 4251**, as you, with no `sudo` and no change to the computer's ssh server, so both products can be installed and reached together. You sign in with your Linux account name and password (a key is optional), straight into `sd-solo`; no shell, no `scp`/`sftp`, no forwarding. See [ssh access](08-ssh-access.html) |
 
 See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 
