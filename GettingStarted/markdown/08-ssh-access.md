@@ -176,9 +176,11 @@ connection is told *SD has not been started*, connect again, and enable linger (
 - an upgrade from the previous release: the Solo key line moved to the new file with its backup, the units
   came up, and removing the old block was done by hand.
 
-**Not measured:** a Linux-password sign-in through the installed Solo's own systemd unit (the wrong
-password was; the correct one was measured on a private `sshd` started the same way); reaching port 4251 from
-another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
+**Also measured, the same evening:** on the installed Solo, `ssh -p 4251 -o PubkeyAuthentication=no` with the
+owner's Linux password was accepted (`Accepted password`) through Solo's own systemd unit and landed in SD, which then
+asked for the SD account password.
+
+**Not measured:** reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
 the `ufw` firewall; a distribution other than Ubuntu, and a PAM setup other than Ubuntu's (the check uses the
 `sshd` PAM service; it logs two harmless refusals for a process that is not root, and a stricter stack may
 refuse the session).

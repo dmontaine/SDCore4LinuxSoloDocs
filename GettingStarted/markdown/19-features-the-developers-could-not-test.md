@@ -27,15 +27,18 @@ parts exist.
 
 **Known.** Solo's ssh listener (port 4251) was run on one computer (2 Oct 2026,
 Ubuntu 26.10, OpenSSH 10.5). Through the generated configuration, a key reaches the
-forced command and a command of the client's own is not run; a key not in the key file,
-and a password, are refused; forwarding is refused, by the configuration and by the key's
-`restrict` each on its own, with a control that lets it through; `StrictModes` refuses a key
-file at `0666`. The two systemd units start one `sshd` per connection and leave no failed
-units. **On the installed Solo, a real `sd-solo` session over port 4251** asked for the
-password and answered `WHO` with `sduser`, a stranger's key was refused, and the port presented
-Solo's own host key while port 22 presented a different one. An **upgrade** from the previous
-release moved the Solo key line into the new file with a copy of the old one, and the old
-`sshd_config.d` block was removed by hand with `match --remove`.
+forced command and a command of the client's own is not run; a key not in the key file
+is refused, and so is a **wrong Linux password** (PAM's own check, which a process that is not
+root can make for its own user); a client that offers four unknown keys still reaches the
+password prompt; forwarding is refused, by the configuration and by the key's `restrict` each
+on its own, with a control that lets it through; `StrictModes` refuses a key file at `0666`.
+The two systemd units start one `sshd` per connection and leave no failed units. **On the
+installed Solo, a real `sd-solo` session over port 4251**, with a key and **with the owner's
+Linux password** (`Accepted password`, then SD's own password prompt), answered `WHO` with
+`sduser`; a stranger's key was refused; and the port presented Solo's own host key while port 22
+presented a different one. An **upgrade** from the previous release moved the Solo key line into
+the new file with a copy of the old one, the old `sshd_config.d` block was removed by hand with
+`match --remove`, and two further upgrades kept the ssh units.
 
 **Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--enable-linger`
 ran the package installation (`apt`), and linger was on.
