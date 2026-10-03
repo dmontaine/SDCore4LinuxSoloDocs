@@ -15,7 +15,7 @@ with:
 |---|---|
 | **a global password** | set at installation, in the installer's questions or in the control file. The server signs in with it |
 | **the API, on and open** | reachable from other computers — the server's way in |
-| **ssh, required** | reachable from other computers. The installer does not install or start an ssh server; it tells you if none is running |
+| **ssh, on and open** | Solo's own listener on port 4251, reachable from other computers, key login only. The installer installs the ssh server package for it and opens the port in `ufw` if that is running; otherwise it tells you to allow TCP 4251 |
 
 See [Installing](01-installation.html), including the **control file** that sets
 up many computers from one USB stick.
@@ -23,9 +23,9 @@ up many computers from one USB stick.
 ## How the server signs in
 
 **As `sduser`, with the global password.** Over the API that is the whole of it.
-Over ssh the server first gets past ssh's own sign-in — your key line, or your
-Linux password if you wrote the `Match` block — and then gives SD the global
-password when `sd-solo` asks. One account name carries two passwords: SD tries the
+Over ssh, on port 4251, the server first gets past ssh's own sign-in — its key, which
+it installed through the API — and then gives SD the global password when `sd-solo`
+asks. One account name carries two passwords: SD tries the
 account password first and the global password second, which is why the two must
 differ.
 
@@ -49,7 +49,8 @@ keyboard, the global password is the only one accepted.
 address and the name `sduser` — not the Linux user name that ssh needs. So after
 it signs in over the API, it asks this computer to install the server's public
 key, and the computer answers with its Linux user name, its host name, the key's
-fingerprint and the fingerprint of its ssh server's host key. From then on the
+fingerprint, the fingerprint of Solo's own ssh server's host key and the port to
+connect to (4251). From then on the
 server reaches this computer over ssh with that key and the global password. The
 same request lists and removes the server's keys.
 
@@ -57,8 +58,8 @@ same request lists and removes the server's keys.
   password and `ADMIN` are refused with *Only the SD Core server may manage ssh
   keys*.
 - **The key can start `sd-solo` and nothing else** — no shell, no forwarding. It is the
-  same kind of key line as the one you add yourself, in the Linux user's
-  `~/.ssh/authorized_keys`: see [ssh access](08-ssh-access.html).
+  same kind of key line as the one you add yourself, in Solo's own key file,
+  `~/SDCoreSolo/sshd/authorized_keys`: see [ssh access](08-ssh-access.html).
 - **At most four server keys are kept.** A fifth is refused (*The ssh key request
   was refused: four Solo ssh keys are already installed*). **Your own ssh keys are
   never listed, counted or touched.**

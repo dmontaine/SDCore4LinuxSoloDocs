@@ -23,23 +23,28 @@ parts exist.
 
 ## Installing and running
 
-### The `Match` block, `sudo`, and linger
+### Solo's own ssh port, `sudo`, and linger
 
-**Known.** The text of the `sshd_config.d` block is what `solo-ssh.sh match`
-prints, and `sshd -t` accepts it. The key route was run against a private `sshd`:
-a key with the forced command gets SD and no shell, and a key without it gets a
-shell.
+**Known.** Solo's ssh listener (port 4251) was run on one computer (2 Oct 2026,
+Ubuntu 26.10, OpenSSH 10.5). Through the generated configuration, a key reaches the
+forced command and a command of the client's own is not run; a key not in the key file,
+and a password, are refused; forwarding is refused, by the configuration and by the key's
+`restrict` each on its own, with a control that lets it through; `StrictModes` refuses a key
+file at `0666`. The two systemd units start one `sshd` per connection and leave no failed
+units. **On the installed Solo, a real `sd-solo` session over port 4251** asked for the
+password and answered `WHO` with `sduser`, a stranger's key was refused, and the port presented
+Solo's own host key while port 22 presented a different one. An **upgrade** from the previous
+release moved the Solo key line into the new file with a copy of the old one, and the old
+`sshd_config.d` block was removed by hand with `match --remove`.
 
-**Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--ssh-match`
-and `--enable-linger` ran the package installation (`apt`), wrote the block into
-the real `/etc/ssh/sshd_config.d`, checked it with `sshd -t` and reloaded `sshd`;
-an ssh login with the key then reached `sd-solo` with no shell, and linger was on.
+**Run once, on one computer (30 Sep 2026, Ubuntu).** An install with `--enable-linger`
+ran the package installation (`apt`), and linger was on.
 
-**Not known.** Removing the block again (`match --remove`); a **password** login
-landing in SD through the block; the package installation on `dnf`, `zypper` and
-`pacman`; the `ufw` rule. And **linger**: that it is on is measured, but whether SD
-really survives your last sign-out and is there for a cron job or an ssh login that
-arrives afterwards is not.
+**Not known.** Reaching port 4251 from another computer (`--ssh open`) and the firewall rule
+for it; a sign-in over ssh after a restart with linger off; the package installation on
+`dnf`, `zypper` and `pacman`; the `ufw` rule for either port. And **linger**: that it is on is
+measured, but whether SD really survives your last sign-out and is there for a cron job or an
+ssh login that arrives afterwards is not.
 
 **To settle it.** Run each once on a computer you can afford to lock yourself out
 of; sign out with linger on, and connect again from elsewhere.

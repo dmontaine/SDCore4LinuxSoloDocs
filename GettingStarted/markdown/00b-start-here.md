@@ -104,7 +104,7 @@ still works — SD converts it — but nothing can exist in two casings. See
 [Lower case](11-lower-case.html).
 
 **5. An ssh key can land inside SD, and the API login is SCRAM.** With a key
-line the installer adds to your `~/.ssh/authorized_keys`, ssh lands at SD's
+in Solo's own key file, ssh on Solo's own port, 4251, lands at SD's
 prompt, asked for the account password. Clients built against the old
 cleartext API login will not connect. See [ssh access](08-ssh-access.html) and
 [API access](09-api-access.html).

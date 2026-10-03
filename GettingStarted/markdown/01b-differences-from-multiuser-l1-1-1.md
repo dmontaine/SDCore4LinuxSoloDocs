@@ -61,12 +61,12 @@ the first time it connects. See [Managed mode](15-managed-mode.html).
 
 | multiuser L1.1-1 | Solo |
 |---|---|
-| `installsdcore.sh`, run by a user who can `sudo`, installs for the computer | `installsdsolo.sh` installs for **one user, all in `~/SDCoreSolo`**, run as that user. `sudo` only for the build packages, a firewall rule, the optional `sshd_config.d` block and linger |
+| `installsdcore.sh`, run by a user who can `sudo`, installs for the computer | `installsdsolo.sh` installs for **one user, all in `~/SDCoreSolo`**, run as that user. `sudo` only for the build packages, a firewall rule and linger |
 | `deletesdcore.sh`, and an upgrade is uninstall-keeping-accounts then install | `deletesdsolo.sh`, and **`installsdsolo.sh --upgrade`** upgrades in place with a safety copy that is put back if anything fails |
-| a system `sd.service` and `sdclient.socket` | user units: **`sd-solo.service`**, and with an API `sd-solo-api.socket`. They run as you, and stop when your last session ends unless you enabled linger |
+| a system `sd.service` and `sdclient.socket` | user units: **`sd-solo.service`**, and with an API `sd-solo-api.socket`, and with ssh `sd-solo-ssh.socket`. They run as you, and stop when your last session ends unless you enabled linger |
 | the system programs' BASIC source is installed | **compiled programs only**; no system source is installed |
 | `sd -internal` needs `sudo` | **`sd-solo -internal` is closed** once the installer has finished: it needs a one-shot marker file the installer writes before each of its own steps |
-| each account lands in `sd` over ssh (`ForceCommand` for the group) | **a key line the installer adds to your `authorized_keys` forces `sd-solo`**; a `sshd_config.d` block for password logins is optional and needs `sudo`. There is no shell over ssh for that key, and `scp`/`sftp` to it do not work |
+| each account lands in `sd` over ssh on port 22 (`ForceCommand` for the group) | **Solo runs its own ssh listener on port 4251**, as you, with no `sudo` and no change to the computer's ssh server, so both products can be installed and reached together. Key login only, straight into `sd-solo`; no shell, no `scp`/`sftp`, no forwarding. See [ssh access](08-ssh-access.html) |
 
 See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 

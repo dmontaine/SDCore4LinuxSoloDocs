@@ -15,7 +15,8 @@ bash installsdsolo.sh --upgrade
 `--upgrade`, an installer meeting an installed tree stops and prints exactly
 this command. **It asks nothing** — no mode, no passwords, no API or ssh
 choices — and it accepts no option that would change them: an upgrade keeps
-what is installed. To change the mode, the API or ssh, reinstall.
+what is installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
+changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html).
 
 **It downloads and builds the new release first**, before it touches your
 installation, so a failed download or build changes nothing. Then it stops SD
@@ -36,7 +37,7 @@ satisfied. The upgrade prints its path.
 | | |
 |---|---|
 | **replaced** | the programs (`bin/`), the system programs and their catalogue, SD's messages, the VOC templates and SD's own VOC and dictionaries, and the other files the release ships |
-| **kept, byte for byte** | your account and its data (`user_accounts/sduser`), the credential store `$cred` (all three passwords and the kept copy), `sd.conf`, the audit trail and the error log (the audit trail keeps its old lines and appends), the service units and the ssh key line (renamed in place if they name the old server file, below), and on a managed computer the server's programs in `global.bp.out` and the list of denied commands in `solo.policy` |
+| **kept, byte for byte** | your account and its data (`user_accounts/sduser`), the credential store `$cred` (all three passwords and the kept copy), `sd.conf`, the audit trail and the error log (the audit trail keeps its old lines and appends), the service units and Solo's own ssh directory with its host key and key file (the units are renamed in place if they name the old server file, below), and on a managed computer the server's programs in `global.bp.out` and the list of denied commands in `solo.policy` |
 
 **Upgrading an installation made before the server was renamed `sd-solo`.**
 The server used to be installed as `bin/sd`, and `sd` was the command that
@@ -47,15 +48,33 @@ started it. An upgrade of such an installation also:
   `bin/sd`, or the launcher an earlier test build made). **A file of your own
   called `sd` is left alone, without a message**; plain `sd` is SD Core's name
   now, and this release never makes it;
-- **moves the systemd user units and the ssh key lines it added** to the new
-  file name, and leaves every other key line as it was;
+- **moves the systemd user units** to the new file name;
 - **if an `sshd_config.d` block written by an earlier release still names the
-  old file, leaves a link at `bin/sd`** so ssh keeps working, and prints the
-  command that fixes it for good: `bash ~/SDCoreSolo/tools/solo-ssh.sh match
-  ~/SDCoreSolo --apply` (needs `sudo`; it also removes the link).
+  old file, leaves a link at `bin/sd`** until you remove the block (below).
 
 A program or script of your own that starts SD Core Solo by the file name
 `bin/sd` must now say `bin/sd-solo`.
+
+**Upgrading an installation made before Solo had its own ssh port (LS1.1-3).**
+Earlier releases let ssh into Solo through the computer's own ssh server: a
+forced-command line in your `~/.ssh/authorized_keys`, and optionally a block in
+`sshd_config.d`. Both are gone. Solo's ssh now has its own port, 4251 — see
+[ssh access](08-ssh-access.html). An upgrade of such an installation:
+
+- **turns Solo's own ssh on, `local`** (this computer only), if you had used
+  either way in; and does nothing about ssh if you had not;
+- **moves the Solo key lines out of your `~/.ssh/authorized_keys`** into Solo's key file
+  (`~/SDCoreSolo/sshd/authorized_keys`), after keeping a copy of the old file as
+  `authorized_keys.sdsolo-backup-<time>`. Every other key line is left as it was;
+- **prints the one command that removes the old `sshd_config.d` block**, which
+  needs `sudo`: `bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo --remove`.
+  **Run it.** Solo no longer uses the block, and until it is gone it still sends
+  your ssh logins on port 22 into Solo (it also removes the link at `bin/sd`);
+- **says so if the ssh server program is not installed**, and prints what to run
+  once it is.
+
+Port 4251 takes **keys only**: a password login that worked through the old
+block does not work on the new port.
 
 **Then it brings your account up to the release.** Replacing files is not
 enough on its own: your account's VOC was built by the release that installed
@@ -100,10 +119,11 @@ It says what it will remove, and asks whether to keep your data:
 | `--yes` | do not ask "Continue?" — the data choice is still required when there is no terminal |
 
 **What it removes:** the systemd user units, and it stops SD; the
-`~/.local/bin/sd-solo` link (only if it points at this tree); the ssh key lines this
-product added to your `authorized_keys` (**your other keys are not touched**);
-the `sshd_config.d` block, if you had written one (that needs `sudo`); and the
-installation directory.
+`~/.local/bin/sd-solo` link (only if it points at this tree); the ssh key lines an
+earlier release added to your `authorized_keys` (**your other keys are not touched**);
+the old `sshd_config.d` block, if you had written one (that needs `sudo`); and the
+installation directory, which holds Solo's own ssh directory. A firewall rule for
+port 4251 or 4249 is not removed; the script says so.
 
 **The passwords, the audit trail and SD's own files are always removed.** What
 `--keep-data` keeps is your data — the account's files — not an installation: a

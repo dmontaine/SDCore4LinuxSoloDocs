@@ -18,7 +18,7 @@ only for the build packages and that download.
 | | |
 |---|---|
 | Distribution | Debian or Ubuntu based, Fedora based, openSUSE based, or Arch based — read from `/etc/os-release`. RHEL and its clones (Rocky, Alma) are not supported. Any other, and those, are refused in words before anything changes |
-| Rights | your own ordinary user. **`sudo` is used for four things and only those:** installing the build packages, opening a firewall port you asked for, the optional `sshd_config.d` block, and `loginctl enable-linger` |
+| Rights | your own ordinary user. **`sudo` is used for three things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), and `loginctl enable-linger` |
 | The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
 
@@ -77,14 +77,13 @@ session. See [The account and its passwords](05-account-types.html).
 | | |
 |---|---|
 | **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
-| **ssh straight into sd-solo** | if you say yes, the installer asks for a public key file and adds it to your `~/.ssh/authorized_keys` with a forced command, so that key lands in `sd-solo`. See [ssh access](08-ssh-access.html) |
-| **The `sshd_config.d` block** | optional, needs `sudo`: makes every ssh login of your user — password too — land in `sd-solo`. See [ssh access](08-ssh-access.html) |
+| **ssh straight into sd-solo** | `off` (the default), `local` or `open`, on Solo's own port 4251, fixed. If it is on, the installer asks for a public key file and adds it to Solo's own key file, so that key lands in `sd-solo`; key login only. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
 
 **In managed mode the API and ssh are not asked**: the API is open to the
-network on the port given, and ssh is required — the server has to reach the
+network on port 4249, and ssh is open on port 4251 — the server has to reach the
 computer from elsewhere. If the computer has `ufw` running, the installer opens
-the API port with `sudo`; otherwise it tells you to allow it yourself.
+both ports with `sudo`; otherwise it tells you to allow them yourself.
 
 The last question is **Continue?** Answering no changes nothing.
 
@@ -105,12 +104,13 @@ is no `sdsys` subdirectory as there is on Windows.
 | `tools/` | `solo-service.sh`, `solo-ssh.sh` and `deletesdsolo.sh` — see [The installed scripts](17-the-installed-scripts.html) |
 | `.sdcore-install` | which commit was installed, when, and in which mode |
 | `~/.local/bin/sd-solo` | a link to `~/SDCoreSolo/bin/sd-solo`, so `sd-solo` works from any new terminal (if `~/.local/bin` is on your PATH — the installer says so if it is not) |
-| `~/.config/systemd/user/` | the service: `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service` |
+| `~/SDCoreSolo/sshd/` | only with ssh on: the generated `sshd_config`, Solo's own ssh host key and its key file. See [ssh access](08-ssh-access.html) |
+| `~/.config/systemd/user/` | the service: `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service`, and with ssh `sd-solo-ssh.socket` and `sd-solo-ssh@.service` |
 
 **Everything the installer creates is private to you**: files 0600, directories
 0700. The directory can be moved: SD finds its own files from where its
-programs are, not from a path written into it. The service units, the ssh key
-line and the link name the directory by its full path, and do not move with it.
+programs are, not from a path written into it. The service units, the ssh
+configuration and the link name the directory by its full path, and do not move with it.
 
 **`--home DIR`** installs somewhere else. The path must be absolute and must not
 contain a space, a quote, a backslash, `$`, a backtick or `%`.
@@ -130,8 +130,7 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `admin-password=` | the administrator password |
 | `global-password=` | the global password |
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. See [Managed mode](15-managed-mode.html) |
-| `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo` |
-| `ssh-match=yes` | also write the `sshd_config.d` block (needs `sudo`) |
+| `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
 | `enable-linger=yes` | run `loginctl enable-linger` |
 
 **The account password is deliberately not in it.** On a computer installed

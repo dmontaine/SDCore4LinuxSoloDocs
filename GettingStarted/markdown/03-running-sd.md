@@ -136,7 +136,8 @@ Everything is under `~/SDCoreSolo` (or the `--home` you gave the installer):
 **The whole directory can be moved; its parts cannot be separated.** SD finds
 its files from where its programs are (the directory that holds `bin/`, and
 that holds the marker file `.sdcoresolo`), so a copied tree works from another
-place — but the service units, the `~/.local/bin/sd-solo` link and any ssh key line
+place — but the service units, the `~/.local/bin/sd-solo` link and Solo's ssh
+configuration (`sshd/sshd_config`, written by `solo-ssh.sh setup`)
 name the old path and must be redone.
 
 ## Checking the service

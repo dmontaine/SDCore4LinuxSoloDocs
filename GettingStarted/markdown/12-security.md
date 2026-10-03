@@ -40,7 +40,7 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | The VOC | direct edits need `ADMIN`; the global catalogue is changed by nobody in a session |
 | The daemon | runs as you, never as root; SD refuses to start as root |
 | Files | mode 0600, directories 0700, from the installer and from every file SD creates (`umask 077`) |
-| ssh | your own key, forced into `sd-solo`, no shell and no forwarding — see [ssh access](08-ssh-access.html) |
+| ssh | Solo's own listener on port 4251, run by you with no `sudo`; your own key, forced into `sd-solo`, no password login, no shell, no forwarding — see [ssh access](08-ssh-access.html) |
 | The API | off unless chosen (always on in managed mode); SCRAM inside TLS 1.3; only the one account — see [API access](09-api-access.html) |
 | `sd-solo -internal` | closed once the installer has finished |
 
@@ -81,7 +81,7 @@ SD. What managed mode protects is what happens *inside* SD. See
 **The server can also put an ssh key on the computer (LS1.1-2).** Only a session
 signed in with the global password may, at most four keys are kept, each can start
 `sd-solo` and nothing else, and every use is audited. That is the global password
-reaching one step further — into the Linux user's `authorized_keys` — so **whoever
+reaching one step further — into Solo's own ssh key file — so **whoever
 holds the global password can now also reach this computer over ssh as `sduser`**.
 It could already run the administrator commands. **On the client side, the library
 pins the computer's TLS certificate on first use**, which stops someone posing as

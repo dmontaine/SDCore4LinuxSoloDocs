@@ -38,7 +38,7 @@ land in an ordinary session.
 |---|---|
 | `sd-solo` at a terminal | `Password:`, three tries, then the session ends |
 | `sd-solo` with its input piped | the first line of the input, one try |
-| ssh | the same as a terminal, after ssh has authenticated you (by the key the installer added, or by your Linux password if you wrote the `Match` block) |
+| ssh | the same as a terminal, after Solo's own ssh listener (port 4251) has authenticated you by a key in Solo's key file |
 | the API | the client library's password, checked by SCRAM — see [API access](09-api-access.html) |
 | `sd-solo <command>` | the kept copy, below — no typing |
 

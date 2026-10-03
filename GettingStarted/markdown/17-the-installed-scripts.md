@@ -9,7 +9,7 @@ afterwards.
 
 **They are shell scripts, not SD verbs.** Nothing here is typed at an `sd-solo`
 prompt. **None of them needs `root`, and each refuses to run as root.** Where
-something does need `sudo` — linger, the `sshd_config.d` block — the script says
+something does need `sudo` — linger, removing an old `sshd_config.d` block — the script says
 so and, where it can, prints the one command to run.
 
 *Italics* mark something you supply, **bold** a word typed as it stands, and
@@ -44,36 +44,46 @@ downloads the source, and the source contains it. Its options are listed by
 ## `solo-service.sh`
 
 ```sh
-bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo [--api off|local|open] [--enable-linger]
+bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo [--api off|local|open] [--ssh off|local|open] [--enable-linger]
+bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo off|local|open
 bash ~/SDCoreSolo/tools/solo-service.sh remove
 bash ~/SDCoreSolo/tools/solo-service.sh status
 ```
 
 | | |
 |---|---|
-| `install` | writes the three **user** units into `~/.config/systemd/user` — `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service` — naming the tree by its full path; enables and starts them. **Running it again with a different `--api` or `--api-port` changes the API**: the old listener is stopped first. Ends `SOLO SERVICE READY daemon=<state> api=<off\|local\|open> linger=<yes\|no>` |
+| `install` | writes the **user** units into `~/.config/systemd/user` — `sd-solo.service`, with an API `sd-solo-api.socket` and `sd-solo-api@.service`, and with ssh `sd-solo-ssh.socket` and `sd-solo-ssh@.service` — naming the tree by its full path; enables and starts them. **Running it again with a different `--api` or `--ssh` changes it**: the old listener is stopped first. Ends `SOLO SERVICE READY daemon=<state> api=<off\|local\|open> ssh=<off\|local\|open> linger=<yes\|no>` |
+| `ssh` | writes or removes **only** the two ssh units, leaving the daemon and the API as they are. It needs the ssh directory that `solo-ssh.sh setup` makes. Ends `SOLO SSH LISTENER <mode>` |
 | `remove` | stops SD and removes the units. Ends `SOLO SERVICE REMOVED` |
-| `status` | which unit files are present, whether the daemon and the API socket are active, and whether linger is on |
+| `status` | which unit files are present, whether the daemon and the API and ssh sockets are active, and whether linger is on |
 | `--enable-linger` | also runs `loginctl enable-linger`. **Linger is a persistent setting of your account, so it is opt-in.** Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
 
 `sd-solo.service` is a one-shot that remains after exit
 (`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks
 again, and `Type=forking` would make systemd guess the wrong main process.
-`sd-solo-api@.service` runs one `sd-solo -n -q` per API connection.
+`sd-solo-api@.service` runs one `sd-solo -n -q` per API connection, and
+`sd-solo-ssh@.service` one `sshd -i` per ssh connection, on Solo's own configuration.
 
 ## `solo-ssh.sh`
 
 ```sh
+bash ~/SDCoreSolo/tools/solo-ssh.sh setup      ~/SDCoreSolo
 bash ~/SDCoreSolo/tools/solo-ssh.sh key-add    ~/SDCoreSolo PUBKEY_FILE
 bash ~/SDCoreSolo/tools/solo-ssh.sh key-remove ~/SDCoreSolo PUBKEY_FILE
 bash ~/SDCoreSolo/tools/solo-ssh.sh key-list   ~/SDCoreSolo
-bash ~/SDCoreSolo/tools/solo-ssh.sh match      ~/SDCoreSolo [--apply | --remove]
+bash ~/SDCoreSolo/tools/solo-ssh.sh migrate    ~/SDCoreSolo
+bash ~/SDCoreSolo/tools/solo-ssh.sh match      ~/SDCoreSolo [--remove]
 ```
 
-`--authorized-keys FILE` on the three key commands names a different file from
-`~/.ssh/authorized_keys`. What each does, and what the `Match` block is, is on
-[ssh access](08-ssh-access.html). **`match --apply` and `--remove` need `sudo`,
-and are written but not measured.**
+| | |
+|---|---|
+| `setup` | makes `~/SDCoreSolo/sshd`: Solo's own host key (once), the generated `sshd_config` (rewritten each time) and the key file. Says which path `StrictModes` would refuse. Ends `SOLO SSHD READY port=4251 hostfp=<fingerprint> user=<you>` |
+| `key-add`, `key-remove`, `key-list` | the keys in Solo's key file. `--authorized-keys FILE` names another file. Ends `SOLO SSH KEY ADDED <file>`, `SOLO SSH KEY REMOVED <n>` or `SOLO SSH KEYS <n>` |
+| `migrate` | moves the Solo key lines an earlier release put in your `~/.ssh/authorized_keys` into Solo's key file, after a copy of the old file. Ends `SOLO SSH MIGRATED <n>`. The upgrade runs it |
+| `match` | says whether the old `sshd_config.d` block is still there; with `--remove` (**needs `sudo`**) removes it. Ends `SOLO SSH MATCH PRESENT\|ABSENT\|REMOVED <file>` |
+
+What each does is on [ssh access](08-ssh-access.html). **`match --remove` has been run once** (2 October 2026), by hand,
+after an upgrade.
 
 ## `deletesdsolo.sh`
 
