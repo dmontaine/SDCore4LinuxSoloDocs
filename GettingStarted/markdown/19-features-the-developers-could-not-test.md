@@ -47,9 +47,11 @@ ran the package installation (`apt`), and linger was on.
 minutes lock that address for ten minutes. The rules were run with a fake `sshd` over real loopback
 connections from separate addresses (a wrong password counts, a key does not, a sign-in forgets
 the failures, the window and the end of a lock are honoured), and with the real `sshd` and a
-terminal typing wrong passwords. **Not known:** the same through the installed Solo's own systemd
-unit, a guess spread over many addresses (not stopped), and the new default, ssh on and `local` at
-install, end to end on a fresh install.
+terminal typing wrong passwords, **and on the owner's installed Solo through its own systemd unit** (the
+third wrong password closed the connection, the next connection was reset before any prompt, `locked` and
+`unlock` worked, and the address reached the password stage again). **Not known:** the owner's *correct*
+password through the guard, a guess spread over many addresses (not stopped), and the new default (ssh on,
+`local`, the ssh server installed if it is missing) on a fresh install and on a computer with no `sshd`.
 
 **Not known.** Reaching port 4251 from another computer (`--ssh open`) and the firewall rule
 for it; a sign-in over ssh after a restart with linger off; the package installation on

@@ -170,7 +170,12 @@ already open when the lock engages: by reading the guard's code (not measured), 
 next wrong password, so each gets one more guess. On a computer where everyone shares one address (behind one NAT), they share the lock.
 **Measured** with a fake `sshd` for the rules and with the real `sshd` end to end (the first two wrong
 passwords get the ordinary refusal, the fourth connection is refused, `locked` names the address and
-`unlock` lets it in again). **Not measured:** through the installed Solo's own systemd unit.
+`unlock` lets it in again), **and on the installed Solo, through its own systemd unit** (2 October 2026,
+Ubuntu 26.10): three wrong passwords at the prompt ended with `Connection closed by 127.0.0.1 port 4251`
+instead of the usual refusal; the next connection was closed before the password prompt with
+`kex_exchange_identification: read: Connection reset by peer`; the journal named the address and the time the
+lock ends; `locked` listed it, `unlock` cleared it, and the address then reached the password stage again.
+**Not measured:** the owner's *correct* password through the guard.
 
 ## What an ssh session is
 
@@ -211,7 +216,7 @@ connection is told *SD has not been started*, connect again, and enable linger (
 owner's Linux password was accepted (`Accepted password`) through Solo's own systemd unit and landed in SD, which then
 asked for the SD account password.
 
-**Not measured:** the lockout through the installed Solo's own systemd unit; the install default (ssh on, `local`) on a fresh install; reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
+**Not measured:** a correct Linux password through the lockout guard; the install default (ssh on, `local`, and the ssh server installed if it is missing) on a fresh install and on a computer with no `sshd`; reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
 the `ufw` firewall; a distribution other than Ubuntu, and a PAM setup other than Ubuntu's (the check uses the
 `sshd` PAM service; it logs two harmless refusals for a process that is not root, and a stricter stack may
 refuse the session).
