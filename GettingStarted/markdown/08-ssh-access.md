@@ -37,13 +37,16 @@ who used both could not tell them apart.
 
 | | |
 |---|---|
-| **At install** | **on, `local` (this computer only), unless you say otherwise**, as SD Core Solo for Windows does. `--ssh off`, `--ssh local` or `--ssh open` (reachable from the network) answers it. A managed computer is always `open`. The API is different: it is off unless you ask for it |
+| **At install** | **on, `local` (this computer only), unless you say otherwise**, as SD Core Solo for Windows does, **and the ssh server is installed for you if the computer does not have it** (as the Windows installer ticks "Install the OpenSSH server" by default). `--ssh off` declines both, `--ssh local` or `--ssh open` (reachable from the network) answers it, and the question the installer asks says plainly when answering would install the package. A managed computer is always `open`. The API is different: it is off unless you ask for it |
 | **Later** | `bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo local` (or `open`, or `off`) |
 | **After an upgrade** | ssh is on, `local`, only if you used ssh before (an upgrade keeps what you had); everything it keeps is below |
 
-**The installer installs the ssh server package** when ssh is on (`openssh-server`, which provides
-the `sshd` program, with your `sudo`), and on Debian and Ubuntu installing it also starts the computer's
-own ssh server on port 22. That is the package's doing; the installer does not change it.
+**The installer installs the ssh server package when ssh is on and the computer does not have it** (`openssh-server`,
+which provides the `sshd` program, with your `sudo`), and on Debian and Ubuntu installing it also starts the
+computer's own ssh server on port 22. That is the package's doing; the installer does not change it. **If you do not
+want the ssh server installed, say `--ssh off`** (or answer `off`). With `--skip-packages` the installer installs
+nothing: with no `sshd` on the computer ssh is then left off, and `--ssh local` or `--ssh open` is refused at the
+start, before anything is built.
 
 ## Keys (optional)
 

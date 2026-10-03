@@ -19,7 +19,7 @@ only for the build packages and that download.
 |---|---|
 | Distribution | Debian or Ubuntu based, Fedora based, openSUSE based, or Arch based — read from `/etc/os-release`. RHEL and its clones (Rocky, Alma) are not supported. Any other, and those, are refused in words before anything changes |
 | Rights | your own ordinary user. **`sudo` is used for three things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), and `loginctl enable-linger` |
-| The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers) with `sudo`; with it, it only checks they are there |
+| The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers, and the ssh server `openssh-server` if ssh is on and the computer has none) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
 
 **SD Core for Linux (the multi-user product) may be installed on the same
@@ -77,7 +77,7 @@ session. See [The account and its passwords](05-account-types.html).
 | | |
 |---|---|
 | **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
-| **ssh straight into sd-solo** | on and `local` (this computer only) by default, as in SD Core Solo for Windows; `off`, `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
+| **ssh straight into sd-solo** | on and `local` (this computer only) by default, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it (`--ssh off` declines both); `off`, `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
 
 **In managed mode the API and ssh are not asked**: the API is open to the
