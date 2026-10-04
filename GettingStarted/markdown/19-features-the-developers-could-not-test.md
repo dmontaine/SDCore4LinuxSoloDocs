@@ -49,13 +49,22 @@ connections from separate addresses (a wrong password counts, a key does not, a 
 the failures, the window and the end of a lock are honoured), and with the real `sshd` and a
 terminal typing wrong passwords, **and on the owner's installed Solo through its own systemd unit** (the
 third wrong password closed the connection, the next connection was reset before any prompt, `locked` and
-`unlock` worked, and the address reached the password stage again). **Not known:** the owner's *correct*
-password through the guard, a guess spread over many addresses (not stopped), and the new default (ssh on,
-`local`, the ssh server installed if it is missing) on a fresh install and on a computer with no `sshd`.
+`unlock` worked, and the address reached the password stage again). **Not known:** a guess spread over
+many addresses (not stopped).
+
+**Run 3 Oct 2026 in two virtual machines (fresh installs; `sudo` there asked for no password,
+so the installer's own `sudo` prompts were not exercised).** On **Debian 13** with no ssh server: the
+default install put one in with `apt` and set Solo's up on 4251, `local`; a correct Linux password
+went through the lockout guard into SD; after a restart with linger off nothing ran until the user
+signed in, and then 4251 worked; `--skip-packages` leaves ssh off, and asking for it is refused
+before anything changes. On **Fedora 44 Server** (SELinux enforcing): the install, with `dnf`,
+completed — the first run of Solo outside Ubuntu — but the 4251 sign-in **failed** under SELinux
+until Solo was given sign-in rules of its own (see [ssh access](08-ssh-access.html)); with them it
+works, and a wrong password is still refused.
 
 **Not known.** Reaching port 4251 from another computer (`--ssh open`) and the firewall rule
-for it; a sign-in over ssh after a restart with linger off; the package installation on
-`dnf`, `zypper` and `pacman`; the `ufw` rule for either port. And **linger**: that it is on is
+for it; the package installation on `zypper` and `pacman`; the `ufw` rule for either port;
+SELinux with an OpenSSH older than 10.0. And **linger**: that it is on is
 measured, but whether SD really survives your last sign-out and is there for a cron job or an
 ssh login that arrives afterwards is not.
 

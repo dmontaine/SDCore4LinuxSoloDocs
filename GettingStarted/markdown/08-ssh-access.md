@@ -83,6 +83,7 @@ runs.** What it says:
 |---|---|
 | `ForceCommand ~/SDCoreSolo/bin/sd-solo` | every sign-in runs `sd-solo`, whatever the client asks for |
 | `UsePAM yes`, `PasswordAuthentication yes` | your Linux password, checked by PAM. `PubkeyAuthentication yes` as well: a key in the key file also works |
+| `PAMServiceName sd-solo-ssh-you` | **only where SELinux is on** (Fedora, out of the box). The computer's own `sshd` rules have a SELinux session step that only a root `sshd` can pass, so there Solo uses rules of its own, `/etc/pam.d/sd-solo-ssh-you`: the computer's rules without `pam_selinux`, `pam_loginuid` and `pam_namespace`. The installer writes the file with `sudo`; `bash <tree>/tools/solo-ssh.sh pam <tree>` says whether it is needed, `--install` writes it, `--remove` removes it. Needs OpenSSH 10.0 or later |
 | `AllowUsers you` | only your Linux user |
 | `DisableForwarding yes` | no port forwarding, which `ForceCommand` alone would not stop |
 | `StrictModes yes` | see below |
@@ -216,7 +217,17 @@ connection is told *SD has not been started*, connect again, and enable linger (
 owner's Linux password was accepted (`Accepted password`) through Solo's own systemd unit and landed in SD, which then
 asked for the SD account password.
 
-**Not measured:** a correct Linux password through the lockout guard; the install default (ssh on, `local`, and the ssh server installed if it is missing) on a fresh install and on a computer with no `sshd`; reaching port 4251 from another computer (`open`) and the firewall rule; a sign-in after a restart with linger off; a computer without
-the `ufw` firewall; a distribution other than Ubuntu, and a PAM setup other than Ubuntu's (the check uses the
-`sshd` PAM service; it logs two harmless refusals for a process that is not root, and a stricter stack may
-refuse the session).
+**Measured 3 October 2026 in two virtual machines, fresh installs:**
+
+- **Debian 13** (OpenSSH 10.0, no ssh server before): the default install put the ssh server in with `sudo`
+  (Debian then also runs its own on port 22) and Solo's on 4251, `local`; a correct Linux password through the
+  lockout guard was accepted and `WHO` answered `sduser`; after a restart with linger off, nothing ran until the
+  user signed in, and then the sign-in on 4251 worked; `--skip-packages` with no ssh server leaves ssh off, and
+  asking for it is refused before anything changes.
+- **Fedora 44 Server** (SELinux enforcing, firewalld on, OpenSSH 10.2): the sign-in **failed** with the computer's
+  own `sshd` rules ("A valid context ... could not be obtained") and **passed** with Solo's own rules, written by
+  the installer; a wrong password is still refused and counted by the guard.
+
+**Not measured:** reaching port 4251 from another computer (`open`) and the firewall rule (`ufw` or firewalld);
+openSUSE and Arch; an `sshd` older than OpenSSH 10.0 under SELinux (the installer says it cannot help there);
+the installer's own `sudo` password prompts in the virtual machines (`sudo` there asked for no password).

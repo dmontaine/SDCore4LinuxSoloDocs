@@ -18,7 +18,7 @@ only for the build packages and that download.
 | | |
 |---|---|
 | Distribution | Debian or Ubuntu based, Fedora based, openSUSE based, or Arch based — read from `/etc/os-release`. RHEL and its clones (Rocky, Alma) are not supported. Any other, and those, are refused in words before anything changes |
-| Rights | your own ordinary user. **`sudo` is used for three things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), and `loginctl enable-linger` |
+| Rights | your own ordinary user. **`sudo` is used for these things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), `loginctl enable-linger`, and — only where SELinux is on (Fedora, out of the box) and ssh is on — writing Solo's own sign-in rules, `/etc/pam.d/sd-solo-ssh-<you>` (the computer's own rules need root at one step that Solo's ssh server, running as you, cannot pass; OpenSSH 10.0 or later) |
 | The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers, and the ssh server `openssh-server` if ssh is on and the computer has none) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
 
