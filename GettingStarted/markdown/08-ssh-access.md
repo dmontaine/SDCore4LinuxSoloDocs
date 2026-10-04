@@ -140,7 +140,7 @@ use the computer's own ssh server, on port 22.
 | | |
 |---|---|
 | **`local`** | the listener is `127.0.0.1:4251`: `ssh -p 4251 localhost` works, nothing else can connect, and no firewall rule is needed |
-| **`open`** | the listener is `0.0.0.0:4251`. **Allow TCP 4251 in the firewall.** The installer adds a `ufw` rule if `ufw` is active and you let it use `sudo`; otherwise it tells you |
+| **`open`** | the listener is `0.0.0.0:4251`. **Allow TCP 4251 in the firewall.** The installer adds the rule if `ufw` is active, or firewalld is running (Fedora), and you let it use `sudo`; otherwise it tells you. Turned on later with `solo-service.sh ssh <tree> open`, which never uses `sudo`, it prints the one command for the firewall that is running |
 | **Managed** | always `open`: the SD Core for Linux server has to reach port 4251 |
 
 **The installer does not open port 22**, and Solo does not use it.
@@ -228,6 +228,9 @@ asked for the SD account password.
   own `sshd` rules ("A valid context ... could not be obtained") and **passed** with Solo's own rules, written by
   the installer; a wrong password is still refused and counted by the guard.
 
-**Not measured:** reaching port 4251 from another computer (`open`) and the firewall rule (`ufw` or firewalld);
-openSUSE and Arch; an `sshd` older than OpenSSH 10.0 under SELinux (the installer says it cannot help there);
+**Measured 4 October 2026, Fedora 44 Server VM:** with `--ssh open` the installer added TCP 4251 to firewalld
+(live and saved), and a connection from outside the VM reached Solo's ssh server; before this change it timed out.
+
+**Not measured:** `open` from another computer behind `ufw` (Ubuntu); Ubuntu and Fedora desktop (Workstation) installs;
+an `sshd` older than OpenSSH 10.0 under SELinux (the installer says it cannot help there);
 the installer's own `sudo` password prompts in the virtual machines (`sudo` there asked for no password).

@@ -30,7 +30,7 @@ writer.
 |---|---|
 | a scheduled task registered in an elevated step | a systemd user unit, and no elevated step at all |
 | `solo-machine.ps1`, the one administrator consent prompt | nothing: `sudo` is used for packages, a firewall rule and linger, and each is optional or checked first |
-| PowerShell scripts for the firewall and ssh rules | `ufw` if it is active, and otherwise a message; `solo-ssh.sh` and `solo-service.sh ssh` for Solo's own ssh listener |
+| PowerShell scripts for the firewall and ssh rules | `ufw` if it is active, firewalld (`firewall-cmd`) if it is running, and otherwise a message; `solo-ssh.sh` and `solo-service.sh ssh` for Solo's own ssh listener |
 | `install-summary.log` | the installer's own output, and `journalctl --user -u sd-solo.service` for the service |
 
 ## What the multiuser product has that Solo does not

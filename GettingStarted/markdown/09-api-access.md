@@ -77,7 +77,7 @@ connected.
 | | |
 |---|---|
 | `local` | listens on `127.0.0.1` — this computer only |
-| `open` | listens on `0.0.0.0` — every address the computer has. A firewall on the computer must allow the port; the installer opens it with `ufw` if `ufw` is running and says so if it cannot |
+| `open` | listens on `0.0.0.0` — every address the computer has. A firewall on the computer must allow the port; the installer opens it with `ufw` if `ufw` is running, or with `firewall-cmd` if firewalld is (Fedora), and says so if it cannot |
 | `off` | no socket unit |
 
 **To change it afterwards**, run the service script again with the new choice —

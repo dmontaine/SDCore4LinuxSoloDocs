@@ -62,8 +62,11 @@ completed — the first run of Solo outside Ubuntu — but the 4251 sign-in **fa
 until Solo was given sign-in rules of its own (see [ssh access](08-ssh-access.html)); with them it
 works, and a wrong password is still refused.
 
-**Not known.** Reaching port 4251 from another computer (`--ssh open`) and the firewall rule
-for it; the package installation on `zypper` and `pacman`; the `ufw` rule for either port;
+**Run 4 Oct 2026 in the Fedora VM:** `--ssh open` added TCP 4251 to firewalld, and a connection
+from outside the VM reached Solo's ssh server.
+
+**Not known.** Reaching port 4251 through `ufw` (Ubuntu) from another computer; the `ufw` rule for either port;
+desktop (Workstation) installs of Ubuntu and Fedora;
 SELinux with an OpenSSH older than 10.0. And **linger**: that it is on is
 measured, but whether SD really survives your last sign-out and is there for a cron job or an
 ssh login that arrives afterwards is not.
