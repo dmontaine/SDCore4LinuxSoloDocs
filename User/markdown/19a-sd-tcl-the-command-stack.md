@@ -109,7 +109,6 @@ show it.
 |---|---|
 | **`who`** | your user number and the account you are in |
 | **`who.am.i`** | the same information at more length |
-| **`logto`** *account* | change account without logging out |
 | **`off`** · **`quit`** | end the session |
 | **`option`** {*name*} {**on**\|**off**\|**display**} | set or show a session option |
 | **`option all off`** | turn every session option off at once |
@@ -123,24 +122,14 @@ show it.
 `who` answers with your user number and the account you are in:
 
 ```
-39 DON
+39 sduser
 ```
 
-**After a `logto` it grows a third part, and that is the useful one:**
-
-```
-29 PAYROLL from DON
-```
-
-**`from DON` is the account you logged in as**, not the one you are in and not
-your Linux account. So the short form means *I am still where I started* and
-the long form means *I have moved* — which makes `who` the quick way to find
-out whether a `logto` actually took effect.
-
-**`SDSYS` cannot appear after `from` here, because `logto sdsys` is refused
-outright.** SDSYS is never entered on a Solo computer; the administrator
-commands are in your own account behind `ADMIN`. There is only one account, so
-`logto` has nowhere else to go.
+**There is no `logto` in SD Core Solo** (it was removed in LS1.1-3). There is
+one account, `sduser`, so there is nowhere to switch to, and SDSYS is never
+entered on a Solo computer: the administrator commands are in your own account
+behind `ADMIN`. Typed anyway, `logto` answers like any word that is not a
+verb, *LOGTO is not in your VOC*.
 
 ## What is not here
 
@@ -172,7 +161,7 @@ Everything on this page is in your account, and none of it needs `ADMIN`:
 
 | | |
 |---|---|
-| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `logto` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
+| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
 **The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
 shell with your own permissions, need no `ADMIN`, and refuse a command that

@@ -172,6 +172,12 @@ DOCUMENTS = {
    SAFEDIR SDCLIENT SDSYS SH SH1 SORTMEM SORTMRG SORTWORK SPOOLER STARTUP
    TEMPDIR TERMINFO TXCHAR USRDIR YEARBASE
  """,
+ # 03 Oct 26 SD Core for Linux Solo (LSOLO 30): BACKUPDIR is written by SET.BACKUP.DIRECTORY
+ # (S.53), not by hand, and page 06 is where it is explained - saved directory, what it
+ # means and how to take it out.  The check that the page names it is confmap's own.
+ 'GettingStarted/markdown/06-administrator-commands.md': """
+   BACKUPDIR
+ """,
 }
 
 assigned = {}

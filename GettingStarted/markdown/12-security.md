@@ -66,8 +66,7 @@ and SD consumes — the audit trail shows *INTERNAL SESSION ADMITTED* with the n
 of the writer. A marker older than ten minutes is refused, and consumed. It is
 not a way into a running system: the installer checks, when it finishes, that a
 plain `sd-solo -internal` is refused. **SDSYS, SD's own system account, is never
-signed in to**: nobody logs in or `LOGTO`s to it, and there is no `sdsys` Linux
-user.
+signed in to**: nobody logs in to it, and there is no `sdsys` Linux user.
 
 ## On a managed computer
 

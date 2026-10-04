@@ -37,7 +37,7 @@ them, unconditionally — or in any text editor you like. The folder is
 on disk at:
 
 ```
-/home/sd/user_accounts/<account>/bp
+~/SDCoreSolo/user_accounts/sduser/bp
 ```
 
 ## 1. Hello world

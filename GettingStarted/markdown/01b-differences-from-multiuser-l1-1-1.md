@@ -11,7 +11,8 @@ product. The User set applies to both.
 | multiuser L1.1-1 | Solo |
 |---|---|
 | many accounts, one per person, made by SDSYS | **one account, `sduser`**, made by the installer. `WHO` and `@LOGNAME` say `sduser` on every computer, whatever the Linux user is called |
-| SDSYS, entered by logging in to Linux as the `sdsys` user | **SDSYS is never entered.** Nobody logs in or `LOGTO`s to it; the administrator commands run from your own account |
+| SDSYS, entered by logging in to Linux as the `sdsys` user | **SDSYS is never entered.** Nobody logs in to it; the administrator commands run from your own account |
+| `logto` *account*, to switch accounts without logging out | **gone** (removed in LS1.1-3). There is one account, so there is nowhere to switch to. Typed anyway it answers *LOGTO is not in your VOC* |
 | `create.account`, `delete.account`, `modify.account`, `grant`, `revoke`, `list.grants`, `modify.password` | **gone** |
 | the Linux groups `sdusers` and one `sdu_<name>` per account; `usermod -aG` as the grant | **gone.** There is one Linux user, and it is yours |
 | SD runs as root, then drops to the account | **SD never runs as root** and refuses to start as root. It runs as you |
@@ -87,8 +88,8 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 
 - **Anything that creates, grants or deletes accounts**, or signs in to more
   than one account.
-- **Scripts that `LOGTO SDSYS`**, or that expect administrator verbs to work
-  without `ADMIN`.
+- **Scripts that use `LOGTO`** (it is gone), or that expect administrator verbs
+  to work without `ADMIN`.
 - **A client that signs in with a Linux user name**, or with the old cleartext
   login.
 - **Anything that writes the global catalogue.** Catalogue programs locally

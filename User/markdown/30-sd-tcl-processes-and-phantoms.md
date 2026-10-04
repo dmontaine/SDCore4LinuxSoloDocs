@@ -44,7 +44,7 @@ With no arguments it reports every session; **`user`** *n* restricts it to one.
 ```
 :pstat
 User Detail
-  27 Account: DON
+  27 Account: SDUSER
      Command: pstat
      $PSTAT 141 (262)
   12 (Not responding)
@@ -68,11 +68,11 @@ at the prompt there is nothing on the stack but `pstat` itself:
 
 ```
 User Detail
-  27 Account: DON
+  27 Account: SDUSER
      Command: pstat user 27 level 1
      $PSTAT 141 (262)
      Command processor
-     /home/sd/user_accounts/don/bp.out/zzmath 34 (152)
+     /home/you/SDCoreSolo/user_accounts/sduser/bp.out/zzmath 34 (152)
      Command processor
 ```
 
@@ -166,8 +166,7 @@ User  Started            Command
 ```
 
 **It reports only your own children.** It is not a system-wide view and it is
-not `listu` — a phantom somebody else started does not appear, and neither does
-one your session started before you `logto`'d somewhere else. The register it
+not `listu` — a phantom somebody else started does not appear. The register it
 reads is keyed by the parent's user number.
 
 ## Dumping a process: `pdump`

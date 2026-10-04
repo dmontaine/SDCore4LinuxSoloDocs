@@ -45,12 +45,12 @@ valid PROC and it is the interpreter that is gone.
 ### What the shipped VOC holds
 
 Counted directly from `newvoc` in the system directory — the VOC a new account
-starts with, 414 records, by each record's own field-1 type character (the type
+starts with, 417 records, by each record's own field-1 type character (the type
 is the first character; a record whose field 1 reads `Verb to ...` is `V`):
 
 | Type | Count |
 |---|---|
-| `V` | 139 |
+| `V` | 142 |
 | `K` | 249 |
 | `F` | 8 |
 | `R` | 10 |
@@ -62,7 +62,7 @@ is the first character; a record whose field 1 reads `Verb to ...` is `V`):
 
 **The four keyword-verbs are among the 249 `K` records.** `break`, `count`,
 `display` and `off` are counted as keywords here and are also verbs, so Solo has
-139 + 4 = **143 verbs**.
+142 + 4 = **146 verbs**.
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
@@ -142,8 +142,8 @@ target, and the remaining fields carry options.
 
 | Field 2 | Field 3 | What it does |
 |---|---|---|
-| `CA` | *catalogue name* | a catalogued program — 94 of the shipped verbs |
-| `IN` | *number* | internal verb *n*, handled by the command processor itself — 43 verbs |
+| `CA` | *catalogue name* | a catalogued program — 98 of the shipped verbs |
+| `IN` | *number* | internal verb *n*, handled by the command processor itself — 42 verbs |
 | `OS` | *text* | an operating-system command — `sh` and `!`, and nothing else |
 | `CS` | *path* | a locally catalogued function |
 

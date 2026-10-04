@@ -121,11 +121,10 @@ a decode failure there is a defect, not a wrong password. A caller deciding whet
 to admit a login must still treat the error as a refusal.
 
 **`SD_EUID_SET` and `SD_EUID_RESTORE` do nothing on Solo.** The multiuser product
-uses them to change the process's effective user and group — for `logto`, and to
-drop from root after a privileged step. Solo has no root and no other user to
-become, so `sdext_eguid.c` answers success and changes nothing. The two BASIC
-programs that call them, `euid_set` and `euid_restore`, are still shipped and are
-harmless.
+uses them to change the process's effective user and group, to drop from root
+after a privileged step. Solo has no root and no other user to become, so
+`sdext_eguid.c` answers success and changes nothing. The two BASIC programs that
+called them, `euid_set` and `euid_restore`, were removed in LS1.1-3.
 
 ### What uses it
 
