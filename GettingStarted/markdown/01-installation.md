@@ -10,8 +10,13 @@ refuses to run as root, and so does `sd-solo`.
 **There is no prebuilt package.** The script downloads the source from
 `github.com/dmontaine/SDCore4LinuxSolo` (the `main` branch) into a temporary
 directory, `~/.sdsolotmp`, builds it there, installs it, and deletes the
-download when it ends. It can be carried on a USB stick: it needs the network
-only for the build packages and that download.
+download when it ends. A release zip can be unzipped on a USB stick and the
+script run from there, with `bash /media/<you>/<stick>/installsdsolo.sh` — use
+`bash`, because a stick formatted FAT, exFAT or NTFS has no execute permission.
+The stick carries only the installer and the documentation: the computer must be
+online for the build packages and that download. The script checks first, before
+it asks anything or changes anything, and stops with a message if it is not. It
+writes nothing to the stick.
 
 ## Before you start
 
