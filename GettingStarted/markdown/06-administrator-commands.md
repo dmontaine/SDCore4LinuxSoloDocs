@@ -174,14 +174,21 @@ out); or restore a Solo backup onto the multi-user SD Core.
 **`restore.account latest` restores the most recent backup without your
 naming it.** `latest` stands where the archive name goes: SD looks in the
 directory saved by `set.backup.directory`, picks **the newest backup made on this
-computer that holds your account**, prints which one it chose (*The most recent
-backup is …*), and restores from it exactly as if you had typed its name. If
-there is none it says *No backup of sduser made on this computer was found in …*
-and changes nothing. The choice is made from the file name alone
-(`SD-<computer>-sduser-<yyyymmdd-hhmmss>.zip`, or the same with `all`);
-the backup it picks is still checked against its own contents before anything is
-changed, and one made on another computer is never picked. `no.query` skips the
-questions, as with a named archive.
+computer that really holds your account**, prints which one it chose (*The most
+recent backup is …*), and restores from it exactly as if you had typed its name.
+SD decides by *looking inside*: a backup is called
+`SD-<computer>-sduser-<yyyymmdd-hhmmss>.zip`, or the same with `all`, but a
+backup made with `all` names no account, so SD opens each backup the name might
+fit and reads its list of accounts (nothing is unpacked).
+
+**If a newer backup made on this computer does not hold your account** — or
+cannot be read — SD says so before it asks you to go ahead: *The most recent
+backup made on this computer, …, does not hold … (or cannot be read). The newest
+backup that does is …*. You can still answer `n`. If **no** backup holds it, SD
+says *No backup of sduser made on this computer was found in …* and changes
+nothing. Whichever backup is picked is still checked against its own contents
+in full before anything is changed, and one made on another computer is never
+picked. `no.query` skips the questions, as with a named archive.
 
 ### `SET.BACKUP.DIRECTORY`
 
@@ -217,7 +224,7 @@ settings.report {directory}
 
 Writes, or shows, a **plain-text record** of the settings — `sd.conf`, the
 policy, the mode, the API and ssh, the service — to keep for reference. Nothing
-reads it back.
+reads it back, and it never contains a password or a private key.
 
 ## Not here
 
