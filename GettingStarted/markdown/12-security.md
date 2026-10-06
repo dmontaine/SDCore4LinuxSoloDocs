@@ -41,7 +41,7 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | The daemon | runs as you, never as root; SD refuses to start as root |
 | Files | mode 0600, directories 0700, from the installer and from every file SD creates (`umask 077`) |
 | ssh | Solo's own listener on port 4251, run by you with no `sudo`; your Linux account name and password (inside ssh's encrypted channel, checked by PAM) or a key, forced into `sd-solo`, no shell, no forwarding; on by default for this computer only, and three wrong passwords from one address lock that address for ten minutes — see [ssh access](08-ssh-access.html) |
-| The API | off unless chosen (always on in managed mode); SCRAM inside TLS 1.3; only the one account — see [API access](09-api-access.html) |
+| The API | off unless chosen at install (managed or not); SCRAM inside TLS 1.3; only the one account — see [API access](09-api-access.html) |
 | `sd-solo -internal` | closed once the installer has finished |
 
 **The account is the same one for every session**, so the gates are about *how
@@ -94,8 +94,8 @@ VOC (which needs `ADMIN`) and turning off its break key (`pterm break off`), so
 it can neither compile nor run anything else and cannot interrupt out to a TCL
 prompt. Neither is a setting; both are done by hand.
 
-**Turn the API off** if you do not use it — in standalone mode it is off unless
-it was chosen; see [API access](09-api-access.html). **Do not give the ssh key
+**Turn the API off** if you do not use it — it is off unless it was chosen at
+install, with or without a global password; see [API access](09-api-access.html). **Do not give the ssh key
 line to anything you would not give the account password to** — see
 [ssh access](08-ssh-access.html).
 

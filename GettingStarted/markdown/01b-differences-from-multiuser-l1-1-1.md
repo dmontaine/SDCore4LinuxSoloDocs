@@ -48,9 +48,10 @@ See [Administrator commands](06-administrator-commands.html).
 
 ## Managed mode
 
-**New in Solo.** A computer installed in managed mode is also managed by an SD
-Core for Linux server, which signs in with a **global password** set when the
-computer was installed. The server can put compiled programs into the global
+**New in Solo.** A computer installed with a **global password** is *managed*: an
+SD Core for Linux server also manages it and signs in with that password. The
+installer lets the global password be left blank, in which case no server manages
+the computer; there is no "standalone or managed" question. The server can put compiled programs into the global
 catalogue (`GLOBAL.BP.OUT`, `SYNC.GLOBAL.CATALOG`) and keep a list of commands
 the user may not run (`DENY.VERBS`). An installer control file,
 `sd-solo-setup.conf`, sets up many computers the same way, leaving the account

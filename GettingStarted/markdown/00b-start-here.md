@@ -22,14 +22,19 @@ OpenQM documents are not authoritative here.
 additions, changes and deletions — of features, of structure, of security and
 of commands. **These pages cover those changes.**
 
-## Two ways to use it
+## Two ways to use it, one install
 
-**The installer asks which, and the answer is fixed until you reinstall.**
+**There is one installer and no mode to choose.** It asks for a **global
+password** last, and you can leave it blank:
 
 | | |
 |---|---|
-| **Standalone** | a single-user database on this computer, in the way SQLite is. Nothing else manages it |
-| **Managed** | a local database that an **SD Core for Linux** server also manages — one of several computers it looks after. The server signs in with a **global password** set when this computer was installed |
+| **No global password** | a single-user database on this computer, in the way SQLite is. Nothing else manages it |
+| **A global password** | a local database that an **SD Core for Linux** server also manages — one of several computers it looks after. The server signs in with the global password you gave the installer. Such a computer is called **managed** |
+
+**A computer is managed if, and only if, it has a global password.** It is set
+at installation and fixed until you reinstall: no command creates it, so a
+computer installed without one needs a reinstall to be managed.
 
 Only an SD Core for Linux server manages a Solo computer. What the server can
 do today is on [Managed mode](15-managed-mode.html), and it will grow as

@@ -25,9 +25,9 @@ was enough to overwrite SD's own `$` and `!` programs; here it is not.
 **On a managed computer the catalogue is the server's**, made from the compiled
 programs the server puts in `global.bp.out` and kept in step by
 `SYNC.GLOBAL.CATALOG`, which only a session signed in with the global password
-can run. See [Managed mode](15-managed-mode.html). **On a standalone computer
-the global catalogue is only SD's own** and `SYNC.GLOBAL.CATALOG` says there is
-nothing to manage.
+can run. See [Managed mode](15-managed-mode.html). **On a computer with no
+global password the global catalogue is only SD's own** and `SYNC.GLOBAL.CATALOG`
+says there is nothing to manage.
 
 **Nothing changes for local and private cataloguing**, which is what programmers
 use day to day:

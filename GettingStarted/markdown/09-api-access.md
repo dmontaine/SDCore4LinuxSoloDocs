@@ -9,11 +9,13 @@ client library as with any SD Core — see [Client distribution](10-client-distr
 
 | | |
 |---|---|
-| **Standalone** | only if you chose `local` or `open` when installing (`--api`). Off by default |
-| **Managed** | always on, and open to other computers, because the SD Core for Linux server connects through it |
+| **Any computer** | only if you chose `local` or `open` when installing (`--api`, or `api=` in the control file). Off by default |
 
 **Off means there is no listener at all**: the installer writes no socket unit,
-and SD opens no port.
+and SD opens no port. **A computer that an SD Core for Linux server manages (one
+with a global password) needs the API `open`, because the server connects through
+it**; the installer warns you if you give it a global password and choose less.
+Until 6 October 2026 a managed computer's API was forced open and not asked.
 
 ## Signing in
 

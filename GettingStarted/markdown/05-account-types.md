@@ -140,7 +140,8 @@ It must differ from the global password.
 
 ## The global password
 
-**Managed mode only.** The SD Core for Linux server signs in as `sduser` with
+**Optional: only a managed computer has one** (the installer lets you leave it
+blank). The SD Core for Linux server signs in as `sduser` with
 it, and every such session has the administrator commands unlocked. A few
 commands need it and refuse the administrator password — the ones that are the
 server's rather than the user's. See [Managed mode](15-managed-mode.html).
@@ -150,10 +151,9 @@ server's rather than the user's. See [Managed mode](15-managed-mode.html).
 — `ADMIN` included — is told *The global password can only be changed by the SD
 Core server*. It must differ from the account and administrator passwords.
 
-**The mode is fixed at installation**, and with it whether a global password
-exists: nothing creates or removes one afterwards. On a standalone computer
-`SET.PASSWORD GLOBAL` says *This computer is standalone - it has no global
-password*.
+**Whether there is one is fixed at installation**: nothing creates or removes
+one afterwards. On a computer with none, `SET.PASSWORD GLOBAL` says *This
+computer has no global password - no SD Core server manages it*.
 
 ## Who can change which
 

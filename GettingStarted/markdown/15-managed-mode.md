@@ -1,21 +1,32 @@
 Title: Managed mode
 Subtitle: What an SD Core for Linux server can do to a Solo computer it manages, and how.
 
-**A computer installed in managed mode is a local database that an SD Core for
-Linux server also manages.** The server is the only thing that manages Solo
-computers. **This page will grow** as management features are added to SD Core
-for Linux — what is here is what a managed computer offers the server today.
+**A managed computer is a local database that an SD Core for Linux server also
+manages.** The server is the only thing that manages Solo computers. **This page
+will grow** as management features are added to SD Core for Linux — what is here
+is what a managed computer offers the server today.
 
 ## What makes a computer managed
 
-**The choice made when installing**, and fixed until a new installation. It comes
-with:
+**A global password, and nothing else.** A computer is managed if, and only if,
+it has one. It is given when installing — at the installer's last password
+question (it can be left blank), or in the control file — and fixed until a new
+installation. The server signs in with it. (Until 6 October 2026 the installer
+asked "standalone or managed?" first; there is no such question now.)
+
+**For the server to reach the computer, the API and ssh must be open to the
+network** — your choice, made at the same install, because they are your choice
+on every computer:
 
 | | |
 |---|---|
-| **a global password** | set at installation, in the installer's questions or in the control file. The server signs in with it |
-| **the API, on and open** | reachable from other computers — the server's way in |
-| **ssh, on and open** | Solo's own listener on port 4251, reachable from other computers: your Linux password, or the server's key. The installer installs the ssh server package for it and opens the port in `ufw` if that is running; otherwise it tells you to allow TCP 4251 |
+| **the API, `open`** | reachable from other computers — the server's way in. Port 4249 |
+| **ssh, `open`** | Solo's own listener on port 4251, reachable from other computers: your Linux password, or the server's key. The installer installs the ssh server package for it and opens the port in `ufw` or firewalld if one is running; otherwise it tells you to allow TCP 4251 |
+
+**Nothing forces either open.** If you give the installer a global password and
+choose `off` or `local` for either, it warns you; the computer is then managed in
+name only, because the server cannot reach it. The control file's `api=open` and
+`ssh=open` lines are how an administrator sets both up for many computers.
 
 See [Installing](01-installation.html), including the **control file** that sets
 up many computers from one USB stick.
@@ -65,7 +76,7 @@ same request lists and removes the server's keys.
   never listed, counted or touched.**
 - **Every use is in the audit trail**, with the key's fingerprint and the address
   it came from, never the key itself.
-- **It does nothing on a standalone computer**, which has no global password.
+- **It does nothing on a computer with no global password.**
 - **SD Core Solo for Windows answers the same request in the same words.**
 
 **The server's certificate is pinned.** The first time the server's client library
@@ -136,8 +147,10 @@ is kept.
 opens `global.bp.out` and `WRITE`s to it is refused by SD itself, with `STATUS()`
 saying so, whatever the caller's rights.
 
-**On a standalone computer** there is no server: `SYNC.GLOBAL.CATALOG` says so
-and changes nothing, and the global catalogue holds only SD's own programs.
+**On a computer with no global password** there is no server: `SYNC.GLOBAL.CATALOG`
+says *this computer has no global password, so no SD Core server manages it and
+there is nothing to manage*, changes nothing, and the global catalogue holds only
+SD's own programs.
 
 ## Commands the user may not run: `DENY.VERBS`
 
@@ -174,7 +187,7 @@ DENY.VERBS 1: SH
 |---|---|
 | **Who may use it** | a server session only. Anyone else, `ADMIN` included, is told *The denied verbs can only be listed or changed by the SD Core server* |
 | **Never denied** | `ADMIN`, `OFF`, `QUIT` and `LO` — a list naming one says it is dropped |
-| **Set at installation** | the control file's `deny-verbs=` line (or `--deny-verbs` to the stage script), on a new installation only |
+| **Set at installation** | the control file's `deny-verbs=` line (or `--deny-verbs` to the stage script), on a new installation only. **On a computer with no global password no session can change the list afterwards** — only the server can — so it is fixed until a new installation |
 | **Kept by an upgrade** | yes — it lives in `~/SDCoreSolo/solo.policy` |
 
 **It only adds.** It cannot lift the check an administrator command carries in

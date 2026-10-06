@@ -50,17 +50,11 @@ its questions at the terminal; every one can be answered by an option instead
 
 ## What you are asked
 
-### 1. The mode
+There is **no mode to choose**: one install serves a computer on its own and a
+computer an SD Core for Linux server manages (a computer is managed if, and
+only if, it has a global password).
 
-| | |
-|---|---|
-| **Standalone** | a database for this computer only. The default |
-| **Managed client of an SD Core server** | a computer an SD Core for Linux server also manages. See [Managed mode](15-managed-mode.html) |
-
-**The mode cannot be changed later except by a new installation.** It decides
-whether a global password exists, and nothing sets or clears that afterwards.
-
-### 2. The passwords
+### 1. The passwords
 
 Asked in this order, each typed twice, shown as stars:
 
@@ -68,16 +62,25 @@ Asked in this order, each typed twice, shown as stars:
 |---|---|
 | **Account password** | the password every SD session asks for — at the keyboard, over ssh and through the API |
 | **Administrator password** | unlocks the administrator commands, with `ADMIN` |
-| **Global password** | managed mode only. The SD Core for Linux server signs in with it, and it also unlocks the administrator commands |
+| **Global password** | **optional — leave it blank if no SD Core server manages this computer.** If an SD Core for Linux server does manage it, this is the password the server signs in with, and it also unlocks the administrator commands |
 
 **Every password needs at least 8 characters, with a lower-case letter, an
 upper-case letter, a digit and a symbol** — letters, digits and punctuation
 only, no spaces. A password that breaks the rule is asked for again, up to
-three times. The global password must differ from both of the others;
-otherwise the server, signing in with the same name, would land in an ordinary
-session. See [The account and its passwords](05-account-types.html).
+three times (the global one can still be left blank). The global password must
+differ from both of the others; otherwise the server, signing in with the same
+name, would land in an ordinary session. See [The account and its
+passwords](05-account-types.html).
 
-### 3. The API and ssh — standalone only
+**Whether the computer has a global password cannot be changed later except by
+a new installation**: no command creates or removes one, and only a session the
+server signs in with can change it. The installer's "Ready to install" summary
+says *global pw: none - no SD Core server manages this computer*, or *set*.
+
+### 2. The API and ssh
+
+**These are your choice with or without a global password.** (Until
+6 October 2026 a managed computer had both forced open and was not asked.)
 
 | | |
 |---|---|
@@ -85,10 +88,11 @@ session. See [The account and its passwords](05-account-types.html).
 | **ssh straight into sd-solo** | on and `local` (this computer only) by default, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it (`--ssh off` declines both); `off`, `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
 
-**In managed mode the API and ssh are not asked**: the API is open to the
-network on port 4249, and ssh is open on port 4251 — the server has to reach the
-computer from elsewhere. If the computer has `ufw` running, or firewalld (Fedora), the
-installer opens both ports with `sudo`; otherwise it tells you to allow them yourself.
+**A computer that an SD Core server manages needs both `open`**: the server has to
+reach it from elsewhere (the API, and ssh to install its key). If you give the
+installer a global password and choose less, it warns you. When a port is `open`
+and the computer has `ufw` running, or firewalld (Fedora), the installer opens it
+with `sudo`; otherwise it tells you to allow it yourself.
 
 The last question is **Continue?** Answering no changes nothing.
 
@@ -107,7 +111,7 @@ is no `sdsys` subdirectory as there is on Windows.
 | `global.bp.out/`, `solo.policy/` | on a managed computer, the SD Core for Linux server's programs and the list of commands denied to you. See [Managed mode](15-managed-mode.html) |
 | `audit`, `errlog` | the audit trail and the error log |
 | `tools/` | `solo-service.sh`, `solo-ssh.sh` and `deletesdsolo.sh` — see [The installed scripts](17-the-installed-scripts.html) |
-| `.sdcore-install` | which commit was installed, when, and in which mode |
+| `.sdcore-install` | which commit was installed, when, and whether the computer is `managed` or `unmanaged` (it has a global password, or not). A tree installed before 6 October 2026 says `standalone`, which is read as `unmanaged` |
 | `~/.local/bin/sd-solo` | a link to `~/SDCoreSolo/bin/sd-solo`, so `sd-solo` works from any new terminal (if `~/.local/bin` is on your PATH — the installer says so if it is not) |
 | `~/SDCoreSolo/sshd/` | only with ssh on: the generated `sshd_config`, Solo's own ssh host key and its key file. See [ssh access](08-ssh-access.html) |
 | `~/.config/systemd/user/` | the service: `sd-solo.service`, and with an API `sd-solo-api.socket` and `sd-solo-api@.service`, and with ssh `sd-solo-ssh.socket` and `sd-solo-ssh@.service` |
@@ -122,9 +126,10 @@ contain a space, a quote, a backslash, `$`, a backtick or `%`.
 
 ## Installing many computers: the control file
 
-**A file passed as `--control-file` answers the installer's questions.** It is
-for **managed mode only** — its presence makes the install managed — and it is
-how one USB stick sets up several computers.
+**A file passed as `--control-file` answers the installer's questions**, for an
+install nobody sits at, and it is how one USB stick sets up several computers.
+It is for any computer, managed or not: its presence does not make the install
+managed — a global password in it does.
 
 ```sh
 bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
@@ -133,20 +138,25 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | | |
 |---|---|
 | `admin-password=` | the administrator password |
-| `global-password=` | the global password |
-| `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. See [Managed mode](15-managed-mode.html) |
+| `global-password=` | the global password. **Blank or absent means none**: the installer says *The control file gives no global password, so this computer will NOT be managed by an SD Core server* and asks nothing |
+| `api=` | `off`, `local` or `open` (port 4249). Blank takes the default, off; a managed computer needs `open` |
+| `ssh=` | `off`, `local` or `open` (port 4251). Blank takes the default, `local`; a managed computer needs `open`. `off` with `ssh-public-key-file=` is refused |
+| `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. Only a session signed in with the global password can change the list afterwards, so on a computer with no global password it is fixed until a reinstall. See [Managed mode](15-managed-mode.html) |
 | `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
 | `enable-linger=yes` | run `loginctl enable-linger` |
 
 **The account password is deliberately not in it.** On a computer installed
-from a control file, the user sets the account password **the first time they
-run `sd-solo` at that computer's keyboard**. Until then ssh and the API accept only
-the global password — the server can reach the computer, and nobody else can.
-(Give `--account-password-file` as well if you would rather set it at install
-time.)
+from a control file **that gives a global password**, the user sets the account
+password **the first time they run `sd-solo` at that computer's keyboard**.
+Until then ssh and the API accept only the global password — the server can reach
+the computer, and nobody else can. (Give `--account-password-file` as well if you
+would rather set it at install time.) **With no global password in the file the
+installer asks for the account password as usual**, so an unattended install of a
+computer with no global password needs `--account-password-file`.
 
-**A blank answer is asked for**, and one that breaks the password rules is
-refused. The repository carries `sd-solo-setup.conf.sample`, which explains each
+**A blank answer is asked for** (except `global-password=`, above, and `api=` and
+`ssh=`, which take their defaults when nobody is at the keyboard), and one that
+breaks the password rules is refused. The repository carries `sd-solo-setup.conf.sample`, which explains each
 item and shows a sample answer, commented out, above the line for your answer;
 copy it and fill it in. **A commented sample is never taken as an answer.**
 
@@ -172,7 +182,7 @@ remove it with `deletesdsolo.sh` and start again.
 
 | | |
 |---|---|
-| The mode | a new installation: uninstall (keeping your data if you want it), then install |
+| Whether there is a global password (managed or not) | a new installation: uninstall (keeping your data if you want it), then install |
 | The API or ssh choices | uninstall and install again, or use the scripts in `~/SDCoreSolo/tools` — see [The installed scripts](17-the-installed-scripts.html) |
 | The passwords | `SET.PASSWORD`, `SET.PASSWORD ADMIN`, and on a managed computer `SET.PASSWORD GLOBAL` from the server. See [The account and its passwords](05-account-types.html) |
 

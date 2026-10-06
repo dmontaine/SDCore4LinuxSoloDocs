@@ -8,7 +8,7 @@ and manage select lists — all through a single shared library.
 **The API is a normal way to use SD**, not a facility reserved for developers
 and administrators. A person running a custom GUI program that talks to SD needs
 API access and may need nothing else. **On SD Core for Linux Solo the API is off
-unless you chose it when installing** (always on in managed mode), and it signs
+unless you chose it when installing** (a computer a server manages needs it open), and it signs
 in to the one account, `sduser`, with the account password — see *API access* in
 the GettingStarted set.
 

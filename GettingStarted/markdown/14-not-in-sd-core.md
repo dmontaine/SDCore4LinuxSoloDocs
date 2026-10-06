@@ -167,6 +167,7 @@ clear is refused outright. So is `SDConnectLocal`, which sent none. See
 [API access](09-api-access.html).
 
 **There is no unattended install of the first kind and no silent one of the
-second**: a standalone install asks for its passwords (or takes them from files
-you give it), and a managed install can be answered by a control file. See
+second**: an install asks for its passwords (or takes them from files you give
+it), and a control file can answer every other question, including the API and
+ssh choices, whether or not the computer is managed. See
 [Installing](01-installation.html).
