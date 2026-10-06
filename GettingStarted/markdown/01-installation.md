@@ -144,6 +144,7 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. Only a session signed in with the global password can change the list afterwards, so on a computer with no global password it is fixed until a reinstall. See [Managed mode](15-managed-mode.html) |
 | `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
 | `enable-linger=yes` | run `loginctl enable-linger` |
+| `reload-data=` | `yes` or `no`: what to do when the install directory holds data and configuration an earlier uninstall kept — use them, or move them aside and install clean. Blank asks on a terminal and reloads when there is none; it does nothing when nothing was kept. See [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 
 **The account password is deliberately not in it.** On a computer installed
 from a control file **that gives a global password**, the user sets the account

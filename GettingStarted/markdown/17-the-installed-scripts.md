@@ -97,7 +97,8 @@ bash ~/SDCoreSolo/tools/deletesdsolo.sh [--home DIR] [--keep-data | --delete-dat
 ```
 
 Removes SD — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
-Ends `SOLO DELETE COMPLETE <home>`.
+`--keep-data` leaves your data and `sd.conf` in `<home>` for a new install to
+offer back. Ends `SOLO DELETE COMPLETE <home>`.
 
 ## What is here and what is not
 

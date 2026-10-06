@@ -110,25 +110,61 @@ the source repository.** Run it as yourself, not with `sudo`:
 bash ~/SDCoreSolo/tools/deletesdsolo.sh
 ```
 
-It says what it will remove, and asks whether to keep your data:
+It says what it will remove, and asks whether to keep your data and configuration:
 
 | | |
 |---|---|
-| `--keep-data` | moves `user_accounts/sduser` to `~/SDCoreSolo-data-<date and time>` first |
-| `--delete-data` | removes it with the rest |
-| `--yes` | do not ask "Continue?" — the data choice is still required when there is no terminal |
+| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`) and `sd.conf`. Everything else in the directory is removed |
+| `--delete-data` | removes the whole directory |
+| `--yes` | do not ask "Continue?" |
+
+**With no terminal to ask on and neither `--keep-data` nor `--delete-data`, the data is
+kept** — nothing is deleted unasked (SD Core Solo for Windows' silent uninstall does the
+same). Say `--delete-data` to remove it.
 
 **What it removes:** the systemd user units, and it stops SD; the
 `~/.local/bin/sd-solo` link (only if it points at this tree); the ssh key lines an
 earlier release added to your `authorized_keys` (**your other keys are not touched**);
 the old `sshd_config.d` block, if you had written one (that needs `sudo`); and the
-installation directory, which holds Solo's own ssh directory. A firewall rule for
-port 4251 or 4249 is not removed; the script says so.
+installation directory, which holds Solo's own ssh directory — all of it, except
+what `--keep-data` leaves. A firewall rule for port 4251 or 4249 is not removed; the
+script says so.
 
-**The passwords, the audit trail and SD's own files are always removed.** What
-`--keep-data` keeps is your data — the account's files — not an installation: a
-kept `user_accounts` cannot be attached to a new install by this script yet, so
-copy what you need out of it.
+**The passwords, the audit trail, the deny list and SD's own files are always
+removed.** What `--keep-data` leaves is your data and your configuration, not an
+installation, plus a small stamp, `.sdcore-kept`, that says which release made the
+data and when it was left. Nothing is moved, so nothing can be lost in a move. To
+remove what was kept for good, delete the directory (`rm -rf ~/SDCoreSolo`).
+
+### Installing again over kept data
+
+**A new install into a directory that holds kept data offers it back.** The
+installer recognises it by the stamp, the account and `sd.conf` and nothing else (a
+directory with anything more in it is refused, as any non-empty directory is):
+
+```
+Saved data was found: /home/you/SDCoreSolo
+Reload your saved data and configuration into this new install? [Y/n]
+```
+
+| | |
+|---|---|
+| **Yes** (the default) | the account's files and `sd.conf` are used in the new install, and the account's VOC is refreshed the way an upgrade does it. The directory as you left it is kept beside the new one as `~/SDCoreSolo.kept-<date and time>`, a safety copy — delete it when you are satisfied |
+| **No** (start clean) | the kept data is moved aside to `~/SDCoreSolo.kept-<date and time>`, **never deleted**, and the install is a clean one |
+
+**The new install asks for new passwords either way**, because they were not kept —
+and that includes the global password, which is optional. **This is how a computer
+becomes managed after the fact: uninstall keeping the data, install again giving a
+global password, and reload.** It is also how a global password is dropped.
+
+**If SD will not start on the kept `sd.conf`** (an item this release no longer knows),
+the install still completes with the default `sd.conf` and says so; the kept copy is
+untouched, so you can correct it and put it in place by hand.
+
+For an install nobody sits at, `--reload-data` and `--start-clean` answer the
+question, as does the control file's `reload-data=yes` or `no`. With neither and no
+terminal, the kept data is reloaded. When nothing was kept the options do nothing, so
+one control file can serve many computers.
 
 **What it leaves:** linger (a persistent setting of your account that other
 things may rely on), the build packages, and any firewall rule the installer
