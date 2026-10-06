@@ -158,7 +158,13 @@ made here restores on SD Core Solo for Windows, and the other way round.
 **Every backup is checked as it is made**, and one that does not match the
 account is deleted rather than kept. A backup or restore starts only when no
 other session is logged in, and no one can log in — at the terminal, over ssh or
-through the API — until it has finished.
+through the API — until it has finished. **A backup never overwrites a file:** if
+the name is taken, SD says so and writes nothing. **An archive that lies is
+refused with nothing changed** — counts that disagree with the manifest, an
+entry path with `..` in it or an absolute path, no manifest or two of them.
+
+**A restored account comes back as it was:** each directory has the permissions
+it was backed up with (a directory that was `0700` stays `0700`).
 
 **A restore of the account you are using cannot happen while SD is running.**
 `restore.account` checks the archive, prepares it, and says so; the restore
@@ -189,6 +195,11 @@ says *No backup of sduser made on this computer was found in …* and changes
 nothing. Whichever backup is picked is still checked against its own contents
 in full before anything is changed, and one made on another computer is never
 picked. `no.query` skips the questions, as with a named archive.
+
+**`latest` only considers backups SD named itself**, `SD-<computer>-sduser-<yyyymmdd-hhmmss>.zip`
+or the same with `all`. A backup you have renamed is never picked: restore it by
+giving its name (`restore.account myfile.zip`). A bare name is looked for in the
+saved directory; a name with a directory in it is used as given.
 
 ### `SET.BACKUP.DIRECTORY`
 

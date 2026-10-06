@@ -50,7 +50,15 @@ the API, once it has signed in with the global password: see
 no longer supported; this server requires SCRAM authentication"*.
 
 **A wrong password is refused**, and the refusal is written to the audit trail —
-for example `API REFUSED user=sduser reason=wrong password`.
+for example `API REFUSED user=sduser reason=wrong password`. It is written
+**before** the three-second wait SD adds to slow down guessing, so a program that
+hangs up during the wait is recorded as well.
+
+**Known issue: `TLS read failed`.** A refused login made through the C client
+library can report `TLS read failed` instead of *Invalid username or password*.
+The login is refused either way and nothing else is affected. It has been seen
+only on test computers running under VirtualBox (Fedora and Debian guests), and
+not on Windows.
 
 **The only account an API session may enter is `sduser`.** Asking for SDSYS, or
 any other name, is answered *User not allowed in requested account* — the same
