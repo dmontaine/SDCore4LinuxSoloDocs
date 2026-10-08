@@ -152,7 +152,7 @@ says *this computer has no global password, so no SD Core server manages it and
 there is nothing to manage*, changes nothing, and the global catalogue holds only
 SD's own programs.
 
-## Commands the user may not run: `DENY.VERBS`
+## Commands the user may not run: `deny.verbs`
 
 **The server keeps a list of commands the user of the computer may not run
 without the administrator or global password.** A command on the list behaves
@@ -179,7 +179,7 @@ three. The answer says what else was taken:
 
 ```
 :deny.verbs add sh
-DENY.VERBS also denies, as the same command: !
+deny.verbs also denies, as the same command: !
 DENY.VERBS 1: SH
 ```
 

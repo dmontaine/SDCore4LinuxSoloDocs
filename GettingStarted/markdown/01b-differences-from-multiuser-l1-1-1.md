@@ -53,7 +53,7 @@ SD Core for Linux server also manages it and signs in with that password. The
 installer lets the global password be left blank, in which case no server manages
 the computer; there is no "standalone or managed" question. The server can put compiled programs into the global
 catalogue (`global.bp.out`, `sync.global.catalog`) and keep a list of commands
-the user may not run (`DENY.VERBS`). An installer control file,
+the user may not run (`deny.verbs`). An installer control file,
 `sd-solo-setup.conf`, sets up many computers the same way, leaving the account
 password to be chosen at first login. From LS1.1-2 the server can also install its
 own ssh key over the API, and the client library pins a server's TLS certificate
