@@ -169,7 +169,7 @@ deny.verbs set listf,copy        replace the list
 **Every form answers with the list as it now stands:**
 
 ```
-DENY.VERBS 2: LISTF,COPY
+deny.verbs 2: listf,copy
 ```
 
 **A command is denied under every name that runs it.** Denying `SH` denies `!`,
@@ -180,7 +180,7 @@ three. The answer says what else was taken:
 ```
 :deny.verbs add sh
 deny.verbs also denies, as the same command: !
-DENY.VERBS 1: SH
+deny.verbs 1: sh
 ```
 
 | | |
