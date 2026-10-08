@@ -44,20 +44,26 @@ scripts you run, and the scripts say when.
 time and user:
 
 ```
-2026-09-30 02:56:31 user=sduser uid=1 pid=109059 LOGIN PASSWORD account=sduser via=stored
-2026-09-30 02:56:31 user=sduser uid=1 pid=109059 LOGIN account=sduser
+2026-09-30 02:56:31 user=sduser uid=1 pid=109059 login password account=sduser via=stored
+2026-09-30 02:56:31 user=sduser uid=1 pid=109059 login account=sduser
 ```
+
+Every word before the first `=` is lower case, the event names included. What
+follows an `=` is data and keeps its case: the account name, a `reason=` text,
+and what a caller typed in `command=`. Lines written before 7 October 2026 are
+upper case (`LOGIN REFUSED`) and are not rewritten, so search a long-lived file
+without regard to case.
 
 | Recorded | |
 |---|---|
 | **Sign-ins** | every one, with how the password was proved — `via=account`, `via=global`, `via=first` (the first password, chosen at the console), or `via=stored` for a command-line `sd-solo <command>` — and every refusal |
 | **`ADMIN`** | every unlock and every refusal |
 | **Passwords** | a change of the account, administrator or global password, and a refused change |
-| **The API** | every login, every refused request, and every failed login with its reason — `API REFUSED user=sduser reason=wrong password`. **The address is not recorded** |
-| **Managed mode** | `DENY.VERBS` changes and `SYNC.GLOBAL.CATALOG` runs, and the installer's own internal sessions |
+| **The API** | every login, every refused request, and every failed login with its reason — `api refused user=sduser reason=wrong password`. **The address is not recorded** |
+| **Managed mode** | `deny.verbs` changes and `sync.global.catalog` runs, and the installer's own internal sessions |
 
-**The refusals are the interesting half.** An `ADMIN REFUSED`, a `LOGIN REFUSED`
-or an `API REFUSED` is somebody trying something that did not work.
+**The refusals are the interesting half.** An `admin refused`, a `login refused`
+or an `api refused` is somebody trying something that did not work.
 
 **Nothing is ever discarded.** When SD starts and the file is 1 MB or more, it is
 **renamed with the date and time and a new one started**. Removing the old ones

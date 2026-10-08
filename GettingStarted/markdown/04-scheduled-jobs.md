@@ -71,7 +71,7 @@ kept copy, which is already in a private file: `~/SDCoreSolo/$cred/$stored`.
 | *A command given on the sd command line needs the account password on its input* | the kept copy did not work and the command was run at a terminal, with nothing piped in |
 | *Wrong password* | the piped password was wrong |
 | *SD has not been started* | the daemon is not running: no linger, or SD was stopped |
-| the job reports success and nothing happened | look in `~/SDCoreSolo/audit`: a sign-in with the kept copy is recorded as `LOGIN PASSWORD account=sduser via=stored` |
+| the job reports success and nothing happened | look in `~/SDCoreSolo/audit`: a sign-in with the kept copy is recorded as `login password account=sduser via=stored` |
 
 **A job's output goes where cron sends it** — mail, or nowhere — unless the
 paragraph sends it somewhere itself: a file, or a printer.

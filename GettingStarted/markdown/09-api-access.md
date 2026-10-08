@@ -52,7 +52,7 @@ the API, once it has signed in with the global password: see
 no longer supported; this server requires SCRAM authentication"*.
 
 **A wrong password is refused**, and the refusal is written to the audit trail —
-for example `API REFUSED user=sduser reason=wrong password`. It is written
+for example `api refused user=sduser reason=wrong password`. It is written
 **before** the three-second wait SD adds to slow down guessing, so a program that
 hangs up during the wait is recorded as well.
 
