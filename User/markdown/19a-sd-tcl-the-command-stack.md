@@ -128,7 +128,7 @@ show it.
 **There is no `logto` in SD Core Solo** (it was removed in LS1.1-3). There is
 one account, `sduser`, so there is nowhere to switch to, and SDSYS is never
 entered on a Solo computer: the administrator commands are in your own account
-behind `ADMIN`. Typed anyway, `logto` answers like any word that is not a
+behind `admin`. Typed anyway, `logto` answers like any word that is not a
 verb, *LOGTO is not in your VOC*.
 
 ## What is not here
@@ -157,14 +157,14 @@ there is no shipped example to look at.
 
 ## Who has these verbs
 
-Everything on this page is in your account, and none of it needs `ADMIN`:
+Everything on this page is in your account, and none of it needs `admin`:
 
 | | |
 |---|---|
 | **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
 **The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
-shell with your own permissions, need no `ADMIN`, and refuse a command that
+shell with your own permissions, need no `admin`, and refuse a command that
 carries a shell metacharacter. They are described under *Operating system access*
 in the GettingStarted set.
 

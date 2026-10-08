@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-146 of them; whether a verb needs `ADMIN` is in the GettingStarted set.
+146 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 

@@ -91,9 +91,9 @@ itself.
 | **local** | a VOC entry in the account, so the name works only there |
 | **global** | `gcat` in the system account — **every account sees it** |
 
-**Nobody catalogues globally on Solo — `ADMIN` or not.** `catalog ... global` is
+**Nobody catalogues globally on Solo — `admin` or not.** `catalog ... global` is
 refused with *"The global catalogue holds the SD Core server's programs from
-GLOBAL.BP.OUT and is changed only by SYNC.GLOBAL.CATALOG"*. **The same refusal
+global.bp.out and is changed only by sync.global.catalog"*. **The same refusal
 applies to an implicit global catalogue** — one chosen by a `*`, `!`, `_` or `$`
 prefix on the call name rather than by the `global` keyword — so the prefix is
 not a way round it. On a managed computer the global catalogue is the SD Core

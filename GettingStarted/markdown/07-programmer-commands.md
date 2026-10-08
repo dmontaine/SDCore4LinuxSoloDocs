@@ -9,7 +9,7 @@ been given.
 
 **Two things, named as they come up below, still need more than the verb**:
 cataloguing globally is refused to everyone, and editing the VOC directly needs
-`ADMIN` — see [What actually gates these](#what-actually-gates-these) at the foot
+`admin` — see [What actually gates these](#what-actually-gates-these) at the foot
 of this page. The full-screen editors need nothing extra.
 
 ## Compile, catalogue and run
@@ -26,7 +26,7 @@ of this page. The full-screen editors need nothing extra.
 | **`phantom`** | start a background process |
 
 > **Nobody catalogues globally.** `catalog ... global`, and `delete.catalog` of a
-> global entry, are refused whoever asks and whether or not `ADMIN` is unlocked.
+> global entry, are refused whoever asks and whether or not `admin` is unlocked.
 > On a managed computer the global catalogue is the SD Core for Linux server's
 > — see [Managed mode](15-managed-mode.html). Private and local cataloguing
 > work as they always did: catalogue your own programs with `catalog ... local`.
@@ -88,7 +88,7 @@ If you run `nano` yourself, outside SD, it is unchanged.
 | | |
 |---|---|
 | **BASIC source** in a `bp` file | what they are for |
-| **VOC records** | fine — a VOC record is a few short fields (editing the VOC needs `ADMIN`) |
+| **VOC records** | fine — a VOC record is a few short fields (editing the VOC needs `admin`) |
 | **Dictionary records** | fine for a simple one; see the limit below |
 | **Data records with multivalues** | fine — see the tokens below |
 | **Data records with subvalues** | fine — see the tokens below |
@@ -191,9 +191,9 @@ and `modify` are gone and are not coming back. See
 
 | | |
 |---|---|
-| Changing the VOC directly | `ADMIN` first: `ed voc`, a program's `write` or `delete` to the VOC, `copy` into it, `.s` and `.d`. Everything SD writes to the VOC itself, as a side effect, is not gated |
-| The global catalogue | nobody, `ADMIN` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
-| The deny list (managed mode) | `ADMIN` or the global password unlocks what the server denied |
+| Changing the VOC directly | `admin` first: `ed voc`, a program's `write` or `delete` to the VOC, `copy` into it, `.s` and `.d`. Everything SD writes to the VOC itself, as a side effect, is not gated |
+| The global catalogue | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
+| The deny list (managed mode) | `admin` or the global password unlocks what the server denied |
 | File permissions | ordinary Linux file permissions on your own directory — see [Security](12-security.html) |
 | Reaching the operating system | none, for `sh`, `OS.EXECUTE`, or either editor |
 

@@ -135,13 +135,13 @@ The installer copies the account's VOC from `newvoc` in the system directory —
 **414 records**, counted directly. (SDSYS's own VOC, which nobody signs in to, is
 built from `voc_template` instead — **422 records**, the same verbs plus a few
 system file pointers.) `update.accounts`, which needs
-`ADMIN`, and an upgrade, add to the account's VOC whatever a new release ships;
+`admin`, and an upgrade, add to the account's VOC whatever a new release ships;
 neither takes anything away.
 
 **Administration is in the verb, not in the VOC.** Your account has `config`,
 `set.date`, `clean.account`, `list.readu`, `list.locks`, `lock`, `unlock`,
 `listu`, `update.accounts` and the rest — and each one refuses with *Command
-requires administrator privileges* until `ADMIN`. There is no `create.account`,
+requires administrator privileges* until `admin`. There is no `create.account`,
 `delete.account`, `modify.account`, `remote.ssh` or `remote.api` anywhere: an
 unknown name is simply not recognised. See *Administrator commands* in the
 GettingStarted set.
@@ -166,9 +166,9 @@ has no on-disk name to fold.
 and `ED VOC`*name* is how you edit a VOC record by hand. But there is no
 verb whose purpose is to create or modify VOC entries — `set.file` writes
 one kind, `.s` writes two, and everything else is done with `ED` or with
-`copy from voc`. **On Solo every direct change to the VOC needs `ADMIN`** —
+`copy from voc`. **On Solo every direct change to the VOC needs `admin`** —
 `ed voc`, a program's `write` or `delete` to it, `copy` into it, `.s` and `.d`
-with a name — and is refused with *The VOC can only be changed after ADMIN*
+with a name — and is refused with *The VOC can only be changed after admin*
 without it. What SD writes to the VOC itself — `create.file`'s entry, the command
 stack — is not gated.
 

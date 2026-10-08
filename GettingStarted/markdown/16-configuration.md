@@ -54,7 +54,7 @@ the parameter.
 
 ## Reading the settings
 
-The `config` verb reports what is in force — after `ADMIN`, apart from `config
+The `config` verb reports what is in force — after `admin`, apart from `config
 gpl` and `config contrib`:
 
 ```
@@ -92,14 +92,14 @@ parameter.
 
 Two further forms exist. `config lptr` reports the settings of the default
 printer, and `config gpl` and `config contrib` display the licence and the list of
-contributors — those two need no `ADMIN`.
+contributors — those two need no `admin`.
 
 ## Changing a parameter
 
 Editing `sd.conf` and restarting SD is the durable route, and for most parameters
 it is the only one.
 
-**Some parameters can also be changed for the current session** (after `ADMIN`):
+**Some parameters can also be changed for the current session** (after `admin`):
 
 ```
 config sortmem 8192

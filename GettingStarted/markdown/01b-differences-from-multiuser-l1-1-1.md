@@ -25,8 +25,8 @@ product. The User set applies to both.
 |---|---|
 | a local sign-in asks for no SD password — Linux has authenticated you | **every session asks for the account password**: at the keyboard, over ssh, and through the API |
 | a command on the command line (`sd list customers`) needs no password | **`sd-solo list customers`** uses **a copy of the account password kept for you**, in a file only you can read, so scripts and scheduled jobs need no typing |
-| administration is being SDSYS | **administration is `ADMIN`** and a password set at installation |
-| `modify.password`, run by SDSYS | **`SET.PASSWORD`**: your own account password with no `ADMIN` (it asks the current one), `SET.PASSWORD ADMIN` after `ADMIN`, `SET.PASSWORD GLOBAL` by the SD Core for Linux server only. It also updates the kept copy |
+| administration is being SDSYS | **administration is `admin`** and a password set at installation |
+| `modify.password`, run by SDSYS | **`set.password`**: your own account password with no `admin` (it asks the current one), `set.password admin` after `admin`, `set.password global` by the SD Core for Linux server only. It also updates the kept copy |
 
 **The kept copy is the password itself, in clear, in a file only you can
 read** (mode 0600, in a 0700 directory), because Linux has nothing that lets a
@@ -38,9 +38,9 @@ read it, as they could read a `~/.pgpass`. See
 
 | multiuser L1.1-1 | Solo |
 |---|---|
-| the administrator verbs are SDSYS's, and only SDSYS has them | the same verbs are in your account and **need `ADMIN` first** — including eight that had no check of their own because only SDSYS had them: `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` (`CONFIG GPL` and `CONFIG CONTRIB`, which the sign-on banner tells everyone to type, need no `ADMIN`) |
-| editing the VOC directly is any account's own business | `ED VOC`, a program's `WRITE` or `DELETE` to the VOC, `COPY` into it, and saving or deleting a sentence with `.S` and `.D` **need `ADMIN`**. What SD writes to the VOC as a side effect — `CREATE.FILE`'s entry, the command stack — does not |
-| SDSYS can `CATALOG ... GLOBAL` | **nobody changes the global catalogue**, `ADMIN` or not. On a managed computer it holds the SD Core for Linux server's programs. See [Other hardening](13-hardening.html) |
+| the administrator verbs are SDSYS's, and only SDSYS has them | the same verbs are in your account and **need `admin` first** — including eight that had no check of their own because only SDSYS had them: `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` (`CONFIG GPL` and `CONFIG CONTRIB`, which the sign-on banner tells everyone to type, need no `admin`) |
+| editing the VOC directly is any account's own business | `ED VOC`, a program's `WRITE` or `DELETE` to the VOC, `COPY` into it, and saving or deleting a sentence with `.S` and `.D` **need `admin`**. What SD writes to the VOC as a side effect — `CREATE.FILE`'s entry, the command stack — does not |
+| SDSYS can `CATALOG ... GLOBAL` | **nobody changes the global catalogue**, `admin` or not. On a managed computer it holds the SD Core for Linux server's programs. See [Other hardening](13-hardening.html) |
 | `remote.ssh`, `remote.api` | **gone.** The API and ssh are chosen when installing, and changed with the scripts in `~/SDCoreSolo/tools` |
 | `update.accounts` updates every account | updates the one account, and an upgrade runs it for you |
 
@@ -52,7 +52,7 @@ See [Administrator commands](06-administrator-commands.html).
 SD Core for Linux server also manages it and signs in with that password. The
 installer lets the global password be left blank, in which case no server manages
 the computer; there is no "standalone or managed" question. The server can put compiled programs into the global
-catalogue (`GLOBAL.BP.OUT`, `SYNC.GLOBAL.CATALOG`) and keep a list of commands
+catalogue (`global.bp.out`, `sync.global.catalog`) and keep a list of commands
 the user may not run (`DENY.VERBS`). An installer control file,
 `sd-solo-setup.conf`, sets up many computers the same way, leaving the account
 password to be chosen at first login. From LS1.1-2 the server can also install its
@@ -90,7 +90,7 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
 - **Anything that creates, grants or deletes accounts**, or signs in to more
   than one account.
 - **Scripts that use `LOGTO`** (it is gone), or that expect administrator verbs
-  to work without `ADMIN`.
+  to work without `admin`.
 - **A client that signs in with a Linux user name**, or with the old cleartext
   login.
 - **Anything that writes the global catalogue.** Catalogue programs locally

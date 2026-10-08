@@ -1,5 +1,5 @@
 Title: SD TCL - Locks
-Subtitle: The two kinds of lock, giving back the ones your session holds, and what you cannot do without ADMIN.
+Subtitle: The two kinds of lock, giving back the ones your session holds, and what you cannot do without admin.
 
 **There are two unrelated things called a lock, and knowing which is which is
 most of what this page has to say.** They do not interact, and the names do not
@@ -18,15 +18,15 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-## Only one lock verb needs no `ADMIN`
+## Only one lock verb needs no `admin`
 
-**Inspecting locks and forcing them open need `ADMIN`.** `list.readu`,
+**Inspecting locks and forcing them open need `admin`.** `list.readu`,
 `list.locks`, `lock`, `clear.locks` and `unlock` are in your account, and each
 one refuses with *Command requires administrator privileges* until you type
-`ADMIN`. They are described under *Sessions and locks* in the GettingStarted set.
+`admin`. They are described under *Sessions and locks* in the GettingStarted set.
 
 **What needs nothing is `release`**, which gives back locks this session holds.
-That is the whole of the TCL lock interface without `ADMIN`, and the reason is
+That is the whole of the TCL lock interface without `admin`, and the reason is
 defensible: a lock you took is yours to give back, and looking at the table or
 taking somebody else's is an administrator's act.
 
@@ -59,19 +59,19 @@ nothing releases implicitly.
 
 ## What to do when something is stuck
 
-You cannot see the lock table without `ADMIN`, so the useful sequence is:
+You cannot see the lock table without `admin`, so the useful sequence is:
 
 | | |
 |---|---|
 | 1 | **`release`** anything you know your own session took |
 | 2 | `status` and `pstat`, on [SD TCL - Processes and Phantoms](30-sd-tcl-processes-and-phantoms.html), to see whether the program you think is holding it is still alive |
-| 3 | if it is not yours, type `ADMIN`, then `list.readu` to see who holds it and, once you know the holder is dead, `unlock` to force it open |
+| 3 | if it is not yours, type `admin`, then `list.readu` to see who holds it and, once you know the holder is dead, `unlock` to force it open |
 
 **A dead session's database locks are not released.** A session killed from
 outside SD keeps both its user-table entry and its record and file locks, so
 everything wanting that record waits for a process that is not there. **`release`
 will not clear that**; the recovery is `sd-solo -cleanup`, typed at a terminal — it
-needs no `sudo` and no `ADMIN`.
+needs no `sudo` and no `admin`.
 
 ## Task locks, and why you will rarely meet one
 
@@ -80,7 +80,7 @@ external resource, a sequence that must not run twice at once. Two programs
 agree that lock 7 means *this job*, and the number carries no other meaning.
 
 **Taking and releasing one is `lock` and `clear.locks`, both of which need
-`ADMIN`**, so in practice task locks are taken from **inside a program** with the
+`admin`**, so in practice task locks are taken from **inside a program** with the
 BASIC `lock` and `unlock` statements, which you may compile and run. That is the
 route to reach for; the TCL verbs exist for inspecting or clearing the table by
 hand.
@@ -89,14 +89,14 @@ hand.
 > It stays held, by a user number nothing is behind, until SD itself is
 > restarted — a defect, and it is recorded in the project's fix lists. If a job
 > guarded by a task lock will not start again after a crash, that is the first
-> thing to suspect, and clearing it needs `ADMIN` and `unlock tasklock`.
+> thing to suspect, and clearing it needs `admin` and `unlock tasklock`.
 
-## Which verbs need `ADMIN`
+## Which verbs need `admin`
 
 | | |
 |---|---|
-| **no `ADMIN`** | `release` |
-| **`ADMIN` first** | `list.readu` `list.locks` `lock` `clear.locks` `unlock` |
+| **no `admin`** | `release` |
+| **`admin` first** | `list.readu` `list.locks` `lock` `clear.locks` `unlock` |
 
 **The split is between your locks and everybody's.** Giving back what you hold
 is something any session may do. Looking at the computer's lock table, taking a

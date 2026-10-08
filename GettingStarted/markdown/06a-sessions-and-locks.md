@@ -3,7 +3,7 @@ Subtitle: Seeing who is signed in, ending a session that will not end itself, an
 
 These are the verbs for looking at SD as a whole and intervening in it:
 **which sessions are running, what they are holding, and how to take either
-away.** Most need `ADMIN` first; the table at the end says which.
+away.** Most need `admin` first; the table at the end says which.
 
 SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
@@ -54,7 +54,7 @@ or ssh.
 end and it has not gone. See below.
 
 **`sd-solo -u`**, from a terminal, lists the same sessions without an SD session of
-your own, and needs no `ADMIN`.
+your own, and needs no `admin`.
 
 ## Ending a session: `logout`
 
@@ -72,9 +72,9 @@ name, which is worth knowing before typing it intending to list something.
 Force logout initiated for user 27
 ```
 
-**`logout n` needs no `ADMIN`.** SD lets a session end any session running under
+**`logout n` needs no `admin`.** SD lets a session end any session running under
 the same user name, and on a Solo computer every session is `sduser`.
-**`logout all` needs `ADMIN`.** It leaves your own session alone.
+**`logout all` needs `admin`.** It leaves your own session alone.
 
 **`sd-solo -k n`** and **`sd-solo -k all`**, from a terminal, do the same from outside SD.
 
@@ -93,7 +93,7 @@ is the usual one — is refused while it is there. **Recovery is not another
 sd-solo -cleanup
 ```
 
-from a terminal — no `sudo`, no `ADMIN` — and `sd-solo -stop` then `sd-solo -start` if
+from a terminal — no `sudo`, no `admin` — and `sd-solo -stop` then `sd-solo -start` if
 that does not take it.
 
 **Confirm the session is actually dead before clearing it.** `pstat` *n*
@@ -235,7 +235,7 @@ unlock file n {user n} filelock
 unlock tasklock n {n …}
 ```
 
-**This is the only verb that takes somebody else's lock, and it needs `ADMIN`:**
+**This is the only verb that takes somebody else's lock, and it needs `admin`:**
 
 ```
 :unlock
@@ -273,12 +273,12 @@ any file, so nothing has to be written back.
 > dead session's record locks and file locks and leaves its task locks held, by
 > a user number nothing is behind, until SD itself is restarted. `list.locks`
 > shows the number with an owner and `clear.locks` refuses it because it is not
-> yours. **`unlock tasklock` *n*, after `ADMIN`, is the way out** — that is what
+> yours. **`unlock tasklock` *n*, after `admin`, is the way out** — that is what
 > the forced form is for.
 
-## Who needs `ADMIN`
+## Who needs `admin`
 
 | | |
 |---|---|
-| `listu`, `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock`, `logout all` | `ADMIN` first |
+| `listu`, `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock`, `logout all` | `admin` first |
 | `logout`, `logout n`, `sd-solo -u`, `sd-solo -k`, `sd-solo -cleanup` | nothing |

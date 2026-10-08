@@ -23,7 +23,7 @@ marks a word typed as it stands; braces mark an optional part.
 
 **Seeing the sessions, and ending them, are administrator verbs.** `listu`
 lists every session on the computer, and `logout all` ends every one but yours;
-both need `ADMIN` first. They are documented under *Sessions and locks* in the
+both need `admin` first. They are documented under *Sessions and locks* in the
 GettingStarted set. `logout` *n* and `sd-solo -k`, which end one session by number,
 need nothing.
 

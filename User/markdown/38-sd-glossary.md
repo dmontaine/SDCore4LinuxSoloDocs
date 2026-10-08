@@ -11,7 +11,7 @@ VOC, and its own `bp` source file. SD Core for Linux Solo has one, `sduser`, in
 `~/SDCoreSolo/user_accounts/sduser`. Entry to it is the account password.
 
 **Administrator** — a session that has unlocked the administrator commands
-with `ADMIN` and the administrator password (or that signed in with the global
+with `admin` and the administrator password (or that signed in with the global
 password on a managed computer). There is no separate administrator
 account and no way to make another: SDSYS, the system account, is never
 entered.

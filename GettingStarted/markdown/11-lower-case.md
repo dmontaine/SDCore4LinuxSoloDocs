@@ -41,8 +41,8 @@ project's own build checks), not merely claimed.
 ## Global catalogue names are the exception
 
 **The names of programs in the global catalogue are upper case** — `$LOGIN`,
-`!SET.PASSWORD`, and on a managed computer the server's programs, catalogued as
-`*NAME` by `SYNC.GLOBAL.CATALOG`. `catalog` upper-cases a global name, and the
+`!set.password`, and on a managed computer the server's programs, catalogued as
+`*NAME` by `sync.global.catalog`. `catalog` upper-cases a global name, and the
 loader looks it up upper-cased, so a program that `CALL *zzgsub` finds the entry
 `*ZZGSUB`. You type them in either case; nothing you write changes.
 

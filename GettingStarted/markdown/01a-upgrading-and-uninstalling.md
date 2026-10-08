@@ -81,11 +81,11 @@ enough on its own: your account's VOC was built by the release that installed
 it. So an upgrade also, for you:
 
 - adds the new release's commands to your account's VOC
-  (`UPDATE.ACCOUNTS ALL`) — it never takes anything away, and a record you keep
+  (`update.accounts all`) — it never takes anything away, and a record you keep
   your own version of, marked `[locked]` in field 1, is left alone;
 - recompiles SD's own dictionaries;
 - catalogues the server's programs in `global.bp.out` again, on a managed
-  computer (`SYNC.GLOBAL.CATALOG`), because the global catalogue is one of the
+  computer (`sync.global.catalog`), because the global catalogue is one of the
   files replaced.
 
 The installer records where it came from: `~/SDCoreSolo/.sdcore-install` gains

@@ -61,7 +61,7 @@ Asked in this order, each typed twice, shown as stars:
 | | |
 |---|---|
 | **Account password** | the password every SD session asks for — at the keyboard, over ssh and through the API |
-| **Administrator password** | unlocks the administrator commands, with `ADMIN` |
+| **Administrator password** | unlocks the administrator commands, with `admin` |
 | **Global password** | **optional — leave it blank if no SD Core server manages this computer.** If an SD Core for Linux server does manage it, this is the password the server signs in with, and it also unlocks the administrator commands |
 
 **Every password needs at least 8 characters, with a lower-case letter, an
@@ -185,7 +185,7 @@ remove it with `deletesdsolo.sh` and start again.
 |---|---|
 | Whether there is a global password (managed or not) | a new installation: uninstall (keeping your data if you want it), then install |
 | The API or ssh choices | uninstall and install again, or use the scripts in `~/SDCoreSolo/tools` — see [The installed scripts](17-the-installed-scripts.html) |
-| The passwords | `SET.PASSWORD`, `SET.PASSWORD ADMIN`, and on a managed computer `SET.PASSWORD GLOBAL` from the server. See [The account and its passwords](05-account-types.html) |
+| The passwords | `set.password`, `set.password admin`, and on a managed computer `set.password global` from the server. See [The account and its passwords](05-account-types.html) |
 
 ## Continued in
 

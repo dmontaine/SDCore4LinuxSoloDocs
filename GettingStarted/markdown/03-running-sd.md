@@ -102,16 +102,16 @@ matches**, what happens depends on where the input comes from:
 | typed at a terminal | refused: *A command given on the sd command line needs the account password on its input* |
 | piped in | the first line of the input is taken as the password, once — so a job can supply it itself |
 
-`SET.PASSWORD` keeps the copy up to date when you change the password.
+`set.password` keeps the copy up to date when you change the password.
 
 **`sd-solo -a` and `sd-solo -a<name>` have nothing to choose between**: there is one
 account, `sduser`, and every session lands in it. `sd-solo -asdsys` is refused,
 saying that SDSYS is not entered in Solo.
 
-**`sd-solo -u` and `sd-solo -k` need no `ADMIN`.** They are switches on the program,
+**`sd-solo -u` and `sd-solo -k` need no `admin`.** They are switches on the program,
 outside any SD session, and like `-start` and `-stop` they are the business of
 the user who owns SD. Inside a session, the same jobs are `LISTU` and
-`LOGOUT`, which do need `ADMIN` — see
+`LOGOUT`, which do need `admin` — see
 [Sessions and locks](06a-sessions-and-locks.html).
 
 **`sd-solo` refuses to run as root**, and says so before anything else. Solo has no

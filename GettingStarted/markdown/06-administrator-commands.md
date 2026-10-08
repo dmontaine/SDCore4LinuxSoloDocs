@@ -1,11 +1,11 @@
 Title: Administrator commands
-Subtitle: ADMIN, the commands that need it, and the maintenance verbs.
+Subtitle: admin, the commands that need it, and the maintenance verbs.
 
-**The administrator commands are in your own account, and they need `ADMIN`
+**The administrator commands are in your own account, and they need `admin`
 first.** There is no separate administrator account to sign in to, and no
 `sdsys` Linux user to become.
 
-## `ADMIN`
+## `admin`
 
 ```
 :admin
@@ -14,7 +14,7 @@ Administrator commands unlocked for this session
 ```
 
 **Type the administrator password** — or, on a managed computer, the global
-password. **It lasts until you leave SD or type `ADMIN OFF`**:
+password. **It lasts until you leave SD or type `admin OFF`**:
 
 ```
 :admin off
@@ -23,7 +23,7 @@ Administrator commands locked
 
 | | |
 |---|---|
-| *Wrong password - administrator commands stay locked* | one try; type `ADMIN` again |
+| *Wrong password - administrator commands stay locked* | one try; type `admin` again |
 | *Administrator commands are already unlocked* | nothing to do |
 | *No administrator password is set on this system* | the installation did not set one; install again |
 
@@ -34,26 +34,26 @@ password is never displayed, stored or logged.
 
 ## What needs it
 
-**Refused without `ADMIN`, with *Command requires administrator privileges*:**
+**Refused without `admin`, with *Command requires administrator privileges*:**
 
 | | |
 |---|---|
-| `SET.PASSWORD ADMIN` | change the administrator password — [The account and its passwords](05-account-types.html) |
+| `set.password admin` | change the administrator password — [The account and its passwords](05-account-types.html) |
 | `CONFIG` | report or set configuration — except `CONFIG GPL` and `CONFIG CONTRIB`, which need nothing |
 | `SET.DATE` | set the session's date |
 | `CLEAN.ACCOUNT` | empty the account's scratch files |
-| `UPDATE.ACCOUNTS` | refresh the account's VOC |
+| `update.accounts` | refresh the account's VOC |
 | `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
 | `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
 | anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
 
-**Refused without `ADMIN`, with *The VOC can only be changed after ADMIN*:**
+**Refused without `admin`, with *The VOC can only be changed after admin*:**
 editing the VOC directly — `ED VOC`, a program's `WRITE` or `DELETE` to the
 VOC, `COPY` into it — and saving or deleting a sentence with `.S` and `.D`.
 What SD writes to the VOC as a side effect of an ordinary command —
 `CREATE.FILE`'s entry, the command stack — is not gated.
 
-**Refused even with `ADMIN`**: changing the global catalogue (`CATALOG ...
+**Refused even with `admin`**: changing the global catalogue (`CATALOG ...
 GLOBAL`, `DELETE.CATALOG` of a global entry, a write to `global.bp.out`), and
 the commands that are the SD Core for Linux server's — see
 [Managed mode](15-managed-mode.html).
@@ -62,7 +62,7 @@ the commands that are the SD Core for Linux server's — see
 — **and nor does `sd-solo -k`**, because it is a switch on the program, not a
 command in a session. **`sh` needs nothing either**; see
 [Operating system access](06b-operating-system-access.html). **Nor does
-`SET.PASSWORD`** for your own account password — it asks for the current one
+`set.password`** for your own account password — it asks for the current one
 instead; see [The account and its passwords](05-account-types.html).
 
 ## The maintenance verbs
@@ -122,7 +122,7 @@ Empties the account's captured transcripts (`$COMO`), its hold file of reports
 touched** — no data file, no program, no dictionary. A como capture that is
 running is left alone and says so.
 
-### `UPDATE.ACCOUNTS`
+### `update.accounts`
 
 ```
 update.accounts {all}
@@ -139,7 +139,7 @@ type code** — `V[locked]`, `PA[locked]` — and it is left alone. **A verb is
 updated anyway**, because a locked verb would go on naming a program this
 release replaced; you are told which ones.
 
-### `BACKUP.ACCOUNT` and `RESTORE.ACCOUNT`
+### `backup.account` and `restore.account`
 
 ```
 backup.account {to directory}
@@ -148,7 +148,7 @@ restore.account archive
 
 There is one account, so **neither command needs a name**: with none, they fill
 in the account's name, `sduser`, exactly as if you had typed it (`all`, and the
-name, are still accepted). After `ADMIN`, `backup.account` writes
+name, are still accepted). After `admin`, `backup.account` writes
 **one zip file**, named for the computer, the account and the time, holding the account's
 files and a plain-text description of it. `restore.account archive` puts the
 account back, on this computer or another one. **A backup from another person's SD Core Solo replaces
@@ -201,14 +201,14 @@ or the same with `all`. A backup you have renamed is never picked: restore it by
 giving its name (`restore.account myfile.zip`). A bare name is looked for in the
 saved directory; a name with a directory in it is used as given.
 
-### `SET.BACKUP.DIRECTORY`
+### `set.backup.directory`
 
 ```
 set.backup.directory directory
 set.backup.directory
 ```
 
-After `ADMIN`, saves the directory that `backup.account` writes to and
+After `admin`, saves the directory that `backup.account` writes to and
 `restore.account` reads from, so it need not be typed each time. **It creates the
 directory if it is not there**, checks that you can write to it, and keeps it in
 `sd.conf` (`BACKUPDIR=`), where it takes effect at once — no restart. On its own
@@ -227,7 +227,7 @@ by you only**, because a backup holds your account's files. An earlier release
 refuses to start if `sd.conf` holds a `BACKUPDIR` line, so take the line out
 before going back to one.
 
-### `SETTINGS.REPORT`
+### `settings.report`
 
 ```
 settings.report {directory}
@@ -241,5 +241,5 @@ reads it back, and it never contains a password or a private key.
 
 There is no `APPEND.SD.PATH`: the installer links `sd-solo` into `~/.local/bin`, and
 whether that directory is on your PATH is between you and your shell's startup
-file. There are no `CREATE.ACCOUNT`, `DELETE.ACCOUNT`, `MODIFY.ACCOUNT`,
+file. There are no `create.account`, `delete.account`, `modify.account`,
 `GRANT`, `REVOKE` or `LIST.GRANTS` — see [Not in SD Core](14-not-in-sd-core.html).

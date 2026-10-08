@@ -22,7 +22,7 @@ you**, or `root`, from reading or changing the files directly.
 |---|---|---|
 | **Linux** | your directory from other Linux users | it from you, and from `root`, who can read `~/SDCoreSolo` — the credential store included |
 | **The account password** | every SD session: keyboard, ssh, API, and a command line | the files themselves |
-| **`ADMIN`** | the administrator commands and direct VOC edits, in a session | a program that reads the files |
+| **`admin`** | the administrator commands and direct VOC edits, in a session | a program that reads the files |
 | **The global password** | a managed computer, for the SD Core for Linux server | — |
 | **The deny list** | commands the user may not run on a managed computer | the same files, outside SD |
 
@@ -36,8 +36,8 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | | |
 |---|---|
 | Every session | asks the account password |
-| Administrator commands | refused until `ADMIN`. The eight that had no check of their own — `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` — are gated too. See [Administrator commands](06-administrator-commands.html) |
-| The VOC | direct edits need `ADMIN`; the global catalogue is changed by nobody in a session |
+| Administrator commands | refused until `admin`. The eight that had no check of their own — `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` — are gated too. See [Administrator commands](06-administrator-commands.html) |
+| The VOC | direct edits need `admin`; the global catalogue is changed by nobody in a session |
 | The daemon | runs as you, never as root; SD refuses to start as root |
 | Files | mode 0600, directories 0700, from the installer and from every file SD creates (`umask 077`) |
 | ssh | Solo's own listener on port 4251, run by you with no `sudo`; your Linux account name and password (inside ssh's encrypted channel, checked by PAM) or a key, forced into `sd-solo`, no shell, no forwarding; on by default for this computer only, and three wrong passwords from one address lock that address for ten minutes — see [ssh access](08-ssh-access.html) |
@@ -90,7 +90,7 @@ is trusted. See [API access](09-api-access.html).
 ## What you can do further
 
 **Lock a session into one application** by removing `basic` and `run` from the
-VOC (which needs `ADMIN`) and turning off its break key (`pterm break off`), so
+VOC (which needs `admin`) and turning off its break key (`pterm break off`), so
 it can neither compile nor run anything else and cannot interrupt out to a TCL
 prompt. Neither is a setting; both are done by hand.
 

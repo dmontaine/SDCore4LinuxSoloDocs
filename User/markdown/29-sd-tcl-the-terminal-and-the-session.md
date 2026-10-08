@@ -290,7 +290,7 @@ conversion code other than `D` is set, `display` names that too.
 
 **`date.format` with no keyword prints nothing** — like `pterm`, it wants one.
 
-**Setting the session's date is a different thing** — `set.date` needs `ADMIN`,
+**Setting the session's date is a different thing** — `set.date` needs `admin`,
 and it moves the date SD reports in your session only, not the computer's clock.
 It is described under *Administrator commands* in the GettingStarted set.
 

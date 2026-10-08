@@ -65,7 +65,7 @@ that no page runs longer than a reader will scroll.
 | **03** | [Running SD](03-running-sd.html) | How SD starts, stopping it, and the command line |
 | **04** | [Scheduled jobs](04-scheduled-jobs.html) | Running an SD command on a timer |
 | **05** | [The account and its passwords](05-account-types.html) | `sduser`, the account password, the administrator and global passwords |
-| **06** | [Administrator commands](06-administrator-commands.html) | The commands that need `ADMIN` first |
+| **06** | [Administrator commands](06-administrator-commands.html) | The commands that need `admin` first |
 | **06a** | [Sessions and locks](06a-sessions-and-locks.html) | Who is signed in, what is locked, and clearing it |
 | **06b** | [Operating system access](06b-operating-system-access.html) | Reaching Linux from inside SD |
 | **07** | [Development and file commands](07-programmer-commands.html) | Compiling, editing, and the verbs that maintain files and indexes |
@@ -93,7 +93,7 @@ on the command line — `sd-solo list customers` — uses a copy of the password
 for you in your own home directory, so a script or a scheduled job does not
 have to type it. See [The account and its passwords](05-account-types.html).
 
-**2. Administrator commands need `ADMIN` first.** Type `ADMIN` and the
+**2. Administrator commands need `admin` first.** Type `admin` and the
 administrator password (or, on a managed computer, the global password) and
 they work for the rest of that session. See
 [Administrator commands](06-administrator-commands.html).

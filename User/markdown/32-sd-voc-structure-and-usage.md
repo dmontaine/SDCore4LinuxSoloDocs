@@ -113,7 +113,7 @@ itself — that the account needs:
 | `global.bp.out` | `@SDSYS/global.bp.out` | |
 
 `global.bp.out` is the SD Core for Linux server's directory of compiled programs
-on a managed computer, and is empty otherwise; you cannot write to it, `ADMIN` or
+on a managed computer, and is empty otherwise; you cannot write to it, `admin` or
 not. See *Managed mode* in the GettingStarted set.
 
 ### The $ACC record
@@ -154,7 +154,7 @@ dispatch type, and it is field 3 that marks the record as a verb.
 
 Field 4 carries dispatch options and **field 5 names a security subroutine**.
 If field 5 is present, that subroutine is called before the verb runs and can
-refuse it. **None of the shipped verbs uses field 5** — what needs `ADMIN` is
+refuse it. **None of the shipped verbs uses field 5** — what needs `admin` is
 checked by the verb's own code, not by a security subroutine — but the
 mechanism is there for a site that wants a verb guarded rather than absent.
 **Field 4 does matter to the deny list** (see *Managed mode* in the

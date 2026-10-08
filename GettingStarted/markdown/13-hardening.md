@@ -7,26 +7,26 @@ what it touches. The identity model and the file permissions are on
 
 ## The global catalogue
 
-**Nobody changes the global catalogue in a session** — not with `ADMIN`, not with
+**Nobody changes the global catalogue in a session** — not with `admin`, not with
 the global password. `catalog ... global`, and `delete.catalog` of a name that is
 global (a name starting `*`, `!`, `_` or `$`), are refused, and so is a program's
 own `write`, `delete` or `clear` of `global.bp.out` and `gcat`:
 
 ```
 :catalog bp myprog global
-The global catalogue holds the SD Core server's programs from GLOBAL.BP.OUT and is changed only by SYNC.GLOBAL.CATALOG
+The global catalogue holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog
 ```
 
 This matters because the global catalogue holds the programs SD runs for
 everybody, `$login` among them. **Replacing one runs your code in every session,
-and deleting one stops everybody signing in.** In the multiuser product `ADMIN`
+and deleting one stops everybody signing in.** In the multiuser product `admin`
 was enough to overwrite SD's own `$` and `!` programs; here it is not.
 
 **On a managed computer the catalogue is the server's**, made from the compiled
 programs the server puts in `global.bp.out` and kept in step by
-`SYNC.GLOBAL.CATALOG`, which only a session signed in with the global password
+`sync.global.catalog`, which only a session signed in with the global password
 can run. See [Managed mode](15-managed-mode.html). **On a computer with no
-global password the global catalogue is only SD's own** and `SYNC.GLOBAL.CATALOG`
+global password the global catalogue is only SD's own** and `sync.global.catalog`
 says there is nothing to manage.
 
 **Nothing changes for local and private cataloguing**, which is what programmers
@@ -59,7 +59,7 @@ There are two SD keeps itself, and they are not interchangeable.
 
 | File | Where | For |
 |---|---|---|
-| `audit` | `~/SDCoreSolo` | **who did what** — sign-ins, refusals, `ADMIN`, passwords. See [Security and the operating system](12a-security-and-the-operating-system.html#the-audit-trail) |
+| `audit` | `~/SDCoreSolo` | **who did what** — sign-ins, refusals, `admin`, passwords. See [Security and the operating system](12a-security-and-the-operating-system.html#the-audit-trail) |
 | `errlog` | `~/SDCoreSolo` | diagnostics |
 
 **A third place is worth checking, and it is not a file SD writes at all:

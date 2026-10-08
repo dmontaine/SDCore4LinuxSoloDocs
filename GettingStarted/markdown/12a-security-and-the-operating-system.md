@@ -6,7 +6,7 @@ This page continues [Security](12-security.html).
 ## Reaching the operating system from inside SD
 
 **There are three ways out of SD onto the computer, and all three are open to
-your session with no `ADMIN`.**
+your session with no `admin`.**
 
 | | What it is |
 |---|---|
@@ -57,7 +57,7 @@ without regard to case.
 | Recorded | |
 |---|---|
 | **Sign-ins** | every one, with how the password was proved — `via=account`, `via=global`, `via=first` (the first password, chosen at the console), or `via=stored` for a command-line `sd-solo <command>` — and every refusal |
-| **`ADMIN`** | every unlock and every refusal |
+| **`admin`** | every unlock and every refusal |
 | **Passwords** | a change of the account, administrator or global password, and a refused change |
 | **The API** | every login, every refused request, and every failed login with its reason — `api refused user=sduser reason=wrong password`. **The address is not recorded** |
 | **Managed mode** | `deny.verbs` changes and `sync.global.catalog` runs, and the installer's own internal sessions |

@@ -114,7 +114,7 @@ These exist for SD's own use. They are catalogued because SD's programs are
 ordinary compiled programs and reach them the same way anything else does.
 
 **Calling them from an application is not supported.** Several refuse a session
-that has not unlocked `ADMIN`, and some change the state of the computer.
+that has not unlocked `admin`, and some change the state of the computer.
 
 | | |
 |---|---|
@@ -124,7 +124,7 @@ that has not unlocked `ADMIN`, and some change the state of the computer.
 | `!SD_GET_SALT` `!SD_KEY_FROM_PW` | the key derivation behind that credential |
 | `!SOLO_STORE_PW` | keep the copy of the account password that lets `sd-solo <command>` sign in without typing |
 | `!PW_COMPLEX` | SD's password rule — 8 characters with a lower-case letter, an upper-case letter, a digit and a symbol |
-| `!VOC_GUARD` | the `ADMIN` test for a direct change to the VOC, and the refusal of a write to `gcat`, `global.bp.out` and the deny list without the global password |
+| `!VOC_GUARD` | the `admin` test for a direct change to the VOC, and the refusal of a write to `gcat`, `global.bp.out` and the deny list without the global password |
 | `!EUID_SET` `!EUID_RESTORE` | **do nothing on Solo** — the multiuser product's `setuid`/`setgid` calls |
 | `!IS_USER` `!IS_GROUP` `!IS_GRP_MEMBER` `!IS_SD_USER` | Linux account and group questions |
 | `!PEER_LOCAL` | whether a connection came from this computer |
