@@ -107,7 +107,7 @@ without `admin`.
 1 record(s) copied.
 :sync.global.catalog
 catalogued *MYPROG
-SYNC GLOBAL CATALOG DONE 1 catalogued 0 removed 0 refused
+sync global catalog done 1 catalogued 0 removed 0 refused
 ```
 
 A session with no administrator rights can then `CALL *myprog(x)` — the name in
@@ -120,7 +120,7 @@ again; the `*MYPROG` entry goes:
 :delete global.bp.out myprog
 :sync.global.catalog
 removed *MYPROG
-SYNC GLOBAL CATALOG DONE 0 catalogued 1 removed 0 refused
+sync global catalog done 0 catalogued 1 removed 0 refused
 ```
 
 **What `sync.global.catalog` does:** every object in `global.bp.out` is catalogued
@@ -129,7 +129,7 @@ Linux — replacing any older copy; every `*` entry with no object left in
 `global.bp.out` is removed. SD's own system programs in the catalogue are never
 touched, because none of them starts with `*` and nothing else can make a `*`
 entry. An object it cannot load is refused by name and the rest still go in. The
-last line always reads `SYNC GLOBAL CATALOG DONE <n> catalogued <n> removed <n>
+last line always reads `sync global catalog done <n> catalogued <n> removed <n>
 refused`.
 
 **An upgrade catalogues them again for you.** It replaces the global catalogue
