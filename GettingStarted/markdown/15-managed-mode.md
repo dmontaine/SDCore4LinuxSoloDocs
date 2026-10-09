@@ -106,7 +106,7 @@ without `admin`.
 :copy from bp.out to global.bp.out myprog
 1 record(s) copied.
 :sync.global.catalog
-catalogued *MYPROG
+catalogued *myprog
 sync global catalog done 1 catalogued 0 removed 0 refused
 ```
 
@@ -114,18 +114,18 @@ A session with no administrator rights can then `CALL *myprog(x)` — the name i
 the `*` form is what a program uses to call a global one.
 
 **To remove one**, delete it from `global.bp.out` and run `sync.global.catalog`
-again; the `*MYPROG` entry goes:
+again; the `*myprog` entry goes:
 
 ```
 :delete global.bp.out myprog
 :sync.global.catalog
-removed *MYPROG
+removed *myprog
 sync global catalog done 0 catalogued 1 removed 0 refused
 ```
 
 **What `sync.global.catalog` does:** every object in `global.bp.out` is catalogued
-as `*<NAME>`, **in upper case** — the global catalogue's names are upper case on
-Linux — replacing any older copy; every `*` entry with no object left in
+as `*<name>`, **in lower case** — every name in the catalogue is lower case —
+replacing any older copy; every `*` entry with no object left in
 `global.bp.out` is removed. SD's own system programs in the catalogue are never
 touched, because none of them starts with `*` and nothing else can make a `*`
 entry. An object it cannot load is refused by name and the rest still go in. The
