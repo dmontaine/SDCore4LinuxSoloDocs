@@ -59,7 +59,7 @@ gpl` and `config contrib`:
 
 ```
 :config
-Virtual Machine Version Number LS1.1-2
+Virtual Machine Version Number LS1.1-3
 CMDSTACK  99
 CREATUSR  1
 DEADLOCK  0

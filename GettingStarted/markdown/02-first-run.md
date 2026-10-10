@@ -24,7 +24,7 @@ choose one now:
 This account has no password yet. Choose one now - SD Core for Linux Solo asks for it every time it is used.
 ```
 
-The sign-on banner names the product and its version, `LS1.1-2`.
+The sign-on banner names the product and its version, `LS1.1-3`.
 
 ## 2. Look around
 

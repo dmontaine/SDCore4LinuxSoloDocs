@@ -274,7 +274,7 @@ supplier` parse.
 
 ```
 001  X
-002  LS1.1-2
+002  LS1.1-3
 ```
 
 This is `$release`, and it is the shipped VOC's **only** X-record. An X-record is

@@ -116,7 +116,7 @@ cleartext API login will not connect. See [ssh access](08-ssh-access.html) and
 
 ## What this release is
 
-**LS1.1-2.** Linux only, English only, and not yet released. **It is a hobby
+**LS1.1-3.** Linux only and English only. **It is a hobby
 project with no release schedule.**
 
 This set covers installing and running SD Core for Linux Solo, administering
@@ -155,5 +155,5 @@ The two things worth reporting in most detail are **anything that behaves
 differently from OpenQM and is not described here**, and **anything in these
 pages that turns out not to be true of the build you are running**.
 
-**Quote the version as `LS1.1-2`** — the string in the header bar of every page
+**Quote the version as `LS1.1-3`** — the string in the header bar of every page
 here, in the sign-on banner, and in what `sd-solo --version` reports.
