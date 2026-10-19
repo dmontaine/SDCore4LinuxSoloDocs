@@ -21,7 +21,7 @@ Two document sets, each with the same three folders:
 
 | | |
 |---|---|
-| `GettingStarted/` | **28 pages** — installing, upgrading and uninstalling SD Core for Linux Solo, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, and what nobody has tested. `01b` is *Differences from multiuser SD Core for Linux L1.1-1*. The multiuser product's Administrator set is merged in here |
+| `GettingStarted/` | **32 pages** — installing, upgrading and uninstalling SD Core for Linux Solo, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, and the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`). `01b` is *Differences from multiuser SD Core for Linux L1.1-1*. The multiuser product's Administrator set is merged in here |
 | `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, and `37a` embedded Python. **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (372 names an application may use), `95` SD TCL (143 verbs), `96` the 76 names an ordinary program may not compile |
 
 Inside each: `markdown/` is the source, `html/` and `pdf/` are generated.

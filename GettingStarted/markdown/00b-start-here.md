@@ -84,6 +84,10 @@ that no page runs longer than a reader will scroll.
 | **17a** | [The scripts SD runs itself](17a-scripts-sd-runs-itself.html) | The ones the installer and SD call, which nobody types |
 | **18** | [Encryption and the SDEXT interface](18-encryption.html) | What encryption SD has, and the interface behind it |
 | **19** | [Features the developers could not test](19-features-the-developers-could-not-test.html) | What nobody has watched work |
+| **20** | [sdfix, the file check tool](20-sdfix.html) | Checking a hashed file's structure on disk, and recovering space |
+| **20a** | [sdfix: what it checks and repairs](20a-sdfix-checks-and-repairs.html) | Every error a check reports, and what `-F` or `-Q` does about it |
+| **21** | [sdidx, the index relocation tool](21-sdidx.html) | Where a file's indexes are kept, and moving or deleting them |
+| **22** | [sdconv, the byte order convertor](22-sdconv.html) | What it converts (compiled programs only), and what it refuses |
 
 ## The five things most likely to surprise you
 

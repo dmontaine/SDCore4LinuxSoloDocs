@@ -124,7 +124,7 @@ Everything is under `~/SDCoreSolo` (or the `--home` you gave the installer):
 
 | | |
 |---|---|
-| Programs | `bin/` — `sd-solo`, `sdlnxd` (the daemon), `sdtic`, `sdconv`, `sdfix`, `sdidx`, `sdclilib.so` |
+| Programs | `bin/` — `sd-solo`, `sdlnxd` (the daemon), `sdtic`, `sdconv` ([22](22-sdconv.html)), `sdfix` ([20](20-sdfix.html)), `sdidx` ([21](21-sdidx.html)), `sdclilib.so` |
 | The changelog | `changelog` |
 | Configuration | `sd.conf` |
 | SD's own files | the rest of the directory: `gcat/`, `messages/`, `voc`, `$cred/`… |
