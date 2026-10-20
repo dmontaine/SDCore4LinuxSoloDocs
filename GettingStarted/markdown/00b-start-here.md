@@ -88,6 +88,7 @@ that no page runs longer than a reader will scroll.
 | **20a** | [sdfix: what it checks and repairs](20a-sdfix-checks-and-repairs.html) | Every error a check reports, and what `-F` or `-Q` does about it |
 | **21** | [sdidx, the index relocation tool](21-sdidx.html) | Where a file's indexes are kept, and moving or deleting them |
 | **22** | [sdconv, the byte order convertor](22-sdconv.html) | What it converts (compiled programs only), and what it refuses |
+| **23** | [Giving an AI agent an installation of its own](23-giving-an-ai-agent-its-own-installation.html) | Why the wall for an agent has to be a computer, and the recipe |
 
 ## The five things most likely to surprise you
 
