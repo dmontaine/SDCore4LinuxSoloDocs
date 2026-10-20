@@ -111,6 +111,56 @@ yours.
 **Linger matters here too.** Without it the socket, like SD, stops when your last
 session ends; see [Running SD](03-running-sd.html).
 
+## What a connection costs, and how big a request may be
+
+**Each API connection is one `sd-solo -n -q` process, running as your Linux user
+(never root), and it is there before anybody has logged in.** Since 20 October
+2026 it ends when the connection ends, and it refuses a request whose declared
+length it cannot accept. Before that date a client that sent four bytes that read as a huge
+length (`garb` is 1,651,663,207), or that declared a request and closed before
+sending it, or that closed while its own command waited in a shell and then
+cleared its input, could leave that process polling at **100% of a processor**
+until somebody killed it. *Measured on Solo (20 October 2026, a real TLS and SCRAM
+session):* 101 ticks of CPU in a second, for one of four `garb` clients, three of
+four that declared 1,000,000,000 and had no more to send, and the client that
+closed while its command waited in `SH sleep 2`; none after the change.
+
+Every request starts with a 4-byte length that counts the whole packet, itself
+included, and a 2-byte request code, so the smallest packet is 6 bytes. The
+client library never sends one that breaks the rules, so a program using it does
+not meet them; they matter to a program that speaks the protocol itself, and to
+anyone probing the port.
+
+| The length of a packet may be | |
+|---|---|
+| 6 to 1,073,741,832 bytes | the largest SD string (1,073,741,822) plus the 10 bytes of header the client library allows for |
+
+A packet that declares anything else (below 6, negative, or over that limit) is
+not read: the server ends the session at once and writes one line to the system
+log (`API packet length ... refused (after login)`; the words *after login* are
+printed even when nobody has logged in, for the reason below). The same test
+applies to the reply a client sends to an `INPUT` prompt. *Run:* a first packet
+declaring 0, 3, 5, -1, -2147483648, 2147483647, `garb` or the largest string plus
+11 is refused and the session ends with the client still connected; so is a reply
+to an `INPUT` prompt that declares `garb` or 5.
+
+**What Solo does not do.** SD Core also refuses a packet over 65,536 bytes while
+its server is still root and nobody has logged in. Solo's server never runs as
+root, so that smaller limit is **not** applied here: before the login a packet of
+up to the largest string is read for. *Measured:* a first packet that declares
+65,537 or 1,000,000,000 is waited for, not refused, and the connection holds its
+server process (idle, not spinning) until the client closes. The API is off in a
+delivered Solo and `local` when you turn it on (above); an `open` API on a
+computer that strangers can reach is where this matters. Asking for the smaller
+limit needs a decision about how Solo tells "not yet logged in".
+
+**A file lock goes to the file the client names (20 October 2026).** An API
+client that had opened three files and asked for the file lock on the first
+locked the last one it had opened, and a release freed that one; the form that
+waits for the lock waited for the wrong file too. *Run, with two sessions of the
+account:* each lock and each release now acts on the file number asked for, and
+a request with nothing to say no longer repeats the text of the last refusal.
+
 ## An API session is you
 
 **It runs as your Linux user**, in the account `sduser`, with the same rights as
