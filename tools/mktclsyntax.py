@@ -189,7 +189,7 @@ out.append('**The roster is the VOC, not an opinion.** It is computed by')
 out.append('reading `newvoc` directly, so it cannot drift from what the account')
 out.append('actually gets. **A verb your account does not have is not refused — the')
 out.append('name is simply not recognised.** Solo has one account, and it has all')
-out.append('%d of them; whether a verb needs `ADMIN` is in the GettingStarted set.' % by_who['ordinary'])
+out.append('%d of them; whether a verb needs `admin` is in the GettingStarted set.' % by_who['ordinary'])
 if by_who['sdsys']:
     sys.exit('REFUSED: %d verbs only in voc_template; Solo has no SDSYS-only verbs' % by_who['sdsys'])
 out.append('')
