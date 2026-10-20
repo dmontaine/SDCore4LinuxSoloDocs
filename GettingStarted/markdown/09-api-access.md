@@ -131,28 +131,31 @@ client library never sends one that breaks the rules, so a program using it does
 not meet them; they matter to a program that speaks the protocol itself, and to
 anyone probing the port.
 
-| The length of a packet may be | |
+| When | The length of a packet may be |
 |---|---|
-| 6 to 1,073,741,832 bytes | the largest SD string (1,073,741,822) plus the 10 bytes of header the client library allows for |
+| before the client has logged in (the password proof not yet accepted) | 6 to 65,536 bytes. The login messages are all under 4 KB |
+| after the login | 6 to 1,073,741,832 bytes: the largest SD string (1,073,741,822) plus the 10 bytes of header the client library allows for |
 
-A packet that declares anything else (below 6, negative, or over that limit) is
-not read: the server ends the session at once and writes one line to the system
-log (`API packet length ... refused (after login)`; the words *after login* are
-printed even when nobody has logged in, for the reason below). The same test
-applies to the reply a client sends to an `INPUT` prompt. *Run:* a first packet
-declaring 0, 3, 5, -1, -2147483648, 2147483647, `garb` or the largest string plus
-11 is refused and the session ends with the client still connected; so is a reply
-to an `INPUT` prompt that declares `garb` or 5.
+A packet that declares anything else (below 6, negative, or over the limit that
+applies) is not read: the server ends the session at once and writes one line to
+the system log (`API packet length ... refused (before login)` or `(after
+login)`). The same test applies to the reply a client sends to an `INPUT` prompt.
+*Run:* a first packet declaring 0, 3, 5, -1, -2147483648, 2147483647, `garb` or the
+largest string plus 11 is refused and the session ends with the client still
+connected; so is a reply to an `INPUT` prompt that declares `garb` or 5.
 
-**What Solo does not do.** SD Core also refuses a packet over 65,536 bytes while
-its server is still root and nobody has logged in. Solo's server never runs as
-root, so that smaller limit is **not** applied here: before the login a packet of
-up to the largest string is read for. *Measured:* a first packet that declares
-65,537 or 1,000,000,000 is waited for, not refused, and the connection holds its
-server process (idle, not spinning) until the client closes. The API is off in a
-delivered Solo and `local` when you turn it on (above); an `open` API on a
-computer that strangers can reach is where this matters. Asking for the smaller
-limit needs a decision about how Solo tells "not yet logged in".
+**How the server knows the login has happened, and how that differs from SD Core.**
+SD Core knows "not yet logged in" because its server is still root until the
+client has logged in. Solo's server is never root, so it keeps a flag that is set
+when the password proof has been accepted (when the server gives the session its
+user name); the limit before the login applies until then. This is a difference
+from SD Core, made with the owner's permission on 20 October 2026. *Run, before
+the login:* a first packet declaring 65,536 bytes is waited for (the boundary),
+65,537 and 1,000,000,000 are refused and the session ends. *Run, after the login:*
+a record of 3,075,000 bytes is written through the API and read back byte for byte,
+and a packet declaring 1,000,000,000 is waited for. Before this change Solo applied
+no limit before the login. The log line's wording *before login* was not read
+from a log in this run; it is the source's.
 
 **A file lock goes to the file the client names (20 October 2026).** An API
 client that had opened three files and asked for the file lock on the first
