@@ -66,7 +66,14 @@ SD could open a file held on another SD server by putting `server;file` in a VOC
 entry. **That is gone. A VOC entry containing a semicolon is now simply a file
 name that does not resolve.**
 
-`set.server`, `delete.server` and `list.servers` have gone with it.
+`set.server`, `delete.server` and `list.servers` went with it, **and came back on 20
+October 2026 in a new form**: an SDNet **client** that reaches another SD server over its
+API (TLS 1.3 and a SCRAM login), through a VOC pointer of type `N`, with the administrator
+defining each server (`set.server`, pinned to the hash of the server's public key), each
+person keeping their own login on it (`set.netlogin`, kept as values derived from the
+password, never the password) and the NET gate (`set.net.access on`) switched on. **All of
+it is off as delivered.** See the SDNet page of the User set. Nothing from the old
+version is back: no `;` in a path, no port 4245, no password in any file.
 
 **The API is not affected.** `!sdclient` and the remote API are a separate
 mechanism and are unchanged. See [API access](09-api-access.html).

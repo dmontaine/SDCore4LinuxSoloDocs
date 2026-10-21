@@ -145,7 +145,7 @@ are not in SD Core for Linux Solo:
 
 | Gone | Why |
 |---|---|
-| SDNet (remote files) | Removed; the API is the supported way to reach another SD server |
+| SDNet (the old `server;file` remote files) | Removed. A new SDNet client (a VOC pointer of type `N`, `set.server`, `set.netlogin`) is in, **off as delivered**; see *SDNet - Files on Another SD Server*. The API is the other way to reach another SD server |
 | `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic, with `sdkey()` for the key, and the `XE` conversion are the supported route |
 | `sed`, `update.record`, `modify` editors | Gone; use `nano`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |

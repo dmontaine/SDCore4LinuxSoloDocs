@@ -159,6 +159,10 @@ DOCS = [
  ('User', '06a-sd-basic-encryption.md', """
    encrypt.key
  """),
+ # 20 Oct 26 Solo carry 9: the SDNet client's five verbs are explained on the programmer's page for files on another SD server.
+ ('User', '42-sd-sdnet.md', """
+   set.server delete.server list.servers set.netlogin delete.netlogin
+ """),
  ('GettingStarted', '15-managed-mode.md', """
    deny.verbs sync.global.catalog
  """),
