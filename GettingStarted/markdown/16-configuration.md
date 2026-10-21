@@ -154,7 +154,6 @@ Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 | `DUMPDIR` | unset | Where process dumps are written |
 | `TEMPDIR` | unset | Temporary files. Falls back to the system default when unset |
 | `SORTWORK` | unset | Work files for a sort that does not fit in memory. Falls back to the system default when unset |
-| `JNLDIR` | empty | Journal directory |
 | `TERMINFO` | empty | An additional terminfo directory. The shipped definitions are found without it |
 
 **A process dump carries the whole variable state of the session that wrote it**,
@@ -210,7 +209,6 @@ changed by running `tools/solo-service.sh install` again — see
 | `PDUMP` | 0 | Bit flags controlling when a process dump is written |
 | `DEBUG` | unset | Bit flags enabling debugging features |
 | `STARTUP` | empty | A command run when SD starts |
-| `JNLMODE` | 0 | Journalling mode |
 | `OBJECTS` | 0 (no limit) | Compiled programs held in memory at once |
 | `OBJMEM` | 0 (no limit) | Memory those programs may occupy, in KB |
 
@@ -235,6 +233,8 @@ SD's behaviour, and none should be offered to a site as a control.
 
 | Parameter | Why it is inert |
 |---|---|
+| `JNLMODE` | Stored, shown by `config` and readable with `config('JNLMODE')`, default 0. SD has no journalling: nothing reads the value and nothing writes a journal |
+| `JNLDIR` | The same: stored, shown, readable with `config('JNLDIR')`, default empty, and used by nothing. The only readers in the source are the parser, the copy into the shared memory segment and the `config` verb that prints it |
 | `CREATUSR` | There are no accounts to create, and the value is discarded as it is read. Solo's `config` still prints a `CREATUSR` line |
 | `CODEPAGE` | Stored, readable and settable. Nothing acts on it |
 | `EXCLREM` | Stored, readable and settable. It described exclusive access to a remote file, and there are no remote files |
