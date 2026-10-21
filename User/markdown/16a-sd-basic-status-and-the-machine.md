@@ -111,12 +111,13 @@ ends.
 os.execute command {capturing variable}
 ```
 
-**Unlike SD Core for Windows, this runs unconditionally for every
-account here — there is no permission to check first.** `OS.EXECUTE`
-executes at the account's own Linux permissions, the same wall that
-already governs what that account's user could do at a shell prompt
-outside SD. This port keeps no second, SD-level gate behind it — see
-*Operating system access* in the GettingStarted set. (`OS.EXECUTE` is not
+**It needs the `os` switch, which is off as delivered**: a program that runs
+`OS.EXECUTE` without it stops with *sduser is not permitted to use OS.EXECUTE*.
+The administrator turns the switch on with `set.os.access os on`; a change is seen
+at the next sign-on. Once it is on, `OS.EXECUTE` executes at the account's own
+Linux permissions, the same wall that already governs what that account's user
+could do at a shell prompt outside SD — see *Operating system access* in the
+GettingStarted set. (`OS.EXECUTE` is not
 subject to the metacharacter filter that the `sh` verb applies to a typed
 command.)
 

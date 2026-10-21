@@ -37,7 +37,8 @@ for Windows too, for the same reasons.**
 | `modify` — the full-screen record editor from OpenQM | **`nano`** or **`micro`** |
 
 **SD Core's own full-screen editing is `nano` and `micro`**, which open the record
-in each program by name — see
+in each program by name and, because they run outside SD, need the `os` switch
+(off as delivered; the administrator turns it on with `set.os.access os on`) — see
 [Development and file commands](07-programmer-commands.html#editors), which also
 says what they are good for and what they cannot do. **Unlike SD Core for Windows,
 `edit` is not one of them here — it aliases `ed`, the line editor, because there
@@ -117,8 +118,10 @@ it.**
 
 **BASIC-callable programs** (`call !py_createdict`, and so on) are the interface —
 there is no TCL verb, so this is a programming capability, not a command you type
-at the prompt. **There is no permission gate on starting it** — the same "no
-second wall" reasoning that applies to `sh` and `OS.EXECUTE`; see
+at the prompt. **Starting it, and running code in it, needs the `os` switch** (off
+as delivered): Python runs arbitrary code in the SD process, so it is held to the
+same grant as `OS.EXECUTE`; see
+[Operating system access](06b-operating-system-access.html) and
 [Security and the operating system](12a-security-and-the-operating-system.html).
 
 ## Field-level encryption

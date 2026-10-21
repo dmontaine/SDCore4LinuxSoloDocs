@@ -32,9 +32,9 @@ here you compile, catalogue and run programs. The programs themselves
 are written in SDBasic, which is a different language from TCL.
 
 Your `bp` file is an ordinary Linux directory. You can write programs
-in `ed` from inside SD, in `nano` or `micro` — every account can run
-them, unconditionally — or in any text editor you like. The folder is
-on disk at:
+in `ed` from inside SD, in `nano` or `micro` once the administrator has turned
+the `os` switch on (it is off as delivered; `set.os.access os on`), or in any
+text editor you like. The folder is on disk at:
 
 ```
 ~/SDCoreSolo/user_accounts/sduser/bp

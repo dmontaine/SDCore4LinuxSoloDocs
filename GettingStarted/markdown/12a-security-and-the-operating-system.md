@@ -5,30 +5,32 @@ This page continues [Security](12-security.html).
 
 ## Reaching the operating system from inside SD
 
-**There are three ways out of SD onto the computer, and all three are open to
-your session with no `admin`.**
+**There are three ways out of SD onto the computer, and each is behind a switch
+that is off as delivered.** The administrator turns a switch on with
+`set.os.access` (after `admin`); no other command does.
 
-| | What it is |
-|---|---|
-| **`sh`** and `!` | one operating-system command from the `:` prompt |
-| `OS.EXECUTE` | the operating system from inside a BASIC program |
-| **`nano`** and **`micro`** | a text editor, running outside SD |
+| | What it is | Switch |
+|---|---|---|
+| **`sh`** and `!` | one operating-system command from the `:` prompt | `sh` |
+| `OS.EXECUTE` | the operating system from inside a BASIC program, and a file or directory outside the account | `os` |
+| **`nano`** and **`micro`** | a text editor, running outside SD | `os` |
 
-**They run as your Linux user.** Nothing in SD stands between a session and the
-computer beyond what Linux itself allows that user — see
-[Operating system access](06b-operating-system-access.html). SD keeps no second
-permission list behind them: Linux already provides the wall SD would otherwise
-have to build.
+**When a switch is on, what it opens runs as your Linux user.** Nothing in SD
+stands between a session and the computer beyond what Linux itself allows that
+user — see [Operating system access](06b-operating-system-access.html). The
+switches are the one wall SD keeps in front of that, per switch, and they are
+off until you say otherwise: at install, at upgrade (the installer asks), or
+later with `set.os.access`.
 
-**That applies to every kind of session**, ssh and the API included. Anyone who
-has the account password — and, over ssh, your key or your Linux password — can
-run Linux commands as you. That is why the account password matters, and why it
-should be one only you know.
+**That applies to every kind of session**, ssh and the API included: they read the
+same switches. With a switch on, anyone who has the account password — and, over
+ssh, your key or your Linux password — can run Linux commands as you. That is why
+the account password matters, and why it should be one only you know.
 
 **On a managed computer**, the SD Core for Linux server can put `sh` on the list
 of denied commands, and `!` goes with it. **A program's `OS.EXECUTE` is not a
 command the list can hold**, so the list alone does not close the computer off
-from a program. See [Managed mode](15-managed-mode.html).
+from a program; the `os` switch does. See [Managed mode](15-managed-mode.html).
 
 ## There is no privileged helper
 

@@ -164,9 +164,10 @@ Everything on this page is in your account, and none of it needs `admin`:
 | **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
 **The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
-shell with your own permissions, need no `admin`, and refuse a command that
-carries a shell metacharacter. They are described under *Operating system access*
-in the GettingStarted set.
+shell with your own permissions, once the `sh` switch is on (it is off as
+delivered, and the administrator turns it on with `set.os.access sh on`), need no
+`admin` after that, and refuse a command that carries a shell metacharacter. They
+are described under *Operating system access* in the GettingStarted set.
 
 ## See also
 

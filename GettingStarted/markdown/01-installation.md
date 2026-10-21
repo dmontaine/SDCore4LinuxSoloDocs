@@ -94,6 +94,24 @@ installer a global password and choose less, it warns you. When a port is `open`
 and the computer has `ufw` running, or firewalld (Fedora), the installer opens it
 with `sudo`; otherwise it tells you to allow it yourself.
 
+### 3. The shell and OS access
+
+**Both are off unless you turn them on**: `sh` and `!` run Linux commands, and
+OS access is `os.execute` in a program, the embedded Python, `nano` and `micro`, and files
+and directories outside the account by pathname. Either lets whoever signs in do
+what your Linux user can do, so the installer asks two questions, each answered
+no unless you say yes:
+
+| | |
+|---|---|
+| **Turn on the shell (`sh` and `!`)** | the `sh` switch |
+| **Turn on OS access (`os.execute`, outside files, Python, `nano`, `micro`)** | the `os` switch |
+
+`--os-access none|sh|os|both` answers both without a terminal. With no terminal,
+or `--yes` and no `--os-access`, nothing is turned on. The administrator can turn
+either on or off later with `set.os.access`; a change is seen at the next sign-on.
+See [Operating system access](06b-operating-system-access.html).
+
 The last question is **Continue?** Answering no changes nothing.
 
 ## What lands where
@@ -143,6 +161,7 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `ssh=` | `off`, `local` or `open` (port 4251). Blank takes the default, `local`; a managed computer needs `open`. `off` with `ssh-public-key-file=` is refused |
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. Only a session signed in with the global password can change the list afterwards, so on a computer with no global password it is fixed until a reinstall. See [Managed mode](15-managed-mode.html) |
 | `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
+| `os-access=` | `none`, `sh`, `os` or `both`: which of the shell and OS access to turn on. Blank asks on a terminal and means `none` without one; both are off unless named |
 | `enable-linger=yes` | run `loginctl enable-linger` |
 | `reload-data=` | `yes` or `no`: what to do when the install directory holds data and configuration an earlier uninstall kept — use them, or move them aside and install clean. Blank asks on a terminal and reloads when there is none; it does nothing when nothing was kept. See [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 

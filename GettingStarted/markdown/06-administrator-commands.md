@@ -43,6 +43,7 @@ password is never displayed, stored or logged.
 | `SET.DATE` | set the session's date |
 | `CLEAN.ACCOUNT` | empty the account's scratch files |
 | `update.accounts` | refresh the account's VOC |
+| `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
 | `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
 | `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
 | anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
@@ -60,7 +61,9 @@ the commands that are the SD Core for Linux server's — see
 
 **`LOGOUT` on its own needs nothing** — it ends your own session, like `QUIT`
 — **and nor does `sd-solo -k`**, because it is a switch on the program, not a
-command in a session. **`sh` needs nothing either**; see
+command in a session. **`sh` needs no `admin`, but it needs its switch**: it is
+refused (*is not permitted to use the operating system shell*) until the
+administrator has turned `sh` on with `set.os.access`; see
 [Operating system access](06b-operating-system-access.html). **Nor does
 `set.password`** for your own account password — it asks for the current one
 instead; see [The account and its passwords](05-account-types.html).

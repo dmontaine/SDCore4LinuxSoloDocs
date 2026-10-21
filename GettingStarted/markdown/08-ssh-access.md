@@ -132,7 +132,8 @@ cost of landing in SD.
 outward, is an ssh *client* and is not affected. So copy files by pulling them from here — or
 use the computer's own ssh server, on port 22.
 
-**To reach Linux from an ssh session, use `sh`** inside SD — see
+**To reach Linux from an ssh session, use `sh`** inside SD, once the administrator
+has turned the `sh` switch on (it is off as delivered) — see
 [Operating system access](06b-operating-system-access.html).
 
 ## Reaching the computer from the network

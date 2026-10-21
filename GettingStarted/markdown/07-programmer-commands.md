@@ -63,6 +63,11 @@ Either verb writes the record to a working copy, opens the editor on it, reads
 it back, and asks whether to save. For a `bp` record it then offers the compile
 and the catalogue.
 
+**Both run outside SD, so both need the `os` switch**, which is off as delivered
+(without it each says it is not available to the account; the administrator turns
+it on with `set.os.access os on`, and `ed` needs nothing of the kind). See
+[Operating system access](06b-operating-system-access.html).
+
 **Both are terminal editors**, so both work over ssh as well as at the console.
 
 **Both highlight SD BASIC.** The `micro` verb copies SD's syntax file into your
@@ -195,7 +200,7 @@ and `modify` are gone and are not coming back. See
 | The global catalogue | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
 | The deny list (managed mode) | `admin` or the global password unlocks what the server denied |
 | File permissions | ordinary Linux file permissions on your own directory — see [Security](12-security.html) |
-| Reaching the operating system | none, for `sh`, `OS.EXECUTE`, or either editor |
+| Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb and `!`) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `nano` and `micro`); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
 
 ## Two things to know when you compile
 

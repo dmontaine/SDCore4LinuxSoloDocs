@@ -23,6 +23,7 @@ you**, or `root`, from reading or changing the files directly.
 | **Linux** | your directory from other Linux users | it from you, and from `root`, who can read `~/SDCoreSolo` — the credential store included |
 | **The account password** | every SD session: keyboard, ssh, API, and a command line | the files themselves |
 | **`admin`** | the administrator commands and direct VOC edits, in a session | a program that reads the files |
+| **The `sh` and `os` switches** | the way out of SD onto the computer from inside a session: the `sh` verb and `!`, `OS.EXECUTE`, files and directories outside the account, the embedded Python, `nano` and `micro` — off as delivered | what a program that already runs as you does outside SD |
 | **The global password** | a managed computer, for the SD Core for Linux server | — |
 | **The deny list** | commands the user may not run on a managed computer | the same files, outside SD |
 
@@ -38,6 +39,7 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | Every session | asks the account password |
 | Administrator commands | refused until `admin`. The eight that had no check of their own — `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` — are gated too. See [Administrator commands](06-administrator-commands.html) |
 | The VOC | direct edits need `admin`; the global catalogue is changed by nobody in a session |
+| The shell and OS access | refused until the administrator turns the `sh` or `os` switch on with `set.os.access`: off on a new install, and on an upgrade unless you answered yes when the installer asked — see [Operating system access](06b-operating-system-access.html) |
 | The daemon | runs as you, never as root; SD refuses to start as root |
 | Files | mode 0600, directories 0700, from the installer and from every file SD creates (`umask 077`) |
 | ssh | Solo's own listener on port 4251, run by you with no `sudo`; your Linux account name and password (inside ssh's encrypted channel, checked by PAM) or a key, forced into `sd-solo`, no shell, no forwarding; on by default for this computer only, and three wrong passwords from one address lock that address for ten minutes — see [ssh access](08-ssh-access.html) |

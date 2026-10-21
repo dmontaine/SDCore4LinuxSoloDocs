@@ -119,15 +119,17 @@ token** — another `~`, a backtick, a `!`, a `-`, a `,`, or a mark. Everywhere
 else a tilde is left exactly as you wrote it, so `a~b` is still `a~b` and
 ordinary source reads normally.
 
-## No gate — every account reaches both, unconditionally
+## The `os` switch — off as delivered
 
-**Unlike SD Core for Windows, there is no `os.users`-style permission
-behind `nano` or `micro` here.** Your account has both verbs, and both run
-the moment they are typed — there is no record to grant. This port keeps no
-second wall behind an editor's own reach onto the machine: what your Linux
-user may read or write outside SD is exactly what an editor run from inside
-SD may touch, because they are the same permissions. See *Security and the
-operating system* in the GettingStarted set.
+**`nano` and `micro` run outside SD, so they are behind the `os` switch**, as
+in SD Core for Windows (there it is the `os.users` grant). As delivered the
+switch is off, and either verb says *it is not available to sduser* and that it
+needs OS.EXECUTE permission, which the administrator gives with `set.os.access
+os on`; a change is seen at the next sign-on. `ed`, SD's own line editor, needs
+none of this. With the switch on, what your Linux user may read or write outside
+SD is exactly what an editor run from inside SD may touch, because they are the
+same permissions. See *Operating system access* and *Security and the operating
+system* in the GettingStarted set.
 
 **A session with no terminal is still refused**, an API session or a
 script driving SD down a pipe having nowhere to draw a full screen:
@@ -149,8 +151,9 @@ No record name specified.  Usage: nano {dict} <file> <record>
 
 ## Who has these verbs
 
-**Every account has `nano`, `micro` and `ed`, and all three simply run —
-there is nothing further to check.**
+**Every account has `nano`, `micro` and `ed` in its VOC.** `ed` always runs;
+`nano` and `micro` run once the `os` switch is on (see above), and say they are
+not available to the account until then.
 
 ## See also
 

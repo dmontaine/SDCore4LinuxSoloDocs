@@ -243,7 +243,7 @@ Per-arity `CFUNCTYPE` definitions are provided for `SDCall` and
 
 | | |
 |---|---|
-| `sh` and `OS.EXECUTE` | **not refused over the API on this port** — unlike SD Core for Windows, both run at the account's own Linux permissions the same as any other session. `SDCLIENT` in `sd.conf` is the configurable control, if a site wants one; see *Configuration* in the GettingStarted set |
+| `sh` and `OS.EXECUTE` | **refused over the API while the `sh` and `os` switches are off, which is how they are delivered** (the API server reads the switches when it enters the account, and answers *is not permitted to use the operating system shell* to an `execute 'sh ...'`); once the administrator has turned a switch on (`set.os.access`) the client's next login can use it, at the account's own Linux permissions like any other session. `SDCLIENT` in `sd.conf` is a further control, if a site wants one; see *Operating system access* and *Configuration* in the GettingStarted set |
 | Open files outside the account | refused on the multiuser product (status 3035 — *not permitted*); **not measured on Solo** |
 | Reach the credential file | never, and cannot be added |
 | Enumerate accounts | refused; all three failure cases give the same message |

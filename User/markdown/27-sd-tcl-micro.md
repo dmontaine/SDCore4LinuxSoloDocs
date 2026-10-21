@@ -141,10 +141,11 @@ none is mangled. The full rules are on
 
 ## Who has these verbs
 
-**Your account has `micro`, `nano`, `edit` and `ed`, and all four simply
-run** — unlike SD Core for Windows, there is no permission behind
-`micro`/`nano` to grant first. See [SD TCL - The nano Screen
-Editor](26-sd-tcl-edit.html#no-gate-every-account-reaches-both-unconditionally).
+**Your account has `micro`, `nano`, `edit` and `ed`.** `edit` and `ed` are SD's
+own line editor and always run. `micro` and `nano` run outside SD, so, as in SD
+Core for Windows, they are behind a permission: the `os` switch, off as delivered
+and turned on by the administrator with `set.os.access os on`. See [SD TCL - The
+nano Screen Editor](26-sd-tcl-edit.html#the-os-switch-off-as-delivered).
 
 ## See also
 

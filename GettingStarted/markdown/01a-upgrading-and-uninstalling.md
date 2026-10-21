@@ -13,10 +13,25 @@ bash installsdsolo.sh --upgrade
 
 (`--home DIR` if you installed somewhere other than `~/SDCoreSolo`.) Without
 `--upgrade`, an installer meeting an installed tree stops and prints exactly
-this command. **It asks nothing** — no mode, no passwords, no API or ssh
-choices — and it accepts no option that would change them: an upgrade keeps
-what is installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
+this command. **It asks one question and accepts one option about it**, the shell
+and OS access (below). It asks no mode, no passwords and no API or ssh choices,
+and it accepts no option that would change them: an upgrade keeps what is
+installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
 changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html).
+
+**The shell and OS access question (from 20 October 2026).** Until this release
+the shell (`sh` and `!`) and OS access (`os.execute`, a file or directory outside
+the account, the embedded Python, `nano` and `micro`) were on for every
+installation. **They are off unless you turn them on**, so an upgrade tells you so
+and asks, on a terminal, whether to turn on the shell and whether to turn on OS
+access. The default for each is no. **`--os-access none|sh|os|both`** answers it
+without a terminal; with `--yes` and no `--os-access`, or no terminal, the
+installer asks nothing and **leaves both as they are, which is off** on an
+installation that never had them set. Either can be turned on or off later by the
+administrator, with `set.os.access` ([Operating system
+access](06b-operating-system-access.html)). A program of yours that runs the shell
+or `os.execute`, or opens a file outside the account, stops working after the
+upgrade until you do.
 
 **It downloads and builds the new release first**, before it touches your
 installation, so a failed download or build changes nothing. Then it stops SD

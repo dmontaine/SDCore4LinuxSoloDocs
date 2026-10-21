@@ -25,13 +25,16 @@ twenty-one refuses an empty object, dictionary, list or string name before
 making the underlying call**, setting `status()` to 1 - checked directly in
 `sdsys/gpl.bp/py_*`, not assumed.
 
-**There is no permission gate on any of this.** `$internal` controls who may
+**Starting Python and running code in it need the `os` switch**, which is off as
+delivered (the same grant as `os.execute`: Python runs arbitrary code in the SD
+process, so it asks the ACCOUNT, not the program - the `PY_*` wrappers are
+`$internal` and would pass for everyone). `$internal` itself controls who may
 *compile* a new internal-mode program (an administrator, at `$internal`'s own
 check); it is not re-checked when an already-catalogued routine like
-`PY_CREATEDICT` is *called*. So embedded Python runs unconditionally for any
-signed-on account - the same shape S.27 left `sh` and `os.execute` in, not a
-separate gate of its own. There is nothing here for an administrator to turn
-on or off.
+`PY_CREATEDICT` is *called*, so the switch is what stops it. Asking whether
+Python is running, and shutting it down, are not gated. The administrator turns
+the switch on with `set.os.access os on` (see *Operating system access* in the
+GettingStarted set).
 
 **The installer brings what this needs.** `installsdcore.sh` installs
 `python3-dev` (Debian/Ubuntu) or the equivalent `-devel` package on the other
@@ -175,8 +178,11 @@ port's -12038 (`LstExsts`) does. Neither choice is wrong; they are simply
 different, confirmed by both sides checking their own source rather than
 assuming. Conversely, this port has no equivalent of Windows's
 -12040/-12041/-12042, because those describe a *helper process* failing to
-start or an *OS permission* being unclear or refused - neither applies here,
-per *There is no permission gate on any of this*, above.
+start or an *OS permission* being unclear or refused. The first does not apply
+here, there being no helper process. The second is the `os` switch above: a
+program that has not got it is refused by SD before Python is touched, and the
+`PY_` function gives back a non-zero status (its own refusal, not one of the
+codes in these tables).
 
 | Code | Meaning |
 |---|---|

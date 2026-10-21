@@ -87,8 +87,9 @@ to insert, type your lines, a full stop on its own line to stop
 inserting, then `fi` to file and exit.
 
 You can also use `nano` or `micro` (both full-screen editors; `micro`
-highlights SD BASIC) — with nothing to unlock first. `edit` aliases `ed` here,
-not a full-screen editor.
+highlights SD BASIC) once the administrator has turned the `os` switch on
+(`set.os.access os on`; it is off as delivered, because they run outside SD).
+`edit` aliases `ed` here, not a full-screen editor.
 
 ```
 list customers
@@ -103,8 +104,8 @@ dots, so `clear-select` reaches `clear.select` too.
 
 A program lives in a `bp` file — a directory file, which is an ordinary
 Linux directory with one file per program. You can write it in `ed`,
-in `nano`, in `micro`, or in any text editor you like — the folder is on
-disk at:
+in `nano` or `micro` (once the `os` switch is on), or in any text editor you
+like — the folder is on disk at:
 
 ```
 ~/SDCoreSolo/user_accounts/sduser/bp

@@ -167,9 +167,15 @@ a request with nothing to say no longer repeats the text of the last refusal.
 ## An API session is you
 
 **It runs as your Linux user**, in the account `sduser`, with the same rights as
-a session at the keyboard — including `sh` and `OS.EXECUTE`, which a remote
-client can therefore use. Records an API session creates are yours, and if your
-Linux user may not read something, the API session may not read it either.
+a session at the keyboard — and the same two switches: the API server reads
+`sh` and `os` from the account's register record when it enters the account, so
+`sh` and `OS.EXECUTE`, and a path outside the account, are **refused to a remote
+client while the switches are off, as delivered**, and usable by it once the
+administrator has turned them on (`set.os.access`; a client that is already
+signed in sees the change at its next login). See
+[Operating system access](06b-operating-system-access.html). Records an API
+session creates are yours, and if your Linux user may not read something, the
+API session may not read it either.
 
 **A session signed in with the global password is a server session**, with the
 administrator commands unlocked. See [Managed mode](15-managed-mode.html).
