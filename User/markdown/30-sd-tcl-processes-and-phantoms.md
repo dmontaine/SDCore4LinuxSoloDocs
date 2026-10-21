@@ -169,6 +169,33 @@ User  Started            Command
 not `listu` — a phantom somebody else started does not appear. The register it
 reads is keyed by the parent's user number.
 
+## Which phantoms are running: `list.phantoms`
+
+```
+list.phantoms {user username}
+```
+
+`listu` limited to the phantom processes, with their user number, process id,
+user name, login time and account:
+
+```
+  User  Pid          Username                          Login time    Account
+    26  87576        sduser                            21 Oct 00:11  sduser
+```
+
+`user` *username* shows the phantoms of one user name (the name is case
+sensitive; one nobody has gives the heading and no rows). **As in `listu` the
+account is shown for the administrator and for your own phantoms, and left blank
+for anyone else's.** `list.phantoms pool` is refused (*SD has no pools of phantom
+processes*), `user` with no name is *User name required after USER*, and any
+other word is *Unexpected token*.
+
+**A phantom is listed only once it has signed on.** `phantom` reports the user
+number it has given the new process at once, and a `list.phantoms` typed in the
+same second showed the heading and nothing under it; the row was there a moment
+later. The listings were produced by running the verb in a sandbox build of SD
+Core for Linux Solo, as the administrator.
+
 ## Dumping a process: `pdump`
 
 ```
@@ -225,10 +252,86 @@ debugger on.
 The debugger itself — the commands it takes once it is attached — is in
 [SD Basic - Debugging](17-sd-basic-debugging.html).
 
+## Where the work goes: `profiler`
+
+```
+profiler on {user n} {event ...}      start logging
+profiler off {user n}                 stop logging and keep what was logged
+profiler {display} {user n}           show it
+```
+
+The kernel of the process being profiled counts its events: what it called, what
+it opened, read, wrote and deleted, and what it executed. `on` starts the count,
+`off` stops it and keeps the table, `display` (the default) shows it. The events
+are `call` `open` `read` `write` `delete` `openseq` `readseq` `writeseq`
+`execute` and `object`; none named means all of them. Without `user` the verb
+profiles your own session.
+
+```
+profiler on read write
+list t3 name
+profiler off
+```
+
+```
+Profiler on for user 28
+...
+Profiler off for user 28: 29 events in 13 entries
+```
+
+(The `...` is the report `list` printed.) **The table is kept in SD's `$ipc`
+file under the user number, so no file is left on the disk.** A profile outlives
+the session that made it: the sandbox listed the profiles of sessions that had
+already ended.
+
+`profiler` (or `profiler display`) then shows it. With several profiles it lists
+them and asks which to open:
+
+```
+Profiles available (user number, events, entries):
+    25       24        9
+    28       29       13
+User number to open, or Q to quit:?
+```
+
+With exactly one profile it opens that one without asking, and
+`profiler display user 28` names one. There are four levels, and you go down by
+typing the number of a line and up with `b`; `q` leaves:
+
+| Level | Shows |
+|---|---|
+| 1 | the types of event, with a count of each |
+| 2 | what the events of that type were on: a file, a subroutine, a command |
+| 3 | the programs that did them |
+| 4 | the lines of the program, with the count at each |
+
+```
+Event types
+   1         29  READ
+Line number to open, B to go back, Q to quit:?1
+
+READ events, by name
+   1          4  (none)
+   2         14  T3
+Line number to open, B to go back, Q to quit:?
+```
+
+A program with no line table (an I-type) has none to show at level 4 (*No line
+numbers were recorded for this program*), and a profile that filled up says how
+many events it did not log. A profile that is not there is *There is no profile
+for user 1 - use profiler on, run the programs, then profiler off*. **Another
+user's process can be profiled by the administrator only**, because a profile
+holds the files that user's programs open and the commands they execute
+(*Only the administrator can profile another user's process*).
+
+The listings were produced by running the verb in a sandbox build of SD Core for
+Linux Solo, as the administrator. Levels 3 and 4, the full-profile message, and
+the refusal for another user's process are read from the source and were not run.
+
 ## Who has these verbs
 
-**Every account has `status`, `phantom`, `pstat`, `pdebug` and `pdump`** —
-there is no withheld set any more.
+**Every account has `status`, `phantom`, `pstat`, `pdebug`, `pdump`,
+`list.phantoms` and `profiler`** — there is no withheld set any more.
 
 **`pdump` still has a gate, and it is not about having the verb.** `pdump`
 *n* is yours to use on your own processes; against another account's

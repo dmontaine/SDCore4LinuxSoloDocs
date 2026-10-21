@@ -141,6 +141,100 @@ The limit is the `NUMFILES` configuration parameter. **The peak is what matters
 when you are sizing it** — the current figure moves constantly and tells you
 almost nothing.
 
+### A line for every file: `file.stat`
+
+```
+file.stat {dict} {file ...} {lptr {n}} {no.page}
+```
+
+One line for each file: its type, how big it is, how many records it holds, and
+a column of `Y` and `N` for the things a file can have.
+
+```
+File name                Typ  Cur Mod  Min Mod Grp  Record Cnt     Primary    Overflow  Total Size AK TR ST NC NR EN RP JN
+T3                       DYN        1        1   2           5        4096        2048        6144  Y  N  N  Y  N  N  N  N
+T1                       DYN        1        1   2           2        4096        2048        6144  N  N  N  Y  N  N  N  N
+```
+
+| Column | |
+|---|---|
+| `Typ` | `DYN` a dynamic hashed file, `DIR` a directory file, `COL` a collection file |
+| `Cur Mod` · `Min Mod` · `Grp` | the current and the minimum modulus, and the group size |
+| `Record Cnt` | the number of records |
+| `Primary` · `Overflow` · `Total Size` | bytes in the primary subfile, in the overflow subfile, and both |
+| `AK` `TR` `ST` `NC` `NR` | `Y` if the file has indices, a trigger, statistics collecting (`fstat`), case insensitive record ids, and `no.resize` |
+| `EN` `RP` `JN` | encryption, replication and journalling. **Always `N`**: the columns are kept so the report keeps its layout, and none of the three is a property a file has in this system |
+
+**A directory file shows its type and its record count and nothing else.** With
+no file names the report covers the files on an active select list (list 0) or,
+if there is none, **every file your VOC points at with an `F` entry**; `dict`
+asks about the dictionaries instead. The report is about 122 columns wide.
+
+### What one file is: `find.file`
+
+```
+find.file {dict} file
+```
+
+Opens the file the way any program would and says what it is. It is for the
+file that is not behaving as you expect.
+
+```
+Dynamic hashed file, group size 2, modulus 1
+Pathname: <the full path of the file>
+File uses case insensitive record ids
+File has indices
+```
+
+(The real listing gives the full path; it is left out here because it was a
+sandbox's.) The lines after the pathname appear only when they are true: case insensitive record ids, indices, a trigger,
+read only. A directory file is reported as one. A file that cannot be opened is
+not described; the reason is given instead (*NOSUCH is not defined in your
+VOC*, for a name the VOC does not have, and *Invalid file name* when there is no
+name at all). **Because it opens the file as a program would, it can reach only
+what your VOC and the operating system access switch allow.**
+
+### File activity by session: `fstat.user`
+
+```
+fstat.user {top} {user n} {lptr {unit}} {no.page}
+```
+
+How many records each session has read, written and deleted since it started.
+These are the counts `fstat global` keeps for the whole system, kept for each
+session as well. The sessions come in user number order; **`top` puts the busiest
+first** (reads + writes + deletes), which shows where a slow system is busy.
+
+```
+ User Name.......................Reads..........Writes.........Deletes
+    7 sduser                      1143               0               2
+```
+
+`user` *n* shows every count of one session:
+
+```
+File activity for user 10
+
+Opens                                  2
+Reads                                 68
+Writes                                 1
+Deletes                                4
+Clears                                 0
+Selects                                0
+Index reads                            0
+Index writes                           0
+Index deletes                          0
+Splits                                 0
+Merges                                 0
+
+Counted since 21 Oct 00:07
+```
+
+**An administrator sees every session; anyone else sees the sessions of their
+own login name.** A number that is not a session of yours, or not logged in,
+gives *No file activity to show for user 99: not logged in, or not a session of
+yours*. The report is shown once, not repeated; run it again for another look.
+
 ## Reaching a file in another account
 
 ```
@@ -210,6 +304,70 @@ wrong.
 **`cname` on a file renames the VOC record too**, which is the point — the
 name you type and the name on disk stay together.
 
+### Comparing two files: `compare.files`
+
+```
+compare.files file1 file2 {detail}
+```
+
+Compares the records of two files (a dictionary is named `dict` *file*) and
+counts them in four groups: only in the first, only in the second, in both but
+different, and the same.
+
+```
+compare.files T1 T2
+```
+
+```
+Records only in T1: 1
+Records only in T2: 1
+Records in both that differ: 0
+Records that are the same: 1
+```
+
+`detail` lists the record ids of the first three groups under their counts:
+
+```
+Records only in T1: 1
+   COUNT
+Records only in T2: 1
+   SORT
+Records in both that differ: 0
+Records that are the same: 1
+```
+
+**`@system.return.code` is 0 when the two files hold the same records and 1 when
+they do not**, so a paragraph can test it. With one file name the verb answers
+*Two file names required*.
+
+### Taking the carriage returns out: `fixdir`
+
+```
+fixdir file {id ...}
+```
+
+For a directory file whose records arrived with Windows line ends. **It removes
+every carriage return from each record it is given**; a record with none is not
+written again. With no record ids every record of the file is done.
+
+```
+fixdir BP crtest
+```
+
+```
+1 record(s) fixed in BP
+```
+
+A second run of the same command says `0 record(s) fixed in BP`. A file that is
+not a directory file is refused (*T3 is not a directory file*). The global
+catalogue's directories (`gcat` and `global.bp.out`) and `solo.policy` are
+refused as they are for `ed` and `copy`: only a session signed in with the global
+password may change them.
+
+The listings in these two sections were produced by running them in a sandbox
+build of SD Core for Linux Solo, as the administrator; the refusal of the global
+catalogue's directories is read from the source and was not run.
+
 ## Seeing what is actually in a record
 
 ```
@@ -236,13 +394,36 @@ set.trigger file.name
 Set, remove, or display a file's trigger function. An empty string in quotes
 removes it; no argument at all displays it.
 
+```
+list.triggers {file.name ...} {lptr {n}}
+```
+
+`set.trigger` with no option tells you about one file; `list.triggers` does it
+for all of them. It looks at the data part and the dictionary of every file your
+VOC points at with an `F` entry, or only at the files you name, and lists each
+one that has a trigger function with the function's name and the modes it is on
+for:
+
+```
+File                 Trigger function     Modes
+-------------------  -------------------  ------------------------------
+t3                   p9                   PRE.WRITE, POST.WRITE
+
+1 file(s) with a trigger function
+```
+
+With nothing to report the list is empty and the last line says `0 file(s) with
+a trigger function`. The listing was produced by running it in a sandbox build of
+SD Core for Linux Solo, as the administrator.
+
 ## Who has these verbs
 
 **Every account has all of them now** — there is no longer a withheld set.
 `ct`, `list.files`, `set.file`, `analyse.file`, `analyze.file`, `clear.file`,
-`cname`, `configure.file`, `copy`, `copyp`, `create.file`, `delete`,
-`delete.file`, `dump`, `fstat`, `hsm`, `rename`, `set.trigger` are all in
-every account's VOC.
+`cname`, `compare.files`, `configure.file`, `copy`, `copyp`, `create.file`,
+`delete`, `delete.file`, `dump`, `file.stat`, `find.file`, `fixdir`, `fstat`,
+`fstat.user`, `hsm`, `list.triggers`, `rename`, `set.trigger` are all in every
+account's VOC.
 
 ## What is not here
 

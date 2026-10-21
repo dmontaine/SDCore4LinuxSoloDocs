@@ -22,7 +22,7 @@ Two document sets, each with the same three folders:
 | | |
 |---|---|
 | `GettingStarted/` | **33 pages** — installing, upgrading and uninstalling SD Core for Linux Solo, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`), and giving an AI agent an installation of its own (`23`). `01b` is *Differences from multiuser SD Core for Linux L1.1-1*. The multiuser product's Administrator set is merged in here |
-| `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (372 names an application may use), `95` SD TCL (176 verbs), `96` the 76 names an ordinary program may not compile |
+| `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (491 names an application may use), `95` SD TCL (181 verbs), `96` the 72 names an ordinary program may not compile |
 
 Inside each: `markdown/` is the source, `html/` and `pdf/` are generated.
 
@@ -83,13 +83,16 @@ python3 tools/mktclsyntax.py $SD64/sdsys               User/markdown/95-sd-tcl-s
 ```
 
 `mksyntax.py` reads the compiler's own tables and **refuses to write the pages if
-any name accepted by the compiler has no line** — 448 of 448, split 372/76 between
-`94` and `96`. **(Solo's compiler has since carried names from SD Core, and `94` and `96` have
-not been regenerated for them: on 20 Oct 2026 `mksyntax.py` refused, with 102
-names that have no line in `tools/syntax-shapes.txt`.)** Everything a count cannot express lives in `tools/syntax-shapes.txt`,
-one `NAME = syntax` per line. `mktclsyntax.py` computes its roster from `newvoc`
-(176 verbs) and refuses if a verb has no line in `tools/tcl-syntax-shapes.txt` or a
-line names something that is not a verb.
+any name accepted by the compiler has no line** — 563 of 563 (the 529 the compiler
+accepts and the 37 internal-only functions, less the 3 in both), split 491/72 between
+`94` and `96`. Everything a count cannot express lives in `tools/syntax-shapes.txt`,
+one `NAME = syntax` per line. **Run `tools/linkup.py User/markdown` after it**:
+the two pages name each other and the sets' pages in italics, and `linkup.py` turns
+those into links. (`mksyntax.py` refused from 18 Oct to 21 Oct 2026, with 102 names
+that Solo's compiler carried from SD Core and no line for them; the lines are SD
+Core's, held against Solo's own compiler and source.) `mktclsyntax.py` computes its
+roster from `newvoc` (181 verbs) and refuses if a verb has no line in
+`tools/tcl-syntax-shapes.txt` or a line names something that is not a verb.
 
 ## Checking a set
 
@@ -103,10 +106,10 @@ python3 tools/linkup.py   User/markdown              # *SD Basic - X* becomes a 
 
 | | |
 |---|---|
-| `docmap.py` | assigns every name the SD BASIC compiler accepts to exactly one document. **448 of 448** |
-| `tclmap.py` | the same for the TCL verbs, across both sets — **and it checks the page actually documents the verb**, not merely that the name occurs. **143 of 143** |
-| `confmap.py` | the same for the parameters `config.c` accepts, and it reports which of them anything still reads |
-| `verbcounts.py` | every verb count written in prose, against the counts computed from the VOC (143) |
+| `docmap.py` | assigns every name the SD BASIC compiler accepts to exactly one document. **414 of 529, and it exits 1.** The 115 left are the names Solo's compiler carried from SD Core (LSOLO 52, 18 Oct 2026) and the older ones of the 1.2-0 work: each has a line on the card `94`, and **no User page of this set describes them yet** (data collections and JSON, the `screen` statement, `try` / `catch`, the new string, array, date and number functions, and the small statements and clauses). The tool prints the list; a page written for a group is added to its table |
+| `tclmap.py` | the same for the TCL verbs, across both sets — **and it checks the page actually documents the verb**, not merely that the name occurs. **181 of 181** |
+| `confmap.py` | the same for the parameters `config.c` accepts, and it reports which of them anything still reads. It exits 1 and lists 12 parameters with no page (`DHCACHE` `INVCASE` `LGNWAIT` `MAXRLOCK` `NETWAIT` `NETREPLY` `PWDELAY` `SCREENTHEME` `USERPOOL` `USPLIT` `CLEANUP` `PHANTOMS`), not touched on 21 Oct 2026 |
+| `verbcounts.py` | every verb count written in prose, against the counts computed from the VOC (181) |
 | `linkup.py`, `checklinks.py` | turn a named page into a link only if it exists; check every link in the rendered pages, anchors included |
 
 `scriptmap.py`, `sdcompile.ps1` and the other `.ps1` files are the Windows

@@ -166,6 +166,40 @@ DOCS = [
  ('GettingStarted', '15-managed-mode.md', """
    deny.verbs sync.global.catalog
  """),
+ # 21 Oct 26: the 27 verbs that Solo's first sync from SD Core (LSOLO 52) carried
+ # without a page.  Each is written from sdsys/gpl.bp/<program>, its messages and a
+ # run in a Solo sandbox, in the User page of its subject; none of it is SD Core's
+ # prose.
+ ('User', '19-sd-tcl-command-processor.md', """
+   redo
+ """),
+ ('User', '19a-sd-tcl-the-command-stack.md', """
+   command.logging
+ """),
+ ('User', '20-sd-tcl-files-and-records.md', """
+   compare.files file.stat find.file fixdir fstat.user list.triggers
+ """),
+ ('User', '21-sd-tcl-query-processor.md', """
+   scan
+ """),
+ ('User', '22-sd-tcl-select-lists.md', """
+   copy.listp execute.list move.list show.list sort.list
+ """),
+ ('User', '23-sd-tcl-alternate-key-indexes.md', """
+   analyse.index disable.index rebuild.all.indices selectindex
+ """),
+ ('User', '24-sd-tcl-programs-and-the-catalogue.md', """
+   decatalog find.program
+ """),
+ ('User', '28-sd-tcl-printing-and-spooling.md', """
+   block.print set.queue sp.assign
+ """),
+ ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
+   block.term list.term.types
+ """),
+ ('User', '30-sd-tcl-processes-and-phantoms.md', """
+   list.phantoms profiler
+ """),
 ]
 
 # Verbs deliberately not given a page of their own, with the reason.  These

@@ -136,6 +136,74 @@ ZZPROG deleted from the private catalogue
 > overwritten. Continue (Y/N)?"* — so it is not usable from a script driving SD
 > down a pipe.
 
+### Removing a local entry and its object code: `decatalog`
+
+```
+decatalog {file.name} name ...
+```
+
+`delete.catalog` *name* `local` removes the VOC pointer that `catalog ... local`
+made, and **leaves the object file where it was**. `decatalog` removes the
+pointer **and the object code it points to**. The file name, which other systems
+need, is accepted and ignored: the pointer holds the pathname of the object code.
+
+```
+decatalog p3
+```
+
+```
+p3 deleted from the local catalogue
+```
+
+After `delete.catalog p3 local` the compiled program was still in the object
+file (`bp.out`); after `decatalog p3` it was gone. A name that is not a local
+entry is *p9 is not in the local catalogue* (the name as you typed it), and no
+name at all is *Catalogue name required*. It acts on the local catalogue only;
+the private and the global catalogue are `delete.catalog`'s.
+
+### Where a program is catalogued: `find.program`
+
+```
+find.program name {detail}
+```
+
+For the case where the wrong version of a program seems to run because it is
+catalogued in two places. It reports where *name* is, **in the order a program is
+loaded**: the local catalogue (a VOC entry that points at the object file), the
+private catalogue (the account's `cat` directory, or the directory named by
+`$private.catalogue`) and the global catalogue (`gcat` in the system directory).
+For each place it is found it gives the time it was compiled and what it is: a
+program, a subroutine or a function with its number of arguments, or a class
+module.
+
+```
+find.program p9
+```
+
+```
+Program is in the private catalogue
+   Compiled 10/21/26 00:06:47
+   Function with 4 arguments
+```
+
+`detail` adds the size of the object code:
+
+```
+   Object code 203 bytes
+```
+
+and the flags the object carries (internal, debug, recursive, trusted, case
+sensitive, may be called by `sdcall`). A name that is catalogued nowhere is
+*cproc is not catalogued*. SD's objects carry no compiler version and no source
+pathname, so neither is shown. **The object files are read as directory file
+records, so you see only what your VOC, the shared global catalogue and the
+operating system access switch let you open.**
+
+The listings were produced by running them in a sandbox build of SD Core for
+Linux Solo, as the administrator. The report for a program found in more than
+one place, and the flags that `detail` adds, are read from the source and were
+not run.
+
 ## Formatting source
 
 ```
@@ -198,8 +266,9 @@ program in a phantom process"*. The debugger itself is covered in
 ## Who has these verbs
 
 **Every account has all of them now**: `format`, `list.common`, `basic`,
-`catalog`, `catalogue`, `cd`, `compile.dict`, `debug`, `delete.catalog`,
-`delete.catalogue`, `delete.common`, `generate`, `map`, `run`.
+`catalog`, `catalogue`, `cd`, `compile.dict`, `debug`, `decatalog`,
+`delete.catalog`, `delete.catalogue`, `delete.common`, `find.program`,
+`generate`, `map`, `run`.
 
 **Running a catalogued program never needed any of these anyway** — a
 catalogued name runs by being typed, with no VOC record of its own — so an

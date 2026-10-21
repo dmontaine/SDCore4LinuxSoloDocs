@@ -21,7 +21,7 @@ BEGIN = `begin case` … `end case`   ·   `begin transaction` … `end transact
 BREAK = `break on`   ·   `break off`   ·   `break` *n*
 BREAKPOINT = `breakpoint` *action*, *qualifier*
 BY = clause of `locate` and `sselect` — `by` `'AL'`, `'AR'`, `'DL'`, `'DR'`
-CALL = `call` *name*`(`*arg*, …`)`   ·   `call @`*var*`(`*arg*, …`)`
+CALL = `call` *name*`(`*arg*, …`)`   ·   `call @`*var*`(`*arg*, …`)`   ·   `call "`*file* *name*`"(`*arg*, …`)`
 CALLV = `callv` *name*`(`*arg*, …`)`
 CAPTURING = clause of `execute` and `os.execute` — take the output
 CASE = `case` *condition*, inside `begin case` … `end case`
@@ -80,7 +80,7 @@ ENTER = `enter` *name*   ·   `enter @`*var*
 EQU = `equ` *name* `to` *value* — synonym of `equate`
 EQUATE = `equate` *name* `to` *value* {, *name* `to` *value*} …
 ERRMSG = ***(no such thing)*** — in the statement table with no opcode behind it
-EXECUTE = `execute` *cmd* {`capturing` *v*} {`returning` *v*} {`passlist` {*l*}} {`rtnlist` {*v*}}
+EXECUTE = `execute` *cmd* {`capturing` *v*} {`returning` *v*} {`passlist` {*l*}} {`rtnlist` {*v*}} {`stacklist`}
 EXIT = `exit` — leave the enclosing `loop` or `for`
 EXTRACT = `extract(`*arr*, *f* {, *v* {, *sv*}}`)`
 FIELD = `field(`*string*, *delimiter*, *occurrence* {, *count*}`)`
@@ -112,7 +112,7 @@ INCLUDE = `$include` *record*   ·   `$include` *file* *record*
 INDICES = `indices(`*file.var* {, *index*}`)`
 INHERIT = `inherit` *object*
 INMAT = `inmat()`   ·   `inmat(`*matrix*`)`
-INPUT = `input` *var* {, *length*} {`:`} {`_`} {`hidden`} {`overlay`} {`upcase`} {`waiting` *n*}
+INPUT = `input` *var* {, *length* {, *fill*}} {`:`} {`_`} {`hidden`} {`no.echo`} {`raw`} {`overlay`} {`upcase`} {`waiting` *n*} — a *fill* cannot be used with `hidden`
 INPUTCLEAR = `inputclear`
 INPUTCSV = `inputcsv` *var*, …
 INPUTERR = `inputerr` *message*
@@ -152,9 +152,9 @@ NOCASEINVERT = clause of `input` — do not invert the case of typed letters
 NULL = `null` — does nothing; the empty statement
 OBJECT = `object(`*class* {, *arg*, …}`)`
 ON = `on` *n* `goto` *label*, … — ***clamps, it does not fall through***
-OPEN = `open` {*dict*`,`} *name* `to` *file.var* {`readonly`} {`on error` …} `then` … `else` …
+OPEN = `open` {*dict*`,`} *name* {`readonly`} {`non.transactional`} {`sync`} `to` *file.var* {`on error` …} `then` … `else` … — the three words come before `to`, in any order
 OPEN.SOCKET = `open.socket(`*addr*, *port*, *flags* {, *context*}`)`
-OPENPATH = `openpath` *path* `to` *file.var* {`readonly`} {`on error` …} `then` … `else` …
+OPENPATH = `openpath` *path* {`readonly`} {`non.transactional`} {`sync`} `to` *file.var* {`on error` …} `then` … `else` … — the three words come before `to`, in any order
 OPENSEQ = `openseq` *path* `to` *file.var* {`append`} {`overwrite`} {`readonly`} `then` … `else` … — ***`then` = it existed, `else` = it was created***
 OS.EXECUTE = `os.execute` *command* {`capturing` *var*}
 OVERLAY = clause of `input` — type over what is already there
@@ -236,8 +236,8 @@ SETREM = `setrem` *position* `on` *var*
 SETRIGHT = `setright` *index* `from` *file.var* — ***no `then`/`else`***
 SETTING = clause of `find`, `findstr`, `locate`, `remove`, `selectleft`, `selectright`
 SLEEP = `sleep` {*seconds*}   ·   `sleep` *hh:mm:ss*
-SORTADD = `sortadd` *key*, *data*
-SORTCLEAR = `sortclear`
+SORTADD = `sortadd` *sortvar*, {`mat`} *keys* {, *data*}
+SORTCLEAR = `sortclear` *sortvar*
 SORTINIT = `sortinit` *keys*, *memory*
 SSELECT = `sselect` {*file.var*} {`by` *field*} {`to` *list.no*}
 STEP = clause of `for`: `for` *v* `=` *a* `to` *b* `step` *n*
@@ -268,25 +268,138 @@ WAKE = `wake` *user.no*
 WATCH = `watch` *var*
 WEOFSEQ = `weofseq` *file.var* {`on error` …}
 WHILE = clause of `loop`: `loop` … `while` *condition* … `repeat`
-WRITE = `write` *var* `to` *file.var*, *id* {`on error` …} — ***inside a transaction the lock must already be held***
+WRITE = `write` *var* `to` *file.var*, *id* {`on error` …} — ***inside a transaction the lock must already be held***   ·   `write` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} — a hashed file numbers the record itself
 WRITEBLK = `writeblk` *var* `to` *file.var* {`on error` …}
 WRITECSV = `writecsv` *value*, … `to` *file.var* `then` … `else` …
 WRITEPKT = `writepkt` *data*
 WRITESEQ = `writeseq` *var* `to` *file.var* {`on error` …} `then` … `else` …
 WRITESEQF = `writeseqf` *var* `to` *file.var* {`on error` …} `then` … `else` …
-WRITEU = `writeu` *var* `to` *file.var*, *id* {`on error` …}
+WRITEU = `writeu` *var* `to` *file.var*, *id* {`on error` …}   ·   `writeu` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …}
 WRITEV = `writev` *var* `to` *file.var*, *id*, *field* {`on error` …}
 WRITEVU = `writevu` *var* `to` *file.var*, *id*, *field* {`on error` …}
 XLATE = `xlate(`{*dict*`,`} *file.name*, *id*, *field*, *action*`)`
 FOLDS = `folds(`*arr*, *width* {, *delimiter*}`)`
 
-# Internal-only intrinsics whose handler is a special case.  All four take a
-# one-dimensional MATRIX name rather than an expression in at least one
-# position, which is why the argument count cannot express them.
+# Internal-only intrinsics whose handler is a special case.  BTREE and SCAN take
+# a one-dimensional MATRIX name rather than an expression in at least one
+# position, which is why the argument count cannot express them.  (SORTNEXT used
+# to be the fourth; it is a public function now, on the card with SORTADD.)
 BTREE = `btree(`*file.var*, *matrix*`)` — *matrix* is a `dim`med one-dimensional name
 REMOVEF = `removef(`*string* {, *occurrence*}`)`
 SCAN = `scan(`*a* {, *matrix*}`)` — *matrix* is a `dim`med one-dimensional name
-SORTNEXT = `sortnext(`*matrix*`)` — *matrix* is a `dim`med one-dimensional name
+SORTNEXT = `sortnext(`*sortvar* {, {`mat`} *keys*}`)`
 SDSALT = `sdsalt()` — a fresh random salt for `sdkey()`; see [SD Basic - Encrypting Data](06a-sd-basic-encryption.html)
 SDKEY = `sdkey(`*passphrase*, *salt*`)` — a 44 character base64 key (argon2id); `status()` 10206 bad salt, 10207 bad passphrase
 SDRANDKEY = `sdrandkey()` — a random 256 bit key, 44 characters
+
+# The names Solo's compiler carried from SD Core in the first sync (LSOLO 52,
+# 18 Oct 2026) and the shapes of the forms that grew at the same time.  The
+# shapes are SD Core's, from its syntax card and its shapes file; each was held
+# against Solo's own BCOMP and kernel source, and the card is the only place
+# they are described (no User page of this set describes these names yet, so
+# there is no link to one).  Where SD Core's line said a thing that Solo's
+# source does not (FCONTROL's FC$CRLF), the line here follows Solo's source.
+# A name that reaches the operating system carries the Solo rule: a path
+# outside the account's own directory needs the os switch.
+ARG.PRESENT = `arg.present(`*name*`)`
+AS = `ins` *value* `as` *c*`{`*path*`}` — a reserved word, ends the value of that form of `ins`
+BOOL = `bool(`*a*`)`
+BSCAN = `bscan` *indexed.value* {, *ids*} `from` *file.var* {, *value*} `using` *index* {`reset`} {`by` `a` \| `d`} `then` … `else` …
+CASING = `casing on`   ·   `casing off`   ·   `casing` *expression*
+CATCH = `try` {*statement*} … `catch` *exception* {*qualifiers*} {, *exception* …} … {`catch` …} `end`
+CAUGHT = `caught(`*exception* {, *modes*}`)`
+CEIL = `ceil(`*a*`)`
+COLLECTION = `collection()`   ·   `collection(`*c*`)`
+CONVERT = `convert(`*from.characters*, *to.characters*, *string*`)`   ·   `convert` *from.characters* `to` *to.characters* `in` *variable* — under `$mode pick.convert` the function is written `convert(`*string*, *from.characters*, *to.characters*`)`
+CREATING = `openseq` *path*`,` *id* `creating to` *file.var* `then` … `else` …
+CSV.MODE = `csv.mode` *mode* {, *delimiter*}
+DELIMITER = `for each` *var* `in` *string* {`delimiter` *d*} … `next` *var*
+DIGEST = `digest(`*string*, *is.file*, *mode*`)` — *mode* `MD5`, `SHA1`, `SHA256`, `SHA384` or `SHA512`; a file outside the account's own directory needs the `os` switch
+ECS = clause of `opentemp` — accepted and ignored
+ELEMENT.EXISTS = `element.exists(`*c*, *path*`)`
+ENUMERATE = `enumerate(`*c*`)`
+EPOCH = `epoch()`
+EREPLACE = `ereplace(`*string*, *old*, *new* {, *occurrence* {, *start*}}`)`
+EXPAND = `expand(`*c*`{`*path*`}` {, *file.var*}`)`
+FCONTROL = `fcontrol(`*file.var*, *action* {, *qualifier*}`)` — *action* `FC$SYNC` 1 (forced writes: qualifier 1 on, 0 off, -1 only asks; gives the earlier state), `FC$SET.SEQ.KEY` 2 and `FC$GET.SEQ.KEY` 3 (the counter of `write … creating.seqkey`), `FC$CRLF` 4 (line terminator mode of a directory or sequential file, qualifier 0 to 3, -1 only asks), 5 (field access, always 1), `FC$VALID.ID` 6, `FC$MINMOD` 7
+FIX = `fix(`*number* {, *precision* {, *mode*}}`)`
+FLOOR = `floor(`*a*`)`
+FLUSH.DH.CACHE = `flush.dh.cache` {`local` \| `no.wait`}
+FORMLISTV = `formlistv` *array* `to` *var*
+GETLISTV = `getlistv` *name* `to` *var* {`setting` *count*} `then` … `else` …
+GROUPSTORE = `groupstore` *new* `in` *var* `using` *i*, *n* {, *delimiter*}
+INPUTIF = `inputif` *var* {, *length* {, *fill*}} {`:`} {`_`} {`hidden`} {`no.echo`} {`upcase`} `then` … `else` … — a *fill* cannot be used with `hidden`
+INPUTNULL = `inputnull` *char*
+INPUTTRAP = `inputtrap` *chars* `goto` *label* {, *label* …}   ·   `inputtrap` *chars* `gosub` *label* {, *label* …}
+IS.ALNUM = `is.alnum(`*a*`)`
+IS.ALPHA = `is.alpha(`*a*`)`
+IS.DIGIT = `is.digit(`*a*`)`
+IS.GRAPH = `is.graph(`*a*`)`
+IS.MARK = `is.mark(`*a*`)`
+IS.NULL = `is.null(`*a*`)`
+IS.SPACE = `is.space(`*a*`)`
+JBOOLEAN = `jboolean(`*x*`)`
+JBUILD = `jbuild(`*c* {, *mode*}`)`
+JNULL = `jnull()`
+JPARSE = `jparse(`*text* {, *mode*}`)`
+JTYPE = `jtype(`*value*`)`
+KEEP.SELECT = `keep.select`
+KEY = `key(`*operator*, *scan.var*, *index.key*, *item.id*`)` `then` … `else` … — the brackets are optional; operators `c` `l` `n` `p` `r` `v` `x`
+LAST = `last(`*string*, *delimiter*`)`
+LASTS = `lasts(`*array*, *delimiter*`)`
+LEFT = `left(`*string*, *n*`)`
+MATCHESS = `matchess(`*array*, *template*`)`
+MATCHFIELDS = `matchfields(`*array*, *template*, *n*`)`
+MATSTR = `matstr(`*matrix*`)`
+MATWRITECSV = `matwritecsv` *matrix* `to` *file.var* `then` … `else` … — ***no `encoding`, no `on error`***
+MOVELIST = `movelist` *n* `to` *m* {`keep`}
+MOVELISTV = `movelistv` *n* `to` *var* {`keep`}
+MVDATE = `mvdate(`*epoch*`)`
+MVDATE.TIME = `mvdate.time(`*epoch*`)`
+MVEPOCH = `mvepoch(`*date_time*`)` · `mvepoch(`*date*`,` *time*`)`
+MVTIME = `mvtime(`*epoch*`)`
+NO.ECHO = clause of `input` and `input @` — show nothing of what is typed
+NON.TRANSACTIONAL = `open` *name* `non.transactional` {`readonly`} `to` *file.var* …   ·   `openpath` *path* `non.transactional` {`readonly`} `to` *file.var* …
+NS = `ns(`*array*`)`
+NUMERIC = `numeric(`*a*`)`
+NV = `nv(`*array* {, *repeat*}`)`
+OPENTEMP = `opentemp` {*path*} {`ecs`} {`non.transactional`} `to` *file.var* {`on error` …} `then` … `else` … — a path outside the account's own directory needs the `os` switch
+OSDELETE = `osdelete` *path* — a path outside the account's own directory needs the `os` switch
+OSREAD = `osread` *var* `from` *path* `then` … `else` … — a path outside the account's own directory needs the `os` switch
+OSWRITE = `oswrite` *expr* `to` *path* — a path outside the account's own directory needs the `os` switch
+PDUMP = `pdump`
+RAW = clause of `input` — read exactly *length* characters as they arrive
+REDIM = `redim` *name*`(`*rows* {, *cols*}`)` — the same as `redimension`
+REDIMENSION = `redimension` *name*`(`*rows* {, *cols*}`)` — changes the size of a matrix passed in as an argument
+RESTRICTED = `restricted` *var* {`readonly`}, …   ·   `restricted subroutine` *name*{(*args*)} … `end`   ·   `restricted function` *name*{(*args*)} … `end` — in a class module
+REUSING = `reusing(`*name*`)`
+REVREMOVE = `revremove` *var* `from` *array* `setting` *code*
+RIGHT = `right(`*string*, *n*`)`
+RMVD = `rmvd(`*array*, *code*`)`
+ROOT = `root` *file.name*, *index* `to` *scan.var* `then` … `else` …
+ROUNDDOWN = `rounddown(`*a*, *step*`)`
+ROUNDUP = `roundup(`*a*, *step*`)`
+SCREEN = `screen` *verb* {*values*} {*keyword* *values*} {`returning` *var*} {`then` … `else` …}
+SELECT.SOCKET = `select.socket(`*matrix*, *milliseconds*`)`
+SELECTINDEXV = `selectindexv` *index* {, *value*} `from` *file.var* `to` *list.var* — list 10 is its scratch list
+SELECTLEFTV = `selectleftv` *index* `from` *file.var* {`setting` *var*} `to` *list.var* — list 10 is its scratch list
+SELECTRIGHTV = `selectrightv` *index* `from` *file.var* {`setting` *var*} `to` *list.var* — list 10 is its scratch list
+SEND = `send` *expression* {`:`} `to` *file.var* `then` … `else` …
+SET.TIMEZONE = `set.timezone` *zone*
+SHARED = `openseq` *path*`,` *id* `shared to` *file.var* `then` … `else` …
+SIGNAL = `signal(`*user.no*`)`
+SORT = `sort(`*key.count*, {`mat`} *flags*`)` — makes a sort and gives back the variable that stands for it
+SORTDATA = `sortdata(`*sortvar* {, *max.items*}`)`
+SSELECTN = `sselectn` *file.var* {`right.aligned`} {`descending`} {`to` *list.no*}
+SSELECTV = `sselectv` *file.var* `to` *list.var* {`right.aligned`} {`descending`}
+STACKLIST = clause of `execute` — keep the active select list and put it back afterwards
+SWAPMARKS = `swapmarks(`*string*`)` — gives the string unchanged: SD has no ECS mode
+SYNC = `open` {*dict*`,`} *name* `sync` `to` *file.var* …   ·   `openpath` *path* `sync` `to` *file.var* … — writes every write and delete of the file to disk
+TERMINFO.EX = `terminfo.ex(`*capability*`)`
+THROW = `throw` *exception* {, *data*}
+TIME = `time()`
+TRIMWS = `trimws(`*array*`)`
+TRY = `try` {*statement*} … `catch` *exception* … `end`
+TTYSET = `ttyset` *settings*
+VSLICE = `vslice(`*array*, *value.number*`)`
+WRITELIST = `writelist` *array* `to` *name*

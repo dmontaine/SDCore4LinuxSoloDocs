@@ -131,6 +131,53 @@ entered on a Solo computer: the administrator commands are in your own account
 behind `admin`. Typed anyway, `logto` answers like any word that is not a
 verb, *LOGTO is not in your VOC*.
 
+## Logging every command: `command.logging`
+
+```
+command.logging {on | off}
+```
+
+`on` starts a log of every command this session runs; `off` stops it. With
+neither word the verb says whether logging is on and, if it is, where the log is:
+
+```
+Command logging is off
+```
+
+```
+Command logging is on: <account directory>/clog.19.log
+```
+
+(In the second listing the path was the sandbox's, and *account directory* stands
+for it here; the 19 is the user number of that session.) **The log is named
+`clog.`*user number*`.log` and is kept in the account directory.** SD does not put it in a shared temporary directory, because
+another user could make a file of that name first. It belongs to you and nobody
+else can read it (mode 0600); each session adds to it and nothing empties it.
+
+Each line has five fields separated by tabs: the time as a number of seconds
+since 1 Jan 1970, the user number, the login name, where the command came from,
+and the command:
+
+```
+1792566633	19	sduser	User	WHO
+```
+
+| Origin | The command came from |
+|---|---|
+| `User` | the prompt |
+| `Cmd` | the command line `sd` was started with |
+| `PA` | a line of a paragraph |
+| `Exec` | `execute`, `chain` or a menu |
+
+The `on` that starts the log is not in it; every command after it is, and the
+`off` that ends it is the last line. A word after `on` or `off`, or any word but
+those two, is refused with *Unexpected token*, and if the log cannot be made
+(*The command log could not be started*) nothing is logged.
+
+The listings were produced by running them in a sandbox build of SD Core for
+Linux Solo, as the administrator; the `Cmd`, `PA` and `Exec` origins are read
+from the source and were not run.
+
 ## What is not here
 
 **There is no online help and `help` is not a verb.** The command processor
@@ -161,7 +208,7 @@ Everything on this page is in your account, and none of it needs `admin`:
 
 | | |
 |---|---|
-| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
+| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `command.logging` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
 **The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
 shell with your own permissions, once the `sh` switch is on (it is off as

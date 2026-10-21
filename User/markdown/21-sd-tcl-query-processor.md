@@ -5,9 +5,9 @@ The query processor is how you ask a file a question from the command line. It
 selects records, sorts them, formats them into columns and totals them, and it
 does all of that from one line of typing.
 
-**Twelve verbs on this page are the same program.** `list`, `sort`, `count` and
-the rest are one catalogued program reached through fourteen VOC records, each
-carrying a number that says which verb was typed. Two of the fourteen —
+**Thirteen verbs on this page are the same program.** `list`, `sort`, `count` and
+the rest are one catalogued program reached through fifteen VOC records, each
+carrying a number that says which verb was typed. Two of the fifteen —
 `select` and `sselect` — build a list instead of printing one and are covered in
 [SD TCL - Select Lists](22-sd-tcl-select-lists.html).
 
@@ -54,6 +54,7 @@ themselves, and what they show about the language, are unchanged.
 | **`list.item`** · **`sort.item`** | print whole records, field by field, rather than in columns |
 | **`list.label`** · **`sort.label`** | print in label format |
 | **`search`** | select records by looking for text inside them |
+| **`scan`** | the same, and show the lines that hold the text |
 | **`show`** | build a select list interactively |
 | **`reformat`** · **`sreformat`** | write the selected fields out to another file |
 
@@ -266,6 +267,60 @@ whole one.
 Printing, print units and `$hold` are in
 [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html).
 
+## Looking for text inside records: `search` and `scan`
+
+```
+search {dict} file {selection} for "text" {"text" ...} {all.match | no.match} {no.case} {all}
+scan   {dict} file {selection} for "text" {"text" ...} {all.match | no.match} {no.case} {all}
+search {dict} file {selection} strings file record ...
+```
+
+`search` looks inside the records for text. It builds a select list of the
+records that hold it and says how many it selected. `scan` does the same and
+**also prints, for each record that was selected, its id and then every line
+that holds one of the strings**, with the line number:
+
+```
+scan BP for "sortadd"
+```
+
+```
+p3
+0007:       sortadd s, 'k', 'd'
+0008:       sortadd s2, mat m
+p1
+0034:       sortadd x, 'k', 'd'
+2 record(s) selected to list 0
+```
+
+`search ... display` is `scan` under the other spelling. Marks inside a line
+are shown as `]` for a value mark, `\` for a subvalue mark and `[` for a text
+mark, as `list` shows them.
+
+| | |
+|---|---|
+| `for` | one or more strings in double quotes. A record is selected if it holds **any** of them |
+| `strings` *file* *record* | in place of `for`: the strings are the non-empty lines of a record of a file (*No search strings* if there are none, *Record id required after STRINGS file name* if the id is missing). Read from the source; not run |
+| `all.match` | select a record only if it holds **every** string |
+| `no.match` | select the records that hold **none** of them. `scan` shows no lines, since there are none to show |
+| `no.case` | ignore the case of the text and of the strings |
+| `all` | look at the record id as well as the record |
+| *selection* | a `with` clause or a list of ids narrows the records looked at |
+
+**A search works on the records of the active select list if there is one, and
+on the whole file if there is not.** The list that `search` or `scan` leaves is
+list 0, so a second `scan` straight after the first looks only at the records
+the first found. Use `clearselect` between them:
+
+```
+clearselect
+```
+
+A `scan` that finds nothing prints `0 record(s) selected to list 0`. The listings
+were produced by running them in a sandbox build of SD Core for Linux Solo, as the
+administrator; that `scan` shows no lines with `no.match` is read from the source
+(`search ... no.match` itself was run).
+
 ## Querying a dictionary
 
 Put `dict` between the verb and the file name and the query runs against the
@@ -294,7 +349,7 @@ named.
 
 | | |
 |---|---|
-| **standard** | `count` `list` `list.item` `list.label` `search` `show` `sort` `sort.label` `sum` |
+| **standard** | `count` `list` `list.item` `list.label` `scan` `search` `show` `sort` `sort.label` `sum` |
 | **programmer** | `reformat` `sreformat` `sort.item` |
 
 Reading and reporting are available to every account; the two verbs that

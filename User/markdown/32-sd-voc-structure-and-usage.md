@@ -45,29 +45,31 @@ valid PROC and it is the interpreter that is gone.
 ### What the shipped VOC holds
 
 Counted directly from `newvoc` in the system directory — the VOC a new account
-starts with, 417 records, by each record's own field-1 type character (the type
-is the first character; a record whose field 1 reads `Verb to ...` is `V`):
+starts with, 475 records, by each record's own field-1 type character (the type
+is the first character; a record whose field 1 reads `Verb to ...` is `V`).
+**It was 417 records before the sync from SD Core (LSOLO 52) brought in the verbs
+and keywords of its 1.2-0 work.** Counted on 21 Oct 2026:
 
 | Type | Count |
 |---|---|
-| `V` | 142 |
-| `K` | 249 |
+| `V` | 177 |
+| `K` | 271 |
 | `F` | 8 |
 | `R` | 10 |
-| `PA` | 1 |
+| `PA` | 2 |
 | `PH` | 2 |
 | `S` | 2 |
 | `Q` | 2 |
 | `X` | 1 |
 
-**The four keyword-verbs are among the 249 `K` records.** `break`, `count`,
+**The four keyword-verbs are among the 271 `K` records.** `break`, `count`,
 `display` and `off` are counted as keywords here and are also verbs, so Solo has
-142 + 4 = **146 verbs**.
+177 + 4 = **181 verbs**.
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
 multiuser SD Core for Linux L1.1-1* in the GettingStarted set. (SDSYS's own VOC,
-which nobody signs in to, is built from the larger `voc_template`: 422 records.)
+which nobody signs in to, is built from the larger `voc_template`: 480 records.)
 
 > **`edit` used to be exactly this kind of trap** — a record present in the
 > VOC whose old type field read `Verb - Full screen editor` rather than `V`,

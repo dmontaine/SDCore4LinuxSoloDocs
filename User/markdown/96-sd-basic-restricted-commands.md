@@ -91,7 +91,7 @@ itself administrator rights. That was demonstrated, not theorised.
 
 | | |
 |---|---|
-| **`fcontrol`** | `fcontrol(`*a*, *b*, *c*`)` ***(internal)*** |
+| **`fcontrol.int`** | `fcontrol.int(`*a*, *b*, *c*`)` ***(internal)*** |
 | **`find`** | `find` *x* `in` *arr* {, *occ*} `setting` *f* {, *v* {, *sv*}} `then` … `else` … ***(internal)*** |
 | **`formcsv`** | `formcsv(`*a*`)` ***(internal)*** |
 
@@ -180,11 +180,7 @@ itself administrator rights. That was demonstrated, not theorised.
 | **`set.status`** | `set.status` *n* ***(restricted)*** |
 | **`set.trigger`** | `set.trigger` *file.var*, *mode*, *program* {, *modes*} ***(restricted)*** |
 | **`set.unassigned`** | `set.unassigned` *var* ***(restricted)*** |
-| **`sortadd`** | `sortadd` *key*, *data* ***(restricted)*** |
-| **`sortclear`** | `sortclear` ***(restricted)*** |
-| **`sortdata`** | `sortdata()` ***(internal)*** |
 | **`sortinit`** | `sortinit` *keys*, *memory* ***(restricted)*** |
-| **`sortnext`** | `sortnext(`*matrix*`)` — *matrix* is a `dim`med one-dimensional name ***(internal)*** |
 
 ## T
 

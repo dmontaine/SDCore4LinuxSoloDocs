@@ -212,10 +212,166 @@ and `count.sup` suppresses the count line.
 are not in the second, so **the order of the two arguments matters** where it
 does not for union and intersection.
 
+## Going through a list by hand: `show.list`
+
+```
+show.list {n}
+```
+
+Shows the items of an active numbered list (list 0 if you give no number) a page
+at a time, each with its number and **an asterisk when it is selected**. All
+items start selected. You clear and set the asterisks; when you quit, **the list
+is made again from the items that still have one**.
+
+```
+select t3
+show.list
+```
+
+```
+    1 * a1
+    2 * a2
+    3 * a3
+    4 * a4
+    5 * a5
+: c 3-4
+    1 * a1
+    2 * a2
+    3   a3
+    4   a4
+    5 * a5
+: s 3
+    1 * a1
+    2 * a2
+    3 * a3
+    4   a4
+    5 * a5
+: q
+```
+
+| You type | |
+|---|---|
+| `t` | the top of the list |
+| `n` or Return | the next page |
+| `p` | the previous page |
+| `s` *item* · *item* | select the item (the `s` may be left out) |
+| `c` *item* | clear the item |
+| `q` | quit, keeping the items that have an asterisk |
+| `qc` | quit, clearing every item |
+| `?` | help |
+
+An *item* is a number, a range *a*`-`*b* (no spaces round the hyphen), `visible`
+(the items on this page) or `all`, and `visible` and `all` may be shortened to
+`v` and `a`. Several may be given, separated by spaces or commas: `1,4,8-11`. The
+space after `s` and `c` is optional.
+
+After the `q` above, the list holds `a1`, `a2`, `a3` and `a5`, and the next
+`list t3` shows those four. **`qc` leaves no list at all**, so the command after
+it works on the whole file, not on an empty list. A list that is not active is
+refused (`show.list 7` answers *Select list 7 is not active*).
+
+## Sorting a saved list: `sort.list`
+
+```
+sort.list list.name {from file.name}
+```
+
+Sorts a saved list into ascending order **as strings**, in place: `10` comes
+before `9`. The list is in `$savedlists` unless `from` names another file.
+
+```
+sort.list names1
+```
+
+```
+5 records saved to select list 'NAMES1'
+```
+
+`@system.return.code` is the number of items. A list that is not there is
+*Saved select list 'NOSUCH' not found*. The file named by `from` is held to the
+same rule as for `copy`: a VOC can be changed only after `admin`, and the global
+catalogue's directories only with the global password.
+
+## Moving a list to another number: `move.list`
+
+```
+move.list src to tgt {keep}
+```
+
+*src* and *tgt* are select list numbers, 0 to 10. The list in *src* moves to
+*tgt* and *src* is empty; with `keep` the source stays as it was, so it is a
+copy. It prints nothing when it works. A number outside 0 to 10 is refused
+(*Select list number missing or invalid*). It is the command form of the
+`movelist` statement.
+
+## Copying saved lists, Pick style: `copy.listp`
+
+```
+copy.listp {{dict} src.file} {id.list | *} {(options}
+```
+
+`copy.listp` is `copyp` (described with the other record verbs in
+[SD TCL - Files and Records](20-sd-tcl-files-and-records.html)) with **the saved
+lists as its source file**: unless a file is named, the source is `$savedlists`
+and every word is the name of a saved list. `*` means every list. Like `copyp`
+it asks where the copy is to go and shows what it did:
+
+```
+copy.listp rome
+```
+
+```
+To: rome3
+Copied item ROME from $savedlists to $savedlists item ROME3
+1 record(s) copied.
+```
+
+The options are `copyp`'s, in a trailing bracket: `d` deletes the source (the
+line then reads *Moved item ...* and the count *copied and deleted*), `i`
+suppresses the id, `n` no pagination, `o` overwrites, `p` and `t` send the
+listing of the list to the printer or the terminal (`copy.listp rome (t` prints
+`Item ROME` and its ids), `s` suppresses field numbers. **Without `o`, a list
+that already exists at the destination is not copied** (*Item NAMES1 already
+exists in target file - Not copied*).
+
+## A command for each id: `execute.list`
+
+```
+execute.list command {; command ...}
+```
+
+Runs the commands once for each id of the default select list (list 0), in
+order. **A pair of empty round brackets in a command is replaced by the id.**
+Commands are separated by semicolons. The ids are all taken out of the list
+first, so a command that itself uses list 0 does not take ids from the loop. With
+no active list nothing is run.
+
+```
+select t3 with city = "Rome"
+execute.list display found () ; display again ()
+```
+
+```
+found a2
+again a2
+found a4
+again a4
+```
+
+A line with nothing after the verb is refused (*A command is needed after
+EXECUTE.LIST*).
+
+The listings in the sections from `show.list` to here were produced by running
+them in a sandbox build of SD Core for Linux Solo, as the administrator. What is
+read from the source and was not run: the guard on the file `sort.list` is
+given with `from`, and the refusal of an `execute.list` with no command.
+
 ## Who has these verbs
 
 **All of them are in every account.** Building, saving and combining lists
-is reading, and nothing on this page changes a record.
+is reading, and nothing on this page changes a record. `show.list`,
+`sort.list`, `move.list`, `copy.listp` and `execute.list` are in every account
+too; `execute.list` changes records only if the commands it runs do.
 
 ## See also
 

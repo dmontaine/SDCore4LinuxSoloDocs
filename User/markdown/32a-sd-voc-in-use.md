@@ -132,8 +132,8 @@ entry actually contains without an editor.
 ## The VOC and the account
 
 The installer copies the account's VOC from `newvoc` in the system directory —
-**414 records**, counted directly. (SDSYS's own VOC, which nobody signs in to, is
-built from `voc_template` instead — **422 records**, the same verbs plus a few
+**475 records**, counted directly on 21 Oct 2026. (SDSYS's own VOC, which nobody
+signs in to, is built from `voc_template` instead — **480 records**, the same verbs plus a few
 system file pointers.) `update.accounts`, which needs
 `admin`, and an upgrade, add to the account's VOC whatever a new release ships;
 neither takes anything away.

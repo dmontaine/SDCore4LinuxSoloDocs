@@ -74,6 +74,11 @@ DOCS = {
    ICONV OCONV FMT XTD DTX CHAR SEQ ASCII EBCDIC ITYPE DPARSE CONVERT
    SETNLS GETNLS PRECISION PWR PRINTERR
  """,
+ # 21 Oct 26: 06a is the programmer's page for encryption (Solo carry 7); the
+ # three functions that make a key are described there.
+ '06a Encryption': """
+   SDSALT SDKEY SDRANDKEY
+ """,
  '07 File Handling': """
    OPEN OPENPATH CLOSE READ READL READU READV READVL READVU WRITE WRITEU
    WRITEV WRITEVU DELETE DELETEU MATREAD MATREADL MATREADU MATWRITE MATWRITEU

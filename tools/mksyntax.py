@@ -343,7 +343,7 @@ exist, and this account may not call it.
 **`$internal` needs both halves.** `BCOMP` tests
 `kernel(K$INTERNAL, -1) and kernel(K$ADMINISTRATOR, -1)` — internal mode alone
 was enough until 13 Aug 2026, and it was not safe: internal programs are the
-only ones that may set the administrator flag, and `sd -internal` is not itself
+only ones that may set the administrator flag, and `sd-solo -internal` is not itself
 gated, so any account could have compiled a three-line program that granted
 itself administrator rights. That was demonstrated, not theorised.
 
@@ -353,7 +353,8 @@ TECH_TAIL = u"""
 ## See also
 
 *Operating System Access* in the Getting Started set covers the `sh` and `!`
-verbs. *Encryption and the SDEXT interface*, in the same set, explains why
+verbs and the `sh` and `os` switches that keep them, `os.execute` and the files
+outside the account behind a door the administrator opens. *Encryption and the SDEXT interface*, in the same set, explains why
 `sdext` is on this page and what it costs an application.
 
 The User set's *SD Basic - Syntax* card carries everything an application may

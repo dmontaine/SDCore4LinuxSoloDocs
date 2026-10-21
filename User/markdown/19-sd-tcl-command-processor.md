@@ -173,6 +173,38 @@ it, and they must follow it without an intervening ordinary command.
 
 Paragraphs nest, and `abort` unwinds all of them.
 
+## Running a command again: `redo`
+
+```
+redo {times n} {every s} command
+```
+
+`redo` hands the rest of the line, as typed, to the command processor again and
+again. **Without `times` it goes on until the break key is pressed.**
+
+| | |
+|---|---|
+| `times` *n* | how many runs in all. A whole number of 1 or more; `times 0` is refused with *The number after times must be a whole number of 1 or more* |
+| `every` *s* | the number of seconds **from the start of one run to the start of the next**. The default is 1. A run that takes longer than that is followed at once by the next |
+| *command* | required: with nothing after the options `redo` says *Command required* |
+
+```
+redo times 3 every 1 display tick
+```
+
+```
+tick
+tick
+tick
+```
+
+**`every 0` is accepted, and it means no pause at all**: the command is run
+again the moment it ends, for as long as nobody presses the break key. Give such
+a `redo` a `times`.
+
+The listing was produced by running it, in a sandbox build of SD Core for Linux
+Solo, as the administrator.
+
 ## Continued in
 
 [SD TCL - The Command Stack](19a-sd-tcl-the-command-stack.html) — the command

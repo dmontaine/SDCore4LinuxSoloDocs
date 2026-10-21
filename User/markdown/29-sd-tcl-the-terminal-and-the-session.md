@@ -82,6 +82,28 @@ phantom, a piped script, a service.
 type has no terminfo entry SD falls back to `windows` rather than failing, so
 this line is worth reading when screen handling misbehaves.
 
+### Which types SD has: `list.term.types`
+
+```
+list.term.types {lptr {n}}
+```
+
+Lists the terminal types for which SD has a terminfo definition: the names of
+the entries under `terminfo` in the SD system directory, which is what the type
+you give `term` is looked up in. They come out in columns, and the last line
+counts them (an excerpt):
+
+```
+5051                      adds4000                  addsviewpoint             ansi                      ansi-generic
+dec-vt330                 dec-vt340                 dec-vt400                 dg-ansi                   dg-generic
+...
+82 terminal type(s)
+```
+
+`lptr` sends the list to a print unit. The number was 82 in a sandbox built from
+the Solo source tree; the listing was produced by running the verb there, as the
+administrator.
+
 ## The wire: `pterm`
 
 ```
@@ -353,6 +375,39 @@ a message does not need to say who wrote it. The log is
 `/usr/local/sdsys/errlog`, shared by every session, which makes `logmsg`
 the right way for a phantom or a scheduled job to report something a person will
 read later — there is no terminal to print to and no transcript kept.
+
+## Big letters: `block.term`
+
+```
+block.term text
+```
+
+Writes *text* to the terminal in large letters. Each character is drawn in a
+block 7 rows high and 7 columns wide made of the letter `W`, with two blank
+columns after it, so **eight characters fill an 80 column line**. Long text wraps,
+breaking at a space where it can. Lower case prints as upper case. Letters,
+digits and `. , ! ? - : / + = * ( ) '` have shapes; any other character prints as
+a question mark, and a space is a blank block.
+
+```
+block.term Hi 2
+```
+
+```
+ W   W     WWW               WWW
+ W   W      W               W   W
+ W   W      W                   W
+ WWWWW      W                  W
+ W   W      W                 W
+ W   W      W                W
+ W   W     WWW              WWWWW
+```
+
+With no text the verb answers *Text to print required*. `block.print` is the same
+program writing to the default printer; it is described with the printing verbs
+in [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html). The
+listing was produced by running the verb in a sandbox build of SD Core for Linux
+Solo, as the administrator.
 
 ## See also
 

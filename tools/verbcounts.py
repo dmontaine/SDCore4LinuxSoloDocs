@@ -116,10 +116,10 @@ VALID = set(COUNTS.values())
 # Figures that are legitimately about something other than a tier's verb count.
 # Each needs a reason; an unexplained entry here is the check being switched off.
 ALLOWED = {
-    411: 'SD BASIC names accepted by the compiler - docmap.py computes it',
-    372: 'SD BASIC names an application may use - the 94 syntax card',
-    447: 'the SD BASIC roster, application plus restricted - mksyntax.py',
-    75:  'SD BASIC names an application may NOT use - User/96',
+    529: 'SD BASIC names accepted by the compiler - docmap.py and mksyntax.py compute it',
+    491: 'SD BASIC names an application may use - the 94 syntax card',
+    563: 'the SD BASIC roster, application plus restricted - mksyntax.py',
+    72:  'SD BASIC names an application may NOT use - User/96',
 }
 
 # ***THE PATTERN IS NUMBER-THEN-PLURAL-VERBS AND NOTHING ELSE, WHICH IS A
