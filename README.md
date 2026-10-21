@@ -22,7 +22,7 @@ Two document sets, each with the same three folders:
 | | |
 |---|---|
 | `GettingStarted/` | **33 pages** — installing, upgrading and uninstalling SD Core for Linux Solo, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`), and giving an AI agent an installation of its own (`23`). `01b` is *Differences from multiuser SD Core for Linux L1.1-1*. The multiuser product's Administrator set is merged in here |
-| `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (372 names an application may use), `95` SD TCL (174 verbs), `96` the 76 names an ordinary program may not compile |
+| `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (372 names an application may use), `95` SD TCL (175 verbs), `96` the 76 names an ordinary program may not compile |
 
 Inside each: `markdown/` is the source, `html/` and `pdf/` are generated.
 
@@ -84,9 +84,11 @@ python3 tools/mktclsyntax.py $SD64/sdsys               User/markdown/95-sd-tcl-s
 
 `mksyntax.py` reads the compiler's own tables and **refuses to write the pages if
 any name accepted by the compiler has no line** — 448 of 448, split 372/76 between
-`94` and `96`. Everything a count cannot express lives in `tools/syntax-shapes.txt`,
+`94` and `96`. **(Solo's compiler has since carried names from SD Core, and `94` and `96` have
+not been regenerated for them: on 20 Oct 2026 `mksyntax.py` refused, with 102
+names that have no line in `tools/syntax-shapes.txt`.)** Everything a count cannot express lives in `tools/syntax-shapes.txt`,
 one `NAME = syntax` per line. `mktclsyntax.py` computes its roster from `newvoc`
-(143 verbs) and refuses if a verb has no line in `tools/tcl-syntax-shapes.txt` or a
+(175 verbs) and refuses if a verb has no line in `tools/tcl-syntax-shapes.txt` or a
 line names something that is not a verb.
 
 ## Checking a set

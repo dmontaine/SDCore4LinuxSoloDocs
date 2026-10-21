@@ -287,3 +287,6 @@ BTREE = `btree(`*file.var*, *matrix*`)` — *matrix* is a `dim`med one-dimension
 REMOVEF = `removef(`*string* {, *occurrence*}`)`
 SCAN = `scan(`*a* {, *matrix*}`)` — *matrix* is a `dim`med one-dimensional name
 SORTNEXT = `sortnext(`*matrix*`)` — *matrix* is a `dim`med one-dimensional name
+SDSALT = `sdsalt()` — a fresh random salt for `sdkey()`; see [SD Basic - Encrypting Data](06a-sd-basic-encryption.html)
+SDKEY = `sdkey(`*passphrase*, *salt*`)` — a 44 character base64 key (argon2id); `status()` 10206 bad salt, 10207 bad passphrase
+SDRANDKEY = `sdrandkey()` — a random 256 bit key, 44 characters

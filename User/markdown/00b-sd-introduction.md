@@ -146,7 +146,7 @@ are not in SD Core for Linux Solo:
 | Gone | Why |
 |---|---|
 | SDNet (remote files) | Removed; the API is the supported way to reach another SD server |
-| `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic are the supported route |
+| `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic, with `sdkey()` for the key, and the `XE` conversion are the supported route |
 | `sed`, `update.record`, `modify` editors | Gone; use `nano`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |
 | `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core is English only (NLS, for currency and separators, is kept) |

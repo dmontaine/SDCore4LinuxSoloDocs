@@ -149,7 +149,11 @@ DOCS = [
    clear.locks list.locks list.readu listu lock logout unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh !
+   sh ! set.os.access
+ """),
+ # 20 Oct 26 Solo carry 7: encrypt.key is explained with the key ring on the programmer's page for encryption.
+ ('User', '06a-sd-basic-encryption.md', """
+   encrypt.key
  """),
  ('GettingStarted', '15-managed-mode.md', """
    deny.verbs sync.global.catalog

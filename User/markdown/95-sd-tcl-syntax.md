@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **174** verbs, and
+> every verb record in `newvoc`, which is **175** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-174 of them; whether a verb needs `admin` is in the GettingStarted set.
+175 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -92,6 +92,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`echo`** | **`echo on`** \| **`off`** \| **`echo`** to toggle |
 | **`ed`** | **`ed`** {**`dict`**} *file* {*id* …} |
 | **`edit`** | **`edit`** {**`dict`**} *file* *record* |
+| **`encrypt.key`** | **`encrypt.key set`** *name* *salt* {**`confirm`**}  ·  **`encrypt.key clear`** {*name*}  ·  **`encrypt.key list`** |
 | **`execute.list`** | **`execute.list`** *command* {**`;`** *command* …}  —  a pair of brackets `()` in a command is replaced by each id of list 0 in turn |
 | **`file.stat`** | **`file.stat`** {**`dict`**} {*file* …} {**`lptr`** {*n*}} {**`no.page`**} |
 | **`find.file`** | **`find.file`** {**`dict`**} *file* |
