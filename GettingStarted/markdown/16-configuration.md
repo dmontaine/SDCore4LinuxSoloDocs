@@ -235,7 +235,6 @@ SD's behaviour, and none should be offered to a site as a control.
 
 | Parameter | Why it is inert |
 |---|---|
-| `NETFILES` | SDNet was removed. A `server;file` VOC reference is refused, and setting it opens nothing |
 | `CREATUSR` | There are no accounts to create, and the value is discarded as it is read. Solo's `config` still prints a `CREATUSR` line |
 | `CODEPAGE` | Stored, readable and settable. Nothing acts on it |
 | `EXCLREM` | Stored, readable and settable. It described exclusive access to a remote file, and there are no remote files |
@@ -245,6 +244,16 @@ SD's behaviour, and none should be offered to a site as a control.
 `FILERULE` is **not** in this list, and is easy to mistake for it. Its remote bits
 died with SDNet, but bit 4 is live and decides whether a `PATH:` VOC reference may
 name a pathname directly.
+
+`NETFILES` is **not** in this list either, though an earlier edition of this page
+said it was. A `server;file` VOC reference is refused whatever it holds, but **bit 2
+(`NETFILES=2`) opens API request 29**, which opens an `account;file` file for a
+client that has signed in. It is 0 as delivered. With it set, the request is
+still refused unless the account's NET gate is on (`set.net.access on`), and
+under `SDCLIENT`; see [API access](09-api-access.html). Before 20 October 2026 it
+was refused for nothing but the bit, so a site that had set `NETFILES=2` had
+let an API login open a file named in the VOC of any directory that holds a
+`voc`: take the setting out, or turn the NET gate on knowing what it allows.
 
 There is no licence parameter and no licence verb. SD Core is GPL v3 and is not
 licensed per site or per user; `config gpl` displays the licence text.

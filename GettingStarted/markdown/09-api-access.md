@@ -180,6 +180,33 @@ API session may not read it either.
 **A session signed in with the global password is a server session**, with the
 administrator commands unlocked. See [Managed mode](15-managed-mode.html).
 
+## Request 29, the NET gate and `NETFILES`
+
+**Request 29 opens an `account;file` file for a client** — the one door of SDNet
+that is still in the server. **It is shut as delivered, and two things have to be
+turned on, by the administrator, before it opens anything:** bit 2 of `NETFILES`
+in `sd.conf` (`NETFILES=2`; the default is 0) and **the account's NET gate**,
+which `set.net.access` turns on (`set.net.access on` after `admin`; with no
+argument it shows where the gate stands). The gate is off as delivered, is kept in field
+15 of the register record, is read when the request is asked (so a change reaches
+a client that is already signed in), and only the word `yes` means on.
+
+With both on, the request still refuses, with no file number and a line in the
+audit trail that says why: when `SDCLIENT` is not 0 (as an ordinary open is);
+when the account is named by a **path** (a path names no register record, so
+nothing says who may enter it); when it names **another account or SDSYS** (the
+one account a session may enter is its own); and when the account is
+**suspended**. A refusal of the account rule is *User not allowed in requested
+account*, whatever the reason, as for request 3.
+
+**What it does not do.** It does not look at where the file is: a file the
+account's VOC names with an F-pointer to a directory outside the account is opened
+by the request without asking the `os` switch. Only the administrator can write
+such a pointer, so that is the administrator's decision, and it is one more reason
+to leave `NETFILES` at 0 unless a client needs it. **Before 20 October 2026 the
+bit was the whole gate**, and a site that had set it let an API login open a file
+named in the VOC of any directory that holds a `voc`.
+
 **Not measured on Solo:** whether an API session is confined to the account's own
 directory as the multiuser product's is. The multiuser API refuses `OPEN` of
 anything outside the account, distinguishing a containment refusal from a missing

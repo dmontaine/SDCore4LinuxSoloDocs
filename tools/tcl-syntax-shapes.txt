@@ -142,6 +142,7 @@ set.date = **`set.date`** *date*
 set.password = **`set.password`** | **`set.password admin`** | **`set.password global`**
 set.exit.status =**`set.exit.status`** *n*
 set.os.access = **`set.os.access`** | **`set.os.access sh on`** | **`set.os.access sh off`** | **`set.os.access os on`** | **`set.os.access os off`**
+set.net.access = **`set.net.access`** | **`set.net.access on`** | **`set.net.access off`**
 set.file = **`set.file`** *account* *file* *pointer*
 set.trigger = **`set.trigger`** *file* *name* {*modes*}
 setptr = **`setptr`** *unit* | **`default`**`,`*width*`,`*depth*`,`*top*`,`*bottom*`,`*mode* {`,`*options*}  ·  **`setptr display`**  ·  **`setptr`** *unit*`,`**`display`**

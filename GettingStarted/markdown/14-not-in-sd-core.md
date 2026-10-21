@@ -71,8 +71,13 @@ name that does not resolve.**
 **The API is not affected.** `!sdclient` and the remote API are a separate
 mechanism and are unchanged. See [API access](09-api-access.html).
 
-**`NETFILES` is still accepted in `sd.conf`** and does nothing, so an existing
-configuration file will not stop SD starting.
+**One door of SDNet is still in the server: API request 29**, which opens an
+`account;file` file for an API client. **`NETFILES` in `sd.conf` is what it is
+behind**: bit 2 of it opens the request, and it is 0 as delivered, so the request
+is refused. With the bit set, it still refuses unless the account's NET gate is
+on (`set.net.access on`, an administrator command, off as delivered), and it
+refuses under `SDCLIENT`, an account named by a path, another account, SDSYS and a
+suspended account. See [API access](09-api-access.html).
 
 ## Virtual file systems
 

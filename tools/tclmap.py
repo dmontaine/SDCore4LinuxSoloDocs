@@ -151,6 +151,10 @@ DOCS = [
  ('GettingStarted', '06b-operating-system-access.md', """
    sh ! set.os.access
  """),
+ # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
+ ('GettingStarted', '09-api-access.md', """
+   set.net.access
+ """),
  # 20 Oct 26 Solo carry 7: encrypt.key is explained with the key ring on the programmer's page for encryption.
  ('User', '06a-sd-basic-encryption.md', """
    encrypt.key

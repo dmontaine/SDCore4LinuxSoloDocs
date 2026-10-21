@@ -119,8 +119,9 @@ verb subset specifically is counted on the SD TCL syntax card in the User set.
 | Parameters the `config` verb displays | **42** |
 | Parameters readable with `config()` | **47** |
 | Parameters settable for the current session | **28** |
-| Parameters accepted that do nothing | **6** |
+| Parameters accepted that do nothing | **5** |
 
-The six inert parameters, and why each is inert, are listed on
-[Configuration](16-configuration.html). `NETFILES` and `CREATUSR` are the two a
-site is most likely to have in an existing `sd.conf`.
+The five inert parameters, and why each is inert, are listed on
+[Configuration](16-configuration.html). `CREATUSR` is the one a site is most likely
+to have in an existing `sd.conf`. `NETFILES` is not inert: its bit 2 opens API
+request 29, behind the NET gate (see the same page).
