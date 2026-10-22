@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **181** verbs, and
+> every verb record in `newvoc`, which is **185** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-181 of them; whether a verb needs `admin` is in the GettingStarted set.
+185 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -65,6 +65,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`compile.dict`** | **`compile.dict`** — the same verb as **`cd`** |
 | **`config`** | **`config`** {**`lptr`** \| **`gpl`** \| **`contrib`** \| *param* *value*} |
 | **`configure.file`** | **`configure.file`** {**`dict`**} *voc.name* {*parameters*} \| **`default`** |
+| **`convert.data`** | **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**} |
 | **`copy`** | **`copy from`** {**`dict`**} *src* {**`to`** {**`dict`**} *tgt*} {*id* …} {**`(options`**} |
 | **`copy.list`** | **`copy.list`** *list* {**`,`***new*} {**`from`** *src*} {**`to`** *tgt*} {*options*} |
 | **`copy.listp`** | **`copy.listp`** {{**`dict`**} *file*} {*name* … \| **`*`**} {**`(`***options*} |
@@ -111,6 +112,9 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`hsm`** | **`hsm on`** \| **`off`** \| **`display`** {**`user`** *n*} |
 | **`hush`** | **`hush on`** \| **`off`** \| **`hush`** to toggle |
 | **`if`** | **`if`** *condition* *command* |
+| **`import.csv`** | **`import.csv`** *pathname* *file* {**`header`**} {**`delimiter`** *x*} {**`quote`** *x*} {**`escape`** *x*} {**`id`** *column* \| **`generate`**} {**`dict`**} {**`overwriting`**} |
+| **`import.json`** | **`import.json`** *pathname* *collection.file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
+| **`import.xml`** | **`import.xml`** *pathname* *file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
 | **`list`** | **`list`** {**`dict`**} *file* {*selection*} {*fields*} {*options*} |
 | **`list.common`** | **`list.common`** {**`all`**} |
 | **`list.diff`** | **`list.diff`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |

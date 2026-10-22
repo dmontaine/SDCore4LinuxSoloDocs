@@ -204,3 +204,7 @@ set.queue = **`set.queue`** *queue* {, *width*, *depth*, *top*, *bottom*, *mode*
 show.list = **`show.list`** {*n*}
 sort.list = **`sort.list`** *name* {**`from`** *file*}
 sp.assign = **`sp.assign`** {*options*} {, *setptr options*}
+import.csv = **`import.csv`** *pathname* *file* {**`header`**} {**`delimiter`** *x*} {**`quote`** *x*} {**`escape`** *x*} {**`id`** *column* | **`generate`**} {**`dict`**} {**`overwriting`**}
+import.json = **`import.json`** *pathname* *collection.file* {**`id`** *name* | **`generate`**} {**`overwriting`**}
+import.xml = **`import.xml`** *pathname* *file* {**`id`** *name* | **`generate`**} {**`overwriting`**}
+convert.data = **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**}

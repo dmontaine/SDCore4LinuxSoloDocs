@@ -214,5 +214,5 @@ verbs and the `sh` and `os` switches that keep them, `os.execute` and the files
 outside the account behind a door the administrator opens. *Encryption and the SDEXT interface*, in the same set, explains why
 `sdext` is on this page and what it costs an application.
 
-The User set's [SD Basic - Syntax](94-sd-basic-syntax.html) card carries everything an application may
+The User set's *SD Basic - Syntax* card carries everything an application may
 use, and the two partition the roster between them.

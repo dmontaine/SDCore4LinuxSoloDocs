@@ -90,9 +90,10 @@ DOCS = [
    set set.exit.status who who.am.i
  """),
  ('User', '20-sd-tcl-files-and-records.md', """
-   analyse.file analyze.file clear.file cname configure.file copy copyp
-   create.file ct delete delete.file dump fstat hsm list.files rename set.file
-   set.trigger
+   analyse.file analyze.file clear.file cname compare.files configure.file
+   convert.data copy copyp create.file ct delete delete.file dump fixdir fstat
+   hsm import.csv import.json import.xml list.files list.triggers rename
+   set.file set.trigger
  """),
  ('User', '21-sd-tcl-query-processor.md', """
    count list list.item list.label reformat search show sort sort.item

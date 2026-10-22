@@ -21,7 +21,7 @@ either case.
 
 **What is not here, and where it went.** Everything on this card is something
 an application may use. Names that an ordinary program **cannot** compile are
-on the [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html) page (96): the
+on the *SD Basic - Restricted Commands* page (96): the
 restricted statements, the internal-only functions, and the one name that is in
 the compiler's table with nothing behind it. **If you are looking for something
 and it is not here, that is where to look before concluding it does not
@@ -123,8 +123,11 @@ exist.**
 | **`creating`** | `openseq` *path*`,` *id* `creating to` *file.var* `then` … `else` … ***(clause word)*** |
 | **`crop`** | `crop(`*a*`)` |
 | **`crt`** | `crt` *expr* {`:` …} {`:`} |
-| **`csv.mode`** | `csv.mode` *mode* {, *delimiter*} |
-| **`csvdq`** | `csvdq(`*line* {, *delimiter*}`)` |
+| **`csv.mode`** | `csv.mode` *mode* {, *delimiter* {, *quote* {, *escape*}}} |
+| **`csvbuild`** | `csvbuild(`*data* {, *mode* {, *dialect*}}`)` |
+| **`csvdq`** | `csvdq(`*line* {, *delimiter* {, *quote* {, *escape*}}}`)` |
+| **`csvopen`** | `csvopen(`*line* {, *delimiter* {, *quote* {, *escape*}}}`)` |
+| **`csvparse`** | `csvparse(`*text* {, *mode* {, *dialect*}}`)` |
 | **`current.level`** | clause of `enter` — run at the current command level ***(clause word)*** |
 
 ## D
@@ -280,10 +283,14 @@ exist.**
 | | |
 |---|---|
 | **`jboolean`** | `jboolean(`*x*`)` |
-| **`jbuild`** | `jbuild(`*c* {, *mode*}`)` |
+| **`jbuild`** | `jbuild(`*c* {, *mode* {, *indent*}}`)` |
+| **`jmerge`** | `jmerge(`*target*, *patch*`)` |
 | **`jnull`** | `jnull()` |
 | **`jparse`** | `jparse(`*text* {, *mode*}`)` |
+| **`jpatch`** | `jpatch(`*document*, *operations*`)` |
+| **`jpath`** | `jpath(`*document*, *query*`)` |
 | **`jtype`** | `jtype(`*value*`)` |
+| **`jvalidate`** | `jvalidate(`*document*, *schema*`)` |
 
 ## K
 
@@ -333,7 +340,7 @@ exist.**
 | **`matchfields`** | `matchfields(`*array*, *template*, *n*`)` |
 | **`matparse`** | `matparse` *matrix* `from` *string* {, *delimiter*} |
 | **`matread`** | `matread` *matrix* `from` *file.var*, *id* {`on error` …} `then` … `else` … |
-| **`matreadcsv`** | `matreadcsv` *matrix* `from` *file.var* `then` … `else` … |
+| **`matreadcsv`** | `matreadcsv` *matrix* `from` *file.var* {`delimiter` *d*} {`quote` *q*} {`escape` *e*} `then` … `else` … |
 | **`matreadl`** | `matreadl` *matrix* `from` *file.var*, *id* {`locked` …} `then` … `else` … |
 | **`matreadu`** | `matreadu` *matrix* `from` *file.var*, *id* {`locked` …} `then` … `else` … |
 | **`matstr`** | `matstr(`*matrix*`)` |
@@ -442,7 +449,8 @@ exist.**
 | **`read`** | `read` *var* `from` *file.var*, *id* {`on error` …} `then` … `else` … |
 | **`read.socket`** | `read.socket(`*a*, *b*, *c*, *d*`)` |
 | **`readblk`** | `readblk` *var* `from` *file.var*, *length* `then` … `else` … |
-| **`readcsv`** | `readcsv` `from` *file.var* `to` *var*, … `then` … `else` … |
+| **`readcsv`** | `readcsv` `from` *file.var* {`delimiter` *d*} {`quote` *q*} {`escape` *e*} `to` *var*, … `then` … `else` … |
+| **`readjson`** | `readjson` *var* `from` *file.var* `then` … `else` … — `else` is end of file or a line that is not JSON |
 | **`readl`** | `readl` *var* `from` *file.var*, *id* {`locked` …} {`on error` …} `then` … `else` … |
 | **`readlist`** | `readlist` *var* {`from` *list.no*} `then` … `else` … |
 | **`readnext`** | `readnext` *id* {, *vm*} {`from` *list.no*} {`on error` …} `then` … `else` … |
@@ -630,7 +638,8 @@ exist.**
 | **`write`** | `write` *var* `to` *file.var*, *id* {`on error` …} — ***inside a transaction the lock must already be held***   ·   `write` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} — a hashed file numbers the record itself |
 | **`write.socket`** | `write.socket(`*a*, *b*, *c*, *d*`)` |
 | **`writeblk`** | `writeblk` *var* `to` *file.var* {`on error` …} |
-| **`writecsv`** | `writecsv` *value*, … `to` *file.var* `then` … `else` … |
+| **`writecsv`** | `writecsv` *value*, … `to` *file.var* {`delimiter` *d*} {`quote` *q*} {`escape` *e*} `then` … `else` … |
+| **`writejson`** | `writejson` *collection* `to` *file.var* `then` … `else` … |
 | **`writelist`** | `writelist` *array* `to` *name* |
 | **`writeseq`** | `writeseq` *var* `to` *file.var* {`on error` …} `then` … `else` … |
 | **`writeseqf`** | `writeseqf` *var* `to` *file.var* {`on error` …} `then` … `else` … |
@@ -642,7 +651,10 @@ exist.**
 
 | | |
 |---|---|
+| **`xbuild`** | `xbuild(`*element* {, *mode* {, *indent*}}`)` |
 | **`xlate`** | `xlate(`{*dict*`,`} *file.name*, *id*, *field*, *action*`)` |
+| **`xparse`** | `xparse(`*text* {, *mode*}`)` |
+| **`xpath`** | `xpath(`*element*, *query*`)` |
 | **`xtd`** | `xtd(`*a*`)` |
 
 ## See also
