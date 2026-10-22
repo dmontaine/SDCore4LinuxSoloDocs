@@ -252,7 +252,9 @@ said it was. A `server;file` VOC reference is refused whatever it holds, but **b
 (`NETFILES=2`) opens API request 29**, which opens an `account;file` file for a
 client that has signed in. It is 0 as delivered. With it set, the request is
 still refused unless the account's NET gate is on (`set.net.access on`), and
-under `SDCLIENT`; see [API access](09-api-access.html). Before 20 October 2026 it
+under `SDCLIENT`; see [API access](09-api-access.html). Since 21 October 2026 a
+pointer in the account's VOC that leads out of the account is refused too, unless
+the account has the `os` switch on. Before 20 October 2026 it
 was refused for nothing but the bit, so a site that had set `NETFILES=2` had
 let an API login open a file named in the VOC of any directory that holds a
 `voc`: take the setting out, or turn the NET gate on knowing what it allows.

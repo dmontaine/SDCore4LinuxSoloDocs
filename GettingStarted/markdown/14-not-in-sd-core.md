@@ -84,7 +84,9 @@ behind**: bit 2 of it opens the request, and it is 0 as delivered, so the reques
 is refused. With the bit set, it still refuses unless the account's NET gate is
 on (`set.net.access on`, an administrator command, off as delivered), and it
 refuses under `SDCLIENT`, an account named by a path, another account, SDSYS and a
-suspended account. See [API access](09-api-access.html).
+suspended account, and (since 21 October 2026) a file the VOC reaches through a
+pointer that leads out of the account, unless the account has the `os` switch on.
+See [API access](09-api-access.html).
 
 ## Virtual file systems
 

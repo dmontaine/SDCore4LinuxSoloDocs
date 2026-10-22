@@ -199,13 +199,27 @@ one account a session may enter is its own); and when the account is
 **suspended**. A refusal of the account rule is *User not allowed in requested
 account*, whatever the reason, as for request 3.
 
-**What it does not do.** It does not look at where the file is: a file the
-account's VOC names with an F-pointer to a directory outside the account is opened
-by the request without asking the `os` switch. Only the administrator can write
-such a pointer, so that is the administrator's decision, and it is one more reason
-to leave `NETFILES` at 0 unless a client needs it. **Before 20 October 2026 the
-bit was the whole gate**, and a site that had set it let an API login open a file
-named in the VOC of any directory that holds a `voc`.
+**Where the file is.** The request asks the account's `os` switch
+(`set.os.access os on`) as `dir`, `openseq`, `openpath` and the OSCOPY verbs do
+(changed on 21 October 2026, carried from SD Core's change of 20 October; until
+then it was a documented limit of this page). A file the account's VOC names with an
+F-pointer must lead **inside the account's own directory**, with `..` and symbolic
+links resolved, unless the account has the `os` switch on: a pointer at an absolute
+path outside the account, a relative path that climbs out, a link to the outside, the
+directory next door whose name merely begins with the account's own, a system
+directory, or a dictionary half that leads out (though its data half is inside), is
+refused. The refusal is error ELSE with status 3035 (permission), no file number comes
+back, and the audit trail gets `api refused request=29 reason=os gate off user=... account=... path=...`.
+The switch is read from the register record when the request is asked, so taking it off
+reaches a client that is already signed in. The pointers SD itself puts in the VOC
+(`syscom`, `newvoc`, `sd.voclib` and the like) lead out of the account and are refused here
+too: a client of request 29 has no use for them. A pointer that opened before and leads out
+of an account whose `os` switch is off stops opening: turn the switch on if that was
+intended. Solo has no SDSYS exemption, because SDSYS is never a target of the request.
+Run in a private sandbox through a real API login (`sandbox-req29.py`, section X); a
+real client on another machine was not run. **Before 20 October 2026 the bit was the
+whole gate**, and a site that had set it let an API login open a file named in the VOC of
+any directory that holds a `voc`.
 
 **Not measured on Solo:** whether an API session is confined to the account's own
 directory as the multiuser product's is. The multiuser API refuses `OPEN` of

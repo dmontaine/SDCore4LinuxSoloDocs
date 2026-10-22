@@ -131,10 +131,19 @@ and the pin are asked every time, **an `$internal` program included**.
 
 For a server defined `write`, a file opened through it also takes `write`, `writeu`, `matwrite`, `writev`,
 `writevu`, `delete`, `deleteu`, `clearfile`, `readu` and the other locking reads, `recordlocku`, `recordlockl`,
-`release`, `filelock` and `fileunlock`; `recordlocked()` answers for any remote file. A lock is the **server's**: it is held
+`release`, `filelock` and `fileunlock`, and `recordlocked()` asks the server. A lock is the **server's**: it is held
 there, for this session, and `release` or a `close` or the end of the process gives it up. A statement that changes
 or locks a file of a server defined `read` is refused with message 11501 (or sets `status()` under `on error`) and
 **nothing is sent**.
+
+**`recordlocked(f, id)` needs the same two things as a lock** (changed on 21 October 2026, carried from SD Core's rule of
+20 October): the server must be defined `write` here, and the login on the other machine must be allowed to ask. A
+`read` definition stops the program with message 11501 (`recordlocked is refused`) and nothing is sent; the function has no
+`on error` clause, so a refusal always stops the program. A SD Core server answers request 34, the one `recordlocked()`
+sends, only to a login that is in its write group; to any other it replies with an error, and the program stops with
+message 11500 and that machine's words, which end `(request 34)`. The answer names the holder of the lock by his user number
+on the other machine, which is why a login that can only read is not given it. Inside `begin transaction` it still works
+for a `write` definition, because it changes nothing. `getlocks()` of a remote file is the local view only.
 
 - The mode is the **client's** setting, set only by the administrator. The server it points at is not told: **what the
   login may do there is that server's decision**. A SD Core server's files-only route lets a login write only if the
@@ -152,9 +161,19 @@ or locks a file of a server defined `read` is refused with message 11501 (or set
 
 Two `sd.conf` parameters, in seconds, 1 to 3600 (zero is refused): **`NETWAIT`** (5 unless you say otherwise) is how
 long to wait for a connection to a remote server, **`NETREPLY`** (30) how long to wait for each reply to a request. `config('NETWAIT')`
-and `config('NETREPLY')` read them. **A known limit:** the wait for the first reply of the login after a TLS 1.3
-handshake is not bounded by `NETREPLY` (the server's session tickets end the socket wait and the read behind it then blocks);
-`NETWAIT` still bounds the connection.
+and `config('NETREPLY')` read them.
+
+**A server that goes silent is given up on at those times, in every case we know of** (changed on 21 October 2026, carried
+from SD Core's change of 20 October). `NETWAIT` bounds the TCP connection and then the TLS handshake, each: a server that
+accepts the connection and never answers the hello is given up on after `NETWAIT`, not after the 15 seconds that were fixed
+before. `NETREPLY` bounds each read, including the first reply of the login after the handshake. Before this, a server that
+completed the TLS 1.3 handshake and then sent nothing, or only half of a TLS record, held the session far beyond `NETREPLY`
+(the server's session tickets, or the half record, ended the wait on the socket, and the read behind it then had no limit of
+its own); with `NETREPLY=3` the test server was waited for 5 seconds and 12 seconds in those two cases, and 3 seconds now.
+A reply that stops in the middle of its body is a lost connection, like a reply that never starts: message 11497 for a read,
+11509 for a change (whose outcome is then unknown), and the connection is dropped. A server that answers late but inside
+`NETREPLY` is read as before. The limit is for each read, not for a whole reply: a server that sends one byte at a time and
+never stops is still waited for one read at a time.
 
 ## What is audited
 
