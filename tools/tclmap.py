@@ -136,6 +136,13 @@ DOCS = [
  ('User', '29a-sd-tcl-the-home-screen.md', """
    exit home ide menu my.menu
  """),
+ # 23 Oct 26 Solo carry 15: the ai verb, and the administrator's AI helper page
+ ('User', '29b-sd-tcl-asking-the-ai.md', """
+   ai
+ """),
+ ('GettingStarted', '24-the-ai-helper.md', """
+   set.ai tool.ai
+ """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status
  """),

@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **202** verbs, and
+> every verb record in `newvoc`, which is **205** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-202 of them; whether a verb needs `admin` is in the GettingStarted set.
+205 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -29,6 +29,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`!`** | **`!`** *command* |
 | **`abort`** | **`abort`** {*message*} |
 | **`admin`** | **`admin`** \| **`admin off`** |
+| **`ai`** | **`ai`** *text*  —  ask the AI the administrator has chosen: you see what will be sent and say yes first; put text that ends with **`?`** in quotes (needs the AI gate: **`set.ai gate on`**) |
 | **`alias`** | **`alias`** *command* *target* |
 | **`analyse.file`** | **`analyse.file`** {**`dict`**} *file* {**`statistics`**} {**`lptr`**} |
 | **`analyse.index`** | **`analyse.index`** *file* {*index* {**`statistics`**} {**`detail`**}} {**`lptr`** {*n*}} {**`no.page`**} |
@@ -182,6 +183,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`select`** | **`select`** {**`dict`**} *file* {*selection*} {*list.no*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
 | **`set`** | **`set`** *name* *value* |
+| **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai key`** *provider* {**`clear`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  —  whether the AI may be used, and its provider, model, key and limits (administrator); the key is typed at the helper's own prompt |
 | **`set.backup.directory`** | **`set.backup.directory`** {*directory*} |
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
@@ -220,6 +222,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`sync.global.catalog`** | **`sync.global.catalog`** |
 | **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
+| **`tool.ai`** | **`tool.ai`**  —  the AI choice page (administrator): the provider with a check box, its model and key, Custom, and the one switch, the ai gate |
 | **`tool.keys`** | **`tool.keys`** |
 | **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
 | **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
