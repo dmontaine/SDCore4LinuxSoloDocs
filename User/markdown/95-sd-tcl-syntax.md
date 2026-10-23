@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **189** verbs, and
+> every verb record in `newvoc`, which is **202** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-189 of them; whether a verb needs `admin` is in the GettingStarted set.
+202 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -92,12 +92,14 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`deny.verbs`** | **`deny.verbs`** \| **`deny.verbs add`** *verb*{`,`*verb* …} \| **`remove`** *verb*{`,`*verb* …} \| **`set`** {*verb*{`,`*verb* …}} |
 | **`disable.index`** | **`disable.index`** *file* *index* … \| **`all`** |
 | **`display`** | **`display`** *text* |
+| **`docs.install`** | **`docs.install`** *directory*  —  copy the PDF files of a directory into the pdf directory of the install directory (administrator) |
 | **`dump`** | **`dump`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`echo`** | **`echo on`** \| **`off`** \| **`echo`** to toggle |
 | **`ed`** | **`ed`** {**`dict`**} *file* {*id* …} |
 | **`edit`** | **`edit`** {**`dict`**} *file* *record* |
 | **`encrypt.key`** | **`encrypt.key set`** *name* *salt* {**`confirm`**}  ·  **`encrypt.key clear`** {*name*}  ·  **`encrypt.key list`** |
 | **`execute.list`** | **`execute.list`** *command* {**`;`** *command* …}  —  a pair of brackets `()` in a command is replaced by each id of list 0 in turn |
+| **`exit`** | **`exit`**  —  from the terminal that **`home`** gave, back to the home screen; anywhere else it ends the session as **`quit`** does |
 | **`file.stat`** | **`file.stat`** {**`dict`**} {*file* …} {**`lptr`** {*n*}} {**`no.page`**} |
 | **`find.file`** | **`find.file`** {**`dict`**} *file* |
 | **`find.program`** | **`find.program`** *name* {**`detail`**} |
@@ -110,6 +112,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`get.list`** | **`get.list`** *list* {**`to`** *list.no*} |
 | **`get.stack`** | **`get.stack`** {*name*} |
 | **`go`** | **`go`** *label* |
+| **`home`** | **`home`**  —  the home screen: tiles for the account's tools, a terminal and sign out |
 | **`hsm`** | **`hsm on`** \| **`off`** \| **`display`** {**`user`** *n*} |
 | **`hush`** | **`hush on`** \| **`off`** \| **`hush`** to toggle |
 | **`ide`** | **`ide`** {*file* *record*} |
@@ -134,15 +137,18 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`list.union`** | **`list.union`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |
 | **`list.vars`** | **`list.vars`** {*pattern*} |
 | **`listu`** | **`listu`** {**`no.page`**} {**`lptr`** {*n*}} |
+| **`load.help`** | **`load.help`**  —  load the shipped context help into the file context.help of the install directory (administrator) |
 | **`lock`** | **`lock`** *n* {**`no.wait`**} |
 | **`logmsg`** | **`logmsg`** *text* |
 | **`logout`** | **`logout`** \| *n* … \| **`all`** |
 | **`make.index`** | **`make.index`** *file* *field* … {**`no.nulls`**} {**`pathname`** *path*} |
 | **`map`** | **`map`** {**`all`**} {**`lptr`** {*n*}} {**`file`** {*name*}} |
+| **`menu`** | **`menu`**  —  the full-screen menu (the home screen), also from the terminal it gave you |
 | **`merge.list`** | **`merge.list`** *list.no* *rel.op* *list.no* {**`to`** *list.no*} {**`count.sup`**} |
 | **`message`** | **`message`** *user.no* {**`immediate`**} {*text*} |
 | **`micro`** | **`micro`** {**`dict`**} *file* *record* |
 | **`move.list`** | **`move.list`** *n* **`to`** *m* {**`keep`**} |
+| **`my.menu`** | **`my.menu`**  —  add your own programs to your home screen, when the administrator has allowed it (**`set.pins on`**) |
 | **`nano`** | **`nano`** {**`dict`**} *file* *record* |
 | **`nls`** | **`nls`** {**`currency`** \| **`thousands`** \| **`decimal`** {*value*}}  ·  **`nls default`** |
 | **`nselect`** | **`nselect`** *file* {*list.no*} |
@@ -150,6 +156,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`option`** | **`option`** *name* {**`on`** \| **`off`** \| **`display`**}  ·  **`option all off`**  ·  **`option`** |
 | **`pause`** | **`pause`** {*seconds*} |
 | **`pdebug`** | **`pdebug`** {*command*} |
+| **`pdf`** | **`pdf`** {*name*}  —  show a documentation PDF in the installed reader, whatever the account's os switch says (the administrator allows the reader: **`set.viewer`**); without a name, lists the documents |
 | **`pdump`** | **`pdump`** *n* |
 | **`phantom`** | **`phantom`** *command* |
 | **`printer`** | **`printer`** {*unit*} **`query`** \| **`at`** *name* \| **`file`** *file* *record* \| **`width`** *n* \| **`lines`** *n* \| **`top.margin`** *n* \| **`bottom.margin`** *n* \| **`left.margin`** *n* \| **`keep.open`** \| **`close`** \| **`reset`** |
@@ -183,9 +190,13 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.netlogin`** | **`set.netlogin`** *server* |
 | **`set.os.access`** | **`set.os.access`** \| **`set.os.access sh on`** \| **`set.os.access sh off`** \| **`set.os.access os on`** \| **`set.os.access os off`** |
 | **`set.password`** | **`set.password`** \| **`set.password admin`** \| **`set.password global`** |
+| **`set.pins`** | **`set.pins`** {**`on`** \| **`off`**}  —  whether the account may add its own programs to its home screen (administrator; off as delivered); without a word, says which |
 | **`set.queue`** | **`set.queue`** *queue* {, *width*, *depth*, *top*, *bottom*, *mode* {, *options*}}  ·  **`set.queue display`** {**`lptr`** {*unit*}}  ·  **`set.queue deleting`** *queue* |
 | **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a,b,c*} {**`no.query`**} |
+| **`set.start.default`** | **`set.start.default`** {**`menu`** \| **`terminal`**}  —  where a session starts (the home screen is the delivered start); without a word, says what it is |
+| **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
 | **`set.trigger`** | **`set.trigger`** *file* *name* {*modes*} |
+| **`set.viewer`** | **`set.viewer`** {{**`add`** \| **`remove`**} **`pdf`** *program*}  —  the programs that may be started without the **`os`** switch to show a document (none is allowed as delivered); without arguments, lists them |
 | **`setptr`** | **`setptr`** *unit* \| **`default`**`,`*width*`,`*depth*`,`*top*`,`*bottom*`,`*mode* {`,`*options*}  ·  **`setptr display`**  ·  **`setptr`** *unit*`,`**`display`** |
 | **`settings.report`** | **`settings.report`** {*directory*} |
 | **`sh`** | **`sh`** *command* |
@@ -210,6 +221,8 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
 | **`tool.keys`** | **`tool.keys`** |
+| **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
+| **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
 | **`update.accounts`** | **`update.accounts`** {**`all`**} |

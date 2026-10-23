@@ -45,6 +45,8 @@ password is never displayed, stored or logged.
 | `update.accounts` | refresh the account's VOC |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
+| `set.start.default`, `set.tile`, `set.pins`, `tool.menus` | where a session starts, which tiles the home screen has, whether the account may add its own — [The home screen's settings](#the-home-screens-settings) below |
+| `set.viewer`, `tool.viewers`, `docs.install`, `load.help` | the readers `pdf` may start, the documents it shows, the context help — [Operating system access](06b-operating-system-access.html) |
 | `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
 | `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
 | anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
@@ -240,6 +242,47 @@ settings.report {directory}
 Writes, or shows, a **plain-text record** of the settings — `sd.conf`, the
 policy, the mode, the API and ssh, the service — to keep for reference. Nothing
 reads it back, and it never contains a password or a private key.
+
+## The home screen's settings
+
+```
+set.start.default {menu | terminal}
+set.tile sduser tile {on | off}
+set.tile
+set.pins {on | off}
+tool.menus
+```
+
+**The delivered start is the home screen.** A session on a terminal opens it (tiles for the
+editor, the IDE, the record editor, a terminal, the keyboard test, and Sign out), and the
+command prompt is what is left when it returns. `set.start.default terminal` makes the prompt
+the start, `set.start.default menu` the home screen again, and without a word the verb says
+what it is now. It is read when a session starts. A piped session, a window under 140 by 43,
+a phantom and an API server are never given the screen. **After an upgrade, if you want the
+old start, type `admin` and then `set.start.default terminal`.** Starting in the menu confines
+nobody: the Terminal tile is there unless you turn it off.
+
+**`set.tile sduser tile off`** takes a tile off the page, and `on` puts it back (every tile is on as
+delivered; the ids are `editor`, `ide`, `ced`, `terminal`, `keys` and `signout`). `set.tile`
+alone says what is off. **Sign out cannot be turned off.** With **Terminal** off and a start in
+the home screen, the account is never given the prompt: when the screen ends it signs the
+person out. That is a wall only for the prompt the screen gives; the editor, IDE and record
+editor tiles run the account's own programs, so keep the account to the screen by turning those
+off as well, and a shell still needs `set.os.access sh on`.
+
+**`set.pins on`** lets the account add programs of its own to its home screen (a group *My
+programs* and the `my.menu` verb); the permission is **off as delivered**, `set.pins off` takes
+it back (the person's list stays in their file), and without a word the verb says which it is. A
+program of the account's own runs the command the person could type at the prompt, so it adds
+no access: the switches and the gates apply as they do there.
+
+**`tool.menus`** is the same settings as a page: the *Accounts* box and the *Menu* box (where the
+account starts, whether it may add its own programs, and a line for each tile), with a `[?]`
+on each row (F1, `?` or a click) that explains it. **It writes nothing itself**: Enter on a row
+shows the command it would run (`set.tile sduser editor off`) with its effect in a box answered
+Run or Cancel (Cancel is what Enter chooses), and the line under the page is the verb's own
+answer. A change reaches the person at their next sign-on, or F5 in the home screen. The three
+verbs write the audit trail, in lower case; the page only runs them.
 
 ## Not here
 

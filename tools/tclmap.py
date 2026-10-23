@@ -130,7 +130,11 @@ DOCS = [
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
    autologout bell clear.prompts clearinput clearprompts date date.format echo
-   hush logmsg nls pterm sleep term time tool.keys
+   hush logmsg nls pdf pterm sleep term time tool.keys
+ """),
+ # 23 Oct 26 Solo carry 14: the home screen page
+ ('User', '29a-sd-tcl-the-home-screen.md', """
+   exit home ide menu my.menu
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status
@@ -150,13 +154,13 @@ DOCS = [
    set.password
  """),
  ('GettingStarted', '06-administrator-commands.md', """
-   admin backup.account clean.account config restore.account set.backup.directory set.date settings.report update.accounts
+   admin backup.account clean.account config restore.account set.backup.directory set.date set.pins set.start.default set.tile settings.report tool.menus update.accounts
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
    clear.locks list.locks list.readu listu lock logout unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh ! set.os.access
+   sh ! set.os.access docs.install load.help set.viewer tool.viewers
  """),
  # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
  ('GettingStarted', '09-api-access.md', """
@@ -184,7 +188,7 @@ DOCS = [
    command.logging
  """),
  ('User', '20-sd-tcl-files-and-records.md', """
-   compare.files file.stat find.file fixdir fstat.user list.triggers
+   file.stat find.file fstat.user
  """),
  ('User', '21-sd-tcl-query-processor.md', """
    scan
