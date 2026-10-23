@@ -119,12 +119,18 @@ DOCS = [
  ('User', '27-sd-tcl-micro.md', """
    micro
  """),
+ ('User', '27a-sd-tcl-sed.md', """
+   sed
+ """),
+ ('User', '27b-sd-tcl-ced.md', """
+   ced
+ """),
  ('User', '28-sd-tcl-printing-and-spooling.md', """
    printer setptr sp.close sp.open sp.view spool como report.style
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
    autologout bell clear.prompts clearinput clearprompts date date.format echo
-   hush logmsg nls pterm sleep term time
+   hush logmsg nls pterm sleep term time tool.keys
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status

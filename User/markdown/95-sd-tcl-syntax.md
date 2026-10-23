@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **185** verbs, and
+> every verb record in `newvoc`, which is **189** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-185 of them; whether a verb needs `admin` is in the GettingStarted set.
+189 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -44,6 +44,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`catalog`** | **`catalog`** {*file* {*call.name*}} {*program*} {**`local`** \| **`global`** \| **`pcode`**} {**`no.xref`**} |
 | **`catalogue`** | **`catalogue`** — the same verb as **`catalog`** |
 | **`cd`** | **`cd`** {**`dict`** \| **`data`**} *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`cd local`**  ·  **`cd all`** |
+| **`ced`** | **`ced`** {**`dict`**} *file* {*id* …}  ·  **`ced`** {**`dict`**} *file* **`*`** |
 | **`clean.account`** | **`clean.account`** |
 | **`clear.abort`** | **`clear.abort`** |
 | **`clear.data`** | **`clear.data`** |
@@ -111,6 +112,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`go`** | **`go`** *label* |
 | **`hsm`** | **`hsm on`** \| **`off`** \| **`display`** {**`user`** *n*} |
 | **`hush`** | **`hush on`** \| **`off`** \| **`hush`** to toggle |
+| **`ide`** | **`ide`** {*file* *record*} |
 | **`if`** | **`if`** *condition* *command* |
 | **`import.csv`** | **`import.csv`** *pathname* *file* {**`header`**} {**`delimiter`** *x*} {**`quote`** *x*} {**`escape`** *x*} {**`id`** *column* \| **`generate`**} {**`dict`**} {**`overwriting`**} |
 | **`import.json`** | **`import.json`** *pathname* *collection.file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
@@ -169,6 +171,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`save.stack`** | **`save.stack`** {*name*} |
 | **`scan`** | **`scan`** {**`dict`**} *file* {*selection*} {*id* …} {**`all`**} {**`no.case`**} {**`all.match`** \| **`no.match`**} {**`strings`** *file* *record*} **`for`** *"text"* … |
 | **`search`** | **`search`** {**`dict`**} *file* {*selection*} |
+| **`sed`** | **`sed`** {**`dict`**} *file* {*record* \| **`creating.seqkey`**} |
 | **`select`** | **`select`** {**`dict`**} *file* {*selection*} {*list.no*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
 | **`set`** | **`set`** *name* *value* |
@@ -206,6 +209,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`sync.global.catalog`** | **`sync.global.catalog`** |
 | **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
+| **`tool.keys`** | **`tool.keys`** |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
 | **`update.accounts`** | **`update.accounts`** {**`all`**} |
