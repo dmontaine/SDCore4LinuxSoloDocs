@@ -165,6 +165,75 @@ is, and everything wanting that record waits for a process that is not there.
 **Take the user number to `pstat`.** *(Not responding)* means clear the session
 rather than wait for it.
 
+## Who took which lock, and where: `lock.tracer`
+
+`list.readu` shows what is locked *now*. When the question is who took a lock, in
+which program and on which line, or what locked what in the second before a
+hold-up, switch the tracer on, let the system run for a short while, and read the
+log. **Needs `admin`.**
+
+```
+lock.tracer on
+lock.tracer off
+lock.tracer {user n} {lptr {n}} {no.page}
+```
+
+While it is on, every lock any session takes or lets go is added, as one line, to
+the file **`locktrace` in the SD system directory**. `on` empties that file
+first, so a log is one switching-on's worth. The report lists the lines, oldest
+first, with the **date and time**, the **user number**, the **action**, the
+**program** that was running and the **line number** in it, the **file** and the
+**record id**. `user n` shows one session's lines; `lptr` prints them and
+`no.page` stops the pause at the end of a page. An ordinary session is told
+*lock tracing is for the administrator*.
+
+| action | means |
+|---|---|
+| `Get RU` | a record update lock taken |
+| `Get RL` | a shareable read lock taken |
+| `RL->RU` | a read lock raised to an update lock |
+| `RU->RL` | an update lock lowered to a read lock |
+| `Get FX` | a file lock taken |
+| `Rel RX` | a record lock let go |
+| `Rel FX` | a file lock let go |
+
+**It logs everything, SD's own locks included**: a sign-on takes `$ipc`, the
+command processor takes `$command.stack`, and reading the log reads a file. The
+volume is large and every lock costs a file write, so switch it on for a short
+time and off again.
+
+> **Only a lock that is granted is logged**: one that is refused, or has to wait,
+> is not, until the moment it is granted. A session that is killed has its locks
+> cleared by the cleanup, and that is not logged either, so a `Get RU` with no
+> `Rel RX` after it may be a lock the cleanup gave back.
+
+## Keeping new sessions out while you work: `inhibit.login`
+
+```
+inhibit.login on        no new session until it is switched off
+inhibit.login off       allow them again
+inhibit.login           say which it is, and who set it
+```
+
+For maintenance that needs the system quiet. **Needs `admin`.** A person or program
+that tries to sign in while it is on — at the keyboard, over ssh or through the
+API — is refused with *SD is not accepting new sessions: logins have been
+inhibited by* name *(inhibit.login). Try again later.* **Sessions already running
+are not touched**, and neither are the phantoms the session that set it starts.
+The refusals, and `inhibit.login on` and `off` themselves, are on the audit trail.
+
+**On Solo the session that set it is the only one that can switch it off, and
+nobody new gets in, you included.** On the multiuser SD Core the administrator's
+own new session is let in; on Solo the administrator is a state of a session (you
+type `admin` after signing on), so at the door no new session is one. That cannot
+lock you out: **if the session that set it ends or is killed, the inhibit is ignored
+from then on** — the record names a user number *and* a process id, and a process
+that is not there holds nothing — and the next `inhibit.login on` replaces it.
+
+The record is the file `login.inhibit` in the SD system directory. **It is not the
+same thing as the hold that `backup.account` and `restore.account` take**, which
+keeps *everybody* out, the setter's new sessions included, while they run.
+
 ## Task locks: `list.locks`, `lock`, `clear.locks`
 
 Task locks are **64 numbered flags with no connection to any data**. They mean
@@ -280,5 +349,5 @@ any file, so nothing has to be written back.
 
 | | |
 |---|---|
-| `listu`, `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock`, `logout all` | `admin` first |
+| `listu`, `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock`, `logout all`, `lock.tracer`, `inhibit.login` | `admin` first |
 | `logout`, `logout n`, `sd-solo -u`, `sd-solo -k`, `sd-solo -cleanup` | nothing |

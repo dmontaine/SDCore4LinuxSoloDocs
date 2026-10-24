@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **205** verbs, and
+> every verb record in `newvoc`, which is **210** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-205 of them; whether a verb needs `admin` is in the GettingStarted set.
+210 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -121,6 +121,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`import.csv`** | **`import.csv`** *pathname* *file* {**`header`**} {**`delimiter`** *x*} {**`quote`** *x*} {**`escape`** *x*} {**`id`** *column* \| **`generate`**} {**`dict`**} {**`overwriting`**} |
 | **`import.json`** | **`import.json`** *pathname* *collection.file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
 | **`import.xml`** | **`import.xml`** *pathname* *file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
+| **`inhibit.login`** | **`inhibit.login`** {**`on`** \| **`off`**} |
 | **`list`** | **`list`** {**`dict`**} *file* {*selection*} {*fields*} {*options*} |
 | **`list.common`** | **`list.common`** {**`all`**} |
 | **`list.diff`** | **`list.diff`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |
@@ -140,6 +141,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`listu`** | **`listu`** {**`no.page`**} {**`lptr`** {*n*}} |
 | **`load.help`** | **`load.help`**  —  load the shipped context help into the file context.help of the install directory (administrator) |
 | **`lock`** | **`lock`** *n* {**`no.wait`**} |
+| **`lock.tracer`** | **`lock.tracer`** **`on`** \| **`off`** \| {**`user`** *n*} {**`lptr`** {*n*}} {**`no.page`**} |
 | **`logmsg`** | **`logmsg`** *text* |
 | **`logout`** | **`logout`** \| *n* … \| **`all`** |
 | **`make.index`** | **`make.index`** *file* *field* … {**`no.nulls`**} {**`pathname`** *path*} |
@@ -155,6 +157,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`nselect`** | **`nselect`** *file* {*list.no*} |
 | **`off`** | **`off`** |
 | **`option`** | **`option`** *name* {**`on`** \| **`off`** \| **`display`**}  ·  **`option all off`**  ·  **`option`** |
+| **`oscopy`** | **`oscopy`** *source* *target* {**`overwrite`** \| **`append`**} |
 | **`pause`** | **`pause`** {*seconds*} |
 | **`pdebug`** | **`pdebug`** {*command*} |
 | **`pdf`** | **`pdf`** {*name*}  —  show a documentation PDF in the installed reader, whatever the account's os switch says (the administrator allows the reader: **`set.viewer`**); without a name, lists the documents |
@@ -181,6 +184,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`search`** | **`search`** {**`dict`**} *file* {*selection*} |
 | **`sed`** | **`sed`** {**`dict`**} *file* {*record* \| **`creating.seqkey`**} |
 | **`select`** | **`select`** {**`dict`**} *file* {*selection*} {*list.no*} |
+| **`select.dir`** | **`select.dir`** *pathname* {**`to`** *n*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
 | **`set`** | **`set`** *name* *value* |
 | **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai key`** *provider* {**`clear`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  —  whether the AI may be used, and its provider, model, key and limits (administrator); the key is typed at the helper's own prompt |
@@ -188,6 +192,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
 | **`set.file`** | **`set.file`** *account* *file* *pointer* |
+| **`set.mode`** | **`set.mode`** {**`dict`**} *file* {**`all`** \| **`from`** *listno* \| *id* …} {**`no.query`**} *mode* |
 | **`set.net.access`** | **`set.net.access`** \| **`set.net.access on`** \| **`set.net.access off`** |
 | **`set.netlogin`** | **`set.netlogin`** *server* |
 | **`set.os.access`** | **`set.os.access`** \| **`set.os.access sh on`** \| **`set.os.access sh off`** \| **`set.os.access os on`** \| **`set.os.access os off`** |

@@ -82,6 +82,7 @@ Cleared all numbered select lists
 | **`qselect`** {**dict**} *file* {**saving** *n*} | a list of **field values** rather than record ids |
 | **`nselect`** *file* | keep only the ids of the active list that are **not** in *file* |
 | **`form.list`** {**dict**} *file* *record* | take the list from a record's contents |
+| **`select.dir`** *pathname* {**to** *n*} | the names in an operating system directory |
 
 `select` and `sselect` take the whole selection language of the query processor
 — `with`, the operators, `by` — so anything you can list you can select. See
@@ -96,6 +97,32 @@ It is how you follow a reference from one file into another: select the orders,
 > `14 record(s) selected to select list`. **The list is there** — it is list 0
 > unless you gave `to` *n*. `select` and `nselect` both print the number
 > correctly, so do not read this as the list being missing.
+
+### The names in a directory: `select.dir`
+
+```
+select.dir pathname {to n}
+```
+
+Makes a list (0, or `to` *n*) of the names of the files and subdirectories in an
+**operating system** directory, in the order the operating system returns them,
+which is no order in particular — `sort.list` below puts them in one.
+
+```
+select.dir /home/pat/reports
+```
+
+```
+4 record(s) selected to select list 0
+```
+
+There is no option to keep only files or only directories. The directory is read
+**as you**, with your own permissions. A path outside the account's own directory
+needs the OS switch (`set.os.access os on`), as `oscopy` does; without it the verb
+says *name has no OS access, so a file or directory outside its own account
+cannot be reached by pathname*. A directory that cannot be read is *Cannot read
+directory* and the pathname; a missing pathname is *Directory pathname required*.
+A `to` with no number, or a bad one, is *Select list number missing or invalid*.
 
 ## Numbered lists
 

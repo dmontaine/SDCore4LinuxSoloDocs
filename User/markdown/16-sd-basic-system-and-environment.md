@@ -96,6 +96,27 @@ list of `NAME=value` pairs.
 `system(1020)` is the one to time something with: against a lock wait it gives
 252 ms where `time()` gives 0.
 
+### Where a file or an account is: `vocpath()` and `account.path()`
+
+```
+vocpath(filename {, dict.flag})
+account.path(account)
+```
+
+`vocpath()` gives the operating system pathname of a file named through the VOC:
+the data part, or the dictionary part if `DICT ` is written in front of the name
+or the second argument is true. The file is opened as `open` opens it, so a
+Q-pointer and the other forms `open` takes are resolved as `open` resolves them.
+`status()` is 0 if it was found; a null string comes back with the error of the
+open if it was not. `account.path()` gives the directory of an account from the
+accounts register, in either case of the name, and a null string when there is no
+such account (Solo has one, `sduser`).
+
+**A path is told only where the account could open it.** The account's own
+directory and the files in it always; anything else only to a session that has
+the OS switch (`set.os.access os on`), and to any other the answer is a null string
+(with `status()` 3035 from `vocpath()`).
+
 ## DATE, TIME and TIMEDATE
 
 ```

@@ -233,10 +233,10 @@ weakens. The row, the preview and the proposals are the same.
 
 ## Not yet
 
-The AI in the IDE, SED and CED, with proposals that change the text you are editing, is built (see
-[Asking the AI](29b-sd-tcl-asking-the-ai.html)). An AI command in the debugger, the home screen's AI menu item
-(the AI menu of the menu bar still says `AI is off`) and the AI line on the administrator's other pages are
-planned and not built.
+The AI in the IDE, SED and CED, with proposals that change the text you are editing, and the AI command of
+[the debugger](17-sd-basic-debugging.html), are built (see [Asking the AI](29b-sd-tcl-asking-the-ai.html)). The home
+screen's AI menu item (the AI menu of the menu bar still says `AI is off`) and the AI line on the administrator's other
+pages are planned and not built.
 
 Programs the administrator assigns to the account, sub-menus that open and return, a
 group of the last commands you ran, and a live line on a tile are planned and not

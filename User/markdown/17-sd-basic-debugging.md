@@ -75,6 +75,15 @@ no conditional breakpoint.
 verb refuses a phantom outright with *"Cannot debug program in a phantom
 process"*.
 
+In `pdebug` an `@variable` you ask for (`/@user0`, `/@tty`) is the value in the
+phantom being debugged, not in your own session: the request is sent to the
+phantom, which answers with its own. In the phantom `@tty` is `phantom`. The
+`@variables` the debugger can show now include `@bpv`, `@conv`, `@ds`,
+`@exception` and its three companions, `@file.name`, `@filename`, `@lpv`, `@nd`,
+`@ni`, `@ns`, `@nv`, `@option`, `@pstat`, `@seqno`, `@system.set`,
+`@transaction.id`, `@transaction.level` and `@trigger.return.code`, as well as
+those it showed before.
+
 ## The commands, as this port prints them
 
 Typing `help` at the `>` prompt gives:
@@ -150,6 +159,33 @@ carries on with the new value.
 `dump var path` writes a variable to an operating system file, which is the way
 to look at something too long for the screen.
 
+**A data collection** is shown with its kind, the number of elements and its
+JSON text, the names in order; a long one is cut off with dots:
+
+```
+>/C
+Collection (3 elements): {"a":[1,2,{"k":"v"}],"name":"Acme","on":true}
+
+>/C{name}
+String (4 bytes): "Acme"
+
+>/C{a/3/k}
+String (1 bytes): "v"
+
+>/C{on}
+Boolean: true
+```
+
+(That is a collection of three elements, one of which is an array whose third
+element is itself a collection.) Name an element with its path in braces, the
+names separated by slashes (a number picks an element of an array, counting
+from 1). Names are case sensitive. The answer is the element's own type — `String`,
+`Integer`, `Array`, `Collection`, `Boolean` or `Null` — and a path that leads
+nowhere says *Element not found in the collection*. **`dump c{sub} path`
+writes the JSON of one element, and `dump c path` the whole collection**, as
+`dump` does for any variable. A collection that contains itself is shown as
+*(cannot be shown)* and does not stop the debugger.
+
 ## Stepping and running
 
 | | |
@@ -216,6 +252,57 @@ recompile rather than trying to work around it.
 **There is no conditional breakpoint.** Put a `debug` statement inside the `if`
 instead, and recompile.
 
+## Equate tokens
+
+A program compiled with `$mode debug.equates` (and for the debugger, `basic ...
+debugging`) keeps its `equate` and `$define` tokens in the object. The
+debugger then takes a token for what it stands for, wherever it takes a
+variable name:
+
+```
+>/cust.name          the variable the token was equated to
+>/limit              LIMIT = 100        a $define or an equate of a constant
+>set tot = 9         sets the variable behind the token
+>w tot > 10          watches it
+```
+
+A token equated to a **variable**, an **element of a matrix** or a **field of
+a dynamic array variable** shows, `set`s and `watch`es the thing it stands
+for. A token of a **number, a string or `char(n)`** is not a variable: it
+shows as `name = value`, and `set` and `watch` refuse it with *Variable not
+defined*. Without the mode a token is not known to the debugger, as it
+never was.
+
+**A token may also be the value** of a `set` (16 Oct 2026): `set tot = numc`
+gives the variable the number the token stands for, and a token of a string or
+of `char(n)` gives it that. A token of a **variable** is not a value, and is
+refused with *Illegal value* as before.
+
+## Every variable, control characters, the size of the screen
+
+**`/*`** shows every variable of the program, one to a line, the name first and
+then what `/name` shows: the locals, then the common blocks the program names.
+(In the full-screen debugger the lines are paged with *---more---*; the manual's
+list you can move about in and open with Return is not built. Use `/name` to go
+into an array, a collection or a string.)
+
+**`^`** switches the way a control character in a string is shown: as `?`, as it
+always was, or as `^9` (a caret and the decimal number) after the first `^`; a
+second `^` puts the `?` back. The length shown does not change.
+
+**`window` *n*** sets the number of rows of the data area (messages and
+replies) of the **full-screen** debugger, 5 to 15; the source above it takes
+what is left. `window 3` is refused (*The data area must be 5 to 15 lines*) and
+in line-by-line mode the command is a format error. A `window` *n* line in the
+VOC record **`$debug.options`** (the record that already holds
+`no.source.warning`) sets it at the first stop of a session.
+
+**A stop at every `case` condition.** A program compiled for the debugger stops
+before each `case` of a `begin case` is tried, so stepping by line shows the
+condition being tried (`case x = 1`, then `case x = 2` when that was false) and
+not only the statements of the case that was chosen. A condition and a
+statement on one line are two elements of the line.
+
 ## Watching a variable
 
 ```
@@ -241,6 +328,28 @@ program.
 
 There is **one** watch at a time; `w` on another variable replaces it.
 
+### Stopping only for a value
+
+```
+w n > 7
+w s = stop
+w code matches '3a0n'
+```
+
+`w` *variable* *operator* *value* stops only when the value just assigned meets
+the condition; otherwise the program goes on and the debugger shows nothing.
+The operators are `=` `#` `<` `>` `<=` `>=`, the words `eq` `ne` `lt` `gt` `le`
+`ge`, and `matches`. A value in quotes is that text; a number compares as a
+number and anything else as text. With `n` set to 1 to 10 in a loop, `w n > 7`
+stops three times, for 8, 9 and 10.
+
+A plain `w n` stops at every assignment as before, a new `w` replaces the old
+watch **and its condition**, and `uw` clears both. An operator that is not in
+the list, or no value after it, gives *Unrecognised command* and watches
+nothing. `like` and `unlike` are not supported. The variable is found by its
+number in the program that set the watch, so a condition on a local variable
+works while that program is the one running.
+
 ## The call stack
 
 ```
@@ -263,26 +372,67 @@ program can ask the same question without the debugger:
 | `system(1002)` | the call stack as a dynamic array — one field per level |
 | `system(1029)` | internal subroutine depth — `0` at the top, `1` inside a `gosub` |
 
-## It is a line-mode debugger here, and that is not a limitation of your terminal
+## Full screen on a terminal, line by line everywhere else
 
-**On this port the debugger never draws a full screen.** Its own test is
-`terminfo('sreg')`, and `sreg` — *save screen region* — is a capability of SD's
-own client terminals, not of a console. In a session on the shipped `windows`
-terminal type:
+**On a terminal that has an alternate screen — xterm and the terminals that
+behave like it — the debugger takes the whole screen.** Its test is that the
+session is a real terminal (SD can read its window size) and that the terminal
+definition has `smcup` and `rmcup`. Then:
 
-| | |
-|---|---|
-| `terminfo('sreg')` | **0 characters** |
-| `terminfo('cup')` | 16 characters |
-| `terminfo('clear')` | 6 characters |
+- the top row is the **title**: the program and the line about to run;
+- below it is the **source**, with line numbers; the line about to run is
+  highlighted and a line with a breakpoint has its number marked;
+- then five lines of **messages** (what a command printed), and the **command
+  line** at the bottom, where you type the commands on this page;
+- **F1** shows the help in a box, **F4** shows the program's own screen until
+  you press a key, and Page Up and Page Down move the source.
 
-So cursor addressing is there and the region capability is not, and the
-debugger takes its line-oriented path. **Nothing is lost** — every command
-works, as the transcripts on this page show — and there is a real gain: because
-it is line-oriented it can be **driven from a script**. A whole debugging
-session can be fed down a pipe.
+**The full-screen display is laid out for 140 columns by 42 lines or more**
+(since 18 October 2026; a bigger window is used whole). **On a window smaller
+than that the debugger does not refuse: it says why, once, and is line by line
+for the session** — *The debugger needs a window of at least 140 columns by 42
+lines for its full-screen display; this one is 100 by 30, so it is using line
+mode* — because a small window is no reason to take away the way to debug a
+program. The window measured is the one on the screen, or the display `term w,h`
+gave if that is smaller. The choice is made at the first stop of a session.
+
+If the window is made smaller **while the full-screen display is up**, the debugger
+lays itself out again within a second and shows the **upper left corner** of its
+140 by 42 layout and nothing past the edge, and draws everything again when the
+window is made bigger. The command line is on the last row, so a window under 42
+lines does not show where you type: the debugger then does not take keys. A
+warning in reverse video fills the upper left, every key is thrown away, it goes
+by itself when the window is big enough, and **Ctrl-Q, then y** leaves the
+debugger the way F3 (Stop) does. A window narrower than 140 but 42 lines or more
+high shows the left part of the lines and works as usual.
+
+The program's own screen is kept by the terminal (that is what the alternate
+screen is): when you let the program run, the debugger gives the terminal back
+and the program's output is on its own screen, and it is on the alternate
+screen again at the next stop. The colours are the screen library's: the
+`classic` theme while the debugger is up if the program asked for none, and
+whatever the program or the site chose otherwise.
+
+**On a terminal with no alternate screen, and in a session that is not a
+terminal, the debugger is line by line.** Every command works, as the
+transcripts on this page show, and there is a real gain: because it is
+line-oriented it can be **driven from a script**. A whole debugging session can
+be fed down a pipe.
 
 `@tty` reads empty in a piped session, and the debugger works there anyway.
+
+(Until 13 October 2026 the full-screen display needed AccuTerm, which kept the
+screen pictures; SD no longer supports AccuTerm.)
+
+## Asking the AI
+
+In the full-screen display, when the AI is switched on (`set.ai gate on`, and a provider, a model and a key; see
+[Asking the AI](29b-sd-tcl-asking-the-ai.html)), the command **`AI`** — or `AI` and a question, such as
+`ai why is y empty` — asks it about the stop. The AI is told the program and the line, the call stack
+and about fifty lines of the source round the stop. As everywhere, **Enter shows everything that will
+be sent first**, with Send and Cancel (the default); the answer is words in a box, and the debugger's
+screen is drawn again after it. Nothing in your program or the debugger is changed, and a command in
+the answer is ignored. Line mode and a phantom do not have it.
 
 ## Who has it
 

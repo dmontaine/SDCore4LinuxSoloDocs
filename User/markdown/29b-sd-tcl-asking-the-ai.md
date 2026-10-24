@@ -70,8 +70,10 @@ CED has F2. In all three **Enter shows everything that will be sent first**, wit
 The answer may propose changes to the text: each is shown as a diff, **Accept puts them into the buffer as one
 undo step and saves nothing**, **Reject is the default**, and a set of changes is taken whole or not at all (an old text
 that is missing or is in the record twice, overlapping changes, more than 8 changes or more than 30 lines are ignored with
-a note; if you changed the record while the AI answered, nothing is applied). A command in the answer is ignored. The
-debugger has no AI command in Solo.
+a note; if you changed the record while the AI answered, nothing is applied). A command in the answer is ignored.
+
+[The debugger](17-sd-basic-debugging.html) has the command **`AI`** (or `AI` and a question) in its full-screen display: it is told the program and
+the line, the call stack and about fifty lines of the source round the stop, and answers in words only; nothing in your program is changed.
 
 ## See also
 

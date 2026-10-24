@@ -146,6 +146,19 @@ type code** — `V[locked]`, `PA[locked]` — and it is left alone. **A verb is
 updated anyway**, because a locked verb would go on naming a program this
 release replaced; you are told which ones.
 
+**Your own changes to the VOC: `newvoc.mods`.** An optional directory file called
+`newvoc.mods` in the SD system directory holds VOC records of your own — a verb
+withdrawn, a Q-pointer to a shared file, a paragraph the account should have. Each
+record in it is written to the account's VOC **after** the standard records, so it
+has the last word, except over a record marked `[locked]`. The file is a directory
+file: one record per file, the record id as the file name, the VOC record as its
+contents. There is no file until you make one, and nothing is created for you. It
+is applied when the VOC is built at install and at every `update.accounts`, which
+an upgrade runs, and **an upgrade leaves the file where it is.** `deletesdsolo.sh
+--keep-data` keeps only the account and `sd.conf`, so it removes the file with the
+rest of the installation: take a copy first. To see it work, put a record in the
+file and run `update.accounts`; then `ct voc` the id.
+
 ### `backup.account` and `restore.account`
 
 ```

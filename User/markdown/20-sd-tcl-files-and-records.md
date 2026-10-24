@@ -235,6 +235,33 @@ own login name.** A number that is not a session of yours, or not logged in,
 gives *No file activity to show for user 99: not logged in, or not a session of
 yours*. The report is shown once, not repeated; run it again for another look.
 
+## Permission bits of records: `set.mode`
+
+```
+set.mode {dict} file {all | from n | id ...} {no.query} mode
+```
+
+Sets the permission bits of records of a **directory file**, as `chmod` does
+for files. *mode* is three octal digits, owner then group then other (`640`).
+The records are named on the line, or `all` of them, or those of select list
+*n*, or the active select list if none of these is given — which it asks about
+first, unless `no.query` is given. The last word on the line is the mode, so a
+record cannot be named after it. It answers `3 record(s) set to mode 640`, and
+`@system.return.code` is the count.
+
+**It is behind the OS switch.** A change of permission bits is a change to the
+operating system's files, so the verb refuses a session that does not have the
+OS access `os.execute` has — *SET.MODE changes operating system file permissions
+and needs the account's operating system access (set.os.access os on)* — and the
+administrator turns the switch on with `set.os.access os on`. The administrator
+(`admin` typed) needs no switch.
+
+**It changes the rwx bits and nothing else.** No set-id and no sticky bit (four
+digits are refused), only regular files, and a record that is itself a symbolic
+link is not followed — it is reported and the file it points at keeps its mode.
+A record that is not there is *Record 'name' not found*, and a file that is not a
+directory file is *A directory file is required*.
+
 ## Reaching a file in another account
 
 ```
@@ -383,6 +410,39 @@ is in use, and `lptr` {*n*} to send it to a print unit.
 **Every account has both `ct` and `dump`** — they run the same code, reached
 by two separate VOC records rather than one.
 
+## Copying an operating system file
+
+```
+oscopy source target {overwrite | append}
+```
+
+Copies one **operating system** file, named by its path, which no record verb
+can do. Without an option it **will not replace** a target that exists:
+
+```
+oscopy /home/pat/in.txt /home/pat/out.txt
+oscopy /home/pat/in.txt /home/pat/out.txt
+```
+
+```
+/home/pat/in.txt copied to /home/pat/out.txt
+Target /home/pat/out.txt already exists: give overwrite or append
+```
+
+`overwrite` replaces it and `append` adds the source to the end of it. A source
+that is not there is reported (*Source ... not found*); any other failure says
+*Cannot copy* with the status. **A directory is not copied** — the SD BASIC
+subroutine `!ioscopy` does a whole tree — and a program does the same as the
+verb with `!oscopy`.
+
+**It runs `cp` as you, so it has your own permissions and nobody else's**, and a
+path with a single quote in it is refused. **A path outside the account's own
+directory needs the OS switch** (`set.os.access os on`), the same one as
+`OS.EXECUTE`; without it you get *name has no OS access, so a file or directory
+outside its own account cannot be reached by pathname* and nothing is copied. (SD
+Core also asks whether the account may change a program file, VOC or dictionary
+the target runs through; Solo has no edit gates.)
+
 ## Triggers
 
 ```
@@ -482,8 +542,9 @@ dictionary), so nothing more is asked.
 `cname`, `compare.files`, `configure.file`, `convert.data`, `copy`, `copyp`,
 `create.file`, `delete`, `delete.file`, `dump`, `file.stat`, `find.file`,
 `fixdir`, `fstat`, `fstat.user`, `hsm`, `import.csv`, `import.json`,
-`import.xml`, `list.triggers`, `rename`, `set.trigger` are all in every
-account's VOC.
+`import.xml`, `list.triggers`, `oscopy`, `rename`, `set.mode`, `set.trigger`
+are all in every account's VOC. (`set.mode` is there but refuses a session
+without the OS switch, as above.)
 
 ## What is not here
 
