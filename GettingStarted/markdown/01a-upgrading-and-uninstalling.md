@@ -129,7 +129,7 @@ It says what it will remove, and asks whether to keep your data and configuratio
 
 | | |
 |---|---|
-| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`) and `sd.conf`. Everything else in the directory is removed |
+| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`), `sd.conf` and, if you made one, the `newvoc.mods` directory of your own VOC records. Everything else in the directory is removed |
 | `--delete-data` | removes the whole directory |
 | `--yes` | do not ask "Continue?" |
 

@@ -59,7 +59,7 @@ the prompt:
 
 | | |
 |---|---|
-| **`as`** *name*, **`as pathname`** *path* | the name or path a mode 3 unit writes to |
+| **`as`** *name*, **`as pathname`** *path* | the name or path a mode 3 unit writes to; a path through the account's own `voc` directory is refused (*The VOC can only be changed after admin*) unless the session is the administrator's or the OS switch is on |
 | **`at`** *printer* | the printer name passed to the configured spooler command (`SPOOLER` in `sd.conf`, typically `lpr` or `lp`) |
 | **`brief`** | suppress the confirmation prompt |
 | **`keep.open`** | hold the unit open between jobs — see below |

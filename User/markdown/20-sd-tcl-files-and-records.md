@@ -494,9 +494,18 @@ verb with `!oscopy`.
 path with a single quote in it is refused. **A path outside the account's own
 directory needs the OS switch** (`set.os.access os on`), the same one as
 `OS.EXECUTE`; without it you get *name has no OS access, so a file or directory
-outside its own account cannot be reached by pathname* and nothing is copied. (SD
-Core also asks whether the account may change a program file, VOC or dictionary
-the target runs through; Solo has no edit gates.)
+outside its own account cannot be reached by pathname* and nothing is copied.
+
+**The account's own VOC is closed to it by pathname, inside the account too.** The
+VOC is a directory of the account (`voc/%0`, `voc/%1`), and a path that runs through a
+directory called `voc` below the account's own directory is a change to it, as a
+`write` to a record of the VOC would be. A session without the OS switch that gives such
+a path as the target gets the same *has no OS access* message (`!oscopy` and `!ioscopy`
+answer `-4`) and nothing is copied; the source is only read, so it is not asked. The
+administrator (after `admin`) and an account with the OS switch on are not asked: the
+second has a shell and reached those files as it always could. (SD Core asks the same
+question for a program file or a dictionary as well; Solo has no edit gates, so the VOC
+is the one place it is asked.)
 
 ## Triggers
 

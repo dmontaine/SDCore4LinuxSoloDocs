@@ -155,8 +155,11 @@ file: one record per file, the record id as the file name, the VOC record as its
 contents. There is no file until you make one, and nothing is created for you. It
 is applied when the VOC is built at install and at every `update.accounts`, which
 an upgrade runs, and **an upgrade leaves the file where it is.** `deletesdsolo.sh
---keep-data` keeps only the account and `sd.conf`, so it removes the file with the
-rest of the installation: take a copy first. To see it work, put a record in the
+--keep-data` keeps it too: the account, `sd.conf` and a `newvoc.mods` directory are
+what is left beside the `.sdcore-kept` stamp, and a new install that reloads the
+saved data puts the directory back before it refreshes the VOC, so your records are
+applied again at once. (Only a real directory is kept; a link or a plain file of that
+name is removed with the rest, and `--delete-data` removes it as it removes everything.) To see it work, put a record in the
 file and run `update.accounts`; then `ct voc` the id.
 
 ### `backup.account` and `restore.account`

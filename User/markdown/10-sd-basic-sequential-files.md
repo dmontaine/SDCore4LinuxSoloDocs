@@ -259,6 +259,18 @@ Removes the file. `closeseq` releases the variable without deleting anything;
 a sequential file left open is closed when the program ends, but the buffered
 tail is only guaranteed once `closeseq` has run.
 
+**The account's own VOC is not changed by pathname.** A pathname that runs through a
+directory called `voc` below the account's own directory reaches a file of the VOC
+(`voc/%0`, `voc/%1`) as a `write` to its record would, which a session without the
+OS switch (`set.os.access os on`) may not do. For such a session `openseq` on
+one of those files is opened **read only** and `creating` there is refused (a
+`writeseq` on it fails), `deleteseq` of one leaves `status()` 3035 and deletes nothing, and
+the operating system path function with its delete, create-directory and
+create-directory-tree keys answers false with the same status. The administrator (after `admin`) and an account with the OS
+switch on are not asked. A link inside the account that leads into the VOC's directory
+does not get round it, because the name is resolved before the question is put. A
+record called `voc` in an ordinary directory file is a plain file, not a VOC.
+
 ## Directory files, and where the marks go
 
 A **directory** file is an SD file whose records are ordinary files. That is
