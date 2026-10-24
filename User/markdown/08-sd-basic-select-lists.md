@@ -23,9 +23,11 @@ does. **Clear a list you built for your own use** — see `clearselect` below.
 
 ```
 select file.variable {to list} {on error statements}
-sselect file.variable {to list}
+sselect file.variable {to list} {right.aligned} {descending}
+sselectn file.variable {to list} {right.aligned} {descending}
 selectn file.variable {to list}
 selectv file.variable to list.variable
+sselectv file.variable to list.variable {right.aligned} {descending}
 selectindex index.name {, value} from file.variable {to list}
 formlist array {to list}
 ```
@@ -36,8 +38,20 @@ formlist array {to list}
 | `sselect` | every id, **sorted** |
 | `selectn` | as `select`, but does not clear the list first |
 | `selectv` | the list into a **variable** rather than a numbered list |
+| `sselectv` | the sorted ids into a **variable**: `sselect` and `selectv` in one. The file may be a dynamic array instead, and `to` is required |
 | `selectindex` | from an alternate key index — see [SD Basic - Alternate Key Indexes](09-sd-basic-alternate-key-indexes.html) |
 | `formlist` | builds a list from a dynamic array you already have |
+
+**`$mode selectv`** makes `to` optional. With it, `select f`, `selectv f` and
+`sselectv f` leave the list in the program's own default select list variable,
+and `readnext id` with no `from` reads that variable, not list 0 (see the
+`selectv` row of the `$mode` table in *SD Basic - Program Structure*). A
+`readnext` before any `select` takes its `else` clause. Without the mode,
+`selectv f` and `sselectv f` with no `to` are still a compile error.
+
+The sort clauses of the sorted forms may come before or after `to`.
+**`right.aligned`** sorts numeric ids as numbers (1, 9, 10, 100) instead of as
+text (1, 10, 100, 9); **`descending`** reverses the order.
 
 On a file holding two records:
 
@@ -142,6 +156,30 @@ A `savelist` of a two-id list followed by `getlist ... to 5` and a
 >
 > `formlist` and `clearselect` do **not** take a `then`/`else` clause, so the
 > four statements are not consistent with each other.
+
+## Lists in variables, and moving them
+
+```
+formlistv array to list.variable
+getlistv name to list.variable {setting count} then ... else ...
+writelist array to name              (on may be written for to)
+movelist n to m {keep}
+movelistv n to list.variable {keep}
+```
+
+| | |
+|---|---|
+| `formlistv` | `formlist` into a select list variable, so list 0 and the numbered lists are not touched. A null array makes an empty list |
+| `getlistv` | `getlist` into a variable. **`then` or `else` is needed**, as for `getlist`. `setting` takes the number of ids; it is 0 when the list is not there |
+| `writelist` | writes the field mark delimited array as a saved list, replacing one of that name: the same record that `savelist` makes, in the saved-lists file, and without a numbered list to go through |
+| `movelist` | moves the ids not yet read from numbered list *n* (or from a select list variable) to list *m*, which is replaced; list *n* is then empty. With `keep` the source is left as it was. A list moved onto itself is left alone |
+| `movelistv` | the same into a select list variable |
+
+Both numbers are 0 to 10; anything else stops the program with the select list
+message. The same move is a command, `move.list n to m {keep}`, described in
+[SD TCL - Select Lists](22-sd-tcl-select-lists.html). `call !sort` of a select
+list variable and `mergelist()` of one (see [SD Basic - Array Operations](05a-sd-basic-array-operations.html))
+read its ids out.
 
 ## Combining and comparing lists
 

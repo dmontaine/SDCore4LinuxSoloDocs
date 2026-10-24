@@ -101,20 +101,66 @@ return the **null string** — so a program that formats a screen from
 `terminfo()` must cope with getting nothing back when it is run from a script
 or the API.
 
+`terminfo.ex(name)` is the same call under the name openQM gives the form that
+returns **every** string a capability has, separated by value marks. SD's
+terminal database holds one string for each capability, so what comes back is
+always the one value `terminfo(name)` gives (a null string for a capability the
+terminal does not have).
+
+### Saving and restoring the terminal modes: `ttyget()` and `ttyset`
+
+```
+settings = ttyget()
+ttyset settings
+```
+
+`ttyget()` returns the modes that `pterm` sets as a field mark delimited array,
+and `ttyset` puts such an array back, so a program that changes the terminal
+can leave it as it found it:
+
+```
+saved = ttyget()
+... change the terminal ...
+ttyset saved
+```
+
+| Field | Mode | `pterm` |
+|---|---|---|
+| 1 | is Ctrl-C the break key? (0 or 1) | `break on` / `off` |
+| 2 | is case inversion on? (0 or 1) | `case invert` / `noinvert` |
+| 3 | the break character, as a number (3 for Ctrl-C) | `break` *c* |
+| 4 | the output newline characters | `newline` |
+| 5 | the input return key, as a character code | `return` |
+| 6 | typed `ctrl-\` `ctrl-]` `ctrl-^` become the marks? | `mark` |
+| 7 | the erase key: 0 as at the start, 1 to 255 a character, 256 none | `erase` |
+| 8 | are control characters discarded by `input`? | `ctrl.filter` |
+| 9, 10 | Telnet binary mode, in and out | `binary` |
+| 11 | Telnet negotiation recognised? | `telnet` |
+
+**Fields 1 to 5 are openQM's; 6 to 11 are SD's own**, so that a program that
+saves everything and puts it back changes nothing. A field that is null is
+left as it is, so an array that holds fewer fields sets fewer modes.
+
 ```
 save.screen(column, row, width, height)
 restore.screen(saved, column, row)
 ```
 
-save and restore a rectangle, for a program that pops a window over what is
-already displayed.
+were for a program that pops a window over what is already displayed: they
+asked the *terminal* to keep the picture, which only AccuTerm and SDTerm could,
+and SD supports neither now. The calls are still accepted and the program still
+runs, but the terminal keeps nothing and `restore.screen` writes nothing. A
+program that needs what is under a window back should use the `screen`
+statement (page 12a), which keeps a picture of what it draws and puts it back
+itself.
 
 ## Input
 
 ```
-input variable {, length} {:} {with prompt} {format} {then ... else ...}
-input @(column, row) {, length} : variable
+input variable {, length {, fill}} {:} {with prompt} {format} {then ... else ...}
+input @(column, row) {, length {, fill}} : variable
 inputfield variable, length {, ...}
+inputif variable {, length} then ... else ...
 ```
 
 `input` reads a line. The optional *length* limits what may be typed and
@@ -125,10 +171,58 @@ returns as soon as that many characters arrive, without waiting for Enter.
 | **append** | start with the variable's current value, so the user edits rather than retypes |
 | **overlay** | as append, but typing replaces from the first character |
 | **edit** | full line editing |
-| **hidden** | do not echo — for a password |
+| **hidden** | echo asterisks — for a password |
+| **no.echo** | show nothing of what is typed (the new line that ends the entry still appears); with **hidden** the asterisks go too |
+| **raw** | read exactly *length* characters just as they arrive: a newline or an erase key is data, nothing is echoed; `input` only, and the length is required |
 | **panning** | scroll a field wider than the space it is shown in |
 | **upcase** | fold what is typed to upper case |
 | **timeout** *n* | give up after *n* seconds and take the `else` branch |
+
+### A fill for the field
+
+A third item after the length is a *fill* string. Its first character is shown
+in every cell of the field that has nothing in it, so the width of the field is
+clear while the user types; the erase key puts it back. When the entry is
+finished the cells left over take the second character (a blank if there is
+only one). A third character leaves the cursor at the end of the field instead
+of after the last character typed. A fill needs a length, and cannot be used
+with **hidden** (the compiler refuses it).
+
+```
+input name, 20, '.-'        ;* shows ....................  and, when done,  Anna----------------
+```
+
+### Reading only what is already there
+
+`inputif` takes a line only if one is waiting, in the `data` stack or typed
+ahead at the keyboard; otherwise it takes the `else` branch at once, writes no
+prompt and leaves the variable alone. It has the options of `input` and `input @`.
+When SD's input is a pipe or a file rather than a terminal there is always
+something to read (the end of the file counts), so `inputif` behaves as `input`
+there.
+
+### Single characters that mean something
+
+Two statements give a single character, typed alone as the whole answer to
+`input @` or `inputfield`, a special meaning. What was echoed stays on the
+screen as typed.
+
+```
+inputnull expression
+inputtrap expression goto label{, label...}
+inputtrap expression gosub label{, label...}
+```
+
+| | |
+|---|---|
+| `inputnull` | the first character of the expression makes the variable a null string. A null expression cancels it, and so does returning to the command prompt |
+| `inputtrap` | each character of the expression (up to 16) sends the program to the label at the same position in the list; a character past the end of the labels takes the last one. The variable is set to null. A null expression cancels the trap |
+
+With `gosub`, the `return` comes back to the statement after the `inputtrap`,
+not to the one after the `input`. If the `input @` has a `then` or `else`
+clause, neither runs when a trap is taken. The trap belongs to the program that
+set it: a subroutine it calls is not trapped, and neither is a plain `input`.
+When both statements name a character, `inputnull` wins.
 
 **`hidden` is the only correct way to read a password.** Turning the echo off
 by hand with `echo off` leaves it off if the program aborts between the two

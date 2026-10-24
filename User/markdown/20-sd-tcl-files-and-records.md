@@ -72,7 +72,8 @@ clear.file {dict|data} file
 
 `delete.file` removes the file and its VOC record. **`force` is needed if the
 file is not empty.** `clear.file` empties a file and keeps it, along with its
-dictionary and its indexes.
+dictionary, its indexes and its `creating.seqkey` counter (the next sequential id carries on; this is
+SD's behaviour, and `configure.file` *file* `next 1` starts it again).
 
 ## Changing a file after it exists
 
@@ -89,8 +90,19 @@ rather than lazily, and `dynamic` or `directory` to change the file's kind.
 requires a full restructure; the rest take effect without one. Plan for the time
 and the disk on a large file.
 
+**`reporting`** shows how far the work has got: a line *1000 records converted* at every thousand
+and the total at the end, when `dynamic` or `directory` converts the file, and *n groups moved* in the same way
+for `immediate`. It changes nothing else, and without it nothing is shown.
+
 `no.case` / `case` and `resize` / `no.resize` are the pairs that turn a setting
 on and off. For a directory file, `binary` turns on mark mapping.
+
+**`next` *n*** sets the next record id that `write … creating.seqkey` will give out in a
+**hashed** file (see [SD Basic - File Handling](07-sd-basic-file-handling.html)); **`next query`** says
+what it is (*The next sequential record id is 103*). A new file's counter is 1, `clear.file` keeps it (SD's behaviour), and rebuilding a file
+with a different group size or version carries the counter over. A file made by `copy` starts its own
+counter at 1; `write … creating.seqkey` skips an id that already names a record. A directory file is refused:
+*NEXT applies to a hashed file only*.
 
 ## Looking at a file
 
@@ -124,7 +136,45 @@ Where a file name is taken, a select list or several names may be given instead.
 hsm {on|off|display} {user n}
 ```
 
-The Hot Spot Monitor. `display` is the default.
+The Hot Spot Monitor. `display` is the default. It counts each program's
+opens, reads, writes and deletes as well as its calls and processor time, and
+the report has a column for each. **What a program asks for through the `open`
+of a name (its VOC lookup), or through `readv` and `writev`, which read and
+write the record themselves, is not counted against it.**
+
+```
+profiler on {user n} {event ...}
+profiler off {user n}
+profiler {display} {user n}
+```
+
+The application event profiler: where the Hot Spot Monitor counts per program,
+this records **what** the programs did and **where**. `profiler on` starts
+logging in your session, or, for the administrator, in session *n*; `profiler off`
+stops it and keeps what was found; `profiler` (or `display`) shows it. The events
+are `call` (a subroutine), `open`, `read` (including `readu`, `readv` and
+`matread`), `write`, `delete`, `openseq`, `readseq`, `writeseq`, `execute` (the
+first 32 characters of the command) and `object` (a call of a class module's
+object). Name some after `on` to log only those; none means all of them.
+
+`display` is a list of the event types with a count of each. Type the **number** of
+a line to open it: the names the events were on (the file, the subroutine, the
+command), then the programs that did them, then the **line numbers** in the
+program. **`b`** goes back a level and **`q`** leaves. (openQM uses the cursor
+keys; a number works on any terminal.) With one profile available it opens
+without asking which.
+
+**What it is and is not.** The profile is kept in memory while it is on, and
+written to the `$ipc` file when it is turned off, so nothing is left on the
+disk and it is gone when SD is restarted. **Only the administrator can profile
+another user's session** (what a profile holds is the files and commands of
+that user), and an ordinary user sees only their own. It holds 4,000 different
+events: when there are more, `display` says how many were not logged. A user's
+program is named by the pathname of its compiled code. Only a program's own
+statements are counted: a `readv` is one `read`, not that and the reads the
+language does for it. The listings, and the four levels of `display`, are under
+*Where the work goes: `profiler`* in
+[SD TCL - Processes and Phantoms](30-sd-tcl-processes-and-phantoms.html).
 
 ```
 list.files
@@ -334,10 +384,12 @@ name you type and the name on disk stay together.
 ### Comparing two files: `compare.files`
 
 ```
-compare.files file1 file2 {detail}
+compare.files {dict} file1 {dict} file2 {detail}
 ```
 
-Compares the records of two files (a dictionary is named `dict` *file*) and
+Compares the records of two files (a dictionary is named with `dict` in front of
+its file, so a file and its dictionary can be compared with each other or with
+another) and
 counts them in four groups: only in the first, only in the second, in both but
 different, and the same.
 
@@ -365,7 +417,9 @@ Records that are the same: 1
 
 **`@system.return.code` is 0 when the two files hold the same records and 1 when
 they do not**, so a paragraph can test it. With one file name the verb answers
-*Two file names required*.
+*Two file names required*, and a file that will not open stops it (*Cannot open*
+the name). The records of a data collection file are compared as their JSON text,
+so two equal collections count as the same.
 
 ### Taking the carriage returns out: `fixdir`
 
@@ -386,7 +440,8 @@ fixdir BP crtest
 ```
 
 A second run of the same command says `0 record(s) fixed in BP`. A file that is
-not a directory file is refused (*T3 is not a directory file*). The global
+not a directory file is refused (*T3 is not a directory file*), a file that will
+not open stops it (*Cannot open*), and a file name is required. The global
 catalogue's directories (`gcat` and `global.bp.out`) and `solo.policy` are
 refused as they are for `ed` and `copy`: only a session signed in with the global
 password may change them.
@@ -452,7 +507,19 @@ set.trigger file.name
 ```
 
 Set, remove, or display a file's trigger function. An empty string in quotes
-removes it; no argument at all displays it.
+removes it; no argument at all displays it. **`all`** in place of the modes sets
+every one of them: pre- and post-write, pre- and post-delete, read, and pre- and
+post-clear. **The function must be catalogued** first — *Trigger function is not
+catalogued* otherwise.
+
+```
+set.trigger stock zztrig all
+```
+
+```
+Trigger function: zztrig
+Modes: PRE.WRITE, PRE.DELETE, POST.WRITE, POST.DELETE, READ, PRE.CLEAR, POST.CLEAR
+```
 
 ```
 list.triggers {file.name ...} {lptr {n}}
@@ -475,6 +542,32 @@ t3                   p9                   PRE.WRITE, POST.WRITE
 With nothing to report the list is empty and the last line says `0 file(s) with
 a trigger function`. The listing was produced by running it in a sandbox build of
 SD Core for Linux Solo, as the administrator.
+
+### A trigger on a directory file
+
+A directory file can have a trigger function too (16 Oct 2026). `set.trigger` works on it as on a hashed file, and
+`list.triggers` lists it. The directory has no header to hold the trigger, so it is kept in a small text file named
+`%header%` in the directory itself, which SD makes when the trigger is set and removes when it is taken away:
+
+```
+trigger=zztrig
+modes=127
+```
+
+`select`, `count` and `analyse.file` do not count it as a record, `clear.file` leaves it (and so the trigger), and no record id
+can reach it: `%` is one of the characters SD rewrites in a directory file's record ids, so a program that writes the id
+`%header%` makes an ordinary record under another name. The file is not locked away, though: anyone who can write to the
+directory can change it with an editor, just as anyone who can write to it can add or remove records, so the trigger is only
+as safe as the directory is. A file that is not a header in this form, or names a function whose name no function can have, is
+read as no trigger.
+
+**What calls it.** `read`, `write`, `delete` and `clearfile` (and the verbs built on them) call the function for the modes that
+are set, in the same order as for a hashed file, with the same arguments, and a pre-write or pre-delete trigger can refuse the
+operation with `@trigger.return.code` or change the data being written. **`writeseq`, `writeblk`, `oswrite` and `osdelete` do
+not call it**, so a query report sent to a file, or a compile listing, never does; that is openQM's limit too. **A change to the
+trigger takes effect when the file is next opened**, not for a program that has it open already (`set.trigger` itself needs the
+file to itself, as it does for a hashed file). If the header names a function that is not catalogued, the first operation that
+needs it stops with *Trigger function 'name' not loaded for the file*.
 
 ## Moving data in and out: `import.csv`, `import.json`, `import.xml` and `convert.data`
 

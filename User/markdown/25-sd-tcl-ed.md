@@ -1,16 +1,19 @@
 Title: SD TCL - The ed Line Editor
 Subtitle: The editor that runs inside SD, needs no terminal, and can be driven from a script.
 
-SD has three editors and they are all installed with it. **`ed` is the one that
-runs *inside* SD**: it is written in SD BASIC, draws nothing, and needs neither
-a terminal nor operating-system permission. That is what makes it the editor for
-a phantom, an API session, a session driven down a pipe, and anything you want
-to automate.
+SD has four editors for a record and they are all installed with it. **`ed` is
+the one that needs no terminal**: it is written in SD BASIC and runs *inside*
+SD, draws nothing, and needs neither a terminal nor operating-system permission.
+That is what makes it the editor for a phantom, an API session, a session driven
+down a pipe, and anything you want to automate.
 
-The other two are [nano](26-sd-tcl-edit.html) and [micro](27-sd-tcl-micro.html),
-which hand the record to a full-screen program. Use one of those when
-you are sitting at a terminal and want to see the whole record at once.
-**`edit` is not a third program** — it is a second name for `ed` itself,
+The other three are full-screen. [sed](27a-sd-tcl-sed.html) is also written in SD
+BASIC and runs inside SD, so it needs no operating-system permission either;
+[nano](26-sd-tcl-edit.html) and [micro](27-sd-tcl-micro.html) hand the record to a
+full-screen program. Use one of those when you are sitting at a terminal and want
+to see the whole record at once. A record that is a data collection has an editor
+of its own, [ced](27b-sd-tcl-ced.html).
+**`edit` is not another program** — it is a second name for `ed` itself,
 since there is no Linux program to alias it to the way SD Core for
 Windows aliases it to Microsoft Edit.
 
@@ -48,6 +51,14 @@ New record
 bp zzed
 3 line(s)
 ```
+
+**`creating.seqkey` in the place of a record name** edits a new record under the
+file's next sequential id, the counter that `write … creating.seqkey` uses:
+`ed bp creating.seqkey`. The id is taken when the edit begins and shown like any
+record id, so a record that is never filed leaves a gap in the sequence, and an id
+that a record already holds is skipped. A file that is not a hashed file, such as a
+directory file, is refused with a message, as is a file opened read only. In
+quotes, `'creating.seqkey'` is an ordinary record id.
 
 **Omit the record name and `ed` asks for one**, and asks again after each edit
 until you give it an empty answer. **Give several names and it works through
@@ -237,9 +248,9 @@ its values were lines:
 ----: EV
 Editing values. Use SV to save changes or QV to discard changes
 ----: P20
-0001: NAME
-0002: Smith
-0003: Jones
+1.0001: NAME
+1.0002: Smith
+1.0003: Jones
 Bottom at line 3
 ----: QV
 EV mode changes discarded
@@ -249,9 +260,22 @@ Returned from EV mode
 `SV` leaves `EV` keeping the changes, `QV` discards them. Three levels are
 available: values, subvalues, and the elements of a compound I-type.
 
+**In `EV` a line number carries the positions above it** (16 Oct 2026): the
+example edited field 1, so its values are `1.0001`, `1.0002`, `1.0003`; one
+level down, in the subvalues of value 2 of field 1, a line is `1.2.0001`.
+`NO.EV.POSITION` in the `$ed.options` record of the VOC leaves the prefix out
+and numbers the lines as before.
+
 **A mark is typed as `^` and its character code**: `^253` for a value mark,
 `^252` for a subvalue mark, `^^` for a literal `^`. The line above was made
 with `I NAME^253Smith^253Jones`.
+
+**Text marks (`^251`), subvalue marks and value marks can be typed without
+`NPRINT`.** The field mark (`^254`) and the item mark (`^255`) still need it,
+because one in a line would split the line without showing it.
+
+`EV` on an I-type that holds quoted text, brackets and semicolons no longer
+corrupts the expression; a quoted string used to be cut at the wrong place.
 
 ### Leaving
 
@@ -327,6 +351,51 @@ want from `basic` and the wrong one from `ct`.
 FIle [[filename] record.id]
                 Write record and end edit
 ```
+
+### External commands: a catalogued subroutine as an ED command
+
+**You can add commands to `ed`** (16 Oct 2026) by writing a subroutine and naming
+the commands it handles in the `$ed.options` record of the VOC. A line of that
+record such as
+
+```
+EXTERNAL zzedx1 WHERE DUMP UPCASE "'ADD 'A0X"
+```
+
+says that the catalogued subroutine `zzedx1` handles the commands `WHERE`,
+`DUMP`, `UPCASE`, and any command that matches the template `'ADD 'A0X`.
+After the subroutine's name come one or more patterns, one after another, with
+no quotes needed; a pattern with a space in it is put in double quotes. A
+pattern is a `MATCHES` template or a plain word, and the match ignores case.
+The patterns are tried **before** the standard commands, so an external command
+can replace one: `EXTERNAL myb B` makes your subroutine the `B` command.
+
+The subroutine is called with two arguments:
+
+```
+subroutine zzedx1(mat info, error)
+   dim info(8)
+```
+
+| `info(1)` | the file name, with `DICT` if that was given |
+|---|---|
+| `info(2)` | the record id |
+| `info(3)` | the data being edited, a field mark between lines (in `EV` the level you are editing) |
+| `info(4)` | the current line, 0 at the top |
+| `info(5)`, `info(6)` | the block start and end lines, 0 if not set |
+| `info(7)` | the command, in the case you typed it |
+| `info(8)` | the `EV` depth: 0 normally, 1 in values, 2 in subvalues |
+
+Set `error` to true if the command fails: the editor says *External command
+`name` failed* and changes nothing. Otherwise it takes `info(3)` as the new
+data and `info(4)` to `info(6)` as the new positions, which it keeps inside the
+record (999 becomes the last line, -3 the top). `OOPS` undoes what the
+subroutine did. The subroutine must be catalogued where the user can reach it.
+
+**What this does not do:** the editor does not check that the subroutine exists
+until a command that names it is typed; a missing one then stops the editor with
+the run time's usual message. An unrecognised option in `$ed.options` is
+ignored, as before.
 
 ### The command stack, and prestored sequences
 

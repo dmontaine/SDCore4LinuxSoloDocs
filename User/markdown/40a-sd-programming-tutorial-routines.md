@@ -160,7 +160,7 @@ There is no system variable holding the error *text*. To turn a code into a
 sentence, call the catalogued subroutine `!ERRTEXT`:
 
 ```
-   call "!ERRTEXT", message, status()
+   call !errtext(message, status())
    print 'write failed: ' : message
 ```
 

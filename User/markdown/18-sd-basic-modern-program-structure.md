@@ -132,10 +132,10 @@ state between calls, exposes what it chooses, and is instantiated as many times
 as you like.
 
 ```
-class name {inherits base {, base …}} {max.args n}
+class name {inherits base{(values)} {as var} {, base …}} {max.args n}
 
-private variable, ...
-public variable, ...
+private variable {= value}, ...
+public variable {readonly} {= value}, ...
 
 public subroutine create.object    ...  end
 public subroutine destroy.object   ...  end
@@ -194,6 +194,9 @@ of member. This is the part most worth having in front of you:
 | `o->owner` | runs the **`get`** routine for that property |
 | `o->owner = 'MIXED Case Name'` | runs the **`set`** routine for it |
 
+**An empty pair of brackets is accepted after a method name in a statement**
+(`o->reset()`), as it already was in an expression.
+
 All six on one instance, with `deposit` called twice with 40 and 2. `total`
 multiplies by its argument; the `set owner` routine lower-cases what it is
 given into the public variable `label`, and `get owner` wraps it:
@@ -224,6 +227,100 @@ not a member at all. `private` is genuine encapsulation, not a convention.
 
 The way to expose one is to write a public routine that returns it, which is
 what `reveal()` does in the class above.
+
+### Restricted members: seen by the family, and only by the family
+
+```
+restricted var {readonly}, var2 ...
+restricted subroutine name(args)
+   ...
+end
+restricted function name(args)
+   ...
+end
+```
+
+`restricted` sits between `public` and `private`. A restricted name is **public to the class
+that declares it and to every class that inherits it, and invisible to everything else**:
+the main program, an unrelated class, and a sibling that shares only the parent. A child
+reaches its parent's restricted members through the inherited object, as it reaches the public
+ones (`parent->secret()`); a program that tries gets the same answer it gets for a private
+name, *Unrecognised property/method name (SECRET)*. **The child object does not pass
+the parent's restricted names on to the caller** — `c->secret()` from the main program is
+refused although `c` inherits it.
+
+`readonly` holds for a restricted variable as for a public one: a child can read it and cannot
+assign it. A name is wholly public or wholly restricted: a `restricted function foo` beside a
+`public subroutine foo` is a compile error.
+
+`restricted` is a reserved word inside the program now. **A starting value** (`public x = 1`) is
+covered in the next section for `public` and `private`; giving one to a `restricted` variable has not
+been tested.
+
+## Starting values
+
+A class variable, or a matrix, may be given a value where it is declared:
+
+```
+class account
+   public rate = 5, owner = "nobody"
+   public kind readonly = "SAVINGS"
+   private balance = 0, sep = @fm, flag = @true
+   public m(3) = 0
+   public grid(2,2) = "X"
+   ...
+end
+```
+
+The value is set **when the object is made, before `create.object` runs**, so
+`create.object` finds it already there and can change it. A matrix gets the value in every
+element, as `mat m = value` does.
+
+**A value is a constant, not an expression.** It may be:
+
+| | |
+|---|---|
+| a number | `5`, `-7`, `1.5` |
+| a string | `"text"` or `'text'` |
+| `char(n)` | `char(65)` for `A` |
+| a constant `@`-variable | `@fm @vm @sm @tm @im @am @svm @true @false` |
+
+Anything else — a variable name, a changing `@`-variable such as `@userno`, an expression such as
+`5 + 1` — is a compile error, message 11394. After `public a = 5` the `+ 1` is not a statement.
+
+A variable with no value starts as it always did.
+
+## Running a class
+
+A class module with a `main` subroutine can be run from TCL, by its module name or by its
+catalogue name, as a program is:
+
+```
+class zzcm1
+   private n = 3
+   public subroutine create.object()
+      crt 'CREATED n=':n
+   end
+   public subroutine main()
+      crt 'MAIN RAN n=':n
+   end
+   public subroutine destroy.object()
+      crt 'DESTROYED'
+   end
+end
+```
+
+```
+:run bp zzcm1
+CREATED n=3
+MAIN RAN n=3
+DESTROYED
+```
+
+`run` makes the object, so `create.object` runs first, calls `main`, and lets the object go, so
+`destroy.object` runs last. A class with no `main` still gets its object made and
+`create.object` run; the reference to `main` is then refused with *Unrecognised property/method name
+(MAIN)*. **`call` of a class is still refused** — *A CLASS routine may not be used in this way*.
 
 ## Construction and destruction
 
@@ -273,6 +370,22 @@ ZZMATH.REVEAL=base-private
 | `whoami()` | **the derived version won** — both classes define it |
 | `tag` | a public **variable** of the base, reached through the derived object |
 | `reveal()` | a base public function returning the base's own `private` member |
+
+The object variable that holds the inherited class is named after the base
+class. **`inherits name as variable`** gives it a name of its own:
+`class derived inherits base as parent`. Nothing else changes.
+
+**Values for the base class's `create.object`** follow the class name, or the `as` name, in
+brackets:
+
+```
+class derived inherits base("RATE", 25)
+class derived inherits base as parent(-3, 'x y')
+```
+
+They reach the base class's `create.object` as its arguments, the same constants as a variable's
+starting value (see *Starting values*): numbers, strings, `char(n)` and the constant `@`-variables. **At
+most 32** may be given (message 11393). A class that inherits with no brackets works as before.
 
 The last row is the interesting one: **a base class's private state stays
 private, and reaches the outside only through whatever the base chooses to

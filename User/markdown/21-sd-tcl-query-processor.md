@@ -93,6 +93,8 @@ spellings in a row returned identical counts on the same data.
 | matches a pattern | `like` · `matches` · `matching` |
 | does not match | `unlike` · `not.matching` |
 | sounds like | `said` · `spoken` |
+| is in a list | `in` |
+| is not in a list | `not.in` |
 
 `before` and `after` read well on dates and are the same operators as `<` and
 `>`. All three spellings of *not equal* returned **331** on the same query, and
@@ -130,6 +132,60 @@ count voc with f1 like "V0X"
 > an error, not a warning. **Always prove a pattern against a case you know
 > matches** before believing a small answer, and be especially careful of a
 > query that returns zero when you expected few.
+
+### Is it in a list: `in` and `not.in`
+
+```
+list myfile with color in colors @id
+list myfile with color not.in colors @id
+list myfile with color in "myfile allow" @id
+list myfile with color in no.case "myfile allow" @id
+list myfile with every tags in tags.list @id
+```
+
+`in` selects the records whose field has a value that is one of the values of a
+list; `not.in` selects the others. The list is named after the operator in one
+of two ways:
+
+| Written as | The list is |
+|---|---|
+| a bare word, `colors` | the saved select list of that name, from `$savedlists` |
+| a quoted *file* and *id*, `"myfile allow"` | the fields of record *id* of *file*, one value to a field |
+
+The first word of a quoted name is the file and the rest is the record id. A
+quoted name with no space in it is a saved list. The match is exact, and
+**is case sensitive unless `no.case` comes before the list**. With `every`, a
+multi-valued field is chosen only when all of its values are in the list
+(with `not.in`, when none of them is); without it, one value is enough. `when`
+shows only the values that satisfy the test, as it does for the other
+operators.
+
+An empty list contains nothing, so `in` selects no record and `not.in` selects
+every one. A file or record that cannot be read stops the command, with *File
+not found* or *Record "name" not found*, and an empty name (`in ""`) stops it
+with *A saved list name, or a quoted file and record id, is needed after in or
+not.in*. These two operators never use an alternate key index.
+
+The values in the list are compared with the field as it is stored. Unlike a
+value typed in the sentence, they are not run through the field's input
+conversion first, so for a field with a conversion (a date, say) the list must
+hold the stored form: a list of day numbers selects the records for those days,
+a list of the same dates written as `12/31/2023` selects none. *(Tried on a
+field with the `D4/` conversion.)*
+
+**`in` and `not.in` are now keywords.** After `=` or another comparison an
+unquoted `in` is still an ordinary value: `with state = in` finds the records
+whose state is IN. But after `or` or `and`, where the field and the operator are
+left out and repeated for you, an unquoted `in` or `not.in` is the operator, so
+`with state = "oh" or in` asks for a list name. Quote the value there:
+`with state = "oh" or "in"`. A dictionary item called `in` still wins over the
+keyword, and a quoted value is never taken for one. An account whose VOC
+predates this change has no `in` or `not.in` record; the query processor knows
+the two words anyway (tried, with both records deleted from the account's VOC),
+and `update.accounts` adds the records.
+
+These are the query processor's own. The paragraph `if` has an `in` of its
+own, which compares a word with a list of words; the two are not connected.
 
 ### Other ways to choose
 
@@ -177,11 +233,62 @@ dictionary entry called `dispatch`.
 | **`conv`** *"code"* | override the conversion |
 | **`as`** *name* | use another dictionary entry's formatting |
 | **`col.spaces`** *n* | change the gap between columns |
-| **`vert`** | one field per line instead of columns |
+| **`vert`** · **`vertically`** | one field per line instead of columns (see *A vertical report*) |
 | **`dbl.spc`** | a blank line between records |
 | **`col.sup`** · **`col.hdr.sup`** · **`hdr.sup`** | suppress column headings, both, or the page heading |
 | **`count.sup`** | suppress the trailing record count |
 | **`det.sup`** | suppress the detail lines, leaving totals |
+
+## A vertical report
+
+`vert` (or `vertically`) prints one field to a line, the name of the field, a
+colon and the value. **A second value of a multivalued field repeats the colon**;
+a line that wrapped because the value was longer than the column has none, so
+the two can be told apart:
+
+```
+list sales vertically
+name....... : Ann
+lines...... : one
+           : two
+text....... : a long value that
+              wrapped here
+```
+
+The name column is 12 wide, the heading cut to fit it. Both can be changed:
+
+| | |
+|---|---|
+| **`vertically fmt "25l"`** | the whole heading, in a column of that format |
+| **`vertically fmt "fit"`** | a column as wide as the longest heading in the report |
+| **`vertically fmt ,"20l"`** | a data format for the values: every item that is **not right justified in its dictionary entry** and has no `fmt` of its own takes it |
+
+**The same, as a default for a dictionary or the whole account:** a record
+**`$vlist`** in the dictionary (or, failing that, in the VOC) with `x` in field 1,
+the name format in field 2 (or `fit`) and the data format in field 3. What the
+command line gives wins over the record.
+
+## Defaults for a file's queries: `$query.defaults`
+
+A record **`$query.defaults`** in a dictionary, with `x` in field 1, holds words
+added to the query before it is read: field 2 for `list` and `sort`, **field 3
+for `select`, `sselect` and `search`**, and **field 4 the format of the id column the
+query processor makes up when the dictionary has no `@id`** (a width and `l`, `r`,
+`t` or `c`, as `10r`; anything else is ignored with a message and the default
+`12l` is used). A line that ends with `_` continues on the next.
+
+## Selecting some of the values: `when`
+
+`when` takes the values of a multivalued field, not the record, and may be used
+with the same operators as `with`. **`when field` with no operator keeps the values that are
+not null**; `between` is checked against **every** value of the field; and
+`unlike no.case` takes the case of the pattern as no matter.
+
+## More than one exploded sort
+
+`by.exp` and `by.exp.dsnd` may each be given **more than once, provided the fields are in the
+same association** (the later ones decide the order of values that the earlier ones leave
+equal). A field outside the association is refused with a message.
 
 ## Headings and footings
 
@@ -225,6 +332,10 @@ options inside the text for page number, date and time.
 |---|---|
 | **`total`** *field* | a column total |
 | **`average`** · **`avg`** | the mean |
+| **`median`** | the middle value: **the mean of the two in the middle when there is an even number**, a null counted as zero (left out with `no.nulls`), and a value that is not a number left out. At a break it is the median of that group, at the end of the report of every value. Where the values 150, 40, 30, 20 and 10 have an `average` of 50, their `median` is 30 |
+| **`mode`** | the value that comes most often, at the end of the report and at each breakpoint; **if several come as often, the first one is shown**. A null is a value (left out with `no.nulls`), and the values need not be numbers |
+| **`range`** | the largest value less the smallest, numbers only (a value that is not a number is left out, a null counts as zero unless `no.nulls`) |
+| **`rpt`** | repeats a single valued field on every line of a report on a multivalued one, in place of printing it on the first line only |
 | **`max`** · **`min`** | the largest and smallest value |
 | **`enum`** · **`enumerate`** | count the values rather than total them |
 | **`percent`** · **`pct`** · **`%P`** | express as a percentage |
@@ -236,6 +347,19 @@ options inside the text for page number, date and time.
 `break.on` is what turns a flat listing into a report with subtotals; the field
 it breaks on almost always wants to be a sort key as well, or the groups come
 out scattered.
+
+**An `X` among a break field's control codes saves the field's previous value.**
+The I-types of that line can read it as `@bpv`: the value the field had on the
+last record before the break. It is empty on a field without `X`.
+
+Three options (see [SD Basic - Program Structure](01-sd-basic-program-structure.html))
+change a report. With `option query.footer.pause` a report that has a page
+footer waits for Return after its last footer. With `option paginate.on.heading`,
+a `run ... no.page` that prints a heading or a footing still turns pagination on.
+With `option query.merge.print` a report sent to the default printer (`lptr`) does
+**not** close a printer that was already active when the report began — a program's own
+`printer on`, say — so the report and the program's output are **one print job**. None is on
+unless asked for.
 
 ## Taking only some of the records
 
@@ -425,6 +549,12 @@ mark, as `list` shows them.
 | `no.case` | ignore the case of the text and of the strings |
 | `all` | look at the record id as well as the record |
 | *selection* | a `with` clause or a list of ids narrows the records looked at |
+
+Up to 100 strings are used. With neither `for` nor `strings`, `search` asks for strings until
+you answer with a blank line; with `strings`, a null field of the record is ignored, the strings
+add to any given with `for`, and a file or record that is not there is reported and nothing is
+searched. With `all.match`, `scan` still shows the lines that hold *any* one of the strings. A
+record of a data collection file is searched as its JSON text.
 
 **A search works on the records of the active select list if there is one, and
 on the whole file if there is not.** The list that `search` or `scan` leaves is

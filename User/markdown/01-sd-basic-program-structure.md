@@ -71,6 +71,7 @@ shares all its variables. The nesting limit is **256 levels**.
 ```
 call name {(argument, ...)}
 call @variable {(argument, ...)}
+call "file name" {(argument, ...)}
 subr(name {, argument, ...})
 ```
 
@@ -78,7 +79,19 @@ subr(name {, argument, ...})
 |---|---|
 | `call name` | the name is fixed at compile time |
 | `call @variable` | the name is taken from the variable at run time |
+| `call "file name"` | the Pick style call: the program *name* compiled into *file*, found without the catalogue (below) |
 | `subr()` | the function form — use it where you want the result in an expression |
+
+**`call "file name"`** loads a compiled program straight from the object directory of a file.
+*file* is the name the VOC gives the file whose programs they are, such as `bp`, and
+*name* is the program; the object directory is the VOC entry *file*`.out` that `basic` made.
+The string may also be held in a variable (`call @nm`). Case does not matter, and the
+program does not have to be catalogued. **The file must be a VOC name**, found by the lookup
+`open` makes, so a Q-pointer follows the OS access switch (`set.os.access os on`) exactly as it does for
+`open`, and an operating system path (`/tmp`, `../bp`) is refused as an illegal call name, as is
+a program name beginning `$ ! * _`. A string with no space in it is not this form and is a compile
+error. Because the object is not looked up in the catalogue, a later `catalog` or `delete.catalog`
+does not change which program a file-form call reaches, but recompiling the program does.
 
 **Arguments are passed by reference, not by value.** A subroutine that
 assigns to one of its parameters changes the caller's variable. That is how a
@@ -171,6 +184,20 @@ include file.name record.name
 pulls in another source record at compile time. The system definitions live in
 `syscom` — `$include syscom keys.h` for the key numbers used by `fileinfo()`,
 `selectinfo()` and the rest.
+
+**Where an `$include` with no file name looks.** Source file first, then `syscom`.
+A record **`$basic.options`** (type `x`, in the file that holds the source or, failing that, in the VOC)
+can change that with a line **`search file.list`**, the files separated by commas (or spaces)
+and tried in that order, **`@`** standing for the file the source is in:
+
+```
+x
+search incfile,@
+```
+
+A file in the list that does not exist, or does not hold the record, is passed over;
+the include is an error only when the last has not got it either. A C-type dictionary item has no
+source file, so `@` is skipped for it.
 
 ## Matrices
 
@@ -295,6 +322,46 @@ set.arg n, value
 These read the arguments of the **command line** that started the program, not
 the arguments of a subroutine call. `arg(1)` is the first word after the verb.
 
+## Arguments that may be left out
+
+```
+subroutine name(a, b = 7, c = 'none') var.args
+function name(a, flag = @true) var.args
+arg.present(name)
+reusing(name)
+```
+
+An argument may be given a **default value**: a number (a minus sign allowed),
+a string in single or double quotes (not one that holds both kinds), `@true` or
+`@false`. The program then needs `var.args`, or `$mode default.unass.args`, or the
+compiler refuses it (*Default argument values need the VAR.ARGS option or $MODE
+DEFAULT.UNASS.ARGS*); a default that is anything else, such as a variable or an
+expression, is *A default argument value must be a number, a string, @TRUE or
+@FALSE*. When the caller passes fewer arguments than there are, the missing ones
+take their defaults; with `$mode default.unass.args` one that was passed
+**unassigned** takes it too. `arg.count()` is still the number the caller passed,
+not what the defaults make of the rest. The program's own lines keep their line
+numbers.
+
+`arg.present(name)` is true if the caller passed that argument, whether or not
+it has a default now. It names an argument of the subroutine or function it is
+in; any other name, or use outside one, is a compile error (*xx is not an
+argument of this subroutine or function*). `reusing(name)` is true if the caller
+passed the argument with `reuse()`, and does not clear it.
+
+## Case sensitivity of strings: `casing`
+
+```
+casing on
+casing off
+casing expression
+```
+
+Switches case sensitivity of string comparisons and the string functions for the
+rest of the running program, the way `$nocase.strings` does for the whole of it.
+`system(1086)` says which is in effect. A `casing` with nothing after it is a
+compile error.
+
 ## Discarding a result
 
 ```
@@ -304,6 +371,84 @@ void expression
 Calls a function and throws the answer away. It exists because SD BASIC has no
 statement form for a function call — `void kernel(...)` is the idiom you will
 see throughout `gpl.bp`.
+
+## Compiler modes: `$mode`
+
+```
+$mode name {, name …}
+$mode -name
+```
+
+A mode changes how one program is compiled. **Every mode is off unless the
+program asks for it**, and a program that does not ask sees no change. A name
+with a minus in front turns the mode off again. The ones below are the 1.2-0
+additions; each is described by what it does and does **not** do.
+
+| mode | what it does |
+|---|---|
+| **`partial.expressions`** | `A and B` does not evaluate `B` when `A` is false, and `A or B` does not evaluate `B` when `A` is true. That makes `if idx matches '1-2N' and s<idx> # 0` safe, and a function with a side effect on the right-hand side runs only when it is needed. **The value of every expression is the same as without the mode**; only what is evaluated changes |
+| **`execute.clearlist`** | clears the default select list (list 0) before the command of each `execute` runs, so the command does not pick up a list the program happened to have active. An `execute` with a **passlist** clause, with or without a variable, still passes the list in |
+| **`pick.readnext`** | a `readnext` that takes its `else` clause (the list is exhausted, or none is active) leaves the id variable as it was instead of setting it to the null string, so a program can read the last id after the loop. **Only the plain forms**; the forms that return value and subvalue positions are unchanged |
+| **`open.fail.zero.fvar`** | an `open` or `openpath` that fails leaves the integer `0` in the file variable, where it is otherwise unassigned and a test of it stops the program with a run-time error. The `else` clause is taken as always, and an `open` that works is not touched |
+| **`stdfil`** | the default file variable: `open`, `read`, `matread`, `write`, `matwrite`, `delete`, `close`, `clearfile`, `filelock`, `fileunlock`, `release` and `select` may be written without a file variable and use one the program does not name |
+| **`stdfil.shared`** | the default file variable as `stdfil` has it, but **one variable for every program and subroutine of a command level** (`@stdfil`), not one for each program: a subroutine you `call` uses the file the main program opened, and a file it opens becomes the main program's default too. An `execute` starts a command level of its own with a fresh `@stdfil` and gives the caller's back when it returns. **`stdfil` and `stdfil.shared` together are `stdfil`** (each program its own). The variable lives in a named common block `$stdfil`, which a program of your own should not declare |
+| **`debug.equates`** | a program compiled for the debugger also keeps its `equate` and `$define` tokens in the object, so the debugger can show, `set` and `watch` them (see *Debugging*). It makes the object a little larger; programs compiled without the mode are as they were |
+| **`autolock`** | `write`, `matwrite` and `delete` take an update lock on a record the program does not already hold a lock on, wait for it, make the change and let the lock go as a plain `write` does. Provided for programs from environments that lock for you; **it is not recommended**, because it hides the explicit lock rule SD's own programs follow. `writev` is not changed |
+| **`write.delete.then.else`** | `write`, `writeu`, `matwrite`, `matwriteu`, `delete` and `deleteu` take `then` and `else` clauses. A trigger that refuses the write or delete takes `else`, and the trigger is told it is being called with an error trap set. A statement with neither clause is as it was |
+| **`change.no.overlap`** | `change`, `ereplace` and `swap` count occurrences without overlap: when a starting occurrence is given, the ones before it are passed over whole, not one character at a time. A replace-all is the same with or without the mode |
+| **`count.overlap`** | `count` and `counts` find occurrences that overlap: `aa` in `aaaaaaaaa` is found 8 times, not 4. `dcount` is not changed, a delimiter never overlapping |
+| **`index.overlap`** | `index` and `indexs` take the *n*th occurrence counting the ones that overlap, so the 3rd `aa` in `aaaaaaaaa` starts at character 3, not 5 |
+| **`pick.convert`** | `convert(string, from, to)`: the string first, as Pick has it, in place of `convert(from, to, string)`. It applies from the line where the mode is turned on; the `convert` statement is not changed |
+| **`selectv`** | `select` builds a select list **variable**, as `selectv` does (`sselect` is not changed), and the list variable becomes optional. `select f`, `selectv f` and `sselectv f` with no `to` fill the program's own **default select list variable**, and a `readnext` with no `from` reads it, **not list 0**. The default variable is hidden and belongs to the program: a `local subroutine` shares it with the program that holds it, a subroutine you `call` has one of its own. A `readnext` before any `select` takes its `else` clause. Two things the mode does *not* do: `clearselect` with no list number still clears list 0 (it cannot name the default variable), and a list made by `execute` is in list 0, which a bare `readnext` no longer reads. Use `readnext id from 0` for it, or add `pick.select` |
+| **`pick.select`** | `selectv` moves an active default select list (list 0) to the variable instead of making a new selection. Together with `$mode selectv`: `execute 'select stock with ...'` and then `select f` leaves that list in the default variable, and a bare `readnext` reads it |
+| **`explicit`** | every scalar has to be named in a `dim` statement before it is used, or the compiler refuses the program with *Variable xx has not been declared* |
+| **`default.unass.args`** | an argument that has a default value (see *Arguments that may be left out* above) also takes it when the caller passed the argument unassigned, not only when it was left out |
+| **`trap.unused.main`** | like `trap.unused`, but it warns only about a variable that is assigned a value in the program itself, not in an include record |
+| **`non.durable.txn`** | every `commit` the program contains is a *non-durable* commit: a transaction **nested** in another writes nothing at its `commit` but hands its records, deletions and locks to the enclosing transaction, which writes them when it commits or throws them away if it aborts. A commit that is not nested writes as ever. See [SD Basic - Locks and Transactions](14-sd-basic-locks-and-transactions.html) |
+| **`conditional.statements`** | accepted, and it changes nothing: `read`, `readu`, `readv`, `readnext`, `readseq`, `readblk`, `readcsv`, `matread`, `open`, `openpath`, `openseq`, `writeseq`, `writeblk`, `writecsv`, `seek`, `send`, `filelock`, `fileunlock`, `flush`, `getlist`, `locate`, `find` and `findstr` may always be the condition of `while` and `until` |
+
+## Options that change how SD runs a program
+
+`option` on its own lists every option and its state; `option` *name* `on` or
+`off` sets one (see [SD Basic - Numeric Tests and Formatting](03a-sd-basic-numeric-tests-and-formatting.html)).
+**All of these are off by default.**
+
+| option | what it does |
+|---|---|
+| **`chained.select`** | a `get.list`, `qselect`, `search`, `select`, `sselect` or `selectindex` that leaves an active select list takes the first line of the data queue and runs it as the next command, as a `chain` would: `data 'LIST STOCK'` followed by `execute 'SELECT SALES'` lists the selected records. **When the select finds nothing the queue is cleared**, so the commands waiting for a list do not run on nothing. Without the option the data queue is left alone |
+| **`pick.ml.conv.mask`** | a left bracket in an `ML` or `MR` conversion code no longer asks for negative values in round brackets: it starts a format mask enclosed in round brackets, as in `MR2(#10)` or `ML2,(%8)`. The mask is read as if the brackets were not there, in output and in input conversion. The other negative-value styles (`+ - < C D`) and the `P`, `Z` and `T` options are as they were |
+| **`force.reload`** | an unload event (compiling or cataloguing a program) also refreshes the subroutine links a running program holds, so the next `call` loads the current object code |
+| **`numeric.exponent`** | numbers in exponent form, such as `123.45E-2`, are numeric |
+| **`paginate.on.heading`** | with `run ... no.page`, a heading or a footing still turns pagination on |
+| **`query.footer.pause`** | a report with a page footer waits for Return after its last footer |
+| **`query.merge.print`** | a report sent to the default printer does not close a printer that was already active when the report began (a program's own `printer on`), so the report and the program's output are one print job |
+| **`command.level.locks`** | a file variable that goes (a subroutine returns, or the variable is given another file) keeps its locks until the program is back at the command processor: the file stays open, out of sight, and is closed when the program that was running at that command level returns, or when the `execute` that started the level ends. Without the option the file is closed at once and the locks go with it. **A `close` statement still closes the file at once** |
+| **`inherit.ownership`** | `create.file` gives a new file (the directory and everything in it) the **owner and group of the account directory** in place of those of the user who made it. A user may only hand a file to a group they belong to, which the account's own group is, and not to another owner: where the system refuses nothing is said, as in openQM. **Off by default, and the group it gives is the account's, so its members then have on the file what they have on the account:** turn it on in the account's `login` paragraph, as an administrator's decision |
+| **`inherit.mfile.path`** | `create.file` puts a new subfile of a multifile in the directory of the default subfile |
+| **`git`** | a directory file keeps `.gitignore` and `.gitattributes` under their own names on the disk. Without it the leading dot of every such name is replaced by `%D`, which git does not read. **Only these two names**: any other name with a leading dot is mapped as ever |
+| **`dir.dtm`** | writing a record to a directory file moves the directory's date and time modified. The system moves it only when a name is added or removed, so a replaced record leaves it as it was. **Closing a written sequential file does not do this** |
+| **`keep.old.object`** | a compilation that fails leaves the previous object code in place, where it would otherwise be deleted before the compiler starts. The listing of the failed compile is not put back |
+| **`no.phantom.notify`** | set inside a phantom, it stops the message the phantom sends to its parent when it ends (*Phantom nn : Normal termination.*) |
+| **`spool.command`** | shows the operating system command that prints a job, just before it runs; a diagnostic aid |
+| **`correlative.nocase`** | string operations in a correlative or an I-type ignore case. The option is read when the correlative runs, not when it was compiled. For one correlative alone, begin it `A;NOCASE;` (as in `A;NOCASE;N(CODE) = 'AX'`): that sets its own flag, whatever the option says |
+| **`correlative.reuse`** | the array operators of a correlative or an I-type act as if `reuse()` had been applied to each operand: the last value of a shorter array is used again for the missing ones, where otherwise they count as zero. Read when the correlative runs |
+| **`assoc.all`** | the query processor ignores the associations in the dictionary and treats every field as one association. With `by.exp` on one multivalued field, each line then shows the matching value of the other fields, where fields in other associations show all of theirs on every line |
+| **`clear.select`** | the command processor clears the default select list (list 0) when a command ends **if the list was already active when the command began**: a list the command made itself is kept, so `select` followed by `list` still works. A program that was meant to use what is left of a list and leave it says **`keep.select`**, and then the list stays (below) |
+
+### `keep.select`
+
+```
+keep.select
+```
+
+A program that finds a select list active, takes some of it and ends leaves the
+rest behind, where the next command may take it up by accident. With `option
+clear.select` on, the command processor clears list 0 as the command ends. A
+program that **means** to leave what is left of the list for the next command
+says `keep.select` and it stays. The word belongs to the command that ran it and
+is forgotten when that command ends, so a second command that does not say it
+loses the list. **Without `option clear.select` the statement does nothing**,
+since nothing was going to clear the list.
 
 ## What is not here
 

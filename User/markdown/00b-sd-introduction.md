@@ -86,8 +86,10 @@ ed customers 1001
 to insert, type your lines, a full stop on its own line to stop
 inserting, then `fi` to file and exit.
 
-You can also use `nano` or `micro` (both full-screen editors; `micro`
-highlights SD BASIC) once the administrator has turned the `os` switch on
+`sed` is a full-screen editor that runs inside SD, with drop-down menus and
+colour for SD BASIC that you turn on when you want it; it needs no operating
+system permission. You can also use `nano` or `micro` (both full-screen editors;
+`micro` highlights SD BASIC) once the administrator has turned the `os` switch on
 (`set.os.access os on`; it is off as delivered, because they run outside SD).
 `edit` aliases `ed` here, not a full-screen editor.
 
@@ -147,7 +149,7 @@ are not in SD Core for Linux Solo:
 |---|---|
 | SDNet (the old `server;file` remote files) | Removed. A new SDNet client (a VOC pointer of type `N`, `set.server`, `set.netlogin`) is in, **off as delivered**; see *SDNet - Files on Another SD Server*. The API is the other way to reach another SD server |
 | `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic, with `sdkey()` for the key, and the `XE` conversion are the supported route |
-| `sed`, `update.record`, `modify` editors | Gone; use `nano`, `micro` or `ed` |
+| `update.record`, `modify` editors | Gone; use `sed`, `nano`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |
 | `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core is English only (NLS, for currency and separators, is kept) |
 | Accounts other than `sduser` | Solo has one account. `create.account`, `grant` and the rest are gone |

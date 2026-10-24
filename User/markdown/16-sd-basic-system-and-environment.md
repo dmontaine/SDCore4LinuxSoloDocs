@@ -117,6 +117,31 @@ directory and the files in it always; anything else only to a session that has
 the OS switch (`set.os.access os on`), and to any other the answer is a null string
 (with `status()` 3035 from `vocpath()`).
 
+### Unique values, and a few more
+
+| Key | | Value |
+|---|---|---|
+| `14` | characters waiting at the terminal | a snapshot; for **piped input** it is only what has been read ahead, so do not rely on it |
+| `20` | print jobs passed to the spooler | a count for the whole system since SD started, all sessions together. openQM gives the job's reference; SD does not read the spooler's own job number back |
+| `19` | a unique value from the date and time | two five digit numbers, the day and the second; a second value in the same second, from **any** process, gets a letter on the end (`a`, `b` … `z`, `aa`). The time is the process's own, so two users in different time zones can get the same value |
+| `21` | a unique value from the date and a sequence | two five digit numbers, the day and a count that starts at 1 again each day |
+| `45` | the name of the running program | its catalogue name |
+| `1048` | a sequence number | unique across all sessions until SD restarts, then 1 again |
+| `1049` | is `hush` in effect? | `0` or `1` |
+| `1062` | has `signal()` been raised for this process? | `1` and **cleared by reading it**: `until system(1062)` is the loop of a phantom that waits to be told |
+| `1066` | the form queue `sp.assign` last gave to any print unit | `-1` until one has been given (see [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html)); `getpu(pu$form.queue, unit)` is the queue of one unit |
+| `1067` | the default group size of a dynamic file | in bytes |
+| `1071` | the `status` array of the last `osread` | null before any `osread`, and after one that failed; the information the system gave about the file that was read. Held per process |
+| `1073` | the phantoms grouped with this process | their user numbers, field mark delimited (`phantom group`; `system(1058)` lists every child) |
+| `1086` | are string comparisons case sensitive in this program? | `0` after `$nocase.strings` or `casing off` |
+| `1088` | where `maximum()` or `minimum()` found its element | the field, value and subvalue numbers joined by value marks: for `'61' : @vm : '42' : @fm : '71' : @vm : '57'` the maximum is `71` and `system(1088)` is `2` vm `1` vm `1`. The first of equal elements is the one. Null when the array has no number |
+
+`signal(userno)` raises the flag in another process and is true if that process
+is logged in. **SD signals only a process of the same login user**, or any
+process when the caller is the administrator; to any other it gives false and
+nothing happens. `child(userno)` is true while a phantom this process started
+is running. See [SD TCL - Processes and Phantoms](30-sd-tcl-processes-and-phantoms.html).
+
 ## DATE, TIME and TIMEDATE
 
 ```
@@ -194,6 +219,10 @@ does not exist, and a caller cannot tell the two apart:
 
 Neither call aborts the caller: a name that is too long comes back empty with
 a status, the same as a name that does not exist.
+
+`config('TIMEZONE')` is the zone the epoch functions convert in (see
+[SD Basic - Data Conversion](06-sd-basic-data-conversion.html)); `config('USPLIT')`
+is `1` when the administrator has turned on the split of user numbers.
 
 ## SYSMSG()
 

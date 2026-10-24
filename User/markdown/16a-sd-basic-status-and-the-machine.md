@@ -140,46 +140,87 @@ names something else entirely.** This program, in an ordinary account:
 
 ```
       v1 = kernel(28, 0)
-      v2 = ospath('C:', 1)
       v5 = option('X')
       v6 = pterm(1, '')
 ```
 
-compiles to, at the **last line of the program**:
+compiles to, at the **last line of the program** (line 4 of this four-line
+file, counting its `end`):
 
 ```
-41: Matrix KERNEL is not referenced in a DIM statement
-41: Matrix OPTION is not referenced in a DIM statement
-41: Matrix OSPATH is not referenced in a DIM statement
-41: Matrix PTERM is not referenced in a DIM statement
+4: Matrix KERNEL is not referenced in a DIM statement
 WARNING: KERNEL is not assigned a value
+WARNING: OPTION is not assigned a value
+WARNING: PTERM is not assigned a value
+1 error(s)
 ```
 
 A name the compiler does not know as a function is read as a **matrix
-reference**, so the error is about a `dim` statement you never wrote, at a line
+reference**, so the complaint is about a `dim` statement you never wrote, at a line
 number nowhere near the call. **If a function you are sure exists produces
 that, it exists and this account may not call it.** A call with three arguments
 gives a different but equally misleading answer — `sdext(101, 'pw', 'salt')`
 is *"Right bracket not found where expected"*, because a matrix takes at most
 two subscripts.
 
-Internal-only: `kernel()`, `ospath()`, `option()`, `pterm()`, `sdext()`,
-`testlock()` and `getlocks()`.
-The compiler's list is longer than that; those seven are the ones this page
+Internal-only: `kernel()`, `option()`, `pterm()`, `sdext()`, `testlock()` and
+`getlocks()`.
+The compiler's list is longer than that; those six are the ones this page
 put in front of it. They are reachable only from a program compiled
 with `$internal`, which the compiler allows only in the installer's own
 internal session.
 
-**And some statements are restricted the same way.** These are
-*"Unrecognised statement"* in an ordinary account: `set.modes`, `reset.modes`,
-`remove.token`, `release.lock`, `como`, `quit`, `keyboard.input`, `writepkt`,
-and the whole debugging family — `debug.on`, `debug.off`, `debug.set`,
-`breakpoint` and `watch`.
+**`ospath()` is not on that list any more.** Any program may call it, with the
+openQM keys, and the OS access switch (`set.os.access os on`) decides what it may
+look at:
 
-**`errmsg` is in the compiler's statement table and does not exist.** It
-compiles to *"Unrecognised statement"* for everybody. Its opcode was removed in
-July 2024 and the name was left behind in the table. **Being in the table is
-not evidence a statement exists.**
+```
+ospath(path, key {, qualifier})
+```
+
+| key | name | answer |
+|---|---|---|
+| 0 · 1 | | is *path* a valid path name · a valid single file name (text only, no gate) |
+| 2 | | it exists, as a file or a directory |
+| 3 | | a file name `D` and seven digits that is not in the directory *path* (the name, not the path) |
+| 4 · 9 | `os$fullpathx` | the full path name; SD keeps the case, so the two are one |
+| 5 | | delete a file or an **empty** directory — never a tree. True if it was removed |
+| 6 | | is it open in SD, by any user |
+| 7 | | when it was modified, as an epoch value; 0 if it is not there |
+| 8 | | flush this process's cache of dynamic files; true |
+| 10 | `os$parent` | the parent directory |
+| 11 · 12 | `os$uid` · `os$gid` | the owner's and group's numbers; 0 if the path is not there |
+| 13 · 14 | | make a directory · make it and the levels above it; true if done |
+| 15 | `os$modes` | the permission bits as a decimal number (`0755` is 493); 0 if it is not there |
+| 16 · 17 | `os$is.file` · `os$is.dir` | a file · a directory |
+| 18 | | the Windows owner: a null string on Linux |
+
+The names are in the `keys.h` header; 6 and 18 have none, so give those as numbers. Every key that
+looks at or changes the file system (all but 0, 1, 4, 8, 9, 10 and 18) asks the OS access switch
+first: an account without it is held to its own directory, and a refusal
+answers false with `status()` set to a permission error. An unknown key answers false with
+`status()` 1. The qualifier is read and ignored. An internal program's own `ospath()`, with its
+different numbers, is unchanged.
+
+**And some statements are restricted the same way.** These 34 are
+*"Unrecognised statement"* to a program that is not compiled `$internal` by an
+administrator (each was compiled once in a plain program to check):
+`add`, `akclear`, `akdelete`, `akenable`, `akread`, `akrelease`, `akwrite`,
+`callv`, `configure.file`, `create.ak`, `delete.ak`, `delete.common`,
+`keyboard.input`, `modify`, `quit`, `release.lock`, `remove.token`,
+`reset.modes`, `rewind`, `run`, `set.modes`, `set.status`, `set.trigger`,
+`set.unassigned`, `sortinit`, `unload.object`, `varset`, `writepkt`, `como`,
+and the whole debugging family — `debug.on`, `debug.off`, `debug.set`,
+`breakpoint` and `watch`. An earlier version of this list gave 13 of them and
+left out `set.status`; it is the compiler's own `restricted.statements` list
+that counts, and [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html)
+carries the same names.
+
+**`errmsg` is not a statement at all.** It compiles to *"Unrecognised
+statement"* for everybody, as any word the compiler does not know does. It was
+removed from the compiler's statement table in July 2024. An earlier version of
+this page said the name was left behind in the table; only a comment beside the
+table still holds it.
 
 **`sendmail`, `chgphant()` and `ccall()` compile for an ordinary account**, and
 each needs something outside SD before it can do anything: `sendmail` a mail

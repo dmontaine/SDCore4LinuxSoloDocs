@@ -42,6 +42,7 @@ exist.**
 | **`abs`** | `abs(`*a*`)` |
 | **`abss`** | `abss(`*a*`)` |
 | **`accept.socket.connection`** | `accept.socket.connection(`*a*, *b*`)` |
+| **`account.path`** | `account.path(`*account*`)` |
 | **`acos`** | `acos(`*a*`)` |
 | **`adds`** | `adds(`*a*, *b*`)` |
 | **`alpha`** | `alpha(`*a*`)` |
@@ -94,6 +95,7 @@ exist.**
 | **`char`** | `char(`*a*`)` |
 | **`checksum`** | `checksum(`*a*`)` |
 | **`chgphant`** | `chgphant()` |
+| **`child`** | `child(`*user.no*`)` |
 | **`class`** | `class` *name* |
 | **`clear`** | `clear` — zeroes every variable |
 | **`clearcommon`** | `clearcommon` {*name*} |
@@ -111,6 +113,7 @@ exist.**
 | **`commit`** | `commit`, inside `begin transaction` … `end transaction` |
 | **`common`** | `common` `/`*name*`/` *var*, *matrix*`(`*n*`)`, … |
 | **`compare`** | `compare(`*a*, *b* {, *justification*}`)` |
+| **`compares`** | `compares(`*a*, *b* {, *justification*}`)` |
 | **`config`** | `config(`*a*`)` |
 | **`continue`** | `continue` — next iteration of the enclosing `loop` or `for` |
 | **`convert`** | `convert(`*from.characters*, *to.characters*, *string*`)`   ·   `convert` *from.characters* `to` *to.characters* `in` *variable* — under `$mode pick.convert` the function is written `convert(`*string*, *from.characters*, *to.characters*`)` |
@@ -350,6 +353,7 @@ exist.**
 | **`max`** | `max(`*a*, *b*`)` |
 | **`maximum`** | `maximum(`*a*`)` |
 | **`md5`** | `md5(`*a*`)` |
+| **`mergelist`** | `mergelist(`*list1*, *list2*, *modes*`)` |
 | **`min`** | `min(`*a*, *b*`)` |
 | **`minimum`** | `minimum(`*a*`)` |
 | **`mod`** | `mod(`*a*, *b*`)` |
@@ -403,6 +407,7 @@ exist.**
 | **`os.execute`** | `os.execute` *command* {`capturing` *var*} |
 | **`osdelete`** | `osdelete` *path* — a path outside the account's own directory needs the `os` switch |
 | **`osread`** | `osread` *var* `from` *path* `then` … `else` … — a path outside the account's own directory needs the `os` switch |
+| **`ospath`** | `ospath(`*path*, *key* {, *qualifier*}`)` — keys 0 to 18, see [Status and the Machine](16a-sd-basic-status-and-the-machine.html); an internal program's own `ospath()` has other numbers |
 | **`oswrite`** | `oswrite` *expr* `to` *path* — a path outside the account's own directory needs the `os` switch |
 | **`outerjoin`** | `outerjoin(`*a*, *b*, *c*`)` |
 | **`overlay`** | clause of `input` — type over what is already there ***(clause word)*** |
@@ -414,6 +419,7 @@ exist.**
 |---|---|
 | **`page`** | `page` {*n*} |
 | **`panning`** | clause of `input` — pan a field wider than the screen ***(clause word)*** |
+| **`parse`** | `parse(`*string*, *pattern*, *delimiter*`)` |
 | **`passlist`** | clause of `execute` — hand the active select list to the command ***(clause word)*** |
 | **`pause`** | `pause` {*seconds*} |
 | **`pdump`** | `pdump` |
@@ -545,6 +551,7 @@ exist.**
 | **`smul`** | `smul(`*a*, *b*`)` |
 | **`socket.info`** | `socket.info(`*a*, *b*`)` |
 | **`sort`** | `sort(`*key.count*, {`mat`} *flags*`)` — makes a sort and gives back the variable that stands for it |
+| **`sort.compare`** | `sort.compare(`*a*, *b*, *mode* {, *no.case*}`)` |
 | **`sortadd`** | `sortadd` *sortvar*, {`mat`} *keys* {, *data*} |
 | **`sortclear`** | `sortclear` *sortvar* |
 | **`sortdata`** | `sortdata(`*sortvar* {, *max.items*}`)` |
@@ -607,6 +614,7 @@ exist.**
 | **`trimw`** | `trimw(`*a*`)` |
 | **`trimws`** | `trimws(`*array*`)` |
 | **`try`** | `try` {*statement*} … `catch` *exception* … `end` |
+| **`ttyget`** | `ttyget()` |
 | **`ttyset`** | `ttyset` *settings* |
 
 ## U
@@ -625,6 +633,7 @@ exist.**
 |---|---|
 | **`vartype`** | `vartype(`*a*`)` |
 | **`void`** | `void` *function.call* — call a function and discard its value |
+| **`vocpath`** | `vocpath(`*file* {, *dict.flag*}`)` |
 | **`vslice`** | `vslice(`*array*, *value.number*`)` |
 
 ## W

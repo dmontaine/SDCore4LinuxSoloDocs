@@ -46,6 +46,7 @@ Use the two-step form only when you have a reason to separate them.
 | | |
 |---|---|
 | **`no.nulls`** | do not index records whose field is empty |
+| **`no.case`** | case insensitive: keys that differ only in case ('Apple', 'apple', 'APPLE') are one key, and a lookup of any of them finds all three records |
 | **`pathname`** *path* | put the index somewhere other than beside the file |
 
 ## Why the two-step form catches people
@@ -320,6 +321,12 @@ rebuild.all.indices no.query
 Indices of t3 rebuilt
 1 file(s) had their indices rebuilt
 ```
+
+**Read the answer with care.** `build.index` needs a file to itself (see above), and
+`rebuild.all.indices` **does not look at what `build.index` said** — a file that
+another session has open is refused by `build.index` and is still reported as
+rebuilt. Make sure nothing else has the files open, and check a file you doubt with
+`list.index`.
 
 ### Reading an index from the command line: `selectindex`
 

@@ -19,7 +19,7 @@ here in lower case. In the tables, *italics* mark something you supply and
 |---|---|
 | `create.server.socket(`*addr*`, `*port*`, `*flags*`)` | bind and listen. Returns a **socket**, or 0 |
 | `accept.socket.connection(`*server*`, `*timeout*`)` | take the next waiting connection |
-| `open.socket(`*addr*`, `*port*`, `*flags*` {, `*context*`})` | dial out |
+| `open.socket(`*addr*`, `*port*`, `*flags*` {, `*timeout*`})` | dial out; *timeout* is seconds to wait for the connection |
 | `write.socket(`*socket*`, `*data*`, `*flags*`, `*timeout*`)` | returns the byte count |
 | `read.socket(`*socket*`, `*maxlen*`, `*flags*`, `*timeout*`)` | returns the bytes read |
 | `set.socket.mode(`*socket*`, `*key*`, `*value*`)` | returns 1 or 0 |
@@ -38,6 +38,13 @@ srv = create.server.socket('127.0.0.1', 45123, 0)
 cli = open.socket('127.0.0.1', 45123, 0)
 inc = accept.socket.connection(srv, 2000)
 ```
+
+The optional fourth argument of `open.socket` is a **connect timeout in
+seconds**. When it runs out the call returns 0 with `status()` **7005**, as any
+failed connect does; zero, a negative number or no argument means no limit of
+SD's own (the system's connect timeout, which can be two minutes, applies).
+Before this release the fourth argument was an unused place for a security
+context and had to be zero.
 
 Flags `0` is TCP, stream. `0x00010000` selects UDP and `0x00020000` ICMP.
 
@@ -76,6 +83,16 @@ you are polling for a service to come up.
 | `5` | Nagle disabled? | `0` |
 | `6` | keep-alive? | `0` |
 | `7` | family: **1** IPv4, **2** IPv6 | `1` |
+| `8` | `SKT$INFO.TLS.CBIND`: the SCRAM channel binding of a TLS socket | text; null without TLS |
+| `11` | `SKT$INFO.TLS.SPKI`: the SHA-256 hash of the public key the server presented | 64 lower case hex digits; **null** for a socket opened without `SKT$TLS` |
+
+Keys 8 and 11 are SD's own and are for a socket opened with the flag `SKT$TLS`
+(in `keys.h`) added to the flags of `open.socket`, which makes SD speak TLS 1.3 as
+the client. Key 11 hashes the certificate's **public key**, not the certificate,
+so a renewed certificate over the same key gives the same value. **The client does
+not check the certificate against anything**: the hash is for the program to compare
+with a value it already trusts, as `set.server ... connect` does for the SDNet
+server definitions (see [SD Core for Linux Solo - SDNet](42-sd-sdnet.html)).
 
 **Key 2 means two different things and the difference is easy to miss.** On
 the socket you dialled out with it is **the port you dialled**; on a socket you
@@ -155,6 +172,50 @@ can go down a socket and come back as itself.
 
 Key 6 can be turned off as well as on: `set.socket.mode(s, 6, 0)` returns `1`
 and `socket.info(s, 6)` then reads `0`.
+
+Key **9**, `SKT$INFO.EVENTS`, is what `select.socket()` watches for (next
+section); the value is 0 to 7, anything else is refused.
+
+Key **10**, `SKT$INFO.TRACE`, writes a log of everything sent and received on the socket to the
+file whose pathname is the value; a null value (or closing the socket) ends it, and an existing
+file is overwritten. Each entry is `SEND n bytes` or `RECV n bytes` and the data sixteen bytes to a
+line, in hexadecimal and as characters (a full stop for a byte that is not printable). On a TLS
+socket the log holds the data before it is encrypted and after it is decrypted, so it can hold
+passwords: **the log is made readable by its owner only (mode 0600), a link at the path is not followed,
+and the pathname is held to the OS access switch** — an account without it (`set.os.access os on`)
+may trace only into its own directory (`set.socket.mode` returns 0 and nothing is written). SD's own key number; the
+openQM manual names the key without one.
+
+## Waiting on several sockets: `select.socket()`
+
+```
+$include keys.h
+dim skt(10)
+...
+ok = set.socket.mode(skt(1), SKT$INFO.EVENTS, SKT$READ.EVENT)
+events = select.socket(skt, 5000)
+```
+
+`select.socket(`*matrix*`,` *milliseconds*`)` waits until something happens on
+one of the sockets in the elements of a dimensioned matrix, or the time is up.
+**A zero time asks and returns at once; a negative one waits for ever.** An
+element that is not a socket, or that has no events set, is not watched.
+
+| Event | Value | Happens when |
+|---|---|---|
+| `SKT$READ.EVENT` | 1 | data can be read, **a connection is waiting on a server socket**, or the other end closed |
+| `SKT$WRITE.EVENT` | 2 | data can be sent |
+| `SKT$EXCEPTION.EVENT` | 4 | an exception condition |
+
+The result is a dynamic array with one field for each element of the matrix: the
+letters **R**, **W** and **E** for the events found there, and a null field for
+the rest. If nothing happened in the time the result is the **null string and
+`status()` is 1011 (timeout)**; any other failure is a null string with another
+status. `socket.info(skt, SKT$INFO.EVENTS)` gives the letters the last call found
+on that socket. **The sockets' own watch is the TCP connection:** bytes a TLS
+session has already taken off it are not seen as readable.
+
+`SKT$INFO.EVENTS` is 9 here; the manual gives no number, so it is SD's own.
 
 ## When the far end goes away
 
@@ -250,15 +311,17 @@ finished is the newline it went looking for.
 ordinary account it is *"Unrecognised statement"*. It writes an SDClient
 protocol packet and is not a general socket write.
 
-**No TLS.** There is nothing in SD BASIC that speaks HTTPS; a socket carries
-whatever bytes you put on it. Anything encrypted has to terminate outside SD.
+**No HTTPS.** There is nothing in SD BASIC that speaks HTTPS; a socket carries
+whatever bytes you put on it. The one TLS there is, the `SKT$TLS` flag above, is a
+TLS 1.3 client made for an SD server's own API port, and it does not verify the
+certificate. Anything else encrypted has to terminate outside SD.
 
 **The whole of this page is TCP.** `0x00010000` and `0x00020000` are the UDP
 and ICMP flag values.
 
-**A server that serves more than one client at a time** needs something to do
-the waiting, and SD BASIC has no `select` over several sockets. The shape that
-works is one accepted connection per session.
+**A server that serves more than one client at a time** waits with
+`select.socket()` (above) over a matrix holding the server socket and the
+accepted ones. A program that accepts one connection per session still works.
 
 ## See also
 

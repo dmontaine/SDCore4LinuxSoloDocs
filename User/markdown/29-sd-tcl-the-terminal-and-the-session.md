@@ -43,40 +43,54 @@ Page depth: 9999
 
 The depth stayed at 9999 because only the width was given.
 
-### SD's default page is 120 × 36
+### The page is the terminal's own size, and SD's default is 140 × 42
 
-**Not 80 × 24.** SD's default terminal size is **120 columns by 36 lines**,
-and it is not a cosmetic choice: the shipped `@` dictionary records and the
-default `list` report layouts are formatted for that width. A report that looks
-wrapped or truncated on a narrow window is usually the window, not the report.
+**SD asks the terminal how big it is.** When a session starts on a terminal, and
+again each time the window is resized, SD reads the size of the window and makes
+it the page: `@crtwide` and `@crthigh` follow it, and so does `term`. A program
+that draws a screen — the SCREEN statement — sees an 80 × 24 window as 80 × 24.
+(**SD's own full-screen programs are the exception: SED, the IDE and CED are
+laid out for 140 × 42 or more**, SD's default size, and refuse a window smaller
+than that; the debugger's full-screen display says so and is line by line
+instead. If the window is made smaller while one of them runs, it shows the
+upper left corner and stops taking keys while the cursor is off the screen — see
+the SED page. A `screen open` program of your own asks for the size it needs
+with `minsize`, and SD asks nothing more of it.)
+
+**SD's default is 140 columns by 42 lines, not 80 × 24** (it was 120 by 36
+until 18 October 2026). It is what a session gets when there is no terminal to
+ask — a phantom, a piped script, a service — and a report that looks wrapped or
+truncated on a narrow window is usually the window, not the report.
 
 **Where the number comes from**, in order, when a session starts:
 
 | | |
 |---|---|
-| 1 | the `LINES` and `COLUMNS` environment variables, if they are numeric |
-| 2 | otherwise the terminfo entry's `lines` and `cols` |
-| 3 | **otherwise 36 and 120** |
+| 1 | **the terminal's own window size**, as the terminal reports it |
+| 2 | when there is no terminal to ask: the `LINES` and `COLUMNS` environment variables, if they are numeric |
+| 3 | otherwise the terminfo entry's `lines` and `cols` |
+| 4 | **otherwise 42 and 140** |
 
 and whatever comes out is then raised to the minimum of 10 lines by 20 columns
-if it is smaller. So an ssh session or a console window normally gets its real
-size, and **120 × 36 is what SD falls back to when nothing else answers** — a
-phantom, a piped script, a service.
+if it is smaller. **`term` with a size typed by hand sets the page from then on,
+until the next time the window is resized**, and it is taken as typed: any width
+from 20 to 32767 and any depth from 10 to 32767, larger or smaller than the
+default, with no other ceiling.
 
-> **`term default` puts that pair back, and it prints nothing when it does.**
-> The verb sets the same 120 × 36 the login path falls back to, then returns
-> without a message — so the way to see that it worked is a bare `term` after
-> it, not the command itself:
+> **`term default` puts the 140 × 42 pair back, and it prints nothing when it
+> does.** The verb sets the same 140 × 42 that is the fallback, whatever size
+> the window is, then returns without a message — so the way to see that it
+> worked is a bare `term` after it, not the command itself:
 >
 > ```
 > :term default
 > :term
-> Page width: 120
-> Page depth: 36
+> Page width: 140
+> Page depth: 42
 > ```
 >
 > `term 120,36` does the same thing by hand and is worth knowing for the cases
-> where you want some other size back.
+> where you want some other size back, the old default included.
 
 **`Device`** is the terminfo entry in use, `windows` on this port. If a terminal
 type has no terminfo entry SD falls back to `windows` rather than failing, so
@@ -259,6 +273,11 @@ too long — useful on a machine where people walk away from a prompt, and worth
 thinking about before enabling on a machine where a long-running interactive job
 is normal.
 
+*n* is minutes and 0 turns it off. **It applies to an API session too**: a client that
+executes `autologout 10` (`SDExecute("AUTOLOGOUT 10")`) has its server session ended after
+ten minutes in which it sent nothing (see [SD Client API](37-sd-client-api.html)).
+The setting belongs to the one session that gave it.
+
 ## The command echo: `echo`
 
 ```
@@ -395,6 +414,34 @@ sleep hh:mm{:ss}
 A number is seconds; a time is *until* that time, rolling over midnight if it
 has already passed. **`sleep` with no argument returns immediately** rather than
 sleeping for ever — the argument parses as zero.
+
+## A log of the commands a session runs: `command.logging`
+
+```
+command.logging {on | off}
+```
+
+`on` starts a log of every command this session runs and where it came from;
+`off` stops it; with neither word it says whether it is on and where the file
+is. The log is a file named `clog.`*user number*`.log` **in the account
+directory**, mode 0600 (nobody but its owner can read it), added to and never
+emptied. A line is tab separated: the time as an epoch value, the user number,
+the login name, the origin and the command.
+
+| origin | |
+|---|---|
+| `User` | typed at the prompt |
+| `Cmd` | the command line `sd` was started with |
+| `PA` | a line of a paragraph |
+| `Exec` | any other command a program or a menu runs, such as `execute` |
+
+The `command.logging on` itself is not in the log, because the log starts after
+it; `command.logging off` is. **openQM writes the file in `TEMPDIR` and has a
+`CMDLOG` parameter that logs every session into one directory; SD has neither.**
+`TEMPDIR` is `/tmp` unless `sd.conf` says otherwise, a directory anyone can
+write to, where another user could create the file first and be handed the log.
+A symbolic link left where the file would be made is refused (*The command log
+could not be started*). Logging belongs to the session and is off in the next.
 
 ## Writing to the error log
 

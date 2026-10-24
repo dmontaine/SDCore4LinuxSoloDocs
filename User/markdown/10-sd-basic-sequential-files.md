@@ -79,6 +79,7 @@ closeseq f
 writeseq variable to file.variable then ... else ...
 writeseqf variable to file.variable then ... else ...
 writeblk variable to file.variable
+send expression {:} to file.variable then ... else ...
 weofseq file.variable
 ```
 
@@ -87,6 +88,7 @@ weofseq file.variable
 | `writeseq` | write a line and a terminator |
 | `writeseqf` | the same, then **flush** to disk |
 | `writeblk` | write bytes with no terminator added |
+| `send` | `writeseq` of an expression; with a **colon** after it, `writeblk` of it: `send 'a' to f` writes `a` and the terminator, `send 'a' : to f` writes `a` alone. `then` or `else` is needed, as for `writeseq` |
 | `weofseq` | truncate the file at the current position |
 
 **`writeseq` does not flush.** A program that writes a log and then aborts
@@ -116,6 +118,46 @@ still reads correctly here.
 **It matters when you count bytes.** A file of *n* lines written on
 this port is *n* bytes shorter than the same file written by SD Core for
 Windows, whose CRLF endings cost an extra byte per line.
+
+**You can choose the line end, for one file** (16 Oct 2026). `fcontrol(s, FC$CRLF, mode)` on the file variable of an `openseq`
+sets one of four modes, and a letter in field 6 of the VOC entry of the directory file does the same for every `openseq` of its
+records: `L` (mode 0) ends a line at LF only and keeps every CR; `C` (mode 1) ends it at CR LF only, so a line may hold an LF
+or a CR of its own and `writeseq` adds CR LF; `B` (mode 2) is what `readseq` has always done, CR LF or LF with a lone CR kept;
+`X` (mode 3) ends a line at LF and throws every CR away. Only mode 1 changes what `writeseq` writes. A file with no letter and no
+`fcontrol` is in mode 2 for `readseq`, as above; `fcontrol(s, FC$CRLF, -1)` says so. The table of all four modes, and what a
+directory file `read` and `write` do in each, is under *Line terminators* in
+[SD Basic - File Handling](07-sd-basic-file-handling.html). A last line with no line end at the end of the file is a line in
+every mode, and a CR left at the very end of a file counts as a line only where it is data.
+
+## A whole file by pathname: `osread`, `oswrite`, `osdelete`
+
+```
+osread variable from pathname then ... else ...
+oswrite expression to pathname
+osdelete pathname
+```
+
+`osread` reads the **whole** of the file into the variable, byte for byte: a
+newline stays a newline and is not turned into a field mark, and a mark
+character stays what it is. `then` is taken when the file was read; `else` when
+it could not be opened or read (a missing file, no permission, **a path the
+account may not reach**), and the variable is then the null string. A file over
+a gigabyte takes `else`. `oswrite` makes the file, or replaces it and **cuts it
+to the length of the data**, with no change to a byte; `status()` is 0 if it was
+written. `osdelete` deletes a file and says nothing if it cannot: `status()`
+tells. **It deletes a file only**, where the openQM statement deletes a
+directory too, so that a mistake cannot take a directory and what is in it.
+
+They are built on `openseq` and `deleteseq`, so **the OS access switch
+(`set.os.access os on`) is the same as theirs**: an account without it reaches only its own directory by these
+statements (`oswrite` to anywhere else leaves `status()` 3035 and writes
+nothing), and one with it reaches what the user can. openQM's `on error`
+clause is not supported; a fault is the `status()`. They take no locks.
+
+**What was read about the file: `system(1071)`.** After a successful `osread` it
+gives the file's `status` array, as the system reported it for the file that was read;
+it is null before any `osread` and after one that failed, and it belongs to the
+process.
 
 ## Position
 
@@ -153,6 +195,45 @@ timeout file.variable, seconds
 `nobuf` is for a file another process is watching. `timeout` matters on a
 named pipe or a device, where a read can otherwise block for ever; on an
 ordinary file it does nothing useful.
+
+## Reading what arrives: `get`
+
+```
+get variable {, length} {setting count} from file.variable
+    {until terminator} {returning last} {waiting seconds} {then ... else ...}
+```
+
+`readseq` waits for a whole line. **`get` takes characters as they come**, which is what a
+program listening on a named pipe, a serial line or another process's output needs.
+
+| clause | |
+|---|---|
+| `, length` | read this many characters. With no length and no `until`, one character |
+| `setting count` | the number of characters read |
+| `until terminator` | read on until this character. **The terminator is kept in the data** — `until char(10)` gives `hello` and the line feed |
+| `returning last` | with `until`, the terminator that ended the read (`char(10)` in the example below) |
+| `waiting seconds` | how long to wait for each character |
+
+```
+openseq '/tmp/feed' to f else stop 'cannot open'
+get a, 3 setting c from f                   ;* hel    c = 3
+get b setting c from f until char(10)       ;* lo and a line feed
+get d, 5 from f waiting 3 then ... else ...
+```
+
+**A timeout takes the `else` branch and leaves `status()` at 0**: nothing went wrong, nothing came,
+and anything that arrived before the time ran out is in the variable and counted. A later `get` finds
+the data that arrived afterwards. **The end of an ordinary file before the length is reached also
+takes `else`, but with `status()` not 0**; what there was is in the variable and counted. That is
+how a program tells the two apart.
+
+**The wait is for each character, not for the whole read**: a read of 100 characters with
+`waiting 5` can take as long as the characters keep arriving inside five seconds of each other.
+
+A pipe or device is opened by its pathname, so the OS access switch applies as it does to
+any other `openseq` of a path. It was tested on a named pipe fed on a clock and on an ordinary
+file; a serial port or other character device was not tried. `get` with no `from` is still a class
+module's property declaration, as in [SD Basic - Modern Program Structure](18-sd-basic-modern-program-structure.html).
 
 ## Asking about the file
 

@@ -13,16 +13,28 @@ file.
 
 ### Name resolution
 
-A name is tried **as typed, then lower case, then upper case**. This is
+A name is tried **as typed, then lower case, then upper case** (and then
+with each hyphen changed to a dot, in upper case and in lower case). This is
 the change that lets a lower-case `voc`, `bp` and `newvoc` on disk
 coexist with code and habits that still type names in upper case.
 
 **Account names are the deliberate exception.** They are still folded
 upward, which is what makes signing in case-insensitive.
 
-### If the VOC has nothing, the catalogue is tried
+### If the VOC has nothing, the private vocabulary is tried
 
-A name that is not in the VOC is looked for in the **private catalogue**
+If the account's VOC has a record `$private.voc` (type `X`, the name of a
+file in field 2), a name that is in no VOC record is looked for in that file
+next, as typed, then in lower case, then in upper case. The VOC always wins,
+so the private vocabulary can add a command and never replace one the VOC
+holds. See [SD VOC - A Private Vocabulary and Your Own Record
+Types](32b-sd-voc-private-vocabulary-and-parser.html), which also describes
+`$voc.parser`, the record that hands a VOC record of a type SD does not know
+to a program of your own.
+
+### If neither has it, the catalogue is tried
+
+A name that is not in the VOC or the private vocabulary is looked for in the **private catalogue**
 of the account and then in the **global catalogue**, `gcat`. A hit is
 treated exactly as though the VOC had held `V` / `CA` / *name*. This is
 why a program you have catalogued can be run by typing its name with no
@@ -109,6 +121,24 @@ Ten verbs list VOC entries by type. They are all R-records into
 | `listr` | all remote references (R-records) |
 | `lists` | all sentences (S-records) |
 | `listv` | all verbs (V-records) |
+
+`listf`, `listfl` and `listfr` show the VOC name, the **file type**, the
+description and the data and dictionary pathnames. The type is `DH` for a
+dynamic hashed file (followed by `I` for alternate key indices, `S` for
+statistics and `T` for a trigger function), `Dir` for a directory file, `Err`
+and the error number for a file that will not open. **A multifile has a line
+for each subfile**: the type column holds one value for each subfile, so that
+each type is on the line of that subfile's pathname, and the first begins with
+`Mult` (`Mult DH` on the first line, `Dir` on the second for a multifile of a
+hashed and a directory subfile).
+
+The three can take a `with` or `without` clause on **`trigger`** or
+**`encryption`**, as `listf with trigger` for the files that have a trigger
+function. SD has no file encryption, so `with encryption` selects nothing and
+`without encryption` selects every file. Any other query processor words may be
+added after them, as for every sentence. (SD Core for Linux also has a
+`replication` word here; this product has no dictionary item for it yet, so
+leave it out.)
 
 ### count — count the records
 

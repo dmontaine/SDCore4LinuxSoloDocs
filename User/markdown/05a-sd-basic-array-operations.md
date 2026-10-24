@@ -47,6 +47,46 @@ After one `remove` from `aaa^bbb`, `getrem()` is `4`.
 **Changing the string resets the pointer.** A loop that both `remove`s from a
 string and assigns to it will restart from the beginning, silently.
 
+### `rmvd()`: only three marks end an element
+
+```
+element = rmvd(array, delimiter)
+```
+
+The same as `remove()` as a function, and sharing its pointer, but **only a
+field, value or subvalue mark ends an element** (codes 2, 3 and 4). A text mark
+or an item mark is part of the data. `remove()` ends an element at those too,
+with the codes 5 and 1. Once the end is reached `rmvd()` gives a null string
+and 0 until the string is assigned again.
+
+### `revremove`: the same, going backwards
+
+```
+revremove variable from array setting delimiter
+```
+
+Takes the element that **ends at the remove pointer** and moves the pointer
+back past the mark in front of it. The delimiter is that mark's code (2, 3, 4,
+and also 1 and 5), and **0 for the first element of the string**. The pointer
+has to be put in place first: `setrem len(s) on s` before the first
+`revremove` walks the whole string from the end, and `setrem 5 on s` starts
+with the elements that lie in the first five characters. Without a `setrem` the
+pointer is at the start and there is nothing before it: a null string and 0.
+
+```
+s = 'a' : @fm : 'b' : @vm : 'c'
+setrem len(s) on s
+loop
+   revremove element from s setting mark
+   crt element : ' ' : mark          ;* c 3, then b 2, then a 0
+while mark
+repeat
+```
+
+A null element is given as a null string with its mark, and a string that
+begins with a mark ends on a null first element, as a forward `remove` would
+begin on one.
+
 ## Changing the mark level
 
 ```
@@ -164,6 +204,120 @@ sortclear
 back drains it. The order codes are the same `al` / `ar` / `dl` / `dr` as
 `locate`. For sorting a whole file, `sselect` is faster — see
 [SD Basic - Select Lists](08-sd-basic-select-lists.html).
+
+### Sorts of your own: `sort()`, `sortadd`, `sortdata()`, `sortnext()`, `sortclear`
+
+```
+sortvar = sort(key.count, {mat} flags)
+sortadd sortvar, {mat} keys {, data}
+items = sortdata(sortvar {, max.items})
+data  = sortnext(sortvar {, {mat} keys})
+sortclear sortvar
+```
+
+`sort()` makes a sort and gives back a variable that stands for it. Sorts are
+independent of each other, so several may be open at once, each in its own
+variable (up to 255 in one process). *key.count* is the number of keys (1 to
+32) and *flags* is one `srt$` value for each key: a scalar for one key, a
+one-dimensional matrix for more. `srt$data` (128) is read from the first key's
+flags and says that each `sortadd` carries a data item. `srt$unique` (32) makes
+a duplicate key value be ignored. `sortadd` puts a record in; with more than one
+key the keys come in a matrix.
+
+`sortdata()` gives back the whole sort in order as a dynamic array, one item to
+a field, and sets `status()` to the number of items. With *max.items* it gives
+at most that many and the next call goes on from there, so a big sort can be
+taken in pieces. `sortnext()` gives back one item and sets `status()` to 0, or
+to 1 when there is nothing left. If a *keys* variable or matrix is given, the
+item's keys are put in it.
+
+`sortclear` empties a sort, which can then be used again. A sort is released
+when its variable is. `vartype()` of a sort variable is 20, `vt$sort`. A sort
+variable is not a BTree and every `btree` statement refuses one.
+
+**What an item is, as SD does it.** A sort made with `srt$data` holds a data
+item with each key and `sortdata()` / `sortnext()` give the data. A sort made
+without it has only keys: `sortdata()` gives the keys, `sortnext(sortvar)` with
+one argument gives the key, and `sortnext(sortvar, keys)` with two gives a null
+string and puts the key in *keys*. The openQM manual contradicts itself here:
+its text says the one-argument form gives a null string for a sort with no data
+element, while its own example uses that form to read the keys back. SD follows
+the example.
+
+**Equal keys.** In a sort that stays in memory, keys that compare as equal come
+out newest first. A sort that is large enough to spill to a work file (the
+`SORTMEM` setting) may give equal keys in another order, and with `srt$unique`
+may keep another one of the duplicates. The order of equal keys is not
+something to rely on; the order of *different* keys is the same either way.
+Since 20 Oct 2026 many equal keys, or keys that arrive already in order, no longer
+make a sort slow: the keys of a run are collected and sorted once, so 100,000 equal
+keys take a fraction of a second where they took nearly three minutes. A sort with
+`srt$unique`, `srt$compound` or `srt$strict`, or with a right justified key that
+holds numbers and text together, is sorted as before and is not faster. Lowering
+`SORTMEM` is no longer a way to speed up a sort of equal keys.
+
+**The values of *flags*.** `srt$left` 0, `srt$right` 1, `srt$compound` 2,
+`srt$right.float` 3 and `srt$strict` 4 choose how two keys are compared, the
+same five that `sort.compare()` takes. They may be added to `srt$descending` 16,
+`srt$unique` 32, `srt$nocase` 64 and, for the first key only, `srt$data` 128.
+Only the low byte of a flag is used, and a mode above 4 is taken as 0; neither
+is an error.
+
+**When it goes wrong.** A variable that is not a sort, given to `sortadd`,
+`sortnext()` or `sortdata()`, stops the program with *Not a sort variable*. A
+process can have 255 sorts open at once; the 256th `sort()` stops with *Too many
+sorts are open at once*. A sort is freed when its variable is overwritten or
+goes out of scope, so a loop that makes a new sort into the same variable each
+time never reaches that limit.
+
+The `srt$` values are the ones `sort.compare()` takes (next), with `srt$data`
+and `srt$unique` added. Programs that run inside SD itself still have the older
+`sortadd key, data`, with no sort variable; that form is unchanged.
+
+### `sort.compare()` and `compares()`
+
+```
+sort.compare(a, b, mode {, no.case})
+compares(a, b {, justification})
+```
+
+`sort.compare()` answers -1, 0 or 1 as *a* comes before, equal to or after *b*
+under the rule in *mode*. The names are in `syscom keys.h`.
+
+| Mode | Name | Rule |
+|---|---|---|
+| 0 | `srt$left` | character by character from the start (so `10` is before `9`) |
+| 1 | `srt$right` | right justified: two whole numbers, with an optional sign, compare as numbers |
+| 2 | `srt$compound` | alternating number and text parts: `GC5` is before `GC41`; a leading number comes before text |
+| 3 | `srt$right.float` | as 1, but any number, not only a whole one, compares as a number |
+| 4 | `srt$strict` | as 2, but `28` and `028` differ, the one with fewer characters first |
+| + 16 | `srt$descending` | the answer is reversed |
+| + 64 | `srt$nocase` | case is ignored; a true fourth argument does the same |
+
+`compares()` is `compare()` over two arrays, with an answer of the same shape;
+the justification is that of `compare()` (`'R'`, `'LI'` and so on).
+
+`mergelist(list1, list2, modes)` merges two lists that are in order by the
+same rules: *modes* is `ml$inter` (8), `ml$union` (16) or `ml$diff` (24) added
+to a sort rule and, if the lists are not in order, `ml$unsorted` (32). Either
+list may be a select list variable. **The values 8, 16, 24 and 32 are SD's
+own**: the openQM manual names the four but does not number them. `call
+!mergelist` is the older subroutine with its own mode words, and is unchanged.
+
+### `nv()` and `ns()`
+
+`nv(array {, repeat})` puts each value's position number in its field in place
+of the value, and `ns(array)` each subvalue's position number in its value in
+place of the subvalue. The marks stay where they were, so the answer has the
+shape of the argument. With *repeat* true `nv()` numbers the subvalues of a
+value with the number of the value, and without it a value's subvalues are
+dropped. For `111 vm 121 sm 122 sm 123 vm 131 sm 132 fm 211 sm 212 vm 221`:
+
+| Expression | Result |
+|---|---|
+| `nv(s, 0)` and `nv(s)` | `1 vm 2 vm 3 fm 1 vm 2` |
+| `nv(s, 1)` | `1 vm 2 sm 2 sm 2 vm 3 sm 3 fm 1 sm 1 vm 2` |
+| `ns(s)` | `1 vm 1 sm 2 sm 3 vm 1 sm 2 fm 1 sm 2 vm 1` |
 
 ## Mark mapping
 

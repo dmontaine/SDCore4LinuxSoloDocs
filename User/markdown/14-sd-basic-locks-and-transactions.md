@@ -279,6 +279,18 @@ no implicit commit. A `return`, a `goto` or simply reaching `end transaction`
 without having executed a `commit` discards every write since the start, and
 nothing is printed. The record still reads whatever it held before.
 
+**`status()` tells you which it was.** Read straight after `end transaction`,
+it is **0** when the transaction committed and **1021** (`ER_ROLLBACK`) when it
+was rolled back, whether by `rollback` or by reaching `end transaction` without
+a `commit`. Read it before any other statement that sets it. A commit that
+fails does not come back as 1022 (`ER_COMMIT_FAIL`, defined for it): it still
+stops the program with its message.
+
+```
+end transaction
+if status() then crt 'the transaction was rolled back'
+```
+
 Inside the transaction your own reads see your own uncommitted writes — a
 program reads back its own new value before the commit, and a rolled-back
 `delete` makes the record read `else` inside the transaction and reappear
@@ -319,6 +331,33 @@ Nothing is reported. The compiler generates `commit` as a jump past the
 never runs, and the outer `commit` then commits an empty cache. **Keep
 transactions flat**, and note that this includes a subroutine that starts its
 own transaction while the caller is in one.
+
+### Committing a nested transaction without writing it: `$mode non.durable.txn`
+
+```
+$mode non.durable.txn
+```
+
+A program compiled with this directive makes every `commit` it contains a
+*non-durable* one. For a transaction that is **not** nested nothing changes: the
+commit writes. For one nested inside another, the commit **writes nothing**:
+the records the nested transaction changed and deleted, and the locks it holds,
+are handed to the transaction around it, which alone writes them when it commits
+or throws them away with its own work when it aborts. Afterwards the enclosing
+transaction is the running one again. Measured with the same program compiled
+with and without the directive, the nested transaction taking its own records and
+the parent taking its own:
+
+| | with the directive | without it |
+|---|---|---|
+| the nested record, read by a new session after the nested `commit` | **not on disk** | on disk |
+| the parent then aborts | **neither** the parent's nor the nested record is on disk | the nested record stays, the parent's is gone |
+| the parent then commits | both are written, the nested transaction's later write of a record both touched winning | both are on disk |
+| a record the nested transaction deleted, then the parent aborts | **comes back** | stays deleted |
+| the lock the nested transaction took, `recordlocked()` after its `commit` | **still held**, released when the parent ends | released at once |
+
+The directive is *the program's*: it covers the program's own commits, not those
+of a subroutine compiled without it.
 
 `set.trigger` attaches a program that runs on every write or delete. A trigger
 runs inside the caller's transaction, so it is bound by the same locking rule.
