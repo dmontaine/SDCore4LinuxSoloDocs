@@ -61,6 +61,18 @@ Only your text and the fixed sentence. `ai` does not add your account, your file
 
 It needs no terminal features and works over ssh. In a session with no one to answer (a script, a phantom) it asks, gets no answer, and sends nothing.
 
+## The AI in the editors
+
+The IDE, [SED](27a-sd-tcl-sed.html) and [CED](27b-sd-tcl-ced.html) can be asked about what you are editing when the AI
+is on. The IDE has an **AI** menu before Help (Explain the error, Explain the selection, Ask about this record) and an
+**`AI>`** row under the editor and the messages table; Tab goes round the panes to it. SED has two Tools items and
+CED has F2. In all three **Enter shows everything that will be sent first**, with Send and Cancel (the default).
+The answer may propose changes to the text: each is shown as a diff, **Accept puts them into the buffer as one
+undo step and saves nothing**, **Reject is the default**, and a set of changes is taken whole or not at all (an old text
+that is missing or is in the record twice, overlapping changes, more than 8 changes or more than 30 lines are ignored with
+a note; if you changed the record while the AI answered, nothing is applied). A command in the answer is ignored. The
+debugger has no AI command in Solo.
+
 ## See also
 
 [The AI helper](24-the-ai-helper.html) (for the administrator) ·
