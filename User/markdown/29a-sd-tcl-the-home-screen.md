@@ -184,7 +184,58 @@ always one of those files, never a path you type. With no reader allowed (the de
 state) it says `No viewer has been allowed for documents`; over plain ssh, which has no
 display, it says so and does nothing.
 
+## The AI line
+
+When the AI is on (the administrator has chosen a provider, given it a model and a key,
+**and turned the AI gate on with `set.ai gate on`**, which is off as delivered; see
+[Asking the AI](29b-sd-tcl-asking-the-ai.html) and
+[The AI helper](24-the-ai-helper.html)) the home screen has one more row, just above the
+status line, that starts **`AI>`**. Without the AI there is no such row and nothing on this
+page changes.
+
+**Press Tab from the last tile (Sign out), or Back-tab from the first, or click the row**,
+type what you want in your own words, and press Enter:
+
+```
+AI> open the ide
+AI> show me who I am
+```
+
+Enter does not send anything. It shows **everything that will leave the machine**: the
+provider and the model, one fixed instruction, the list of what this page can do (the names
+of its tiles), what the page says about itself, and your request. **Cancel is the default
+button**, so Enter alone sends nothing; choose **Send** (press `s`) to send. While the AI
+answers the row says so and **Esc gives the request up**.
+
+The answer comes in a popup. It says what the AI said, and it may *propose* one thing:
+
+| The AI proposes | What you see | What happens |
+|---|---|---|
+| a **tile** of this page (Editor, IDE, Record editor, Terminal, Keys, and after `admin` the administrator's tiles) | `The AI proposes: IDE - programs and files`, with **Accept** and Reject | **Accept** starts the tile exactly as a click on it would. Enter alone accepts, because a tile only opens a tool you could open anyway. |
+| a **command** | the command on a line of its own, with **Run** and Cancel | **Run** runs it as the Terminal tile's prompt would, and waits for Enter. **Enter alone cancels**: a command never runs unless you choose Run. |
+| nothing | only what it said, with Close | nothing |
+
+What it cannot do: it is never offered **Sign out**; a tile that is not on your page is
+ignored, with a note; a command with a control character in it or of more than 200
+characters is not shown; anything that is not one JSON object is shown as words, with a
+note, and nothing is proposed. The accepted tile or command runs with **your** rights: the
+switches of your account (`set.os.access`) apply as they would if you had typed it.
+
+The audit trail records that you asked (`ai request account=sduser program=tk_ai
+bytes.out=...`), never what you asked or what came back.
+
+**What is different from SD Core.** Solo has one account, so there is no *Switch account*
+tile to withhold and no per-account permission to ask for: the one switch is the AI gate,
+which the administrator turns on with `set.ai gate on` (never `modify.account`). And the
+helper that talks to the provider runs **as you**, not as a user of its own, so any program
+you run, not only SD, can reach it; [The AI helper](24-the-ai-helper.html) says what that
+weakens. The row, the preview and the proposals are the same.
+
 ## Not yet
+
+An AI line in the editors (SED, the IDE, CED) and the debugger, an AI menu item (the AI menu
+of the menu bar still says `AI is off`), a proposal that changes a record, and the AI line on
+the administrator's other pages are planned and not built.
 
 Programs the administrator assigns to the account, sub-menus that open and return, a
 group of the last commands you ran, and a live line on a tile are planned and not
