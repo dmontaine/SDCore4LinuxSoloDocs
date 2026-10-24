@@ -164,10 +164,10 @@ DOCS = [
    admin backup.account clean.account config restore.account set.backup.directory set.date set.pins set.start.default set.tile settings.report tool.menus update.accounts
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
-   clear.locks list.locks list.readu listu lock logout unlock
+   clear.locks list.locks list.readu listu lock logout tool.sessions unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh ! set.os.access docs.install load.help set.viewer tool.viewers
+   sh ! set.os.access docs.install load.help set.viewer tool.gates tool.viewers
  """),
  # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
  ('GettingStarted', '09-api-access.md', """

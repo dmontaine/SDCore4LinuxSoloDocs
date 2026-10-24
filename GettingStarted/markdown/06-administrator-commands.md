@@ -48,6 +48,8 @@ password is never displayed, stored or logged.
 | `set.start.default`, `set.tile`, `set.pins`, `tool.menus` | where a session starts, which tiles the home screen has, whether the account may add its own — [The home screen's settings](#the-home-screens-settings) below |
 | `set.viewer`, `tool.viewers`, `docs.install`, `load.help` | the readers `pdf` may start, the documents it shows, the context help — [Operating system access](06b-operating-system-access.html) |
 | `set.ai`, `tool.ai` | whether the AI may be used (`set.ai gate on`; off as delivered), its provider, model and key, and the page that does it — [The AI helper](24-the-ai-helper.html) |
+| `tool.gates` | all four gates on one page, and the page that changes them (any session sees it; Enter changes a gate after `admin`) — [Operating system access](06b-operating-system-access.html) |
+| `tool.sessions` | who is signed on, what is locked, and `logout`, `unlock` and `inhibit.login` on one screen — [Sessions and locks](06a-sessions-and-locks.html) |
 | `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
 | `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
 | anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |

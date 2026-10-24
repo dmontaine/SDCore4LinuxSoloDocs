@@ -56,6 +56,53 @@ fewer fields is off).
 running**: sign out and in again, or open a new ssh or API session. The API
 server reads the switches when it enters the account, as the sign-on does.
 
+## All the gates on one page: `tool.gates`
+
+```
+tool.gates
+```
+
+**A full-screen page, in any session** (140 columns by 43 lines at least). It
+lists the four gates this account has - **Shell** (`sh`), **OS.EXECUTE** (`os`),
+**Remote files** (`net`, [API access](09-api-access.html)) and **AI**
+([The AI helper](24-the-ai-helper.html)) - with, for each: whether it is ON or
+off **for this session**, what the register holds (shown to the administrator
+only), how it is delivered (off, every one), whether it reaches beyond SD (every
+one does) and when a change reaches you. A box under the list explains the row
+under the cursor in plain sentences: what ON lets the account do, what it can
+still do with it off, and the command that changes it.
+
+| Key | What it does |
+|---|---|
+| Up, Down, Page Up, Page Down, Home, End, a click | move to a gate |
+| Enter, the space bar (**after `admin`**) | turn the gate on the cursor's row ON, or off, through its own verb |
+| F5 | ask the system again |
+| F1, ?, a click on the [?] | explain the page |
+| Ctrl-Q | leave |
+
+**What the columns say.** *This session* is what the system holds for the
+session you are typing in: `sh`, `os` and `net` were loaded when you signed on,
+so a change made later shows there **after the next sign-on**, which is why the
+*Register* column is there (what the next sign-on will load). The AI's gate is
+the helper's own setting, looked at at every request, so the two columns agree;
+if the helper is not running both show a dash and the row says so. The page
+**asks and does not try**: it never tests an operation to find out whether it
+works.
+
+**What Enter does (administrator only).** It builds one command - `set.os.access
+sh on`, `set.os.access os off`, `set.net.access on`, `set.ai gate on` and so on -
+shows it in a box with what it will do, and runs it only when you answer Run;
+Cancel is what Enter chooses. **Turning a gate ON asks you to type its name**
+(`sh`, `os`, `net` or `ai`), because every one of them reaches beyond SD, and the
+box says that a gate off as delivered is being turned on and that leaving it off
+is the tighter choice. The verb asks for the administrator itself and writes its
+own audit line (`set.os.access sh on account=sduser`); the page writes only the
+line that says it was started (`tool start app=tool.gates`), and only for the
+administrator. After the command it reads again and shows the verb's own last line
+in the status bar. **There is no key that turns everything on, and nothing is
+on as delivered.** A session that has not typed `admin` sees the page and cannot
+change anything: Enter says so and opens no box.
+
 ## What a refusal looks like
 
 With both switches off:

@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **210** verbs, and
+> every verb record in `newvoc`, which is **212** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-210 of them; whether a verb needs `admin` is in the GettingStarted set.
+212 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -228,8 +228,10 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
 | **`tool.ai`** | **`tool.ai`**  —  the AI choice page (administrator): the provider with a check box, its model and key, Custom, and the one switch, the ai gate |
+| **`tool.gates`** | **`tool.gates`**  —  the four gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files and the AI, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`** or **`set.ai gate`** after a box answered Run |
 | **`tool.keys`** | **`tool.keys`** |
 | **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
+| **`tool.sessions`** | **`tool.sessions`**  —  sessions, locks and logout on one screen (administrator): every session and every lock, read again every three seconds; each key runs one **`logout`**, **`unlock`** or **`inhibit.login`** command after a box answered Run |
 | **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
