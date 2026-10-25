@@ -6,7 +6,7 @@ not type `sd-solo -start` after every sign-in.
 
 | | |
 |---|---|
-| Unit | `sd-solo.service` starts the daemon; with an API, `sd-solo-api.socket` is the listener and `sd-solo-api@.service` runs one API session per connection |
+| Unit | `sd-solo.service` starts SD, and `sd-solo-lnxd.service` runs the clean-up daemon `sdlnxd` and starts it again if it dies; with an API, `sd-solo-api.socket` is the listener and `sd-solo-api@.service` runs one API session per connection |
 | Where | `~/.config/systemd/user/` — **user** units, started by your own systemd user manager and running as you |
 | Start type | enabled — your systemd user manager starts them when it starts |
 | Created by | the installer (`tools/solo-service.sh install`) |
@@ -64,6 +64,17 @@ against a segment nothing is serving. Clearing it is `sd-solo -stop`'s job.
 > ```
 > ps -u $USER -o pid,cmd | grep '[s]dlnxd'
 > ```
+
+**The clean-up daemon is started again if it dies.** `sdlnxd` is the process that notices a
+session whose process has gone and clears it down. It runs as its own user unit,
+`sd-solo-lnxd.service`, and systemd starts it again two seconds after a failure (`kill -9`,
+a crash, the process being killed for memory). A stop with `sd-solo -stop` or
+`systemctl --user stop sd-solo.service` is not a failure and is not restarted. If it fails
+five times in a minute systemd gives up; `systemctl --user reset-failed sd-solo-lnxd` and
+`systemctl --user start sd-solo-lnxd` take it from there. **A plain `sd-solo -start`, and
+`sd-solo -restart`, still fork a daemon of their own, which nothing watches**; use
+`systemctl --user restart sd-solo.service` when you want the unit to run it. Only one
+daemon runs at a time: a second `sdlnxd` finds the first and ends.
 
 **A System V segment does not survive a reboot** — the kernel clears its IPC
 state on every restart. A reboot always leaves a clean slate; the "segment

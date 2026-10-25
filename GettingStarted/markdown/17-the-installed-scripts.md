@@ -46,6 +46,7 @@ downloads the source, and the source contains it. Its options are listed by
 ```sh
 bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo [--api off|local|open] [--ssh off|local|open] [--enable-linger]
 bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo off|local|open
+bash ~/SDCoreSolo/tools/solo-service.sh daemon ~/SDCoreSolo [--print]
 bash ~/SDCoreSolo/tools/solo-service.sh remove
 bash ~/SDCoreSolo/tools/solo-service.sh status
 ```
@@ -54,13 +55,21 @@ bash ~/SDCoreSolo/tools/solo-service.sh status
 |---|---|
 | `install` | writes the **user** units into `~/.config/systemd/user` — `sd-solo.service`, with an API `sd-solo-api.socket` and `sd-solo-api@.service`, and with ssh `sd-solo-ssh.socket` and `sd-solo-ssh@.service` — naming the tree by its full path; enables and starts them. **Running it again with a different `--api` or `--ssh` changes it**: the old listener is stopped first. Ends `SOLO SERVICE READY daemon=<state> api=<off\|local\|open> ssh=<off\|local\|open> linger=<yes\|no>` |
 | `ssh` | writes or removes **only** the two ssh units, leaving the daemon and the API as they are. It needs the ssh directory that `solo-ssh.sh setup` makes. Ends `SOLO SSH LISTENER <mode>` |
-| `remove` | stops SD and removes the units. Ends `SOLO SERVICE REMOVED` |
+| `daemon` | writes **only** the two daemon units, `sd-solo.service` and `sd-solo-lnxd.service`, and reloads systemd; it starts, stops and enables nothing. An upgrade runs it, because an upgrade keeps the units it finds. It refuses a pair that names another Solo tree. `--print` shows the two units and writes nothing. Ends `SOLO DAEMON UNITS WRITTEN` |
+| `remove` | stops SD and removes the units, `sd-solo-lnxd.service` first. Ends `SOLO SERVICE REMOVED` |
 | `status` | which unit files are present, whether the daemon and the API and ssh sockets are active, and whether linger is on |
 | `--enable-linger` | also runs `loginctl enable-linger`. **Linger is a persistent setting of your account, so it is opt-in.** Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
 
 `sd-solo.service` is a one-shot that remains after exit
 (`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks
 again, and `Type=forking` would make systemd guess the wrong main process.
+Since the clean-up daemon `sdlnxd` has a unit of its own, `sd-solo.service` runs
+`sd-solo -start -nodaemon`, which leaves the daemon out, and wants
+`sd-solo-lnxd.service`, which runs `sdlnxd` in the foreground and starts it again two
+seconds after it fails (`Restart=on-failure`, not `always`: `sd-solo -stop` ends the
+daemon with a clean exit, and a unit that restarted it would bring it back after every
+stop; five failed starts in a minute and systemd gives up until `systemctl --user
+reset-failed sd-solo-lnxd`). It starts after `sd-solo.service` and stops with it.
 `sd-solo-api@.service` runs one `sd-solo -n -q` per API connection, and
 `sd-solo-ssh@.service` one `sshd -i` per ssh connection, on Solo's own configuration, started through
 `tools/solo-sshguard.py`, which counts wrong passwords per address (see `solo-ssh.sh locked` below).

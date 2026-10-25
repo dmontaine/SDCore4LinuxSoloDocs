@@ -499,6 +499,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 
 | Name | Change | What |
 |---|---|---|
+| clean-up daemon restart | Added | `sdlnxd`, which clears down sessions whose process has gone, runs as its own user unit, `sd-solo-lnxd.service`, which starts it again two seconds after it fails (`kill -9`, a crash); a stop (`sd-solo -stop`, exit 0) is not a failure and is not restarted; a daemon that fails five times in a minute is given up on; `sd-solo.service` runs `sd-solo -start -nodaemon` and wants it; a second daemon ends at once; an upgrade writes the new units over the old ones (`solo-service.sh daemon`) |
 | default terminal | Changed | 140 by 42 |
 | message numbers | Changed | Solo's own messages 11040 to 11054 are now 11900 to 11914, and 11060 to 11065 are 11920 to 11925, with their text unchanged; the ssh key request refuses with 11901, 11902 and 11903 |
 | `sd -status` | Changed | fixed an overrun on a server that recorded no start time |
