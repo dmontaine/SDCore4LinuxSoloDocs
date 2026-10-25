@@ -490,6 +490,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | named common | Changed | fixed: a program that ended while holding objects in named common freed them twice |
 | operating system paths | Changed | `dir()`, `select.dir`, `oscopy`, `!oscopy`, `!ioscopy`, `deleteseq` of a path, `opentemp`, `digest` of a file, `setptr ... as pathname`, `setpu`, the embedded Python and a VOC pointer out of the account each ask the account's `os` switch |
 | print file refusal | Changed | outside the account: the message names the account instead of printing `%1` |
+| shared memory modes | Changed | the shared segment and the semaphores are mode 0600, the user's alone; they were 0666, open to every local user, and the daemon `sdlnxd` took the directory it runs `sd-solo -cleanup` from out of that segment. It now finds the directory from its own path and starts the program without a shell. A Solo already running keeps its old segment until it is stopped and started |
 | the VOC's own files | Changed | a session without the `os` switch cannot write, make or delete under the account's `voc` directory through an operating system path |
 | tls close | Changed | fixed: closing a TLS connection no longer ends the process when the other side has already gone |
 | `u` conversion names | Changed | `iconv` and `oconv`: fixed: a name that begins with a dollar sign called an internal subroutine from an ordinary program; it is refused now |
