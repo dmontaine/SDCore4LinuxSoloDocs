@@ -68,8 +68,8 @@ Since the clean-up daemon `sdlnxd` has a unit of its own, `sd-solo.service` runs
 `sd-solo-lnxd.service`, which runs `sdlnxd` in the foreground and starts it again two
 seconds after it fails (`Restart=on-failure`, not `always`: `sd-solo -stop` ends the
 daemon with a clean exit, and a unit that restarted it would bring it back after every
-stop; five failed starts in a minute and systemd gives up until `systemctl --user
-reset-failed sd-solo-lnxd`). It starts after `sd-solo.service` and stops with it.
+stop; systemd allows five starts of the unit in a minute, of any kind, and refuses the
+sixth until `systemctl --user reset-failed sd-solo-lnxd`). It starts after `sd-solo.service` and stops with it.
 `sd-solo-api@.service` runs one `sd-solo -n -q` per API connection, and
 `sd-solo-ssh@.service` one `sshd -i` per ssh connection, on Solo's own configuration, started through
 `tools/solo-sshguard.py`, which counts wrong passwords per address (see `solo-ssh.sh locked` below).

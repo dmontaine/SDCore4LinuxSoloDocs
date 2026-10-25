@@ -69,8 +69,10 @@ against a segment nothing is serving. Clearing it is `sd-solo -stop`'s job.
 session whose process has gone and clears it down. It runs as its own user unit,
 `sd-solo-lnxd.service`, and systemd starts it again two seconds after a failure (`kill -9`,
 a crash, the process being killed for memory). A stop with `sd-solo -stop` or
-`systemctl --user stop sd-solo.service` is not a failure and is not restarted. If it fails
-five times in a minute systemd gives up; `systemctl --user reset-failed sd-solo-lnxd` and
+`systemctl --user stop sd-solo.service` is not a failure and is not restarted. Systemd allows
+five starts of the unit in a minute and refuses the sixth; **every start counts, a restart after a
+crash and your own `systemctl --user restart sd-solo.service` alike**, so five restarts of your own
+followed by a crash leave the daemon down. `systemctl --user reset-failed sd-solo-lnxd` and
 `systemctl --user start sd-solo-lnxd` take it from there. **A plain `sd-solo -start`, and
 `sd-solo -restart`, still fork a daemon of their own, which nothing watches**; use
 `systemctl --user restart sd-solo.service` when you want the unit to run it. Only one

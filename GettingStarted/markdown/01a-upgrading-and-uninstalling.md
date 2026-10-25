@@ -145,6 +145,14 @@ installation directory, which holds Solo's own ssh directory — all of it, exce
 what `--keep-data` leaves. A firewall rule for port 4251 or 4249 is not removed; the
 script says so.
 
+**The units come first, and the script stops if it cannot remove them.** It looks for
+your systemd user manager under `/run/user/<your number>` when the shell it was
+started from has no `XDG_RUNTIME_DIR` (an `ssh` command or a cron job), removes the unit
+files itself if `solo-service.sh remove` is refused, and, if any file whose name begins
+`sd-solo` is still in `~/.config/systemd/user`, ends with an error that names the
+files **before it removes the installation directory or your data**. Run it again from a
+login session, or with `XDG_RUNTIME_DIR` set, or remove those files yourself.
+
 **The passwords, the audit trail, the deny list and SD's own files are always
 removed.** What `--keep-data` leaves is your data and your configuration, not an
 installation, plus a small stamp, `.sdcore-kept`, that says which release made the
