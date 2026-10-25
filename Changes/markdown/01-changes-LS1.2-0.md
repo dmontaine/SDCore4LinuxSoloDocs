@@ -485,6 +485,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | Name | Change | What |
 |---|---|---|
 | api `clearfile` | Changed | fixed: it cleared whichever file a stale counter pointed at; it clears the file named |
+| audit trail rotation | Changed | fixed: `sd-solo -start` renames a trail of 1 MB or more to `audit.<date>-<time>`, a name with a one-second resolution, and the rename replaced a file already called that; a rotation onto a name that is taken is now refused, the trail stays whole and SD starts as usual |
 | commands that change a file you name | Changed | fixed: `get.list ... deleting`, `save.list`, `delete.list`, `sort.list`, `copy.list`, `map file`, `format`, `fixdir`, `generate`, `compile.dict`, `set.trigger`, `reformat ... to`, `sp.view`, `como ... in`, the object file of `basic` and `create.file` of an existing file, and over the API `write`, `delete` and `clearfile` could be pointed at the VOC or a server file; each now asks first |
 | `$internal` programs | Changed | fixed: a program a user compiled and catalogued locally ran with internal privilege without `admin`; only the global catalogue or an `admin` session keeps it |
 | named common | Changed | fixed: a program that ended while holding objects in named common freed them twice |
