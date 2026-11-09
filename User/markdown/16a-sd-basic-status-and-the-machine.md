@@ -109,8 +109,11 @@ ends.
 ## OS.EXECUTE
 
 ```
-os.execute command {capturing variable}
+os.execute command {capturing variable | silent}
 ```
+
+`capturing` puts the command's output in the variable; `silent` throws it
+away, so nothing of it reaches the terminal.
 
 **It needs the `os` switch, which is off as delivered**: a program that runs
 `OS.EXECUTE` without it stops with *sduser is not permitted to use OS.EXECUTE*.
