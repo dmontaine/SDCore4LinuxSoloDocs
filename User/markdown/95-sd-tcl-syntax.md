@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **212** verbs, and
+> every verb record in `newvoc`, which is **192** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,18 +20,16 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-212 of them; whether a verb needs `admin` is in the GettingStarted set.
+192 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
 | | syntax |
 |---|---|
-| **`!`** | **`!`** *command* |
 | **`abort`** | **`abort`** {*message*} |
 | **`admin`** | **`admin`** \| **`admin off`** |
 | **`ai`** | **`ai`** *text*  —  ask the AI the administrator has chosen: you see what will be sent and say yes first; put text that ends with **`?`** in quotes (needs the AI gate: **`set.ai gate on`**) |
 | **`alias`** | **`alias`** *command* *target* |
-| **`analyse.file`** | **`analyse.file`** {**`dict`**} *file* {**`statistics`**} {**`lptr`**} |
 | **`analyse.index`** | **`analyse.index`** *file* {*index* {**`statistics`**} {**`detail`**}} {**`lptr`** {*n*}} {**`no.page`**} |
 | **`analyze.file`** | **`analyze.file`** — the same verb as **`analyse.file`** |
 | **`autologout`** | **`autologout`** {*minutes*} |
@@ -43,8 +41,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`break`** | **`break on`** \| **`off`** \| **`on user`** *n* |
 | **`build.index`** | **`build.index`** *file* *field* … \| **`all`** |
 | **`catalog`** | **`catalog`** {*file* {*call.name*}} {*program*} {**`local`** \| **`global`** \| **`pcode`**} {**`no.xref`**} |
-| **`catalogue`** | **`catalogue`** — the same verb as **`catalog`** |
-| **`cd`** | **`cd`** {**`dict`** \| **`data`**} *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`cd local`**  ·  **`cd all`** |
 | **`ced`** | **`ced`** {**`dict`**} *file* {*id* …}  ·  **`ced`** {**`dict`**} *file* **`*`** |
 | **`clean.account`** | **`clean.account`** |
 | **`clear.abort`** | **`clear.abort`** |
@@ -55,10 +51,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`clear.prompts`** | **`clear.prompts`** |
 | **`clear.select`** | **`clear.select`** {*list.no*} |
 | **`clear.stack`** | **`clear.stack`** |
-| **`cleardata`** | **`cleardata`** — the same verb as **`clear.data`** |
-| **`clearinput`** | **`clearinput`** — the same verb as **`clear.input`** |
-| **`clearprompts`** | **`clearprompts`** — the same verb as **`clear.prompts`** |
-| **`clearselect`** | **`clearselect`** — the same verb as **`clear.select`** |
 | **`clr`** | **`clr`** |
 | **`cname`** | **`cname`** *old.file* **`to`** *new.file* |
 | **`command.logging`** | **`command.logging`** {**`on`** \| **`off`**} |
@@ -70,12 +62,9 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`convert.data`** | **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**} |
 | **`copy`** | **`copy from`** {**`dict`**} *src* {**`to`** {**`dict`**} *tgt*} {*id* …} {**`(options`**} |
 | **`copy.list`** | **`copy.list`** *list* {**`,`***new*} {**`from`** *src*} {**`to`** *tgt*} {*options*} |
-| **`copy.listp`** | **`copy.listp`** {{**`dict`**} *file*} {*name* … \| **`*`**} {**`(`***options*} |
-| **`copyp`** | **`copyp`** {**`dict`**} *file* *id* … {**`(options`**} |
 | **`count`** | **`count`** {**`dict`**} *file* {*selection*} |
 | **`create.file`** | **`create.file`** {**`dict`**} *voc.name* {**`directory`**} {*parameters*} |
 | **`create.index`** | **`create.index`** *file* *field* … {**`no.nulls`**} {**`pathname`** *path*} |
-| **`cs`** | **`cs`** — the same verb as **`clr`** |
 | **`ct`** | **`ct`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`date`** | **`date`** \| **`internal`** \| *n* \| *date* |
 | **`date.format`** | **`date.format on`** \| **`off`** \| **`display`** |
@@ -83,7 +72,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`decatalog`** | **`decatalog`** {*file*} *name* … |
 | **`delete`** | **`delete`** {**`dict`**} *file* {*id* …} {**`no.query`**} |
 | **`delete.catalog`** | **`delete.catalog`** *name* … {**`global`** \| **`local`**} |
-| **`delete.catalogue`** | **`delete.catalogue`** — the same verb as **`delete.catalog`** |
 | **`delete.common`** | **`delete.common`** *name* |
 | **`delete.file`** | **`delete.file`** {**`dict`** \| **`data`**} *voc.name* {**`force`**} {**`no.query`**} |
 | **`delete.index`** | **`delete.index`** *file* *field* … \| **`all`** |
@@ -124,10 +112,8 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`inhibit.login`** | **`inhibit.login`** {**`on`** \| **`off`**} |
 | **`list`** | **`list`** {**`dict`**} *file* {*selection*} {*fields*} {*options*} |
 | **`list.common`** | **`list.common`** {**`all`**} |
-| **`list.diff`** | **`list.diff`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |
 | **`list.files`** | **`list.files`** |
 | **`list.index`** | **`list.index`** *file* {*field* …} |
-| **`list.inter`** | **`list.inter`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |
 | **`list.item`** | **`list.item`** {**`dict`**} *file* {*selection*} |
 | **`list.label`** | **`list.label`** {**`dict`**} *file* {*selection*} {*fields*} |
 | **`list.locks`** | **`list.locks`** |
@@ -136,15 +122,14 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`list.servers`** | **`list.servers`** {*name*} |
 | **`list.term.types`** | **`list.term.types`** {**`lptr`** {*n*}} |
 | **`list.triggers`** | **`list.triggers`** {*file* …} {**`lptr`** {*n*}} |
-| **`list.union`** | **`list.union`** *list.1* {*list.2* {*tgt*}} {**`count.sup`**} |
 | **`list.vars`** | **`list.vars`** {*pattern*} |
+| **`list.voc.removed`** | **`list.voc.removed`** {*account*}  —  the VOC records SD no longer ships and, with an account, what the next **`update.accounts`** would do in it (changes nothing) |
 | **`listu`** | **`listu`** {**`no.page`**} {**`lptr`** {*n*}} |
 | **`load.help`** | **`load.help`**  —  load the shipped context help into the file context.help of the install directory (administrator) |
 | **`lock`** | **`lock`** *n* {**`no.wait`**} |
 | **`lock.tracer`** | **`lock.tracer`** **`on`** \| **`off`** \| {**`user`** *n*} {**`lptr`** {*n*}} {**`no.page`**} |
 | **`logmsg`** | **`logmsg`** *text* |
 | **`logout`** | **`logout`** \| *n* … \| **`all`** |
-| **`make.index`** | **`make.index`** *file* *field* … {**`no.nulls`**} {**`pathname`** *path*} |
 | **`map`** | **`map`** {**`all`**} {**`lptr`** {*n*}} {**`file`** {*name*}} |
 | **`menu`** | **`menu`**  —  the full-screen menu (the home screen), also from the terminal it gave you |
 | **`merge.list`** | **`merge.list`** *list.no* *rel.op* *list.no* {**`to`** *list.no*} {**`count.sup`**} |
@@ -152,7 +137,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`micro`** | **`micro`** {**`dict`**} *file* *record* |
 | **`move.list`** | **`move.list`** *n* **`to`** *m* {**`keep`**} |
 | **`my.menu`** | **`my.menu`**  —  add your own programs to your home screen, when the administrator has allowed it (**`set.pins on`**) |
-| **`nano`** | **`nano`** {**`dict`**} *file* *record* |
 | **`nls`** | **`nls`** {**`currency`** \| **`thousands`** \| **`decimal`** {*value*}}  ·  **`nls default`** |
 | **`nselect`** | **`nselect`** *file* {*list.no*} |
 | **`off`** | **`off`** |
@@ -173,10 +157,10 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`redo`** | **`redo`** {**`times`** *n*} {**`every`** *s*} *command* |
 | **`reformat`** | **`reformat`** {**`dict`**} *file* {*selection*} {*fields*} |
 | **`release`** | **`release`** *file* *id* …  ·  **`release filelock`** *file* |
-| **`rename`** | **`rename`** — the same verb as **`cname`** |
 | **`report.src`** | **`report.src on`** \| **`off`** \| **`report.src`** to toggle |
 | **`report.style`** | **`report.style`** {*name* \| **`off`**} |
 | **`restore.account`** | **`restore.account`** *zipfile* {*account* \| **`all`**} {**`no.query`**}  ·  **`restore.account latest`** {*account* \| **`all`**} {**`no.query`**} |
+| **`restore.voc`** | **`restore.voc`** *account* *id*  ·  **`restore.voc`** *account* **`all`**  —  put back the newest saved copy of a record the VOC update removed; never overwrites |
 | **`run`** | **`run`** {*file*} *record* {*arguments*} |
 | **`save.list`** | **`save.list`** *list* {**`from`** *list.no*} |
 | **`save.stack`** | **`save.stack`** {*name*} |
@@ -198,7 +182,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.os.access`** | **`set.os.access`** \| **`set.os.access sh on`** \| **`set.os.access sh off`** \| **`set.os.access os on`** \| **`set.os.access os off`** |
 | **`set.password`** | **`set.password`** \| **`set.password admin`** \| **`set.password global`** |
 | **`set.pins`** | **`set.pins`** {**`on`** \| **`off`**}  —  whether the account may add its own programs to its home screen (administrator; off as delivered); without a word, says which |
-| **`set.queue`** | **`set.queue`** *queue* {, *width*, *depth*, *top*, *bottom*, *mode* {, *options*}}  ·  **`set.queue display`** {**`lptr`** {*unit*}}  ·  **`set.queue deleting`** *queue* |
 | **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a,b,c*} {**`no.query`**} |
 | **`set.start.default`** | **`set.start.default`** {**`menu`** \| **`terminal`**}  —  where a session starts (the home screen is the delivered start); without a word, says what it is |
 | **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
@@ -214,9 +197,6 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`sort.item`** | **`sort.item`** {**`dict`**} *file* {*selection*} |
 | **`sort.label`** | **`sort.label`** {**`dict`**} *file* {*selection*} {*fields*} |
 | **`sort.list`** | **`sort.list`** *name* {**`from`** *file*} |
-| **`sp.assign`** | **`sp.assign`** {*options*} {, *setptr options*} |
-| **`sp.close`** | **`sp.close`** |
-| **`sp.open`** | **`sp.open`** |
 | **`sp.view`** | **`sp.view`** |
 | **`spool`** | **`spool`** *file* *id* … {**`lines`** *n* *m*} {**`lnum`**} {**`lptr`** *n*} |
 | **`sreformat`** | **`sreformat`** {**`dict`**} *file* {*selection*} {*fields*} |

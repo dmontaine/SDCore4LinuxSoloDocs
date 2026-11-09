@@ -11,9 +11,9 @@ that is off as delivered.** The administrator turns a switch on with
 
 | | What it is | Switch |
 |---|---|---|
-| **`sh`** and `!` | one operating-system command from the `:` prompt | `sh` |
+| **`sh`** | one operating-system command from the `:` prompt | `sh` |
 | `OS.EXECUTE` | the operating system from inside a BASIC program, and a file or directory outside the account | `os` |
-| **`nano`** and **`micro`** | a text editor, running outside SD | `os` |
+| **`micro`** | a text editor, running outside SD | `os` |
 
 **When a switch is on, what it opens runs as your Linux user.** Nothing in SD
 stands between a session and the computer beyond what Linux itself allows that
@@ -28,7 +28,7 @@ ssh, your key or your Linux password — can run Linux commands as you. That is 
 the account password matters, and why it should be one only you know.
 
 **On a managed computer**, the SD Core for Linux server can put `sh` on the list
-of denied commands, and `!` goes with it. **A program's `OS.EXECUTE` is not a
+of denied commands. **A program's `OS.EXECUTE` is not a
 command the list can hold**, so the list alone does not close the computer off
 from a program; the `os` switch does. See [Managed mode](15-managed-mode.html).
 

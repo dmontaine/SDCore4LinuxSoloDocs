@@ -96,16 +96,16 @@ with `sudo`; otherwise it tells you to allow it yourself.
 
 ### 3. The shell and OS access
 
-**Both are off unless you turn them on**: `sh` and `!` run Linux commands, and
-OS access is `os.execute` in a program, the embedded Python, `nano` and `micro`, and files
+**Both are off unless you turn them on**: `sh` runs Linux commands, and
+OS access is `os.execute` in a program, the embedded Python, `micro`, and files
 and directories outside the account by pathname. Either lets whoever signs in do
 what your Linux user can do, so the installer asks two questions, each answered
 no unless you say yes:
 
 | | |
 |---|---|
-| **Turn on the shell (`sh` and `!`)** | the `sh` switch |
-| **Turn on OS access (`os.execute`, outside files, Python, `nano`, `micro`)** | the `os` switch |
+| **Turn on the shell (SH)** | the `sh` switch |
+| **Turn on OS access (`os.execute`, outside files, Python, `micro`)** | the `os` switch |
 
 `--os-access none|sh|os|both` answers both without a terminal. With no terminal,
 or `--yes` and no `--os-access`, nothing is turned on. The administrator can turn

@@ -17,8 +17,8 @@ of this page. The full-screen editors need nothing extra.
 | | |
 |---|---|
 | **`basic`** | compile SD BASIC source |
-| **`catalog`** · **`catalogue`** | add to the catalogue |
-| **`delete.catalog`** · **`delete.catalogue`** | remove from it |
+| **`catalog`** | add to the catalogue |
+| **`delete.catalog`** | remove from it |
 | **`compile.dict`** | compile dictionary items |
 | **`run`** | run a compiled program |
 | **`map`** | show a program's map |
@@ -36,7 +36,6 @@ of this page. The full-screen editors need nothing extra.
 | | |
 |---|---|
 | **`ed`** | the line editor. Needs nothing installed. `edit` is an alias for it |
-| **`nano`** | a **full-screen** editor — opens the record in `nano` |
 | **`micro`** | a **full-screen** editor — opens the record in `micro` |
 | **`debug`** | the BASIC debugger |
 | **`pstat`** · **`pdebug`** · **`pdump`** · **`dump`** | process introspection |
@@ -45,44 +44,31 @@ of this page. The full-screen editors need nothing extra.
 
 **`edit` is not a full-screen editor here** — a real difference from SD Core for
 Windows, where it opens Microsoft Edit. There is no Linux equivalent to alias it
-to, so `edit` runs the **line** editor, `ed`, instead. The two full-screen
-editors are named for the program each runs:
-
-| | |
-|---|---|
-| **`nano`** | ships with most distributions already |
-| **`micro`** | installed by the SD installer as an ordinary package |
+to, so `edit` runs the **line** editor, `ed`, instead. The external full-screen
+editor is `micro`, which the SD installer installs as an ordinary package (the
+`nano` verb was removed in 1.2-0):
 
 ```
-nano  bp myprog
 micro bp myprog
-nano  dict customers name
+micro dict customers name
 ```
 
-Either verb writes the record to a working copy, opens the editor on it, reads
+The verb writes the record to a working copy, opens the editor on it, reads
 it back, and asks whether to save. For a `bp` record it then offers the compile
 and the catalogue.
 
-**Both run outside SD, so both need the `os` switch**, which is off as delivered
-(without it each says it is not available to the account; the administrator turns
+**It runs outside SD, so it needs the `os` switch**, which is off as delivered
+(without it it says it is not available to the account; the administrator turns
 it on with `set.os.access os on`, and `ed` needs nothing of the kind). See
 [Operating system access](06b-operating-system-access.html).
 
-**Both are terminal editors**, so both work over ssh as well as at the console.
+**It is a terminal editor**, so it works over ssh as well as at the console.
 
-**Both highlight SD BASIC.** The `micro` verb copies SD's syntax file into your
-`~/.config/micro/syntax` the first time it is used. The multiuser product gives
-`nano` a system-wide `sdbasic.nanorc`; Solo writes nothing outside your home
-directory, so the `nano` verb instead starts nano with `--rcfile`, naming
-`~/SDCoreSolo/nanocfg/sd.nanorc`, which SD rewrites before every session. **That
-file is a copy of your own nano settings** — `/etc/nanorc`, `~/.nanorc` and
-`~/.config/nano/nanorc`, whichever exist — with SD's syntax included at the end,
-so your line numbers, tabs and colours still apply. (Copied, not included: nano
-refuses an `include` of a file that itself sets options, which `/etc/nanorc`
-does.) **It applies to a `bp` record and to nothing else.** SD names the working
-copy so the editor can recognise the language — a record edited out of any other
-file is treated as plain text, which is correct for a VOC entry or a data record.
-If you run `nano` yourself, outside SD, it is unchanged.
+**It highlights SD BASIC.** The `micro` verb copies SD's syntax file into your
+`~/.config/micro/syntax` the first time it is used. **It applies to a `bp` record
+and to nothing else.** SD names the working copy so the editor can recognise the
+language — a record edited out of any other file is treated as plain text, which
+is correct for a VOC entry or a data record.
 
 **`ed` is unaffected and is still there.**
 
@@ -135,8 +121,8 @@ it started with, the verb refuses and names `ed`**, which needs none of this.
 **Text marks are not converted**, and are covered by the same refusal rather
 than being left to surprise you.
 
-**A compiled dictionary record is truncated to its first 15 fields** while you
-edit it, and recompiled with `cd` when you save.
+**A compiled dictionary record is truncated to its first 15 fields** while
+you edit it, and recompiled with `compile.dict` when you save.
 
 ### An editor is not a hole, but it is worth thinking about
 
@@ -170,26 +156,25 @@ and `modify` are gone and are not coming back. See
 |---|---|
 | **`create.file`** · **`delete.file`** · **`clear.file`** | the life of a file |
 | **`configure.file`** | change a file's configuration |
-| **`analyse.file`** · **`analyze.file`** | report on a file's internals |
+| **`analyze.file`** | report on a file's internals |
 | **`fstat`** | file statistics |
 | **`hsm`** | hashed-file statistics monitoring |
 | **`set.trigger`** | attach a trigger |
-| **`cd`** | change directory |
+| **`compile.dict`** | compile the I-types of a dictionary |
 
 ## Indexes
 
-**`create.index`** · **`delete.index`** · **`build.index`** · **`make.index`** · **`list.index`**
+**`create.index`** · **`delete.index`** · **`build.index`** · **`list.index`**
 
 ## Bulk record editing
 
 | | |
 |---|---|
-| **`copy`** · **`copyp`** | copy records |
+| **`copy`** | copy records |
 | **`delete`** | delete records |
-| **`rename`** | rename records |
 | **`reformat`** · **`sreformat`** | reformat |
 | **`sort.item`** | sort |
-| **`cname`** | change a record's name |
+| **`cname`** | rename a file or change a record's name |
 | **`delete.common`** | clear a common block |
 
 ## What actually gates these
@@ -200,7 +185,7 @@ and `modify` are gone and are not coming back. See
 | The global catalogue | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
 | The deny list (managed mode) | `admin` or the global password unlocks what the server denied |
 | File permissions | ordinary Linux file permissions on your own directory — see [Security](12-security.html) |
-| Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb and `!`) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `nano` and `micro`); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
+| Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `micro`); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
 
 ## Two things to know when you compile
 

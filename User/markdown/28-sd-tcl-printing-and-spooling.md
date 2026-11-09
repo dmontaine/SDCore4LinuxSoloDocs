@@ -166,29 +166,17 @@ itself does not recognise fails when the job is actually sent, not when
 ## Holding a unit open
 
 ```
-sp.open
-sp.close
+printer {unit} keep.open
+printer {unit} close
 ```
 
 By default a unit finishes its job and releases when the program closes it, so
-two reports become two print jobs. **`sp.open`** sets the keep-open flag so they
-become one; **`sp.close`** clears it again. The flag shows up in `setptr`'s
-Options column, which is the way to check it took:
-
-```
-:setptr display
-   0    80    66    0    0    1 
-:sp.open
-:setptr display
-   0    80    66    0    0    1 KEEP.OPEN
-:sp.close
-:setptr display
-   0    80    66    0    0    1 
-```
-
-**Neither verb prints anything.** The Options column is the only report you get,
-and it is worth looking at — a keep-open flag left set is why a report
-occasionally arrives stapled to the one before it.
+two reports become two print jobs. **`printer keep.open`** sets the keep-open flag
+so they become one; **`printer close`** clears it again and closes the unit. The
+flag shows up in `setptr display`'s Options column as `KEEP.OPEN`, which is the
+way to check it took. A keep-open flag left set is why a report occasionally
+arrives stapled to the one before it. (The verbs `sp.open` and `sp.close`, which
+did this for unit 0 only, were removed in 1.2-0.)
 
 ## Printing records
 
@@ -283,92 +271,7 @@ No default report style has been set
 
 which is what a fresh account reports. **`off`** clears it again.
 
-## Form queues: `set.queue` and `sp.assign`
 
-A **form queue** is a number from 0 to 999 that stands for the settings you
-would give `setptr`: width, depth, margins, mode and options. `set.queue` defines
-them and `sp.assign` applies one to a print unit, so that a program or a
-person can say "form queue 5" and not repeat the settings.
-
-```
-set.queue queue, width, depth, top.margin, bottom.margin, mode {, options}
-set.queue queue
-set.queue display {lptr {unit}}
-set.queue deleting queue
-```
-
-*mode* is 1 (printer), 3 (hold file) or 6 (both). The *options* are `setptr`'s,
-written as they would be there; everything after the sixth comma is taken as one
-piece, so `AS hold6` is one option:
-
-```
-set.queue 5,80,60,3,3,1,NFMT
-set.queue 6,100,50,1,1,3,AS hold6
-set.queue display
-```
-
-```
-Queue   Width  Depth   Top  Bottom  Mode  Options
-    5      80     60     3       3     1  NFMT
-    6     100     50     1       1     3  AS hold6
-```
-
-`set.queue 5` alone shows that one queue, and `set.queue deleting 6` removes a
-queue (*Deleted form queue 6*; a queue that is not there is *Form queue 6 is not
-defined*). A queue number above 999 is refused (*A form queue number is a whole
-number from 0 to 999 (1000)*), as is a mode that is not 1, 3 or 6, and a width
-or depth or margin outside 0 to 999 (the width must be at least 1).
-
-**The queues are kept in a directory file `$forms` in the account**, one record
-for each queue, made the first time a queue is set. It is the account's own and
-not one shared by every account, because a queue names a printer and a hold file
-and a definition any account could change would change where the others' reports
-go. An account that wants another's queues can point its `$forms` VOC entry at
-that account's file.
-
-```
-sp.assign {options} {, setptr.options}
-```
-
-`sp.assign` does a `setptr` for a print unit from a queue. The options are
-written together as one word:
-
-| | |
-|---|---|
-| *n* | the number of copies, as digits at the start of the word |
-| `F`*q* · `Q`*q* | the form queue, 0 to 999 (the default is 0) |
-| `H` | keep the output in a hold file: mode 6 (printed as well), or mode 3 with `S` |
-| `S` | do not print. Only with `H`, which makes it mode 3 |
-| `O` | keep the print unit open until `printer close` |
-| `R`*u* | the print unit (the default is 0) |
-
-Anything after a comma is `setptr` options, added at the end, so they override
-the queue's. An option of the queue that does not belong to the mode in use is
-left out (`at`, `banner`, `form` and `options` are for printing; `as` and
-`inform` are for a hold file). `sp.assign f5` sets unit 0 and prints nothing; with
-no option at all it says which queue unit 0 was last given and shows the unit:
-
-```
-Print unit 0 uses form queue 5
-Unit Width Depth Tmgn Bmgn Mode Options
-   0    80    60    3    3    1 FORM.FEED CRFF, NFMT
-```
-
-`sp.assign f5 r2` sets unit 2 the same way, and `sp.assign f6 h` made unit 0 mode
-6 with `AS hold6`. A queue that is not defined is *Form queue 0 is not defined*
-(with the number asked for), and a word it does not understand is *SP.ASSIGN
-option X is not understood*. From BASIC, `getpu(pu$form.queue, unit)` gives the
-queue last assigned to a unit and `system(1066)` the last one assigned to any
-unit.
-
-**`banner` did not work in the sandbox.** A queue whose options include
-`banner`, and `setptr 0,80,60,3,3,1,BANNER daily` typed by hand, both answered
-*Unexpected token (BANNER)*. The cause was not looked for; `copies` and `nfmt`
-were accepted. Until it is understood, leave `banner` out of a queue.
-
-The listings were produced by running them in a sandbox build of SD Core for
-Linux Solo, as the administrator. What is read from the source and was not run:
-the refusal of `S` without `H`, and the `getpu` and `system(1066)` readings.
 
 ## Big letters: `block.print`
 

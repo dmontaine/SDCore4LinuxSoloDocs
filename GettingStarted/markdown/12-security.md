@@ -23,7 +23,7 @@ you**, or `root`, from reading or changing the files directly.
 | **Linux** | your directory from other Linux users | it from you, and from `root`, who can read `~/SDCoreSolo` — the credential store included |
 | **The account password** | every SD session: keyboard, ssh, API, and a command line | the files themselves |
 | **`admin`** | the administrator commands and direct VOC edits, in a session | a program that reads the files |
-| **The `sh` and `os` switches** | the way out of SD onto the computer from inside a session: the `sh` verb and `!`, `OS.EXECUTE`, files and directories outside the account, the embedded Python, `nano` and `micro` — off as delivered | what a program that already runs as you does outside SD |
+| **The `sh` and `os` switches** | the way out of SD onto the computer from inside a session: the `sh` verb, `OS.EXECUTE`, files and directories outside the account, the embedded Python, `micro` — off as delivered | what a program that already runs as you does outside SD |
 | **The global password** | a managed computer, for the SD Core for Linux server | — |
 | **The deny list** | commands the user may not run on a managed computer | the same files, outside SD |
 

@@ -32,7 +32,7 @@ here you compile, catalogue and run programs. The programs themselves
 are written in SDBasic, which is a different language from TCL.
 
 Your `bp` file is an ordinary Linux directory. You can write programs
-in `ed` from inside SD, in `nano` or `micro` once the administrator has turned
+in `ed` from inside SD, in `micro` once the administrator has turned
 the `os` switch on (it is off as delivered; `set.os.access os on`), or in any
 text editor you like. The folder is on disk at:
 
@@ -216,8 +216,8 @@ compulsory**. A program that omits the `else` does not compile.
 `read` fetches the whole record by id. The `then` branch fires if the
 record exists; the `else` branch fires if it does not.
 
-`rec<1>` is **field extraction** — the angle brackets are the
-shorthand for `extract(rec, 1, 0, 0)`. Field 1, field 2, field 3.
+`rec<1>` is **field extraction** — the angle brackets pick field 1 out of
+the record. Field 1, field 2, field 3.
 Dynamic arrays are covered in [SD Basic - Dynamic Arrays](05-sd-basic-dynamic-arrays.html).
 
 ## 5. A program that writes

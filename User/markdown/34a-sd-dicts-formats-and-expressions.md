@@ -141,11 +141,12 @@ record the query processor lists, and the result is the field value.
 
 An I-type expression is a single SD BASIC expression. It can use:
 
-- **Field references**: `F2` is field 2 of the current record. `@RECORD`
+- **Field references**: a D-type item such as `F2` (field 2 of the current record) —
+  a name is a field only if the dictionary has an item of that name. `@RECORD`
   is the whole record as a dynamic array.
 - **Pseudo-variables**: `@ID` (the record id), `@NI` (number of values
   in the longest multivalued field), `@NB` (record length), `@FILE.NAME`,
-  `@USER.NO`, `@PATH`.
+  `@USERNO`, `@PATH`.
 - **BASIC functions**: `LEN()`, `FIELD()`, `INDEX()`, `COUNT()`,
   `SUM()`, `OCONV()`, `ICONV()`, `DATE()`, `TIME()`, `RAISE()`,
   `DOWNCASE()`, `UPCASE()`, `TRIM()`, `STR()`, `SPACE()`, `SEQ()`,
@@ -183,23 +184,19 @@ An I-type may begin with `$MODE`, a list of mode names and a semicolon, as a pro
 `$MODE`:
 
 ```
-$MODE COUNT.OVERLAP ; COUNT(F1, 'aa')
-$MODE INDEX.OVERLAP,NOCASE.STRINGS ; INDEX(F1, 'AA', 3)
+$MODE NOCASE.STRINGS ; COUNT(F1, 'AA')
+$MODE NOCASE.STRINGS ; INDEX(F1, 'AA', 3)
 ```
 
 | mode | |
 |---|---|
-| `INDEX.OVERLAP` · `COUNT.OVERLAP` | `INDEX()` takes the *n*th occurrence counting the ones that overlap, and `COUNT()` finds occurrences that overlap: `aa` in `aaaaaaaaa` is found 8 times, not 4 |
-| `CHANGE.NO.OVERLAP` | `CHANGE()` counts occurrences without overlap: when a starting occurrence is given, the ones before it are passed over whole |
 | `NOCASE.STRINGS` | string comparisons and the string functions ignore case |
-| `TIME.MS` | `TIME()` returns the seconds since midnight to the millisecond, as a number with a fraction |
-| `COMPATIBLE.APPEND` | accepted, and does nothing: an I-type has no append to change |
 
 These are the same modes, with the same meanings, as in
 [SD Basic - Program Structure](01-sd-basic-program-structure.html).
 
 Several names may be separated by commas, several `$MODE` statements may each end in a semicolon,
-and a name with a minus in front of it turns that mode off again (`COUNT.OVERLAP,-COUNT.OVERLAP`).
+and a name with a minus in front of it turns that mode off again (`NOCASE.STRINGS,-NOCASE.STRINGS`).
 **Each mode gives the value a program gives with the same `$MODE`**; without the mode the same
 expression gives its ordinary value.
 
@@ -228,17 +225,13 @@ conversion is then applied to that value. An I-type that returns an
 internal date with `D` in field 3 will display it formatted — the
 expression computes the date, the conversion formats it.
 
-## Correlatives — field 8 for type A
+## Correlatives
 
-A-type records carry a correlative in field 8. A correlative is a
-Pick-style expression — a short code that transforms the field value
-before display. SD compiles correlatives the same way it compiles
-I-types, storing the object in field 16 onward.
-
-Correlative codes are a Pick inheritance and are rarely used in new SD
-dictionaries. An I-type expression is easier to read and can express
-calculations a correlative string cannot. The correlative mechanism exists so
-that dictionaries imported from Pick systems continue to work.
+SD has no correlative. Another system kept one in field 8 of an A-type item, a
+short code that changed the field's value before it was shown. SD does not read
+A-type or S-type items (see [the A and S types](33-sd-dicts-structure.html#the-a-and-s-types-are-not-read)),
+so the calculation is written as an I-type expression, which can say anything
+a correlative could and is easier to read.
 
 ## Chaining conversions
 

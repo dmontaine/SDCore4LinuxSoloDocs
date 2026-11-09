@@ -219,9 +219,9 @@ them.
 
 ## The terminal editors' key bindings
 
-**`nano` and `micro`'s key bindings are each program's own, unmodified — this
-release does not implement or alter either editor**, only launches it and, for
-`micro`, stages its syntax highlighting. If a binding surprises you, that is each
+**`micro`'s key bindings are the program's own, unmodified — this
+release does not implement or alter the editor**, only launches it and
+stages its syntax highlighting. If a binding surprises you, that is the
 program's own documented behaviour, not something to report against SD.
 
 ## What is NOT on this page, and why

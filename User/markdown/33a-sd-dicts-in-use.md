@@ -26,8 +26,8 @@ more dictionary field names. This is how saved selection clauses work:
 For each field name in the command, the query processor reads the
 dictionary record and extracts:
 
-1. **The field number** (field 2 for D, A and S; the expression for I
-   and C) — where to get the data.
+1. **The field number** (field 2 for D; the expression for I) — where
+   to get the data.
 2. **The conversion code** (field 3) — how to transform it for display.
 3. **The display name** (field 4) — what to head the column.
 4. **The format** (field 5) — how wide and how justified.
@@ -97,7 +97,8 @@ and every program that includes it picks up the change on recompile.
 
 **There is no verb that lists dictionary records by type.** `DICT`
 *file.name* displays the records, and `LIST DICT` *file.name* runs the
-query processor over them, but there is no `listd` or `listdict` verb.
+query processor over them, but there is no `listd` or `listdict` verb (`listdict`, a paragraph over `list dict`, was
+removed in 1.2-0; `list dict` *file* lists every item).
 `ED DICT` *file* *name* edits one record; `DICT` *file* displays
 several.
 
@@ -105,9 +106,9 @@ several.
 the query processor and there is no shipped example. It exists for
 applications that need cross-file joins in a query.
 
-**The `C` type is rare.** Stock dictionaries use `D` for direct fields
-and `I` for computed ones. `C` exists for compatibility and is
-functionally a subset of `I` — use `I` for new computed fields.
+**There is no `C` type.** Stock dictionaries use `D` for direct fields
+and `I` for computed ones. A `C` item (a calculated field written as a BASIC
+program) is refused by `compile.dict` with message 11993 — write it as an `I`.
 
 ## See also
 

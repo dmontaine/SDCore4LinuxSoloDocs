@@ -30,7 +30,6 @@ load-bearing and the remaining thirty are not.**
 | `K` | keyword | a query-processor keyword; four of these are also verbs |
 | `S` | sentence | one stored command line |
 | `PA` | paragraph | several stored command lines, with flow control |
-| `M` | menu | dispatched, but no menu ships |
 | `Q` | Q-pointer | an indirect pointer to a file in another account |
 | `F` | file | a file — local, or pointing into `@SDSYS` |
 | `R` | remote | a pointer to a record in another file, re-read and re-parsed |
@@ -57,7 +56,6 @@ and keywords of its 1.2-0 work.** Counted on 21 Oct 2026:
 | `F` | 8 |
 | `R` | 10 |
 | `PA` | 2 |
-| `PH` | 2 |
 | `S` | 2 |
 | `Q` | 2 |
 | `X` | 1 |
@@ -111,7 +109,6 @@ itself — that the account needs:
 | `syscom` | `@SDSYS/syscom` | |
 | `$map` | `@SDSYS/$map` | `@SDSYS/$map.dic` |
 | `dict.dict` | `@SDSYS/dict.dic` | `@SDSYS/dict.dic` |
-| `sd.voclib` | `@SDSYS/sd.voclib` | `@SDSYS/voc.dic` |
 | `global.bp.out` | `@SDSYS/global.bp.out` | |
 
 `global.bp.out` is the SD Core for Linux server's directory of compiled programs
@@ -146,7 +143,7 @@ target, and the remaining fields carry options.
 |---|---|---|
 | `CA` | *catalogue name* | a catalogued program — 98 of the shipped verbs |
 | `IN` | *number* | internal verb *n*, handled by the command processor itself — 42 verbs |
-| `OS` | *text* | an operating-system command — `sh` and `!`, and nothing else |
+| `OS` | *text* | an operating-system command — `sh`, and nothing else |
 | `CS` | *path* | a locally catalogued function |
 
 The first three rows account for all 139 of Solo's `V` records. The
@@ -167,9 +164,10 @@ and field 4 — so two names that dispatch identically are denied together.
 
 `IN` verbs are numbered, and the numbers are positional in the command
 processor's dispatch list. Several names share one: `off` and `quit` are
-both internal verb 1, `clr` and `cs` are both 2, and each of `clear.data`,
-`clear.input`, `clear.prompts` and `clear.select` has a run-together
-spelling (`cleardata` and the rest) pointing at the same number.
+both internal verb 1, and `clr` is internal verb 2. (`cs` for `clr`, and the
+run-together `cleardata`, `clearinput`, `clearprompts` and `clearselect` for
+`clear.data` and the rest, were second names for the same numbers and were
+removed in 1.2-0.)
 
 ### The four keyword-verbs
 
@@ -195,23 +193,24 @@ name in that account. `set.file` writes Q-pointers; see below. Since 16 Oct 2026
 target of `set.file` may itself be a Q-pointer, which makes a chain (not recommended, but it opens): each link is
 followed under the same rules, so a chain cannot reach where its links alone could not.
 
-`md` is a Q-pointer to `voc` — the VOC's own dictionary is reached
-through it, and it is how `dict voc` finds its records.
-
 ## The R record — a remote record reference
 
 ```
 001  R
-002  SD.VOCLIB
-003  listf
+002  mylib
+003  listbig
 ```
 
-This is `listf`. Field 2 is the file name, field 3 is the record id. An
-R-record is **re-read and re-parsed every time it is used**, so editing
-the referenced record changes what the command does without touching the
-VOC entry. The `LIST` family — `listf`, `listfl`, `listfr`, `listk`,
-`listpa`, `listph`, `listq`, `listr`, `lists`, `listv` — are all
-R-records pointing into `SD.VOCLIB`.
+This is an R-record called, say, `bigfiles`. Field 2 is the file name, field 3
+is the record id of the sentence in it. An R-record is **re-read and re-parsed
+every time it is used**, so editing the referenced record changes what the
+command does without touching the VOC entry. **SD ships no R-record any more**:
+the ten ready-made `list` sentences (`listf`, `listfl`, `listfr`, `listk`,
+`listpa`, `listph`, `listq`, `listr`, `lists`, `listv`) and the `sd.voclib` file
+that held them were removed in 1.2-0. To list the records of one type, ask the
+query processor: `list voc with type = "V"` (`"F"` for files, `"K"` for
+keywords, `"PA"` paragraphs, `"PH"` phrases, `"Q"` Q-pointers, `"R"` R-records,
+`"S"` sentences).
 
 ## The S record — a sentence
 
@@ -230,7 +229,6 @@ command with its first arguments filled in.
 001  PA
 002  TERM ANSI
 003  TERM 120,36
-004  PTERM CASE NOINVERT
 ```
 
 This is `login`, the paragraph that runs at sign-on. A paragraph holds
@@ -249,13 +247,16 @@ text as typed-ahead input.
 002  GRAND.TOTAL "'L'"
 ```
 
-This is `no.grand.total`. A phrase is a stored fragment that is
+A phrase is a stored fragment that is
 substituted into a command line wherever its name appears. `PH` is
 treated as `S` for most purposes — the difference is that a phrase is
 designed to be used inside another command rather than typed on its own.
+The record above is a phrase a site might add: named `gt.l`, say, it
+expands to `grand.total "'L'"` wherever `gt.l` appears in a query.
 
-`without` is also `PH`, holding `WITH NO` — so `list stock without qty`
-expands to `list stock with no qty`.
+**No phrase ships in the VOC.** The two that did, `no.grand.total` and
+`without`, were removed in 1.2-0; write `grand.total "'L'"` and `with no`
+in the command instead.
 
 ## The K record — a keyword
 
@@ -267,8 +268,7 @@ expands to `list stock with no qty`.
 This is `#`, the comment keyword. Field 2 is the keyword number the query
 processor uses. Keywords are not commands in their own right; they are
 the words the query processor — `LIST`, `SELECT`, `SORT` and the rest —
-recognises inside a command line. `all` is `K` with number 5; `after` is
-`K` with a number; `and` is `K`.
+recognises inside a command line. `all` is `K` with number 5; `and` is `K`.
 
 **A K record can also be a command.** When its fields 3 onwards are another
 VOC record (a `V` record, say), typing the K record's name runs that record as

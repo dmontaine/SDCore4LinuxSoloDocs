@@ -99,9 +99,9 @@ the name of a VOC verb.
 **Nobody catalogues globally on Solo — `admin` or not.** `catalog ... global` is
 refused with *"The global catalogue holds the SD Core server's programs from
 global.bp.out and is changed only by sync.global.catalog"*. **The same refusal
-applies to an implicit global catalogue** — one chosen by a `*`, `!`, `_`, `$` or
-`-` prefix on the call name rather than by the `global` keyword (the hyphen since
-16 Oct 2026) — so the prefix is not a way round it. On a managed computer the global catalogue is the SD Core
+applies to an implicit global catalogue** — one chosen by a `!`, `_` or `$`
+prefix on the call name rather than by the `global` keyword (the `*` and `-`
+prefixes were removed in 1.2-0) — so the prefix is not a way round it. On a managed computer the global catalogue is the SD Core
 for Linux server's, and only it can change it — see *Managed mode* in the
 GettingStarted set. Catalogue your own programs `private` or `local`.
 
@@ -230,19 +230,27 @@ With no record name it uses the active select list.
 ## Compiling dictionaries
 
 ```
-cd {dict | data} file {i-type}... {no.query} {no.page}
-cd local
-cd all
+compile.dict file {i-type}... {no.query} {no.page}
+compile.dict local
+compile.dict all
+compile.dict data file {i-type}...
 ```
 
-`compile.dict` is the same verb under its longer name. It compiles the A, C, I
-and S-type entries in a dictionary; with no names it does all of them, or uses
-the active select list if there is one.
+It compiles the I-type entries in the dictionary of *file*; with no names it does all of
+them, or uses the active select list if there is one. **The dictionary is the
+default: write the file's name and nothing before it** (`compile.dict cust dbl`).
 
 | | |
 |---|---|
-| **`cd local`** | every dictionary in the account |
-| **`cd all`** | every dictionary visible from the account |
+| **`compile.dict local`** | every dictionary in the account |
+| **`compile.dict all`** | every dictionary visible from the account |
+| **`compile.dict data file`** | reads the records of the file's *data* part as if they were dictionary items, and compiles those that look like one: a record whose first character is `I`. Every other record is skipped without a word. It is for the rare file whose data holds items of that kind; on an ordinary data file a record that happens to begin with `I` is reported as a compilation error. Because it rewrites records it is held back by the edit gates as any change to a VOC, a dictionary or a program file is |
+
+> **Do not put `dict` before the file name.** An older description of this verb
+> gave the form `compile.dict dict file`, but the word is not understood as a keyword:
+> `compile.dict dict cust dbl` answers *File dict not found*, because `dict` is taken to be
+> the name of the file. `compile.dict cust dbl` is the command that compiles the item
+> `dbl` of the dictionary of `cust`.
 
 Compiling a dictionary is a performance step, not a correctness one: it is what
 a query using those entries runs against.
@@ -396,8 +404,8 @@ program in a phantom process"*. The debugger itself is covered in
 ## Who has these verbs
 
 **Every account has all of them now**: `format`, `list.common`, `basic`,
-`catalog`, `catalogue`, `cd`, `compile.dict`, `debug`, `decatalog`,
-`delete.catalog`, `delete.catalogue`, `delete.common`, `find.program`,
+`catalog`, `compile.dict`, `debug`, `decatalog`,
+`delete.catalog`, `delete.common`, `find.program`,
 `generate`, `ide`, `map`, `run`.
 
 **Running a catalogued program never needed any of these anyway** — a

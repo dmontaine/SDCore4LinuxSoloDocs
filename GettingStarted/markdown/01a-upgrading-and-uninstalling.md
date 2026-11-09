@@ -96,8 +96,13 @@ enough on its own: your account's VOC was built by the release that installed
 it. So an upgrade also, for you:
 
 - adds the new release's commands to your account's VOC
-  (`update.accounts all`) — it never takes anything away, and a record you keep
+  (`update.accounts all`), and takes out the records on SD's deletion list - the
+  ones a release stopped shipping - but only a record that is still exactly what SD
+  shipped, after saving a copy (`restore.voc` puts it back); a record you keep
   your own version of, marked `[locked]` in field 1, is left alone;
+- deletes the files of the system directory that this release stopped shipping, and
+  takes the `sd.conf` parameters SD no longer has out of your kept `sd.conf` (SD would
+  refuse to start on one);
 - recompiles SD's own dictionaries;
 - catalogues the server's programs in `global.bp.out` again, on a managed
   computer (`sync.global.catalog`), because the global catalogue is one of the
@@ -129,7 +134,7 @@ It says what it will remove, and asks whether to keep your data and configuratio
 
 | | |
 |---|---|
-| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`), `sd.conf` and, if you made one, the `newvoc.mods` directory of your own VOC records. Everything else in the directory is removed |
+| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`), `sd.conf` and, if there are any, the `newvoc.mods` directory of your own VOC records and the saved copies of VOC records the update removed (`voc_removed.saved`). Everything else in the directory is removed |
 | `--delete-data` | removes the whole directory |
 | `--yes` | do not ask "Continue?" |
 

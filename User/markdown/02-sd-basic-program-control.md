@@ -217,7 +217,7 @@ catch account
 | `@exception` | the name as it was thrown (its case too) |
 | `@exception.data` | the second argument of `throw`; for a run time error, the message |
 | `@exception.origin` | the program (its object path), a field mark and the line the exception was thrown from, or -1 where the program has no line table |
-| `@exception.stack` | the call stack as `system(1002)` gives it, innermost first; filled only when the clause says `saving.stack` (or `$mode exception.save.stack`) |
+| `@exception.stack` | the call stack as `system(1002)` gives it, innermost first; filled only when the clause says `saving.stack` |
 
 `dumping` makes a process dump file, showing the call stack as it was, before the
 stack is unwound.
@@ -273,10 +273,10 @@ exception, `catch sys.program` the ones in that group, and so on down.
 | `sys.program.datatype.null_string` | a null string where one is not allowed |
 | `sys.program.div_zero` | divide by zero |
 | `sys.program.invalid_matrix_index` | a subscript out of range |
-| `sys.program.invalid_matrix_size` | an argument matrix too small for the subroutine, or a Pick style matrix that cannot be resized or has no elements |
+| `sys.program.invalid_matrix_size` | an argument matrix too small for the subroutine |
 | `sys.program.invalid_argct` | the wrong number of arguments in a `call` |
 | `sys.program.invalid_call_name` | a call name that cannot be a program name |
-| `sys.program.not_found` | the subroutine is not in the catalogue, or cannot be loaded |
+| `sys.program.not_found` | the subroutine is not in the catalog, or cannot be loaded |
 | `sys.program.load_error` · `load_error.read_error` | object code that is damaged or cannot be read |
 | `sys.program.invalid_data_size` | a string or element over its limit |
 | `sys.program.invalid_in_txn` | a file operation a transaction does not allow |
@@ -310,18 +310,14 @@ handler.
 ## Running something else
 
 ```
-execute expression {capturing variable} {returning variable} {passlist} {rtnlist variable} {stacklist}
-perform expression
+execute expression {capturing variable} {returning variable} {passlist variable} {rtnlist variable} {stacklist}
 chain expression
-enter name {(arguments)}
 ```
 
 | | |
 |---|---|
 | `execute` | runs a command **at a new level**; the current program resumes afterwards |
-| `perform` | as `execute`, but the command shares the caller's level — it can see and change the caller's select lists and files |
 | `chain` | replaces the current program; **nothing comes back** |
-| `enter` | transfers to another program, also without return, but keeps the current level |
 
 `execute 'WHO' capturing cap` puts the command's output in `cap`
 rather than on the screen, one field per line — `dcount(cap, @fm)` is `1` for
@@ -336,7 +332,7 @@ reads **-1**. The program carries on. **Test `@system.return.code` after any
 |---|---|
 | **capturing** *var* | the command's output goes to *var* instead of the terminal |
 | **returning** *var* | error messages go to *var* |
-| **passlist** | the caller's default select list is handed to the command |
+| **passlist** *var* | the select list held in *var* (made by `formlistv`, `getlistv`, `selectv` and the like) becomes the command's default select list. The variable is always named: `passlist` alone is refused |
 | **rtnlist** *var* | the command's select list comes back |
 | **stacklist** | the default select list is kept as it was, the place `readnext` had reached included, and put back when the command returns. The command is given the list as usual and may read, change or replace it. It cannot be combined with **passlist** or **rtnlist** (the compiler refuses it) |
 
@@ -345,9 +341,9 @@ is what the program finds afterwards. Note that a `select` command that
 meets an active list selects *from that list* (an intersection): a command that
 means to replace the list must `clear.select` first.
 
-> **`chain` discards unnamed common by default.** The `chain.keep.common`
-> option preserves it — `option chain.keep.common` — which is the setting a
-> ported application usually needs.
+> **`chain` discards unnamed common.** (The option `chain.keep.common`, which
+> kept it, was removed in 1.2-0: pass what the next program needs in named common
+> or in the data queue.)
 
 ## Waiting
 
@@ -356,7 +352,6 @@ sleep {seconds}
 nap milliseconds
 pause {timeout}
 wake user.number
-rqm {time}
 ```
 
 | | |
@@ -365,10 +360,9 @@ rqm {time}
 | `nap` | wait a number of **milliseconds** |
 | `pause` | wait until another process calls `wake`, or until the timeout expires |
 | `wake` | release a process that is paused |
-| `rqm` | release the processor briefly — the historical "release quantum" |
 
 `pause` and `wake` are how two SD sessions coordinate without polling. The user
-number `wake` needs is the one `@user.no` reports in the waiting process.
+number `wake` needs is the one `@userno` reports in the waiting process.
 
 ## Interrupting
 
@@ -397,12 +391,11 @@ which is how a program cleans up rather than dying at an arbitrary point.
 ```
 null
 rem text
-remark text
 * text
 ```
 
 `null` is a statement that does nothing, for branches that must be present but
-empty. `rem`, `remark` and a leading `*` are comments; so is anything after
+empty. `rem` and a leading `*` are comments; so is anything after
 `;*` on a line.
 
 **`rem` is also a function.** `rem(a, b)` is the remainder — see
@@ -425,6 +418,7 @@ Core for Windows). A program using one will not compile.
 | `enter.package` · `exit.package` · `package` | |
 | `trace` | |
 | `errmsg` | |
+| `procread` · `procwrite` · `@pib` · `@sib` · `@pob` · `@sob` | the PROC interface |
 
 **`errmsg` is not in the compiler's statement table, and has not been since
 July 2024.** `errmsg 1000` is rejected with *"Unrecognised statement"*, the
@@ -435,9 +429,10 @@ with nothing behind it. That was wrong: `BCOMP` removed the table entry on
 changed, and a tool that read the table by matching quoted names picked it up
 from the comment.
 
-`procread` and `procwrite` **do** compile, despite appearing on the SD 0.8.0
-removed list; `procread` was restored afterwards. Both were checked, not
-assumed.
+`procread` and `procwrite` are gone as well, with the PROC language they
+served, and so are the variables `@pib`, `@sib`, `@pob` and `@sob`. A program
+using one will not compile. (The 1.2-0 programme removed them; earlier versions
+of this page said they compiled.)
 
 ## See also
 

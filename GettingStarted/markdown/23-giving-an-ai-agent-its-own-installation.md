@@ -11,7 +11,7 @@ SD Core for Linux Solo has **one account**, `sduser`, and its two OS switches be
 
 ## The two OS switches
 
-**The shell and OS access are two switches, `sh` and `os`, both off as delivered** ([Operating system access](06b-operating-system-access.html)). With them off, `sh`, `!`, `os.execute`, the embedded Python and a path outside the account are refused to a session that has not typed `admin`. **Switched on, they run with the rights of the Linux user, and then they are not a wall**: what an agent's installation can reach is what its Linux user can reach. The switches are the administrator's to turn on or off (`set.os.access`), and the installer asks about them once.
+**The shell and OS access are two switches, `sh` and `os`, both off as delivered** ([Operating system access](06b-operating-system-access.html)). With them off, `sh`, `os.execute`, the embedded Python and a path outside the account are refused to a session that has not typed `admin`. **Switched on, they run with the rights of the Linux user, and then they are not a wall**: what an agent's installation can reach is what its Linux user can reach. The switches are the administrator's to turn on or off (`set.os.access`), and the installer asks about them once.
 
 ## Two shapes
 

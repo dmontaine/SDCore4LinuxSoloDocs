@@ -35,7 +35,8 @@ second user; the rows below say what Solo has, and the section at the end says w
 | Dictionary divide by zero | Changed | stopped the report; now gives zero |
 | `sed` keys | Changed | were Emacs keys with Ctrl-X sequences; now the keys most editors have |
 | AccuTerm and SDTerm | Removed | were supported; use terminal type `xterm` or `vt100` |
-| Message numbers | Changed | Solo's messages 11040 to 11054 and 11060 to 11065 moved to 11900 and 11920, so a message means the same in both products; the ssh key request refuses with 11901, 11902 and 11903 |
+| Removed features | Removed | words and modes that existed to imitate other products (`option` words, `$mode` words, and the second spellings and forms of statements, clauses, functions, conversions, TCL verbs and query keywords, each listed in [REMOVED](#removed)), and other things: see [REMOVED](#removed) |
+| Message numbers | Changed | Solo's own messages 11040 to 11054 and 11060 to 11065 moved to 14974 to 14994, so a message means the same in both products; the ssh key request refuses with 14975, 14976 and 14977 |
 | A silent remote server | Changed | could be waited for without limit; now it is given up on after `netreply` seconds |
 
 ## ADMIN
@@ -351,6 +352,96 @@ The debugger and the editors, from the openQM list. The full-screen tools that a
 | `sed` | Changed | the full-screen editor takes `creating.seqkey` in place of a record id, like `ed` <!--s 446-->|
 
 
+## REMOVED
+
+These were in LS1.1-3 - or were added and taken out again during LS1.2-0 - and **SD no longer has them**. This is the one place where a removal is listed,
+whatever the area it belonged to. Most were removed because they existed only to make SD behave like another MultiValue
+product, or gave a second way to do something SD already does one way. **A program, a login paragraph or a `$basic.options` record that uses one has to
+be edited**; the last column says what to write instead. A program that was compiled with a removed mode keeps what it was
+compiled with until it is compiled again. More rows are added as the removal goes on.
+
+| Name | Change | What |
+|---|---|---|
+| AccuTerm terminal types | Removed | the eleven `-at` terminal types and AccuTerm's escape sequences |
+| `$mode` words that imitated other products | Removed | `prclose.default.0` (write `printer close on` *unit*), `unassigned.common` (a common variable starts as zero), `no.case.invert` (give `input` the `nocaseinvert` clause) and `optional.then.else` (a `read` takes a `then` or an `else`) are refused now with *Unrecognized mode name*; `conditional.statements`, `implied.stop` (end a program with `stop`) and `exception.save.stack` (write `saving.stack` on the `catch`) were added and removed within 2.0-0, so they never shipped |
+| `option` words that imitated other products | Removed | `option pick` and 22 words, refused now with *Option name not recognized*: `assoc.unassoc.mv`, `pick.breakpoint`, `pick.breakpoint.u`, `pick.explode`, `pick.grand.total`, `pick.implied.eq`, `pick.null`, `pick.wildcard`, `qualified.display`, `with.implies.or`, `query.no.case`, `query.priority.and`, `ampm.upcase`, `crdb.upcase`, `no.date.wrapping`, `space.mct`, `lock.beep`, `ed.no.query.fd`, `create.file.upcase`, `select.keep.case`, `debug.rebind.keys`, `proc.a`. SD does what it did with them off: write `with city = "Reno"`, use `like` for wildcards, brackets and `or` for the order of tests, `no.case` after an operator or `option query.sort.no.case` for case; times and amounts are `am`, `pm`, `cr`, `db`; a date such as 31 February rolls into the next month; a lock wait is silent; `fd` in `ed` asks first; `create.file` names a file in lower case |
+| screen save and restore | Removed | `save.screen()` and `restore.screen`: still exist and do nothing the terminal could see |
+| `sdterm` terminal type | Removed | with SDTerm and SDConsole, and the `term display` line about them |
+| `term 120,36` at login | Removed | `login` no longer sends it |
+| second names for statements | Removed | `$insert` (write `$include`), `include` without the `$` (write `$include`), `com` (write `common`), `dimension` and `redimension` (write `dim` and `redim`), `enter` with `$mode pick.enter` (write `call`, or `chain` to hand control on for good), `perform` (write `execute`), `printerr` (write `inputerr`), `remark` (write `rem`), `rqm` (write `sleep`), `sub` (write `subroutine`, also after `local`, `private` and `public`) and `tclread` (read `@sentence`): the compiler refuses each |
+| second forms of statement clauses | Removed | `execute ... setting` (write `returning`), `execute ... passlist` with no variable (it did nothing: name the variable, or leave the clause out), `input ... for` and `input ... timeout` (write `waiting`), `opentemp ... ecs` (a word that was read and ignored: it is an ordinary name now, so the compiler warns that it is never assigned a value) and the bracketed Pick form `locate(expr, array, f, v; position; order)` (write `locate expr in array<f, v> setting position`) |
+| second names for functions and variables | Removed | `ereplace()` (write `change()`, which takes -1 for every occurrence), `sentence()` (read `@sentence`), `swapmarks()` (it returned its argument), `terminfo.ex()` (write `terminfo()`) and `@system.set` (write `@system.return.code`) |
+| `mcd`, `mcx` and `mcxd` conversions | Removed | second spellings of `mx`: an invalid conversion code now, STATUS 2 (`mcdx` stays, as `mx`) |
+| second spellings of query keywords | Removed | `col.spcs` (write `col.spaces`), `display.name` (`col.hdg`), `evaluate` (`eval`), `calculate` (`calc`), `intersection` and `difference` (`intersect` and `diff`, also in `merge.list`), `margin` (`left.margin`), `stats` (`statistics`), `supp` (`hdr.sup`) and `only` (`id.only`): **a new account does not have their VOC records**, and the next `update.accounts` removes them from existing accounts, through the deletion list (saved copy first; a record of your own with the same name is kept; `restore.voc` puts one back) |
+| `only` and `id.only` before the file name | Removed | `list only customers` is refused: write `list customers id.only` |
+| `=>`, `=<` and `><` | Removed | the mirrored spellings of `>=`, `<=` and `<>`; as for the keyword synonyms, a new account has no record for them and an old account keeps its own |
+| eleven `option` words | Removed | `run.no.page` and `paginate.on.heading` (a run is paginated unless `run ... no.page` says not), `pick.ml.conv.mask` (a left bracket in `ml` / `mr` is the round-bracket negative style), `chained.select` (a select does not run the data queue), `default.mv` (a blank S/M flag is single valued), `query.string.comp` and `query.str.comp.all` (`=` and `ne` compare as BASIC does), `assoc.all` (the dictionary's associations are used), `query.footer.pause` (no pause after a page footer), `query.merge.print` (a report closes printer 0) and `keep.old.object` (a failed compile leaves no object code). Each behaves as it did with the option off; their numbers stay reserved |
+| `dquote()`, `dquotes()`, `swap()`, `xlate()` | Removed | second names of `quote()`, `quotes()`, `change()` and `trans()`: write those |
+| `caption`, `nopage`, `col.hdr.space` | Removed | `caption` and `nopage` were second names of `grand.total` and `no.page`; `col.hdr.space` (a blank line under the column headings) was added and taken out again: end a heading with a blank line |
+| `listdict`, `edit.list` | Removed | write `list dict` *file*, and `ed $savedlists` *name* |
+| loose forms of a dictionary expression | Removed | an `if` with no `then` or no `else` is refused again (messages 2950 and 2951), a hyphenated item name such as `cust-no` is read as a subtraction, and a format string straight after a value needs its operator |
+| `$mode execute.clearlist`, `open.fail.zero.fvar`, `pick.readnext` | Removed | added and taken out again in this release: the default select list is not cleared before an `execute` (use `clearselect 0`), the file variable of a failed `open` stays unassigned, and a `readnext` that takes its `else` sets the id variable to the null string. Their mode bits stay reserved |
+| three more `option` words | Removed | `chain.keep.common` (`chain` always discards the unnamed common), `backslash.not.quote` (a backslash always opens a quoted string in a command line) and `correlative.reuse` (a shorter array's missing values count as zero unless an operand says `reuse()`) |
+| `inputclear` | Removed | write `clearinput`; the file type constant `FL$TYPE.SH` (a static hashed file SD never had) is gone too |
+| `@am`, `@svm`, `@user`, `@user.no`, `@filename` | Removed | second names of variables that stay: write `@fm`, `@sm`, `@logname`, `@userno` and `@file.name` (a dictionary item of your own that says `@filename` stops compiling until changed) |
+| `go`, `go to`, and `#` before a compiler directive | Removed | write `goto` (also in `on ... goto`) and `$ifdef`, `$define`, `$include` |
+| second spellings of query words | Removed | `avg`, `enum`, `vert`, `percent`, `pct`, `%`, `header`, `footer`, `first`, `#` and `&`: write `average`, `enumerate`, `vertically`, `percentage`, `heading`, `footing`, `sample`, `ne` and `and`; a `break.on` control `l` is no longer ignored when `u` is given too; and a name that is `f` and a number is a field only if the dictionary has an item of that name |
+| terminal case inversion | Removed | `pterm case invert` / `noinvert` (and the line in `pterm display`), `input ... nocaseinvert`, the `invcase` setting of `sd.conf` (a kept `sd.conf` is cleaned by the installer), `system(1001)`, `pterm(PT$INVERT)` and the `no.invert` option of `sed`; `keyinc()` is now the same as `keyin()`, and field 2 of `ttyget()` is always 0. Type in the case you want |
+| `nano` | Removed | the second external editor, with its syntax file and the page about it (the shared parts moved to the `micro` page): write `micro`, `sed` or `ed` |
+| `set.queue`, `sp.assign`, `getpu(pu$form.queue)`, `system(1066)` | Removed | Pick style form queues were added and taken out again in this release: use `setptr` with the settings you want |
+| `copyp`, `copy.listp` | Removed | the Pick-style copy and its saved-list form (`copy.listp` was added and removed again in this release): write `copy` and `copy.list` |
+| `make.index` | Removed | write `create.index` and then `build.index` (the `tool.dict` page runs both after one box) |
+| `list.union`, `list.inter`, `list.diff` | Removed | the saved-list twins of `merge.list`: `get.list` the two lists and `merge.list 1 union 2 to 3` (or `intersect`, `diff`) |
+| `cd` | Removed | the short name of `compile.dict`: write `compile.dict` |
+| `md` | Removed | the Pick name for the VOC (a Q-pointer to `voc`): write `voc` |
+| `create.file ... no.case` and `... case` | Removed | every file is case insensitive, so neither word means anything; `configure.file ... no.case` stays for converting an old file |
+| `catalogue`, `$catalogue`, `no.catalogue` | Removed | the British spellings: write `catalog` (the verb, and the `$basic.options` word), `$catalog` and `no.catalog` |
+| `bscan`, `root`, `key()` | Removed | added and taken out again in this release: scan an index with `selectindex`, `selectleft` / `selectright` and `setleft` / `setright` |
+| `call "file name"` | Removed | the Pick style call was added and taken out again in this release: catalog the program and call it by name |
+| `is.alnum()`, `is.alpha()`, `is.digit()`, `is.graph()`, `is.mark()`, `is.space()`, `left()`, `right()`, `md5()` | Removed | added and taken out again in this release: use `alpha()`, `num()` and `matches` for the character tests, `s[1, n]` and `s[n]` for the ends of a string, and `digest(s, 0, 'md5')` |
+| `adds()`, `subs()`, `muls()`, `divs()` | Removed | added and taken out again in this release: the operators `+ - * /` work element by element on dynamic arrays |
+| four more `option` words | Removed | `no.sel.list.query` (`no.query` alone skips the question *Use active select list?*), `catalogue.local` (`catalog` and `delete.catalog` with no word work on the private catalog; say `local`), `inherit.mfile.path` (a new multifile subfile goes in the directory named for the file unless `pathname` says otherwise) and `correlative.nocase` (a correlative is case blind through its own `A;NOCASE;` flag or an I-type's `$mode nocase.strings`) |
+| `analyse.file` | Removed | the British spelling: write `analyze.file` (the American one stays) |
+| `cleardata`, `clearinput`, `clearprompts`, `clearselect` | Removed | the run-together second names of `clear.data`, `clear.input`, `clear.prompts` and `clear.select` (the BASIC statements of the same names are not affected) |
+| `cs` | Removed | second name of `clr`: write `clr` |
+| `delete.catalogue` | Removed | the British spelling: write `delete.catalog` |
+| `rename` | Removed | second name of `cname`: write `cname`. (`cname` still takes the comma form, `cname old, new`.) |
+| `sp.open` and `sp.close` | Removed | write `printer keep.open` and `printer close` |
+| `sd -l` | Removed | "apply new license": SD has no license, and it set a flag nothing read; `sd -l` is an unrecognized option now |
+| terminal types of old hardware | Removed | the Data General, MDC Prism, Prime and Televideo 910 definitions: `dg210 dg-ansi dg-generic dg6053-old dg100 prism2 prism4 prism5 prism7 prism8 prism9 prism12 prism14 p4 p5 p7 p8 p9 p12 p14 pt100 pt200 wren fenix pt100w pt200w wrenw fenixw pt250 pt250w tvi910` (31 of the 82 names `list.term.types` showed). Use `ansi`, `vt100` or `xterm` |
+| `system:account:file` file names | Removed | bit 2 of `FILERULE` and a Q-pointer's fourth field named a file on another system and opened nothing; the name form is gone and a Q-pointer with a fourth field is refused (3003) |
+| eleven `sd.conf` settings, `sd -<n>`, and the `gdi` and `raw` words of `setptr` | Removed | `apilogin`, `codepage`, `creatusr`, `exclrem`, `fixusers`, `gdi`, `jnldir`, `jnlmode`, `portmap`, `ringwait` and `txchar` (the first two groups did nothing; `fixusers` and `portmap` gave a connection a fixed user number): a line naming one stops SD from starting, so the installer takes it out of a kept `sd.conf`; `config('...')` no longer answers them and `config` no longer lists them; `tool.config` has no `inert` or `retired` status left; `sd -<n>` (start with a given user number) is gone; `setptr` always uses its raw mode, and its `gdi` and `raw` words are no longer keywords |
+| six `option` words and `keep.select` | Removed | `unass.warning`, `div.zero.warning` and `non.numeric.warning` (with the shortcut `sdbasic.warnings`): an unassigned variable, a divide by zero and a non-numeric value are always errors, so test the value first; `inherit`: a phantom starts with every option off; `query.sort.no.case`: a sort is by case (`sp.view ... by field no.case` still ignores it, by sorting the list itself); `clear.select` and the `keep.select` statement: a select list left active is left for the next command, and `clear.select` clears it |
+| twenty-two `$mode` words | Removed | `string.locate`, `composite.readnext`, `pick.read`, `selectv`, `pick.select`, `stdfil`, `stdfil.shared`, `write.delete.then.else`, `autolock`, `pick.substr`, `pick.substr.assign`, `compatible.append`, `pick.convert`, `count.overlap`, `index.overlap`, `change.no.overlap`, `case.sensitive`, `for.store.before.test`, `pick.jump.range`, `optional.final.end`, `pick.matrix` and `heading.no.eject`: each is refused with *Unrecognized mode name*, and the program does what it did with the mode off (the `keep.select` statement went in the same way with `option clear.select`); write `heading no.eject` for the last, and name the file variable for `stdfil`. `selectv` *file* `to` *var* stays a statement. The programs that used `$mode stdfil` and `$mode selectv` had no replacement; an I-type may no longer say `$mode count.overlap`, `index.overlap`, `change.no.overlap` or `compatible.append`
+| seven more `option` words | Removed | `numeric.exponent` (`123.45E-2` is not numeric), `suppress.abort.msg` (`abort` always says where it ran), `dir.sel.omit.hidden` (a select of a directory file includes dot files), `no.phantom.notify` (a phantom always tells its parent), `force.reload`, `stacked.account` (an `execute` of `logto` stays in the account it went to) and `command.level.locks` (a file variable that goes closes its file and its locks) |
+| `$mode time.ms` and `$mode default.unass.args` | Removed | write `system(1020) / 1000` for milliseconds; a default argument value needs `var.args` |
+| `closeseq` and `equ` | Removed | write `close` and `equate` |
+| `extract()`, `replace()`, `insert()`, `delete()` and `subr()` | Removed | write `a<f,v>`, `a<f,v> = x`, `ins x before a<f,v>`, `del a<f,v>` and `call` or `deffun` |
+| `procread`, `procwrite`, `@pib`, `@sib`, `@pob`, `@sob` | Removed | leftovers of PROC, which went earlier |
+| `!` (the shell verb) | Removed | write `sh command` |
+| the global catalog prefixes `*` and `-` | Removed | `!` and `$` stay, and `_` names a recursive pcode program; in managed mode the SD Core server's programs are catalogued under their plain names: write `call name`, not `call *name` (see `sync.global.catalog` under New Features Unique to SD Core Solo) |
+| the word forms of query operators | Removed | `equal`, `greater`, `less`, `before`, `after`, `matches`, `matching`, `not.matching` and `spoken`: write `eq`, `gt`, `lt`, `like`, `unlike` and `said` (the word `not` stays) |
+| `colour`, `without`, `no.grand.total` | Removed | write `color`, `with no` and `grand.total "'L'"` |
+| fourteen dead query keywords | Removed | `verify`, `verify.sup`, `exclusive`, `creating`, `inquiring`, `portrait`, `odd`, `even`, `mark`, `space`, `no.label`, `no.object`, `static` and `encrypt` were read by nothing; `group` stays |
+| `setptr` print mode 5 and the `version` keyword | Removed | the terminal's auxiliary printer port; a file is made in the current format |
+| old terminal definitions | Removed | `addsviewpoint`, `viewpoint`, `adds4000`, `viewpoint60`, `vp60`, `vp`, `vpa2`, `vt52`, `hpgeneric`, `hp`, `ibm-pc`, `ibm5051`, `5051`, `glasstty` and `kermit`: use `ansi`, `vt100` or `xterm` (`wyse50` and `wyse60` stay) |
+| VOC record type M (menu) | Removed | the home screen is the menu system |
+| `FILERULE` | Removed | the sd.conf parameter and the `path:pathname` form of file name (write an F-pointer); the `account:file` form is always on now (see FILES; in Solo it reaches only the one account's own files) |
+| `listf`, `listfl`, `listfr`, `listk`, `listpa`, `listph`, `listq`, `listr`, `lists`, `listv` | Removed | `list voc with type = "F"` (and `and is.remote = ""` / `and is.remote` for local / remote files), `"K"`, `"PA"`, `"PH"`, `"Q"`, `"R"`, `"S"`, `"V"` for the other types; add `ftype desc data.name dict.name` after `voc` for the file columns |
+| `sd.voclib` | Removed | nothing: the file held only the ten sentences above, and its VOC pointer is removed from every account |
+| C dictionary item type (and the compiler's C-type mode, @ANS return) | Removed | write the calculation as an I-type; it may call a cataloged subroutine with SUBR(); compile.dict says message 11993 for a C item |
+| A and S dictionary item types (the correlative, `a;nocase;`, an `if` in field 8) | Removed | write the item as a `d` item (a field of the record) or an `i` item (a value worked out from the record; the correlative's calculation goes here). `compile.dict` says message 11938 for an A or S item and makes no object code; `cd` refuses it; a query that names one stops with *Unexpected A type item (NAME) in query sentence*. An index made from one is no longer used, so a query on its field scans: delete it with `delete.index` |
+| create.file name,part | Removed | create each part as an ordinary file (create.file part) and share the dictionary with create.file part using dict name |
+| create.file ... multifile | Removed | create an ordinary file; the word is now an unexpected token |
+| delete.file name,part | Removed | delete.file part (each part is an ordinary file); the multifile cancel question (6133) is gone |
+| open "name,part" (BASIC) and file,part in TCL verbs | Removed | open the part by its own VOC name; a comma is part of the name, so "a,b" is only found if a VOC record is called a,b |
+| VOC field 4 (multifile component list) | Removed | none; the field is ignored and the record is read as an ordinary F-pointer |
+| PARSER$MFILE (!parser key 5) | Removed | PARSER$GET.TOKEN |
+| error 3031 (component not found) and 3032 (no component name) | Removed | none; the numbers are retired |
+| the Pick style matrix in the run-time system | Removed | nothing could make one since `$mode pick.matrix` went; the matrix descriptor type, its opcode (reserved), its flag and their branches in the kernel, the debugger and the process dump are gone, with messages 1136 and 1139, `readnext` mode 0, the wait path of a remote `write`/`delete` under `autolock`, and the option-flags field of a phantom's start-up record and its seal. No program changes |
+| dictionary field numbers 9998 and 9999 | Removed | a `d`, `a` or `s` item whose location was 9998 gave the item count and one whose location was 9999 the record length in bytes; they are ordinary field numbers now. Write an I-type with `@ni` or `len(@record)` |
+| `option debug.rebind.keys` | Removed | still accepted, no longer does anything |
+
 ## New Features Unique to SD Core Solo
 
 Everything in this section is SD Core Solo's own or SD Core's own work that Solo shares. None of it is on the
@@ -363,13 +454,16 @@ SD's own code. The sections above are the openQM items that were built, with the
 |---|---|---|
 | `docs.install` | Added | the administrator copies a directory of PDF files in, for the `pdf` verb to show |
 | `files-write-on`, `-off` | Added | per-account switch for changing files over the files route (group `sdfileswrite`); `files-off` removes it first |
+| `list.voc.removed` | Added | administrator only: the VOC records SD no longer ships, with the release each went in and what to write instead; given the account, what the next `update.accounts` would do in it (changes nothing) |
 | `load.help` | Added | the administrator fills the file `context.help` with the text of the `[?]` help buttons; records the administrator added are kept |
+| `restore.voc` | Added | administrator only: puts back the newest saved copy of a VOC record the update removed, or all of them; never overwrites a record the account holds, and audits what it puts back |
 | `set.net.access` | Added | the account's `net` gate: `set.net.access on` and `off`; off as delivered; it guards API request 29 and every remote file |
 | `set.os.access` | Added | the shell (`sh`) and operating system access (`os`) are two switches on the account, both off as delivered; `set.os.access sh on`, `os on`, `off`; seen at the next sign-on |
 | `set.pins` | Added | `set.pins on` lets the account add programs of its own to its home screen (`my.menu`); off as delivered |
 | `set.start.default` | Added | `menu` or `terminal`: where a session starts |
 | `set.tile` | Added | takes a home screen tile off the page or puts it back; `set.tile` alone lists what is off |
 | `set.viewer` | Added | allows one PDF reader for the `pdf` verb; none is allowed as delivered |
+| `sync.global.catalog` | Changed | in managed mode it catalogues the SD Core server's programs under their plain names (`call name`; the `*` prefix is gone), takes a catalogue entry with no `$ ! _` prefix for the server's, refuses a program whose name begins with `$ ! _ * -`, and sweeps away the `*name` entries an earlier release made; a program catalogued in the account under the same name is found first |
 | shell and OS access | Changed | until now every Solo account could run Linux commands and reach any file the Linux user could; both are off until the administrator turns them on |
 | `tool.gates` | Added | full-screen page of the account's four gates (`sh`, `os`, `net`, `ai`): on or off for this session, what the register says, how each is delivered and when a change reaches you; after `admin`, Enter turns a gate on or off through its own verb |
 | `tool.menus` | Added | full-screen page that shows the home screen's settings and runs the verbs once you answer Run |
@@ -503,29 +597,27 @@ Fixes that close a way round a gate, and what the gates now ask.
 |---|---|---|
 | clean-up daemon restart | Added | `sdlnxd`, which clears down sessions whose process has gone, runs as its own user unit, `sd-solo-lnxd.service`, which starts it again two seconds after it fails (`kill -9`, a crash); a stop (`sd-solo -stop`, exit 0) is not a failure and is not restarted; systemd allows five starts of the unit in a minute, of any kind, and refuses the sixth until `reset-failed`; `sd-solo.service` runs `sd-solo -start -nodaemon` and wants it; a second daemon ends at once; an upgrade writes the new units over the old ones (`solo-service.sh daemon`) |
 | default terminal | Changed | 140 by 42 |
-| message numbers | Changed | Solo's own messages 11040 to 11054 are now 11900 to 11914, and 11060 to 11065 are 11920 to 11925, with their text unchanged; the ssh key request refuses with 11901, 11902 and 11903 |
+| message numbers | Changed | Solo's own messages 11040 to 11054 are now 14974 to 14988, and 11060 to 11065 are 14989 to 14994, with their text unchanged, so that SD Core's numbers mean the same here; the ssh key request refuses with 14975, 14976 and 14977 |
 | `sd -status` | Changed | fixed an overrun on a server that recorded no start time |
+| `update.accounts` deletion list | Changed | after the copy from `newvoc` it removes from the account's VOC the records on SD's deletion list (`sdsys/voc_removed`), but only the record SD shipped (not one of your own, not a `[locked]` one unless it is a verb), after saving a copy, and audits it; before `newvoc.mods` |
 | `update.accounts` in the SDSYS account | Changed | the administrator's own VOC is updated from `voc_template`, not `newvoc` (no visible change in Solo today: the two sets hold the same `tool.gates`) |
+| `update.accounts` that cannot write the VOC | Changed | the account is left as it was with a line that says so (its file permissions refuse the write), and the command ends with its counts, where it stopped with error 3018 |
+| upgrade: retired files and `sd.conf` parameters | Changed | an upgrade deletes the files this release stopped shipping and takes the retired parameters out of a kept `sd.conf` (SD would not start on them); `deletesdsolo.sh --keep-data` keeps the saved VOC copies (`voc_removed.saved`) for the next install |
 
 ### Tools and the home screen
 
 | Name | Change | What |
 |---|---|---|
 | 140 by 42 layout | Changed | `ide`, `sed`, `ced` and the debugger: 140 by 42, refused below it, survive a window made smaller, take no keys while the cursor is off the screen |
-| AccuTerm terminal types | Removed | the eleven `-at` terminal types and AccuTerm's escape sequences |
 | `debugger` full-screen display | Added | on a terminal with an alternate screen the debugger takes the whole screen: source, breakpoints, messages and the command line; F1 help, F4 the program's screen |
 | home screen | Added | a session on a terminal starts in a screen of tiles (the editor, the IDE, the record editor, a terminal, the keys test, sign out); arrows, Tab, letters, mouse, F5, F10; there is no Switch account |
 | home screen, two sessions | Changed | fixed: a session that started at the home screen kept the next session waiting at sign-on (the missing `start.default` was read with a lock that was never let go); `set.start.default`, `tool.menus`, `tool.viewers` and `osread` close what they read the same way |
 | `ide` | Added | tree, tabs, compile errors table, find, run, catalogue and debug; Ctrl-E hands a record to `sed` |
 | `ide` redraw | Changed | no flash; a click on the menu bar opens the menu; the active pane is marked `[*]` |
 | immediate messages | Changed | `message ... immediate` is shown in a box on any terminal |
-| `option debug.rebind.keys` | Removed | still accepted, no longer does anything |
-| screen save and restore | Removed | `save.screen()` and `restore.screen`: still exist and do nothing the terminal could see |
-| `sdterm` terminal type | Removed | with SDTerm and SDConsole, and the `term display` line about them |
 | `sed` | Changed | the full-screen editor is back with a menu bar, the keys most editors have (`emacs` in `&sed.options&` keeps the old ones), undo and redo, syntax colour and the mouse; its keys are decoded from the terminal's terminfo entry <!--s 365--> |
 | `sed` open of a missing path | Changed | fixed: opening a path that does not exist (and the retry in upper case) kept the name locked until the editor was closed |
 | `sed`, `ide`, `ed` input ended | Changed | fixed: they used all of a processor for ever when their input had ended |
-| `term 120,36` at login | Removed | `login` no longer sends it |
 
 ## NO CHANGE
 

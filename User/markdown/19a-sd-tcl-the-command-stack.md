@@ -202,9 +202,6 @@ because the record itself is valid PROC and it is the interpreter that is gone.
 Nothing that ships is type `PQ`, so this can only be met in a VOC record
 somebody wrote.
 
-**`menu` records are dispatched but no menu ships.** Type `M` is handled and
-there is no shipped example to look at.
-
 ## Who has these verbs
 
 Everything on this page is in your account, and none of it needs `admin`:
@@ -213,7 +210,7 @@ Everything on this page is in your account, and none of it needs `admin`:
 |---|---|
 | **all of them** | `abort` `alias` `clear.abort` `clear.stack` `command.logging` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
-**The two `OS` verbs are not documented here.** `sh` and `!` reach the Linux
+**The `OS` verb is not documented here.** `sh` reaches the Linux
 shell with your own permissions, once the `sh` switch is on (it is off as
 delivered, and the administrator turns it on with `set.os.access sh on`), need no
 `admin` after that, and refuse a command that carries a shell metacharacter. They

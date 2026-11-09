@@ -32,16 +32,16 @@ for Windows too, for the same reasons.**
 
 | Gone | Use instead |
 |---|---|
-| `sed` — the full-screen editor | **`nano`** or **`micro`**, or **`ed`**/**`edit`** for the line editor |
-| `update.record` — the full-screen record editor | **`nano`** or **`micro`** |
-| `modify` — the full-screen record editor from OpenQM | **`nano`** or **`micro`** |
+| `update.record` — the full-screen record editor | **`sed`** or **`micro`** |
+| `modify` — the full-screen record editor from OpenQM | **`sed`** or **`micro`** |
+| `nano` — the second external editor (removed in 1.2-0) | **`micro`**, **`sed`** or **`ed`** |
 
-**SD Core's own full-screen editing is `nano` and `micro`**, which open the record
-in each program by name and, because they run outside SD, need the `os` switch
+**SD's own full-screen editor is `sed`**, which needs no switch. **`micro`** opens the
+record in that program and, because it runs outside SD, needs the `os` switch
 (off as delivered; the administrator turns it on with `set.os.access os on`) — see
 [Development and file commands](07-programmer-commands.html#editors), which also
-says what they are good for and what they cannot do. **Unlike SD Core for Windows,
-`edit` is not one of them here — it aliases `ed`, the line editor, because there
+says what it is good for and what it cannot do. **Unlike SD Core for Windows,
+`edit` is not a full-screen editor here — it aliases `ed`, the line editor, because there
 is no Linux program to alias it to the way Microsoft Edit serves that role
 there.** The three removed programs above are gone as *programs*; the capability
 is not.
@@ -151,7 +151,7 @@ Encrypting Data* in the User set.
 
 | Gone | Notes |
 |---|---|
-| `CREATUSR` | `config` no longer lists it; a `CREATUSR` line in `sd.conf` is still accepted and ignored |
+| `CREATUSR` | removed in 1.2-0 with twelve other parameters; an upgrade takes the line out of a kept `sd.conf` |
 | `APPEND.SD.PATH` | never existed on Linux: the installer links `sd-solo` into `~/.local/bin` |
 
 **`umask` is kept, deliberately, and is not on this list** — a real difference

@@ -43,19 +43,14 @@ type `D` and the rest is a comment.
 | `D` | direct | references a field number in the data record |
 | `E` | element | like `D`, but field 2 is the **path** of an element of a **data collection** record instead of a field number — see [SD TCL - Data Collection Files](20a-sd-tcl-collection-files.html) |
 | `I` | indirect | an expression that returns a value — a virtual field |
-| `C` | calculated | like I but compiled with the BASIC compiler and returning via `@ANS` |
-| `A` | A-type | Pick-style data definition, with a different field layout |
-| `S` | S-type | identical to `A` in SD — kept for compatibility |
 | `L` | link | names another file and how to find the record in it, so that a query or an I-type can use its fields as `link%item` |
 | `PH` | phrase | a stored fragment substituted into a query command line |
 | `X` | text | miscellaneous data — not a field definition |
 
-**`A` and `S` are the Pick layout, not the SD layout.** They carry the
-same information as `D` but in different fields — field 3 holds the
-display name, field 7 the conversion, field 8 the correlative, field 9
-the justification, field 10 the width. SD supports them because
-applications imported from Pick use them. New dictionaries should use
-`D` and `I`.
+**SD has no `A` or `S` item.** Another system's A and S items were a data
+definition with a different field layout and a correlative code. SD does not
+read them: see [The A and S types](#the-a-and-s-types-are-not-read) below. A
+data field is a `D` item and a computed one an `I` item.
 
 ## The D record — a direct field reference
 
@@ -85,14 +80,16 @@ query.
 
 ### Pseudo-fields
 
-Field 2 is not always a literal field number. Three values have special
+Field 2 is not always a literal field number. One value has a special
 meaning:
 
 | Location | What it reads |
 |---|---|
 | `0` | the record id (`@ID`) |
-| `9998` | `@NI` — the number of items in a multivalued field set |
-| `9999` | the record length in bytes (`@NB`) |
+
+(`9998`, which read the item count, and `9999`, which read the length of the
+record in bytes, were removed in 1.2-0: they are ordinary field numbers now. Use
+an I-type with `@ni` or `len(@record)` for those two.)
 
 A dictionary record with location `0` is how the record id appears in a
 query. The `@ID` record in `voc.dic` has location `0` and display name
@@ -160,11 +157,11 @@ use:
 |---|---|
 | `@ID` | the record id |
 | `@RECORD` | the entire data record as a dynamic array |
-| *n* or `F`*n* | field *n* of the data record — `F2` is field 2 |
+| *n* | field *n* of the data record (a name such as `F2` is a D-type item of that name, as in `dict.dic` and `voc.dic`) |
 | `@NI` | the number of values in the longest multivalued field |
 | `@NB` | the record length in bytes |
 | `@FILE.NAME` | the name of the file being queried |
-| `@USER.NO` | the user number of the session |
+| `@USERNO` | the user number of the session |
 | `@PATH` | the account path |
 
 It can call `SUBR()` to invoke a catalogued subroutine, use `TRANS()` to
@@ -190,37 +187,27 @@ the dictionary, it compares the hash to the source — if they differ, the
 I-type is recompiled. This is why field 15 has a large number in a stock
 I-type record and is empty in a D-type record.
 
-## The C record — a calculated field
+## The C record — not supported
 
-A C-type is like an I-type but is compiled with the full BASIC compiler
-rather than the I-type expression compiler. The expression in field 2 is
-a complete BASIC program that returns its result in `@ANS`. C-types are
-rare in stock dictionaries — I-types cover most computed fields — but
-they exist for compatibility with applications that use them.
+SD has no C-type item. Another system's C item was a calculated field written
+as a complete BASIC program that returned its result in `@ANS`; SD does not
+compile or run one. `compile.dict` refuses it with the message *C-type
+dictionary item NAME is not compiled: write it as an I-type* and makes no
+object code, and a query that uses it gets no value. Write the calculation
+as an I-type; when it needs more than an expression can say, the I-type can
+call a catalogued subroutine with `SUBR()` (see above).
 
-## The A record — a Pick-style field
+## The A and S types are not read
 
-An A-type (or S-type) uses a different field layout:
-
-| Field | Name | What it holds |
-|---|---|---|
-| `1` | type | `A` or `S`, optionally followed by a comment |
-| `2` | location | the field number in the data record |
-| `3` | display name | the column heading |
-| `4` | association | a name grouping multivalued fields |
-| `5`-`6` | | not used |
-| `7` | conversion | a conversion code |
-| `8` | correlative | a correlative code — like a mini I-type |
-| `9` | justify | `L` or `R` |
-| `10` | width | column width |
-
-The correlative in field 8 is a Pick-style expression — a short code
-that transforms the field value before display. SD compiles
-correlatives the same way it compiles I-types, storing the object in
-field 16 onward. **Field 8 may also begin with an `if` expression**
-(`if 3 > "5" then "big" else "small"`), which is taken as an A-correlative
-without the `a;` in front; anything else that does not begin `a` or `f` is
-a conversion code, as before.
+SD has no A-type or S-type item. Another system's A item was a data field
+described in a different layout (the display name in field 3, the conversion
+in field 7, a correlative code in field 8, the justification in field 9 and the
+width in field 10); its S item was the same. SD does not read one. `compile.dict` refuses it with the message
+*A or S type dictionary item NAME is not compiled: write it as a D-type or an
+I-type* and makes no object code, and a query that names one
+is stopped with *Unexpected A type item (NAME) in query sentence*. Write the
+item again as a `D` item (a field of the record) or as an `I` item (a value
+worked out from the record, where the correlative's calculation goes).
 
 ## The PH record — a phrase
 
@@ -272,7 +259,7 @@ as the same expression written with `TRANS()`:
 TRANS("TITLES", FIELD(@ID, "-", 1), TITLE, "X")
 ```
 
-The item may be a D, I, C, A, S or E item of the other file. It takes the column
+The item may be a D, I or E item of the other file. It takes the column
 heading, format, conversion and association that item has, unless the I-type or the
 query says otherwise. A query treats the result as multivalued, because the id
 expression may give several ids.
@@ -289,7 +276,7 @@ At most ten links may follow one another.
 
 **What to know.** A link is worked out when an I-type is compiled, not each time it
 is used: the compiled I-type has the `TRANS()` in it. **After a link is changed, the
-I-types that use it must be compiled again** (`cd`, on page 24, does it). A query that
+I-types that use it must be compiled again** (`compile.dict`, on page 24, does it). A query that
 names a link directly is compiled each time it is run and is not affected. A link's
 expressions cannot be compound (no semicolons), the item name after the percent sign
 must be a name as it would be written in an I-type (a name with a hyphen in it is not),

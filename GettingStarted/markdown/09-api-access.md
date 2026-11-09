@@ -104,10 +104,6 @@ listening and the unit not active, `local` is `127.0.0.1` again. **An `open` API
 on a computer with a firewall still needs the firewall told**; that part is
 yours.
 
-> **`APILOGIN` is not an off switch.** It decides whether the API demands a
-> password. `APILOGIN=0` is the **weaker** setting, not the safer one. Do not
-> reach for it.
-
 **Linger matters here too.** Without it the socket, like SD, stops when your last
 session ends; see [Running SD](03-running-sd.html).
 
@@ -212,7 +208,7 @@ refused. The refusal is error ELSE with status 3035 (permission), no file number
 back, and the audit trail gets `api refused request=29 reason=os gate off user=... account=... path=...`.
 The switch is read from the register record when the request is asked, so taking it off
 reaches a client that is already signed in. The pointers SD itself puts in the VOC
-(`syscom`, `newvoc`, `sd.voclib` and the like) lead out of the account and are refused here
+(`syscom`, `newvoc` and the like) lead out of the account and are refused here
 too: a client of request 29 has no use for them. A pointer that opened before and leads out
 of an account whose `os` switch is off stops opening: turn the switch on if that was
 intended. Solo has no SDSYS exemption, because SDSYS is never a target of the request.

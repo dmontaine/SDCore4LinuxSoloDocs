@@ -30,14 +30,14 @@ The sign-on banner names the product and its version, `LS1.1-3`.
 
 ```
 who
-listf
+list voc with type = "F"
 term
 ```
 
 | | |
 |---|---|
 | **`who`** | the account — always `sduser` |
-| `listf` | the files in it |
+| `list voc with type = "F"` | the files in it |
 | **`term`** | your terminal type and page size |
 
 **`term` also reports the page size, and SD's default is 120 × 36 — not
@@ -55,8 +55,8 @@ ed customers 1001
 ```
 
 **`ed`** is the **line** editor, and it needs nothing installed — **`edit`** is
-an alias for it. For a full screen, **`nano`** opens the record in `nano` and
-**`micro`** opens it in `micro` — see
+an alias for it. For a full screen, **`sed`** is SD's own editor, and
+**`micro`** opens the record in `micro` — see
 [Development and file commands](07-programmer-commands.html#editors).
 
 In **`ed`**: `i` to insert, type your lines, a full stop on its own line to stop

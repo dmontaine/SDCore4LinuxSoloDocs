@@ -90,7 +90,7 @@ again. The very first connection is trusted. See [API access](09-api-access.html
 ## The server's programs: `global.bp.out`
 
 **The global catalogue of a managed computer holds the server's programs.** The
-user can run them — `CALL *name` — and cannot add, replace or remove any, with or
+user can run them — `CALL name` — and cannot add, replace or remove any, with or
 without `admin`.
 
 | | |
@@ -100,35 +100,41 @@ without `admin`.
 
 **To add a program**, a server session copies its compiled object into
 `global.bp.out` — for example from a `BP.OUT` it has written it to — and runs
-`sync.global.catalog` (measured, with a small subroutine):
+`sync.global.catalog`:
 
 ```
 :copy from bp.out to global.bp.out myprog
 1 record(s) copied.
 :sync.global.catalog
-catalogued *myprog
+catalogued myprog
 sync global catalog done 1 catalogued 0 removed 0 refused
 ```
 
-A session with no administrator rights can then `CALL *myprog(x)` — the name in
-the `*` form is what a program uses to call a global one.
+A session with no administrator rights can then `CALL myprog(x)`. **A program
+catalogued in the account under the same name is found first**, as for any
+`CALL`. (Before 1.2-0 the server's programs were catalogued as `*name` and called
+as `CALL *name`; the `*` prefix is gone, and the first `sync.global.catalog` of
+this release removes the old `*` entries and catalogues the programs again under
+their plain names.)
 
 **To remove one**, delete it from `global.bp.out` and run `sync.global.catalog`
-again; the `*myprog` entry goes:
+again; the `myprog` entry goes:
 
 ```
 :delete global.bp.out myprog
 :sync.global.catalog
-removed *myprog
+removed myprog
 sync global catalog done 0 catalogued 1 removed 0 refused
 ```
 
 **What `sync.global.catalog` does:** every object in `global.bp.out` is catalogued
-as `*<name>`, **in lower case** — every name in the catalogue is lower case —
-replacing any older copy; every `*` entry with no object left in
-`global.bp.out` is removed. SD's own system programs in the catalogue are never
-touched, because none of them starts with `*` and nothing else can make a `*`
-entry. An object it cannot load is refused by name and the rest still go in. The
+under its plain name, **in lower case** — every name in the catalogue is lower
+case — replacing any older copy; a program whose name begins with `$`, `!`, `_`,
+`*` or `-` is refused, since those characters are SD's own. Every catalogue entry
+with no `$`, `!` or `_` prefix and no object left in `global.bp.out` is removed.
+SD's own system programs in the catalogue are never touched, because every one of
+them begins with `$`, `!` or `_`, and nothing else can put an entry without one
+there. An object it cannot load is refused by name and the rest still go in. The
 last line always reads `sync global catalog done <n> catalogued <n> removed <n>
 refused`.
 
@@ -161,25 +167,25 @@ privileges* until `admin`.
 
 ```
 deny.verbs                       list them
-deny.verbs add listf,create.file add to the list
-deny.verbs remove listf          take one off
-deny.verbs set listf,copy        replace the list
+deny.verbs add sh,create.file    add to the list
+deny.verbs remove sh             take one off
+deny.verbs set sh,copy           replace the list
 ```
 
 **Every form answers with the list as it now stands:**
 
 ```
-deny.verbs 2: listf,copy
+deny.verbs 2: sh,copy
 ```
 
-**A command is denied under every name that runs it.** Denying `SH` denies `!`,
-because both run the same command. Some names that look different share one:
-`EDIT`, `NANO` and `MICRO` all run SD's editor program, so denying one denies all
-three. The answer says what else was taken:
+**A command is denied under every name that runs it.** Some names that look
+different share one: `ED` and `EDIT` both run SD's line editor, so denying one
+denies both, and the answer says what else was taken (`deny.verbs also denies, as
+the same command: ...`). (Before 1.2-0, `!` was a second name of `SH` and was
+denied with it; it was removed.) For example:
 
 ```
 :deny.verbs add sh
-deny.verbs also denies, as the same command: !
 deny.verbs 1: sh
 ```
 

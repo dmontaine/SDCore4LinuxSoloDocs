@@ -42,12 +42,9 @@ formlist array {to list}
 | `selectindex` | from an alternate key index — see [SD Basic - Alternate Key Indexes](09-sd-basic-alternate-key-indexes.html) |
 | `formlist` | builds a list from a dynamic array you already have |
 
-**`$mode selectv`** makes `to` optional. With it, `select f`, `selectv f` and
-`sselectv f` leave the list in the program's own default select list variable,
-and `readnext id` with no `from` reads that variable, not list 0 (see the
-`selectv` row of the `$mode` table in *SD Basic - Program Structure*). A
-`readnext` before any `select` takes its `else` clause. Without the mode,
-`selectv f` and `sselectv f` with no `to` are still a compile error.
+`selectv f` and `sselectv f` with no `to` are a compile error. (Until 27 October 2026
+`$mode selectv` made `to` optional and put the list in a default select list variable; the
+mode is gone.)
 
 The sort clauses of the sorted forms may come before or after `to`.
 **`right.aligned`** sorts numeric ids as numbers (1, 9, 10, 100) instead of as

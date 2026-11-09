@@ -10,8 +10,7 @@ sed
 `sed` edits one record of one file, using the whole screen. It is written in SD
 BASIC and runs **inside** SD, as [ed](25-sd-tcl-ed.html) does, so it is not a
 program SD hands the record to: **it needs no operating-system permission** for
-a record of an SD file, where [nano](26-sd-tcl-edit.html) and
-[micro](27-sd-tcl-micro.html) need the `os` switch (`set.os.access os on`, off as delivered). It draws the
+a record of an SD file, where [micro](27-sd-tcl-micro.html) needs the `os` switch (`set.os.access os on`, off as delivered). It draws the
 whole screen, so it wants a terminal; for a phantom, an API session or a script
 use `ed`.
 
@@ -292,7 +291,6 @@ blanks:
 | **`word`** · **`bword`** | search for whole words, or whole SD BASIC words |
 | **`syntax`** · **`no.syntax`** · **`syntax.light`** | colour on or off at the start; light palette |
 | **`mouse`** · **`no.mouse`** | the mouse on (the default) or off at the start |
-| **`no.invert`** | leave the case of typed letters alone |
 
 **`&sed.bindings&`** is a file of key sets. SED loads the first that exists of:
 the record named in field 3 of `&sed.options&`; one named *login*-*terminal

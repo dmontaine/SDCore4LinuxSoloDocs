@@ -104,39 +104,37 @@ when the range is one line, a paragraph when it is more. `.r` loads a
 sentence or paragraph from the VOC into the stack. **The record type
 follows from what you saved** rather than from anything you say.
 
-### The LIST family
+### Listing the VOC by type
 
-Ten verbs list VOC entries by type. They are all R-records into
-`SD.VOCLIB`:
+SD has no ready-made `list` sentences. (Until 1.2-0 it shipped ten, `listf`,
+`listfl`, `listfr`, `listk`, `listpa`, `listph`, `listq`, `listr`, `lists` and
+`listv`, as R-records into a file called `SD.VOCLIB`; both are gone.) The query
+processor does the same job with the `type` item of the VOC's dictionary:
 
-| Verb | Lists |
+| To list | Type it |
 |---|---|
-| `listf` | all files (F-records) |
-| `listfl` | local files only |
-| `listfr` | remote files only |
-| `listk` | all keywords (K-records) |
-| `listpa` | all paragraphs (PA-records) |
-| `listph` | all phrases (PH-records) |
-| `listq` | all Q-pointers |
-| `listr` | all remote references (R-records) |
-| `lists` | all sentences (S-records) |
-| `listv` | all verbs (V-records) |
+| all files (F-records) | `list voc with type = "F"` |
+| local files only | `list voc with type = "F" and is.remote = ""` |
+| remote files only | `list voc with type = "F" and is.remote` |
+| all keywords (K-records) | `list voc with type = "K"` |
+| all paragraphs (PA-records) | `list voc with type = "PA"` |
+| all phrases (PH-records) | `list voc with type = "PH"` |
+| all Q-pointers | `list voc with type = "Q"` |
+| all remote references (R-records) | `list voc with type = "R"` |
+| all sentences (S-records) | `list voc with type = "S"` |
+| all verbs (V-records) | `list voc with type = "V"` |
 
-`listf`, `listfl` and `listfr` show the VOC name, the **file type**, the
-description and the data and dictionary pathnames. The type is `DH` for a
+To see the **file type**, the description and the data and dictionary
+pathnames of the files, name those items:
+`list voc ftype desc data.name dict.name with type = "F"`. The type is `DH` for a
 dynamic hashed file (followed by `I` for alternate key indices, `S` for
 statistics and `T` for a trigger function), `Dir` for a directory file, `Err`
-and the error number for a file that will not open. **A multifile has a line
-for each subfile**: the type column holds one value for each subfile, so that
-each type is on the line of that subfile's pathname, and the first begins with
-`Mult` (`Mult DH` on the first line, `Dir` on the second for a multifile of a
-hashed and a directory subfile).
+and the error number for a file that will not open.
 
-The three can take a `with` or `without` clause on **`trigger`** or
-**`encryption`**, as `listf with trigger` for the files that have a trigger
+The dictionary of the VOC also has the items **`trigger`** and **`encryption`**,
+so `list voc with type = "F" and with trigger` lists the files that have a trigger
 function. SD has no file encryption, so `with encryption` selects nothing and
-`without encryption` selects every file. Any other query processor words may be
-added after them, as for every sentence. (SD Core for Linux also has a
+`with no encryption` selects every file. (SD Core for Linux also has a
 `replication` word here; this product has no dictionary item for it yet, so
 leave it out.)
 
@@ -206,8 +204,8 @@ stack — is not gated.
 that ships is type `PQ`, so this can only be met in a VOC record somebody
 wrote.
 
-**`menu` records are dispatched but no menu ships.** Type `M` is handled
-and there is no shipped example to look at.
+**The `M` (menu) record type is removed.** A VOC record of that type is no
+longer dispatched; the home screen (`home`, or `menu`) is the menu system.
 
 **`EDIT` runs.** It was once exactly the kind of VOC entry described
 above — present but undispatchable, its type field reading

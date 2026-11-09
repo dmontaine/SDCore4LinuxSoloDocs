@@ -213,8 +213,8 @@ itself administrator rights. That was demonstrated, not theorised.
 
 ## See also
 
-*Operating System Access* in the Getting Started set covers the `sh` and `!`
-verbs and the `sh` and `os` switches that keep them, `os.execute` and the files
+*Operating System Access* in the Getting Started set covers the `sh`
+verb and the `sh` and `os` switches that keep it, `os.execute` and the files
 outside the account behind a door the administrator opens. *Encryption and the SDEXT interface*, in the same set, explains why
 `sdext` is on this page and what it costs an application.
 

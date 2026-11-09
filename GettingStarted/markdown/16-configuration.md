@@ -42,10 +42,13 @@ comments record why each value was chosen. Read them before changing anything.
 An unrecognised parameter is not ignored. The parser abandons the file with
 `Unrecognised configuration parameter`, and SD does not start.
 
-That is why obsolete names are still parsed rather than deleted. `CREATUSR` has
-done nothing since 14 August 2026, but a configuration file copied from another
-installation still carries it, and removing the branch would turn a tidy-up into a
-failure to start.
+**The parameters SD no longer has are removed from a kept `sd.conf` for you.**
+In 1.2-0 thirteen names went, because they did nothing or imitated another
+product: `APILOGIN`, `CODEPAGE`, `CREATUSR`, `EXCLREM`, `FILERULE`, `FIXUSERS`,
+`GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and `TXCHAR`. A line
+naming one would now stop SD, so an upgrade, and a new install that reloads a kept
+`sd.conf`, take each such line out first and say which. A configuration file you
+copy in by hand from an older installation needs the same done to it.
 
 Range failures behave the same way. `GRPSIZE`, `INTPREC`, `LPTRHIGH`, `LPTRWIDE`,
 `MAXCALL`, `RECCACHE`, `SORTMRG` and `MAXIDLEN` are bounds-checked once the file
@@ -60,19 +63,17 @@ gpl` and `config contrib`:
 ```
 :config
 Virtual Machine Version Number LS1.1-3
+CLEANUP   300 seconds
 CMDSTACK  99
-CREATUSR  1
 DEADLOCK  0
+DHCACHE   10
 DUMPDIR   
 ERRLOG    50 kb
-EXCLREM   0
-FILERULE  0
 FLTDIFF   0.00000000002910
 FSYNC     0
-GDI       0
 GRPDIR    /home/you/SDCoreSolo/group_accounts
 GRPSIZE   2
-INTPREC   13
+INTPREC   11
 ...
 USRDIR    /home/you/SDCoreSolo/user_accounts
 YEARBASE  1930
@@ -109,9 +110,9 @@ That writes to the session's own copy of the settings, taken from shared memory
 when the session started. It does not reach `sd.conf`, it does not affect any
 other session, and it is gone when the session ends.
 
-The parameters that can be changed this way are `CODEPAGE`, `DUMPDIR`, `EXCLREM`,
-`FILERULE`, `FLTDIFF`, `FSYNC`, `GDI`, `GRPSIZE`, `INTPREC`, `LPTRHIGH`,
-`LPTRWIDE`, `MAXCALL`, `MUSTLOCK`, `OBJECTS`, `OBJMEM`, `RECCACHE`, `RINGWAIT`,
+The parameters that can be changed this way are `DUMPDIR`,
+`FLTDIFF`, `FSYNC`, `GRPSIZE`, `INTPREC`, `LPTRHIGH`,
+`LPTRWIDE`, `MAXCALL`, `MUSTLOCK`, `OBJECTS`, `OBJMEM`, `RECCACHE`,
 `SAFEDIR`, `SDCLIENT`, `SH`, `SH1`, `SORTMEM`, `SORTMRG`, `SORTWORK`, `SPOOLER`,
 `TEMPDIR`, `TERMINFO` and `YEARBASE`.
 
@@ -130,8 +131,6 @@ Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 | `NETWAIT` | 5 | Seconds to wait for a connection to a server defined for SDNet (`set.server`, `set.netlogin`, a file opened through an `N` pointer). 1 to 3600; zero is refused |
 | `NETREPLY` | 30 | Seconds to wait for each reply of such a server. 1 to 3600; zero is refused. `config('NETWAIT')` and `config('NETREPLY')` read them. See the SDNet page of the User set |
 | `FDS` | unset | Limit on file descriptors. No limit when unset |
-| `FIXUSERS` | unset | `base,range` — user numbers reserved for sessions that ask for a specific number |
-| `PORTMAP` | unset | `base_port,base_user,range` — gives a session a fixed user number derived from the port its connection arrived on. Refused if the range overlaps `FIXUSERS` |
 
 ## Files and locking
 
@@ -144,7 +143,6 @@ Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 | `SAFEDIR` | 0 | When 1, directory files are updated by write-and-rename rather than in place |
 | `RECCACHE` | 0 | Records cached per file. Range 0 to 32 |
 | `FSYNC` | 0 | Bit flags controlling when SD forces data to disk |
-| `FILERULE` | 0 | Bit flags deciding which special VOC file references are honoured. Bit 4 allows a `PATH:` reference to name a pathname directly |
 
 ## Directories
 
@@ -167,7 +165,6 @@ you set it, choose a directory only you can read.
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `APILOGIN` | 1 | Whether the API requires authentication. `0` is the weaker setting, not the safer one |
 | `SDCLIENT` | 0 | Restricts what an API session may do: `1` refuses `CALL` and `EXECUTE`, `2` refuses any subroutine not compiled as callable from a client |
 
 **There is no `APIPORT` and no `NETDIRS` in `sd.conf`.** Whether SD listens for
@@ -186,7 +183,6 @@ changed by running `tools/solo-service.sh install` again — see
 | `LPTRWIDE` | 80 | Default page width for the printer. Range 10 to 1000 |
 | `LPTRHIGH` | 66 | Default page depth for the printer. Range 10 to 32767 |
 | `SPOOLER` | empty | The spooler to hand print jobs to |
-| `GDI` | 0 | Selects the Windows printing interface used by default. Inert on Linux |
 
 ## Sorting
 
@@ -228,27 +224,18 @@ refused** rather than starting an interactive shell. **Both run with your own
 Linux permissions, once the `sh` switch is on; as delivered it is off and `sh`
 is refused** (`set.os.access sh on`).
 
-## Parameters that are accepted and do nothing
+## Parameters that were removed
 
-These are parsed so that an existing `sd.conf` still loads. None of them changes
-SD's behaviour, and none should be offered to a site as a control.
+Until 1.2-0 seven parameters were parsed and did nothing (`JNLMODE`, `JNLDIR`,
+`CREATUSR`, `CODEPAGE`, `EXCLREM`, `RINGWAIT`, `TXCHAR`), and six more imitated
+another product or chose between ways of working that SD no longer has
+(`APILOGIN`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `PORTMAP`). All thirteen
+are gone; see [A name SD does not recognise stops it starting](#a-name-sd-does-not-recognise-stops-it-starting)
+above for what happens to a kept `sd.conf` that still names one. The `PATH:` form
+of a file name went with `FILERULE`: write an F-pointer instead.
 
-| Parameter | Why it is inert |
-|---|---|
-| `JNLMODE` | Stored, shown by `config` and readable with `config('JNLMODE')`, default 0. SD has no journalling: nothing reads the value and nothing writes a journal |
-| `JNLDIR` | The same: stored, shown, readable with `config('JNLDIR')`, default empty, and used by nothing. The only readers in the source are the parser, the copy into the shared memory segment and the `config` verb that prints it |
-| `CREATUSR` | There are no accounts to create, and the value is discarded as it is read. Solo's `config` still prints a `CREATUSR` line |
-| `CODEPAGE` | Stored, readable and settable. Nothing acts on it |
-| `EXCLREM` | Stored, readable and settable. It described exclusive access to a remote file, and there are no remote files |
-| `RINGWAIT` | Stored, readable and settable. Nothing acts on it |
-| `TXCHAR` | Stored, and not readable — there is no `config('TXCHAR')` |
-
-`FILERULE` is **not** in this list, and is easy to mistake for it. Its remote bits
-died with SDNet, but bit 4 is live and decides whether a `PATH:` VOC reference may
-name a pathname directly.
-
-`NETFILES` is **not** in this list either, though an earlier edition of this page
-said it was. A `server;file` VOC reference is refused whatever it holds, but **bit 2
+`NETFILES` is a live parameter, though an earlier edition of this page
+said it did nothing. A `server;file` VOC reference is refused whatever it holds, but **bit 2
 (`NETFILES=2`) opens API request 29**, which opens an `account;file` file for a
 client that has signed in. It is 0 as delivered. With it set, the request is
 still refused unless the account's NET gate is on (`set.net.access on`), and

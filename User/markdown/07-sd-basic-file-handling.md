@@ -47,7 +47,7 @@ loop.
 ### A temporary file
 
 ```
-opentemp {pathname} {ecs} {non.transactional} to file.variable
+opentemp {pathname} {non.transactional} to file.variable
    then statements
 else statements
 ```
@@ -56,8 +56,7 @@ else statements
 file variable is closed** (or goes out of scope). With no pathname, or a null
 string, SD makes the file in its temporary directory (the `TEMPDIR` setting;
 `system(38)` names it) under a name built from the process number and a counter.
-A name that already exists is refused — `else` is taken — never taken over. The
-`ecs` word is accepted and ignored. A temporary file's updates are never part of
+A name that already exists is refused — `else` is taken — never taken over. A temporary file's updates are never part of
 a transaction, so that closing it really deletes it, and a session that is killed
 leaves its file behind.
 
@@ -377,12 +376,11 @@ size and modification time per entry.
 ```
 trans({dict} file.name, record.id, field, action)
 rtrans({dict} file.name, record.id, field, action)
-xlate({dict} file.name, record.id, field, action)
 ```
 
-All three fetch one field of one record from a named file, opening it if
-needed. `trans` and `xlate` are the same function under two names; `rtrans`
-takes an already-open file variable instead of a name.
+Both fetch one field of one record from a file, opening it if needed. `trans`
+takes a file name; `rtrans` takes an already-open file variable instead.
+(`xlate` was a second name for `trans` and was removed in 1.2-0.)
 
 The *action* says what to do when the record is missing — **or when the file
 cannot be opened at all**, which takes the same action:

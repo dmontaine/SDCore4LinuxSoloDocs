@@ -70,7 +70,7 @@ loop
    readseq line from f else exit
    ...
 repeat
-closeseq f
+close f
 ```
 
 ## Writing
@@ -255,9 +255,9 @@ deleteseq file.name, record.id then ... else ...
 deleteseq pathname then ... else ...
 ```
 
-Removes the file. `closeseq` releases the variable without deleting anything;
+Removes the file. `close` releases the variable without deleting anything;
 a sequential file left open is closed when the program ends, but the buffered
-tail is only guaranteed once `closeseq` has run.
+tail is only guaranteed once `close` has run.
 
 **The account's own VOC is not changed by pathname.** A pathname that runs through a
 directory called `voc` below the account's own directory reaches a file of the VOC

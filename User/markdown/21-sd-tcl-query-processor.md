@@ -85,27 +85,28 @@ spellings in a row returned identical counts on the same data.
 | | |
 |---|---|
 | equal | `=` · `eq` |
-| not equal | `#` · `ne` · `not` |
-| less than | `<` · `lt` · `before` |
+| not equal | `ne` · `not` |
+| less than | `<` · `lt` |
 | less or equal | `<=` · `le` |
-| greater than | `>` · `gt` · `after` |
+| greater than | `>` · `gt` |
 | greater or equal | `>=` · `ge` |
-| matches a pattern | `like` · `matches` · `matching` |
-| does not match | `unlike` · `not.matching` |
-| sounds like | `said` · `spoken` |
+| matches a pattern | `like` |
+| does not match | `unlike` |
+| sounds like | `said` |
 | is in a list | `in` |
 | is not in a list | `not.in` |
 
-`before` and `after` read well on dates and are the same operators as `<` and
-`>`. All three spellings of *not equal* returned **331** on the same query, and
-`<`, `lt` and `before` all returned **381**.
+All three spellings of *not equal* returned **331** on the same query, and
+`<` and `lt` both returned **381**. (The words `before`, `after`, `equal`,
+`greater`, `less`, `matches`, `matching`, `not.matching` and `spoken` were removed in 1.2-0:
+in a query they are taken as record ids.)
 
 ### Joining clauses
 
-`and` (or `&`) and `or` join clauses. **Each clause repeats `with`:**
+`and` and `or` join clauses. **Each clause repeats `with`:**
 
 ```
-count voc with dispatch # "" and with dispatch # "CA"
+count voc with dispatch ne "" and with dispatch ne "CA"
 ```
 
 ```
@@ -208,9 +209,8 @@ sort voc with dispatch = "OS" by @id dispatch processor
 
 ```
 @ID.................   Dsp   Processor...............
-!                      OS
 sh                     OS
-2 record(s) listed
+1 record(s) listed
 ```
 
 `@id` is the record id, and it is a field name like any other.
@@ -228,12 +228,12 @@ dictionary entry called `dispatch`.
 | | |
 |---|---|
 | **`id.sup`** | leave the record id out |
-| **`col.hdg`** *"text"* · **`display.name`** | override a column heading |
+| **`col.hdg`** *"text"* | override a column heading |
 | **`fmt`** *"code"* | override the format |
 | **`conv`** *"code"* | override the conversion |
 | **`as`** *name* | use another dictionary entry's formatting |
 | **`col.spaces`** *n* | change the gap between columns |
-| **`vert`** · **`vertically`** | one field per line instead of columns (see *A vertical report*) |
+| **`vertically`** | one field per line instead of columns (see *A vertical report*) |
 | **`dbl.spc`** | a blank line between records |
 | **`col.sup`** · **`col.hdr.sup`** · **`hdr.sup`** | suppress column headings, both, or the page heading |
 | **`count.sup`** | suppress the trailing record count |
@@ -241,7 +241,7 @@ dictionary entry called `dispatch`.
 
 ## A vertical report
 
-`vert` (or `vertically`) prints one field to a line, the name of the field, a
+`vertically` prints one field to a line, the name of the field, a
 colon and the value. **A second value of a multivalued field repeats the colon**;
 a line that wrapped because the value was longer than the column has none, so
 the two can be told apart:
@@ -331,18 +331,18 @@ options inside the text for page number, date and time.
 | | |
 |---|---|
 | **`total`** *field* | a column total |
-| **`average`** · **`avg`** | the mean |
+| **`average`** | the mean |
 | **`median`** | the middle value: **the mean of the two in the middle when there is an even number**, a null counted as zero (left out with `no.nulls`), and a value that is not a number left out. At a break it is the median of that group, at the end of the report of every value. Where the values 150, 40, 30, 20 and 10 have an `average` of 50, their `median` is 30 |
 | **`mode`** | the value that comes most often, at the end of the report and at each breakpoint; **if several come as often, the first one is shown**. A null is a value (left out with `no.nulls`), and the values need not be numbers |
 | **`range`** | the largest value less the smallest, numbers only (a value that is not a number is left out, a null counts as zero unless `no.nulls`) |
 | **`rpt`** | repeats a single valued field on every line of a report on a multivalued one, in place of printing it on the first line only |
 | **`max`** · **`min`** | the largest and smallest value |
-| **`enum`** · **`enumerate`** | count the values rather than total them |
-| **`percent`** · **`pct`** · **`%P`** | express as a percentage |
-| **`calc`** · **`calculate`** | evaluate an I-type against the totals |
+| **`enumerate`** | count the values rather than total them |
+| **`percentage`** | express as a percentage |
+| **`calc`** | evaluate an I-type against the totals |
 | **`break.on`** *field* | start a new subtotal group when the field changes |
 | **`break.sup`** *field* | break on a field without printing it |
-| **`grand.total`** *"text"* · **`caption`** | label the final total line |
+| **`grand.total`** *"text"* | label the final total line (`caption` was a second name and was removed in 1.2-0) |
 
 `break.on` is what turns a flat listing into a report with subtotals; the field
 it breaks on almost always wants to be a sort key as well, or the groups come
@@ -352,20 +352,16 @@ out scattered.
 The I-types of that line can read it as `@bpv`: the value the field had on the
 last record before the break. It is empty on a field without `X`.
 
-Three options (see [SD Basic - Program Structure](01-sd-basic-program-structure.html))
-change a report. With `option query.footer.pause` a report that has a page
-footer waits for Return after its last footer. With `option paginate.on.heading`,
-a `run ... no.page` that prints a heading or a footing still turns pagination on.
-With `option query.merge.print` a report sent to the default printer (`lptr`) does
-**not** close a printer that was already active when the report began — a program's own
-`printer on`, say — so the report and the program's output are **one print job**. None is on
-unless asked for.
+A report sent to the default printer (`lptr`) closes a printer that was already
+active when the report began — a program's own `printer on`, say — so the report and
+the program's output are **two print jobs**. (`option query.merge.print`, which kept them
+as one, was removed in 1.2-0, as were `query.footer.pause` and `paginate.on.heading`.)
 
 ## Taking only some of the records
 
 | | |
 |---|---|
-| **`sample`** *n* · **`first`** *n* | the first *n* records |
+| **`sample`** *n* | the first *n* records |
 | **`sampled`** *n* | every *n*th record |
 
 A sampled listing says so in its trailing line — `Sample of 3 record(s) listed`
@@ -385,7 +381,7 @@ whole one.
 |---|---|
 | **`lptr`** {*n*} | to print unit *n*, 0 by default |
 | **`crt`** | to the screen, overriding a default of print |
-| **`no.page`** · **`nopage`** | do not pause at the end of each screen |
+| **`no.page`** | do not pause at the end of each screen (`nopage` was a second spelling and was removed in 1.2-0) |
 | **`file`** | to a file rather than a device |
 
 Printing, print units and `$hold` are in
@@ -559,10 +555,10 @@ record of a data collection file is searched as its JSON text.
 **A search works on the records of the active select list if there is one, and
 on the whole file if there is not.** The list that `search` or `scan` leaves is
 list 0, so a second `scan` straight after the first looks only at the records
-the first found. Use `clearselect` between them:
+the first found. Use `clear.select` between them:
 
 ```
-clearselect
+clear.select
 ```
 
 A `scan` that finds nothing prints `0 record(s) selected to list 0`. The listings

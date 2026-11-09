@@ -20,8 +20,8 @@ QM, and ScarletDME — and SD is one of its direct descendants.
 The three delimiters that make it work are **field marks**, **value
 marks** and **subvalue marks** — control characters that separate the
 levels inside a single string. A dynamic array in SDBasic is a string
-that carries these marks, and `extract`, `insert`, `delete` and
-`replace` work on them directly.
+that carries these marks, and the angle-bracket forms (`a<f,v>`), `ins` and
+`del` work on them directly.
 
 ## What SD is
 
@@ -88,9 +88,9 @@ inserting, then `fi` to file and exit.
 
 `sed` is a full-screen editor that runs inside SD, with drop-down menus and
 colour for SD BASIC that you turn on when you want it; it needs no operating
-system permission. You can also use `nano` or `micro` (both full-screen editors;
-`micro` highlights SD BASIC) once the administrator has turned the `os` switch on
-(`set.os.access os on`; it is off as delivered, because they run outside SD).
+system permission. You can also use `micro` (a full-screen editor that
+highlights SD BASIC) once the administrator has turned the `os` switch on
+(`set.os.access os on`; it is off as delivered, because it runs outside SD).
 `edit` aliases `ed` here, not a full-screen editor.
 
 ```
@@ -106,7 +106,7 @@ dots, so `clear-select` reaches `clear.select` too.
 
 A program lives in a `bp` file — a directory file, which is an ordinary
 Linux directory with one file per program. You can write it in `ed`,
-in `nano` or `micro` (once the `os` switch is on), or in any text editor you
+in `micro` (once the `os` switch is on), or in any text editor you
 like — the folder is on disk at:
 
 ```
@@ -149,7 +149,7 @@ are not in SD Core for Linux Solo:
 |---|---|
 | SDNet (the old `server;file` remote files) | Removed. A new SDNet client (a VOC pointer of type `N`, `set.server`, `set.netlogin`) is in, **off as delivered**; see *SDNet - Files on Another SD Server*. The API is the other way to reach another SD server |
 | `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic, with `sdkey()` for the key, and the `XE` conversion are the supported route |
-| `update.record`, `modify` editors | Gone; use `sed`, `nano`, `micro` or `ed` |
+| `update.record`, `modify` editors | Gone; use `sed`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |
 | `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core is English only (NLS, for currency and separators, is kept) |
 | Accounts other than `sduser` | Solo has one account. `create.account`, `grant` and the rest are gone |

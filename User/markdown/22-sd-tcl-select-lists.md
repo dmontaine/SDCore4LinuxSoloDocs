@@ -70,7 +70,7 @@ clear.select all
 Cleared all numbered select lists
 ```
 
-`clearselect` is the same verb, spelled without the dot.
+(`clearselect`, the same verb spelled without the dot, was removed in 1.2-0.)
 
 ## Building a list
 
@@ -184,42 +184,18 @@ duplicates.
 
 ## Combining two lists
 
-**There are two sets of verbs and they take different things. this is the
-easiest mistake on the page.**
+`merge.list` works on **list numbers**: the numbered lists in your session.
+(To combine saved lists, pick them up with `get.list` first.)
 
-| | takes | |
-|---|---|---|
-| **`list.union`** · **`list.inter`** · **`list.diff`** | **saved list names** | reads and writes `$savedlists` |
-| **`merge.list`** | **list numbers** | works on the numbered lists in your session |
+It finds a key of one list in the other without scanning it
+(since 16 Oct 2026), so lists of tens of thousands of keys merge in seconds
+where the time used to grow with the product of the two lengths. The result
+is what it always was: a union keeps the first list and adds each new key of
+the second once; an intersection gives the keys of the second list that are in
+the first, a key repeated in the second repeated; a difference takes away one
+occurrence in the first list for each key of the second.
 
-Giving a number to `list.union` does not do the numbered thing — it looks for a
-saved list with that name and fails:
-
-```
-list.union 3 4 5
-```
-
-```
-First source list does not exist
-```
-
-### By name
-
-```
-list.union zzos zzin zzboth
-list.inter zzos zzin zzover
-```
-
-```
-47 records saved to select list 'zzboth'
-0 records saved to select list 'zzover'
-```
-
-Both write a **saved** list, not a numbered one, so `get.list` is how you pick
-the result up. The two answers above check each other: the sources hold 2 and 45
-records with nothing in common, so the union is 47 and the intersection is 0.
-
-### By number
+### Example
 
 ```
 merge.list 3 union 4 to 5
@@ -231,11 +207,12 @@ merge.list 3 intersect 4 to 6
 0 record(s) selected to select list 6
 ```
 
-The operator words are **`union`**, **`intersect`** (or `intersection`) and
-**`diff`** (or `difference`). `to` *n* names the target, defaulting to list 0,
+The operator words are **`union`**, **`intersect`** and **`diff`**
+(`intersection` and `difference`, which meant the same, were removed in 1.2-0).
+`to` *n* names the target, defaulting to list 0,
 and `count.sup` suppresses the count line.
 
-`list.diff` and `merge.list ... diff ...` give the records in the first list that
+`merge.list ... diff ...` gives the records in the first list that
 are not in the second, so **the order of the two arguments matters** where it
 does not for union and intersection.
 
@@ -331,35 +308,6 @@ copy. It prints nothing when it works. A number outside 0 to 10 is refused
 (*Select list number missing or invalid*). It is the command form of the
 `movelist` statement.
 
-## Copying saved lists, Pick style: `copy.listp`
-
-```
-copy.listp {{dict} src.file} {id.list | *} {(options}
-```
-
-`copy.listp` is `copyp` (described with the other record verbs in
-[SD TCL - Files and Records](20-sd-tcl-files-and-records.html)) with **the saved
-lists as its source file**: unless a file is named, the source is `$savedlists`
-and every word is the name of a saved list. `*` means every list. Like `copyp`
-it asks where the copy is to go and shows what it did:
-
-```
-copy.listp rome
-```
-
-```
-To: rome3
-Copied item ROME from $savedlists to $savedlists item ROME3
-1 record(s) copied.
-```
-
-The options are `copyp`'s, in a trailing bracket: `d` deletes the source (the
-line then reads *Moved item ...* and the count *copied and deleted*), `i`
-suppresses the id, `n` no pagination, `o` overwrites, `p` and `t` send the
-listing of the list to the printer or the terminal (`copy.listp rome (t` prints
-`Item ROME` and its ids), `s` suppresses field numbers. **Without `o`, a list
-that already exists at the destination is not copied** (*Item NAMES1 already
-exists in target file - Not copied*).
 
 ## A command for each id: `execute.list`
 
@@ -397,7 +345,7 @@ given with `from`, and the refusal of an `execute.list` with no command.
 
 **All of them are in every account.** Building, saving and combining lists
 is reading, and nothing on this page changes a record. `show.list`,
-`sort.list`, `move.list`, `copy.listp` and `execute.list` are in every account
+`sort.list`, `move.list` and `execute.list` are in every account
 too; `execute.list` changes records only if the commands it runs do.
 
 ## See also

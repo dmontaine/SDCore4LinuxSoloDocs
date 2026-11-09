@@ -43,6 +43,7 @@ password is never displayed, stored or logged.
 | `SET.DATE` | set the session's date |
 | `CLEAN.ACCOUNT` | empty the account's scratch files |
 | `update.accounts` | refresh the account's VOC |
+| `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
 | `set.start.default`, `set.tile`, `set.pins`, `tool.menus` | where a session starts, which tiles the home screen has, whether the account may add its own — [The home screen's settings](#the-home-screens-settings) below |
@@ -142,11 +143,30 @@ missing and leaving your own VOC records alone. An upgrade runs it for you, so
 you will not normally type it. With one account, `all` and no keyword do the
 same thing.
 
-**It never takes anything away.** A record you removed stays removed. To keep
+**It takes away only what is on SD's deletion list.** When a release stops
+shipping a VOC record (a verb or keyword that was withdrawn), the record is on the
+list in `sdsys/voc_removed`, and the update removes it from your VOC **only if it is
+still exactly the record SD shipped**, after saving a copy in `voc_removed.saved`
+in the system directory, and writes an audit line. A record you changed, or one of
+your own of the same name, is kept. A record you removed stays removed. To keep
 your own version of one of SD's records, put `[locked]` in field 1 **after the
 type code** — `V[locked]`, `PA[locked]` — and it is left alone. **A verb is
 updated anyway**, because a locked verb would go on naming a program this
 release replaced; you are told which ones.
+
+```
+list.voc.removed {sduser}
+restore.voc sduser {id}
+```
+
+After `admin`. **`list.voc.removed`** lists the records SD no longer ships, with what
+to type instead; given the account, it says what the next `update.accounts` would do
+there, and changes nothing. **`restore.voc`** puts back the newest saved copy of a
+removed record (or of all of them), never over a record the account holds, and audits
+what it puts back.
+
+If the VOC cannot be written (its file permissions refuse the write), the update
+says so for the account and leaves it as it was, instead of stopping with an error.
 
 **Your own changes to the VOC: `newvoc.mods`.** An optional directory file called
 `newvoc.mods` in the SD system directory holds VOC records of your own — a verb
@@ -157,8 +177,9 @@ file: one record per file, the record id as the file name, the VOC record as its
 contents. There is no file until you make one, and nothing is created for you. It
 is applied when the VOC is built at install and at every `update.accounts`, which
 an upgrade runs, and **an upgrade leaves the file where it is.** `deletesdsolo.sh
---keep-data` keeps it too: the account, `sd.conf` and a `newvoc.mods` directory are
-what is left beside the `.sdcore-kept` stamp, and a new install that reloads the
+--keep-data` keeps it too: the account, `sd.conf`, a `newvoc.mods` directory and the
+saved copies of removed VOC records (`voc_removed.saved`) are what is left beside the
+`.sdcore-kept` stamp, and a new install that reloads the
 saved data puts the directory back before it refreshes the VOC, so your records are
 applied again at once. (Only a real directory is kept; a link or a plain file of that
 name is removed with the rest, and `--delete-data` removes it as it removes everything.) To see it work, put a record in the

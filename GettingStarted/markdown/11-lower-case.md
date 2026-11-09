@@ -20,8 +20,7 @@ A name that matches exactly still wins, so nothing that works today changes. A
 name that exists in **no** case is still reported as not found.
 
 This order is used everywhere: the parser, the query processor, `run`,
-multifile resolution, the `login` paragraph lookup, and `set.file`'s default
-`qfile` pointer.
+the `login` paragraph lookup, and `set.file`'s default `qfile` pointer.
 
 ## What is spelled in lower case, and that is the whole of it
 
@@ -57,11 +56,10 @@ migration covers SD's own system names — commands, VOC entries, source — nev
 the records an application stores in its own files. What you put in your own data
 keeps whatever case you gave it.
 
-**`create.file`** also takes a `no.case` option, which creates a file whose
-record ids are treated as case insensitive regardless: SD writes records
-preserving the casing given by whatever performs the write, and reads locate
-records regardless of casing. That is an opt-in choice for a file where you want
-it, not the system default.
+Every file `create.file` makes treats record ids as case insensitive (there is
+no `no.case` or `case` word to give it): SD writes records preserving the
+casing given by whatever performs the write, and reads locate records
+regardless of casing.
 
 ## One correction worth reading
 

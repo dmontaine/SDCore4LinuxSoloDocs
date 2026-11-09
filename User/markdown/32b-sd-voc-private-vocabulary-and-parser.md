@@ -26,8 +26,8 @@ in this order, and stops at the first place that has it:
    case, then with each hyphen changed to a dot (upper case, then lower
    case): `zz-vdot` finds a VOC record called `zz.vdot`.
 2. **The private vocabulary**, if the VOC has `$private.voc`. The word as
-   typed, then in lower case, then in upper case. **There is no hyphen form
-   here**: `zz-dot` does not find a private record called `zz.dot`.
+   typed, then in lower case, then in upper case; `zz-dot` does not find a
+   private record called `zz.dot` either.
 3. **The private catalogue and then the global one**, as page 32a describes.
 4. Otherwise `xx is not in your VOC`.
 

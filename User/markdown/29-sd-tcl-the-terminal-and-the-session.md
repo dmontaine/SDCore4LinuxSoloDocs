@@ -15,7 +15,7 @@ something you type as it stands.
 ```
 term                             display the settings
 term {width} {, lines} {type}    set them
-term colour {bgc}{,fgc}          set display colour
+term color {bgc}{,fgc}           set display color
 term default                     back to the defaults
 term display                     show the terminfo bindings
 ```
@@ -108,13 +108,13 @@ you give `term` is looked up in. They come out in columns, and the last line
 counts them (an excerpt):
 
 ```
-5051                      adds4000                  addsviewpoint             ansi                      ansi-generic
-dec-vt330                 dec-vt340                 dec-vt400                 dg-ansi                   dg-generic
+ansi                      ansi-generic              dec-vt100                 dec-vt220                 dec-vt330                 dec-vt340                 dec-vt400
+dumb                      linux                     ms-vt100                  null                      unknown                   vt100                     vt100-am
 ...
-82 terminal type(s)
+36 terminal type(s)
 ```
 
-`lptr` sends the list to a print unit. The number was 82 in a sandbox built from
+`lptr` sends the list to a print unit. The number was 36 in a sandbox built from
 the Solo source tree; the listing was produced by running the verb there, as the
 administrator.
 
@@ -163,7 +163,6 @@ piped session) the program ends.
 ```
 :pterm display
 Break trapping: On  (char ^C)
-Case inversion: Off
 Input newline:  CR
 Output newline: CRLF
 Binary mode (client to server): Off
@@ -179,7 +178,6 @@ gone quiet — it takes a keyword and `display` is one of them. The full set:
 | **`pterm display`** | the settings above |
 | **`pterm lptr`** | send them to the default printer |
 | **`pterm break on`** \| **`off`** \| *c* | enable, disable, or set the break character |
-| **`pterm case invert`** \| **`noinvert`** | case inversion on input |
 | **`pterm newline cr`** \| **`lf`** \| **`crlf`** | the output line ending |
 | **`pterm return cr`** \| **`lf`** | the input line ending |
 | **`pterm binary on`** \| **`off`** | pass bytes through untranslated |
@@ -234,21 +232,18 @@ prints anything**, and `bell` with no keyword is an error rather than a toggle:
 ## Clearing type-ahead and stored prompts
 
 ```
-clearinput      clear.input
-clearprompts    clear.prompts
+clear.input
+clear.prompts
 ```
 
-**`clearinput`** discards anything typed ahead but not yet read.
-**`clearprompts`** discards the inline prompt and response text a previous
+**`clear.input`** discards anything typed ahead but not yet read.
+**`clear.prompts`** discards the inline prompt and response text a previous
 command left behind. Neither prints anything.
 
-**Each has two spellings and they are the same verb.** `clear.input` and
-`clear.prompts` are separate VOC records pointing at the same internal verb
-number as the run-together forms, which is the pattern described on
-[SD TCL - The Command Processor](19-sd-tcl-command-processor.html). Use
-whichever reads better; nothing distinguishes them.
+(The run-together spellings `clearinput` and `clearprompts` were second names
+for the same verbs and were removed in 1.2-0.)
 
-> **Neither can be demonstrated down a pipe, and `clearinput` should not be
+> **Neither can be demonstrated down a pipe, and `clear.input` should not be
 > sent down one at all.** In a piped session the input stream *is* the script,
 > so discarding unread input discards the commands that have not run yet —
 > including the `off` that would have ended the session. **A run that did this

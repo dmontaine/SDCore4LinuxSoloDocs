@@ -1,8 +1,8 @@
 Title: Operating System Access
 Subtitle: The two switches, sh and os, that decide whether SD can reach the operating system: off as delivered, turned on by the administrator.
 
-`sh` runs a Linux command from the SD prompt. `!` is the same verb under a
-shorter name. `OS.EXECUTE` is the way from a program, and a program can also
+`sh` runs a Linux command from the SD prompt (the shorter name `!` was removed in
+1.2-0). `OS.EXECUTE` is the way from a program, and a program can also
 reach the operating system by naming a file or directory outside the account.
 **All of it is off as delivered**, and the administrator turns it on, in two
 independent switches, with `set.os.access`.
@@ -11,7 +11,7 @@ independent switches, with `set.os.access`.
 
 | Switch | What it lets the account do |
 |---|---|
-| **`sh`** | the `sh` verb and `!` |
+| **`sh`** | the `sh` verb |
 | **`os`** | `OS.EXECUTE`; `OPENSEQ`, `OPENPATH`, `DIR()`, `DELETESEQ`, `OPENTEMP`, `DIGEST` of a file and the file-system keys of `OSPATH()` on a path **outside the account's own directory**; a print unit's pathname (`SETPTR ... AS PATHNAME`, `SETPU`, a CSV report's `TO` pathname) and its `SPOOLER` command outside it; the embedded Python; the editors `nano` and `micro`; and a VOC pointer to a file outside the account |
 
 **Both are off as delivered, on a new install and on an upgrade unless you said
@@ -133,7 +133,7 @@ refused 3035
 3035; a print file or a `SETPTR ... AS PATHNAME` outside the account says
 `sduser has no OS access, so a file or directory outside its own account cannot
 be reached by pathname (the administrator can give it: set.os.access os on)`;
-`nano` and `micro` say that they need OS.EXECUTE permission. `ed` and `edit`, SD's own line editor,
+`micro` says that it needs OS.EXECUTE permission. `ed` and `edit`, SD's own line editor,
 need none of it.
 
 ## The two verbs
@@ -201,9 +201,10 @@ about the `sh` switch, like a typed one.
 
 ## The editors
 
-The full-screen editors `nano` and `micro` run as ordinary Linux programs, in
-your terminal, with your permissions, and are **behind the `os` switch** (they
-are a way out of SD); `ed` and `edit` are SD's own line editor and are not. See
+The full-screen editor `micro` runs as an ordinary Linux program, in
+your terminal, with your permissions, and is **behind the `os` switch** (it
+is a way out of SD); `ed` and `edit` (SD's own line editor) and `sed` (SD's own
+full-screen editor) are not. See
 [Development and file commands](07-programmer-commands.html#editors).
 
 ## Over ssh and the API
@@ -218,8 +219,8 @@ see [Security](12-security.html).
 ## At install and at upgrade
 
 **The installer asks**, once, on a terminal, with the default no for each:
-`Turn on the shell (sh and !) for your SD account? [y/N]` and `Turn on OS access
-(os.execute, outside files, Python, nano, micro) for your SD account? [y/N]`. An
+`Turn on the shell (SH) for your SD account? [y/N]` and `Turn on OS access
+(os.execute, outside files, Python, micro) for your SD account? [y/N]`. An
 upgrade asks the same, because **before this release the shell and OS access
 were always on**, and an existing Solo would otherwise lose them without a word;
 say yes to each you want to keep. The answer can be given on the command line,
@@ -230,9 +231,7 @@ new account is off and on an upgrade leaves the switches as they were.
 ## On a managed computer
 
 **The SD Core for Linux server can put `sh` on the list of denied commands** (see
-[Managed mode](15-managed-mode.html)). It takes `!` with it, because SD denies a
-verb by what it runs and both are the same command, and both then need `admin`
-first. That list is separate from the switches: a denied `sh` needs `admin` even
+[Managed mode](15-managed-mode.html)), and it then needs `admin` first. That list is separate from the switches: a denied `sh` needs `admin` even
 when the switch is on, and `set.os.access` is itself an administrator command.
 
 ## The one bypass: showing a document with `pdf`
