@@ -219,8 +219,8 @@ changed by running `tools/solo-service.sh install` again — see
 
 **On a Solo tree both read as empty in `config`**, and `sh command` runs the
 command through `bash -c` from the account's directory — see
-[Operating system access](06b-operating-system-access.html). **A bare `sh` is
-refused** rather than starting an interactive shell. **Both run with your own
+[Operating system access](06b-operating-system-access.html). **A bare `sh` starts
+an interactive shell** (see the `SH` line above). **Both run with your own
 Linux permissions, once the `sh` switch is on; as delivered it is off and `sh`
 is refused** (`set.os.access sh on`).
 

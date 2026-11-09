@@ -163,13 +163,13 @@ the full path).
 
 ## A filter on the command, not on you
 
-**Both verbs refuse a command that contains a shell metacharacter or a line
+**`sh` refuses a command that contains a shell metacharacter or a line
 break** — `;` `|` `&` `$` `` ` `` `<` `>`:
 
 ```
 :sh echo alpha-beta | grep alpha
 Error 2 executing operating system command
-:! echo hi; ls /somewhere
+:sh echo hi; ls /somewhere
 Error 2 executing operating system command
 ```
 
@@ -177,8 +177,9 @@ Error 2 executing operating system command
 turned into two by accident — a record id or a variable pasted into it — and it
 is applied the same way to everyone. A plain command with arguments is fine:
 `sh ls -la`, `sh grep -c error /var/log/messages`. **A bare `sh`, with nothing
-after it, is refused the same way**, so there is no interactive shell to be left
-in from TCL: to get a shell, use your own terminal.
+after it, starts an interactive shell** (the filter is for a typed command; until
+7 November 2026 it refused an empty one too); `exit` brings you back to the SD
+prompt. It needs the `sh` switch like any other `sh`.
 
 ## `OS.EXECUTE` is not filtered
 

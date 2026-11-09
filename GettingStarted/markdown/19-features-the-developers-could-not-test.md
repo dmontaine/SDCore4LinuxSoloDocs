@@ -140,9 +140,9 @@ managed computer and confirm the client is refused until the pin is removed.
 
 **Known.** From `sh`, a command that runs `sd-solo` — for example `sh /full/path/sd who`
 — starts a **separate, nested one-shot session** and returns its output. There is
-no guard against it, unlike SD Core for Windows, which refuses. There is no
-interactive `sh` from TCL to be left in (a bare `sh` is refused), so the
-interactive case cannot arise.
+no guard against it, unlike SD Core for Windows, which refuses. A bare `sh`
+starts an interactive shell (since 7 November 2026), so `sd-solo` typed there starts
+a nested interactive session; that case has not been tried.
 
 **Not known.** A nested session left waiting at a prompt.
 

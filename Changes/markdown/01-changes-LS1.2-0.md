@@ -311,6 +311,7 @@ Commands and VOC verbs that every account has, and the command language.
 | saved list verbs | Changed | `save.list`, `get.list`, `delete.list`: `keep`, `deleting`, `count.sup`, a default name, a name left out, `in file` <!--s 2 384 387 401 494--> |
 | `selectindex` | Added | the command form of the statement <!--s 119--> |
 | `setptr` | Changed | `form.feed`, `inform`, `eject`, `as ... in file`; the digits of `next` <!--s 51 59 70 139 448--> |
+| `sh` with no command | Changed | fixed: starts the interactive shell again (it said *Error 2 executing operating system command*); it still needs the `sh` switch |
 | `show.list` | Added | a page at a time, starring and clearing items <!--s 449-->|
 | `sort.list`, `select.dir` | Added | sort a saved list; select the files of a directory <!--s 158 465--> |
 | `sp.view` | Changed | `by field`; `x` deletes the item shown; shows where output goes for every print unit mode <!--s 450 560--> |
@@ -492,7 +493,7 @@ Three simple layers, with no vault and nothing on by default.
 
 | Name | Change | What |
 |---|---|---|
-| `encrypt.key` | Added | asks for a key on a hidden prompt and puts it in the key ring |
+| `encrypt.key` | Added | asks for a key on a hidden prompt and puts it in the key ring; `set` refuses a passphrase of fewer than 12 characters (`sdkey()` takes any that is not empty) |
 | key ring subroutines | Added | `!keyset`, `!keyclear`, `!keylist`: fill, empty and list the session's key ring, kept in the memory of its own process |
 | `sdkey()` and friends | Added | `sdsalt()`, `sdkey()`, `sdrandkey()`: a salt, a key from a passphrase, and a random key for `sdencrypt()` and `sddecrypt()`, open to every program; every `sdencrypt()` uses a fresh random nonce <!--s 504 g116 g123--> |
 | `xe` conversion | Added | a dictionary item with `xe` (or `xe;name`) shows a field decrypted for a session that holds the key and the cipher text for one that does not; `iconv` encrypts |
@@ -560,6 +561,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | deleting a directory tree | Changed | fixed: `delete.file` of a directory file and the other deletes of a whole tree followed a symbolic link inside it and deleted what it pointed at; a link is now removed as a link and its target left alone |
 | `$internal` programs | Changed | fixed: a program a user compiled and catalogued locally ran with internal privilege without `admin`; only the global catalogue or an `admin` session keeps it |
 | named common | Changed | fixed: a program that ended while holding objects in named common freed them twice |
+| named common with a `$` or `_` name | Changed | the system's own common blocks: only an internal program may declare or join one; any other program stops with message 11598 |
 | operating system paths | Changed | `dir()`, `select.dir`, `oscopy`, `!oscopy`, `!ioscopy`, `deleteseq` of a path, `opentemp`, `digest` of a file, `setptr ... as pathname`, `setpu`, the embedded Python and a VOC pointer out of the account each ask the account's `os` switch |
 | print file refusal | Changed | outside the account: the message names the account instead of printing `%1` |
 | shared memory modes | Changed | the shared segment and the semaphores are mode 0600, the user's alone; they were 0666, open to every local user, and the daemon `sdlnxd` took the directory it runs `sd-solo -cleanup` from out of that segment. It now finds the directory from its own path and starts the program without a shell. A Solo already running keeps its old segment until it is stopped and started |
