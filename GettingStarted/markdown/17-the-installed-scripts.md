@@ -58,7 +58,7 @@ bash ~/SDCoreSolo/tools/solo-service.sh status
 | `daemon` | writes **only** the two daemon units, `sd-solo.service` and `sd-solo-lnxd.service`, and reloads systemd; it starts, stops and enables nothing. An upgrade runs it, because an upgrade keeps the units it finds. It refuses a pair that names another Solo tree. `--print` shows the two units and writes nothing. Ends `SOLO DAEMON UNITS WRITTEN` |
 | `remove` | stops SD and removes the units, `sd-solo-lnxd.service` first. Ends `SOLO SERVICE REMOVED` |
 | `status` | which unit files are present, whether the daemon and the API and ssh sockets are active, and whether linger is on |
-| `--enable-linger` | also runs `loginctl enable-linger`. **Linger is a persistent setting of your account, so it is opt-in.** Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
+| `--enable-linger` | also runs `loginctl enable-linger`. The installer passes it unless it was told `--no-linger` or `enable-linger=no` (linger is on by default since 9 November 2026); run by hand, the script does it only when asked. Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
 
 `sd-solo.service` is a one-shot that remains after exit
 (`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks

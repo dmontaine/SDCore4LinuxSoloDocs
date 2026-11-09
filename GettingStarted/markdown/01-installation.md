@@ -86,7 +86,7 @@ says *global pw: none - no SD Core server manages this computer*, or *set*.
 |---|---|
 | **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
 | **ssh straight into sd-solo** | on and `local` (this computer only) by default, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it (`--ssh off` declines both); `off`, `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
-| **Linger** | `loginctl enable-linger`, so SD keeps running after you sign out. Without it SD stops when your last session ends. It is a persistent setting of your account, so it is a question, not a default |
+| **Linger** | `loginctl enable-linger`, so SD keeps running, and reachable over the API and ssh, when nobody is signed in at the computer. **On by default** (since 9 November 2026), for an unattended install too; on a terminal the installer asks, with yes as the answer Enter gives. `--no-linger`, or `enable-linger=no` in the control file, leaves it off, and then SD stops when your last session ends. Linger keeps SD and the ports you opened running while you are signed out; it is a persistent setting of your account, which `loginctl disable-linger` turns off later |
 
 **A computer that an SD Core server manages needs both `open`**: the server has to
 reach it from elsewhere (the API, and ssh to install its key). If you give the
@@ -162,7 +162,7 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. Only a session signed in with the global password can change the list afterwards, so on a computer with no global password it is fixed until a reinstall. See [Managed mode](15-managed-mode.html) |
 | `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
 | `os-access=` | `none`, `sh`, `os` or `both`: which of the shell and OS access to turn on. Blank asks on a terminal and means `none` without one; both are off unless named |
-| `enable-linger=yes` | run `loginctl enable-linger` |
+| `enable-linger=` | `yes` or `no`. Blank is yes: `loginctl enable-linger` is run unless this says `no` (`--enable-linger` or `--no-linger` on the command line wins); anything else is refused |
 | `reload-data=` | `yes` or `no`: what to do when the install directory holds data and configuration an earlier uninstall kept — use them, or move them aside and install clean. Blank asks on a terminal and reloads when there is none; it does nothing when nothing was kept. See [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 
 **The account password is deliberately not in it.** On a computer installed

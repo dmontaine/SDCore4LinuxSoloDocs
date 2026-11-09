@@ -15,9 +15,11 @@ not type `sd-solo -start` after every sign-in.
 **The user manager starts when you first sign in and stops when your last
 session ends — unless linger is on.** With linger enabled, SD starts at boot
 and keeps running while you are signed out, which is what remote access
-(ssh or the API when nobody is at the keyboard) needs. It is a persistent
-setting of your account, so the installer asks rather than assuming; to turn it
-on later, as an administrator of the computer:
+(ssh or the API when nobody is at the keyboard) needs. **The installer turns it
+on by default** (since 9 November 2026; `--no-linger` or the control file's
+`enable-linger=no` leaves it off). It is a persistent setting of your account;
+`sudo loginctl disable-linger $USER` turns it off. To turn it on later, as an
+administrator of the computer:
 
 ```
 sudo loginctl enable-linger $USER

@@ -26,6 +26,7 @@ second user; the rows below say what Solo has, and the section at the end says w
 | Name | Change | What |
 |---|---|---|
 | Shell and OS access | Changed | every Solo account could run Linux commands and reach any file the Linux user could; now both are **off** until the administrator runs `set.os.access`, and an upgrade leaves both off |
+| Linger | Changed | an unattended install left it off, so SD stopped when you signed out; now every install turns it on unless told `--no-linger` or `enable-linger=no`, and SD with its API and ssh stays running while nobody is signed in |
 | Where a session starts | Changed | was the command prompt; now the **home screen** of tiles |
 | The default terminal | Changed | was 120 columns by 36 lines; now **140 by 42** |
 | `sed`, `ide`, `ced` | Changed | need a window of at least **140 by 42**, and `ed` is the editor for a smaller one |
@@ -512,6 +513,7 @@ Three simple layers, with no vault and nothing on by default.
 | Name | Change | What |
 |---|---|---|
 | installer source message | Changed | says which source it is downloading, the release tag or `main` |
+| linger | Changed | on by default for every install, an unattended one included, so that SD stays reachable over the API and ssh when nobody is signed in; the question on a terminal defaults to yes; `--no-linger` (new) or the control file's `enable-linger=no` leaves it off. An upgrade leaves linger as it was |
 | os-access question | Added | the installer asks whether to turn on the shell and OS access, each answer no unless yes; `--os-access none`, `sh`, `os` or `both` answers it without a terminal; an upgrade says both were on before and leaves both off |
 | uninstaller and the systemd user units | Changed | fixed: `deletesdsolo.sh` run from a shell that cannot reach the user manager (ssh command, cron) deleted the installation and left the enabled units; it now finds the manager's socket itself, removes the unit files if `solo-service.sh remove` is refused, and stops before removing anything of the installation or your data if a unit file is still there |
 
