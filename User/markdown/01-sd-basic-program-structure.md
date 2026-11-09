@@ -386,7 +386,6 @@ additions; each is described by what it does and does **not** do.
 
 | option | what it does |
 |---|---|
-| **`inherit.ownership`** | `create.file` gives a new file (the directory and everything in it) the **owner and group of the account directory** in place of those of the user who made it. A user may only hand a file to a group they belong to, which the account's own group is, and not to another owner: where the system refuses nothing is said, as in openQM. **Off by default, and the group it gives is the account's, so its members then have on the file what they have on the account:** turn it on in the account's `login` paragraph, as an administrator's decision |
 | **`git`** | a directory file keeps `.gitignore` and `.gitattributes` under their own names on the disk. Without it the leading dot of every such name is replaced by `%D`, which git does not read. **Only these two names**: any other name with a leading dot is mapped as ever |
 | **`dir.dtm`** | writing a record to a directory file moves the directory's date and time modified. The system moves it only when a name is added or removed, so a replaced record leaves it as it was. **Closing a written sequential file does not do this** |
 | **`spool.command`** | shows the operating system command that prints a job, just before it runs; a diagnostic aid |
