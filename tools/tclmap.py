@@ -140,6 +140,10 @@ DOCS = [
  ('GettingStarted', '24-the-ai-helper.md', """
    set.ai tool.ai
  """),
+ # 11 Nov 26 S.211: the MCP door
+ ('GettingStarted', '25-the-mcp-door.md', """
+   mcp.call set.mcp
+ """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status
  """),

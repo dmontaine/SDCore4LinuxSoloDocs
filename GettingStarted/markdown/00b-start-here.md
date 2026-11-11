@@ -90,6 +90,7 @@ that no page runs longer than a reader will scroll.
 | **22** | [sdconv, the byte order convertor](22-sdconv.html) | What it converts (compiled programs only), and what it refuses |
 | **23** | [Giving an AI agent an installation of its own](23-giving-an-ai-agent-its-own-installation.html) | Why the wall for an agent has to be a computer, and the recipe |
 | **24** | [The AI helper](24-the-ai-helper.html) | Asking an AI model a question from SD: the provider, the key, the gate, and what a helper that runs as you cannot promise |
+| **25** | [The MCP door](25-the-mcp-door.html) | Letting an AI agent's MCP client use your account through read-only tools: the two switches (both off), the audit line, and what the door does not add |
 
 ## The five things most likely to surprise you
 

@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **206** verbs, and
+> every verb record in `newvoc`, which is **208** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-206 of them; whether a verb needs `admin` is in the GettingStarted set.
+208 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -131,6 +131,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`logmsg`** | **`logmsg`** *text* |
 | **`logout`** | **`logout`** \| *n* … \| **`all`** |
 | **`map`** | **`map`** {**`all`**} {**`lptr`** {*n*}} {**`file`** {*name*}} |
+| **`mcp.call`** | **`mcp.call`** **`status`** *name*  ·  **`mcp.call`** *id*  —  the work of every call of the MCP launcher (it is not typed by a person; it reads a request file the launcher wrote, and refuses unless the administrator has run **`set.mcp on`**) |
 | **`menu`** | **`menu`**  —  the full-screen menu (the home screen), also from the terminal it gave you |
 | **`merge.list`** | **`merge.list`** *list.no* *rel.op* *list.no* {**`to`** *list.no*} {**`count.sup`**} |
 | **`message`** | **`message`** *user.no* {**`immediate`**} {*text*} |
@@ -179,6 +180,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
 | **`set.file`** | **`set.file`** *account* *file* *pointer* |
+| **`set.mcp`** | **`set.mcp`** {**`on`** \| **`off`**}  ·  **`set.mcp write`** **`on`** \| **`off`**  —  whether an AI agent's MCP client may use the account through the MCP launcher, and whether it may also run a sentence (administrator; both off as delivered); without a word, says which |
 | **`set.mode`** | **`set.mode`** {**`dict`**} *file* {**`all`** \| **`from`** *listno* \| *id* …} {**`no.query`**} *mode* |
 | **`set.net.access`** | **`set.net.access`** \| **`set.net.access on`** \| **`set.net.access off`** |
 | **`set.netlogin`** | **`set.netlogin`** *server* |

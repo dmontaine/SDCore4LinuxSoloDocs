@@ -30,7 +30,7 @@ second user; the rows below say what Solo has, and the section at the end says w
 | Where a session starts | Changed | was the command prompt; now the **home screen** of tiles |
 | Fedora | Removed | the installer installed on Fedora; it now refuses it, and installs on Debian and Ubuntu (and their derivatives) only |
 | The group size of a new file | Changed | was 2 KB (1 KB when `sd.conf` did not say); now **4 KB** on a new installation. An upgraded installation keeps its `sd.conf`, and so its 2, and a file keeps the size it has |
-| The default terminal | Changed | was 120 columns by 36 lines; now **140 by 42** |
+| The default terminal | Changed | was 120 columns by 36 lines; now **140 by 43** |
 | `sed`, `ide`, `ced` | Changed | need a window of at least **140 by 42**, and `ed` is the editor for a smaller one |
 | An index and a record id | Changed | an index kept an upper-case copy of the id; now it follows the id **as the file holds it**, so rebuild an index that was built on LS1.1-3 |
 | `select file field` | Changed | a field not otherwise used was ignored; now it is `saving multivalued field` |
@@ -237,7 +237,7 @@ The query processor and the dictionary.
 | `rpt` | Added | repeats a single valued field on each line of a report on a multivalued one <!--s g210--> |
 | `scan`, `search ... display` | Added | show the lines of a record that hold the strings; `search all` searches the id too; strings may come from a file <!--s 437 447 221 141--> |
 | `select file field` | Changed | a field no clause uses is `saving multivalued field` <!--s 39--> |
-| `show` | Changed | `b` goes to the bottom; `sort.sup`; a missing record is listed and the command ends <!--s 477 495 524--> |
+| `show` | Changed | `b` goes to the bottom; `sort.sup`; a missing record is listed and the command ends; `eval` compiles its expression in memory and no longer writes a temporary item into your dictionary <!--s 477 495 524--> |
 | `sorted.sample n` | Added | counts the records after the sort <!--s 438--> |
 | `vertically` | Changed | `fmt` for the name and data format; `$vlist` sets them for the file; multivalued data and a wrapped line are told apart <!--s 160 579 580--> |
 | `when field` | Changed | with no operator keeps the values that are not null <!--s 543 343--> |
@@ -319,7 +319,7 @@ Commands and VOC verbs that every account has, and the command language.
 | `show.list` | Added | a page at a time, starring and clearing items <!--s 449-->|
 | `sort.list`, `select.dir` | Added | sort a saved list; select the files of a directory <!--s 158 465--> |
 | `sp.view` | Changed | `by field`; `x` deletes the item shown; shows where output goes for every print unit mode <!--s 450 560--> |
-| `term` | Changed | takes two numbers for the default printer; `term default` goes to 140 by 42 <!--s 466--> |
+| `term` | Changed | takes two numbers for the default printer; `term default` goes to 140 by 43 <!--s 466--> |
 
 ## TOOLS
 
@@ -438,6 +438,8 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `load.help` | Added | the administrator fills the file `context.help` with the text of the `[?]` help buttons; records the administrator added are kept |
 | `restore.voc` | Added | administrator only: puts back the newest saved copy of a VOC record the update removed, or all of them; never overwrites a record the account holds, and audits what it puts back |
 | `set.net.access` | Added | the account's `net` gate: `set.net.access on` and `off`; off as delivered; it guards API request 29 and every remote file |
+| `set.mcp` | Added | administrator only: opens the MCP door for an AI agent's MCP client (`set.mcp on`) and gives it the write tool (`set.mcp write on`); both off as delivered; Getting Started page 25, The MCP door |
+| `mcp.call` | Added | the work of every call of the MCP launcher `solo-mcp.py` - the gate, the checks of every word, the work and the audit line; not typed by a person |
 | `set.os.access` | Added | the shell (`sh`) and operating system access (`os`) are two switches on the account, both off as delivered; `set.os.access sh on`, `os on`, `off`; seen at the next sign-on |
 | `set.pins` | Added | `set.pins on` lets the account add programs of its own to its home screen (`my.menu`); off as delivered |
 | `set.start.default` | Added | `menu` or `terminal`: where a session starts |
@@ -472,6 +474,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | api request 70, `delete.file` | Changed | fixed: a delete the verb refused (the file open in another session, say) left the file on the disk but the client's file number dead; the number now stays good and the status is the verb's |
 | api server loop | Changed | fixed: a client that hung up before its first request left a server process using 100% of a processor |
 | api, a refused `sdlogto` | Changed | fixed: the session went on naming the refused account, so every later open of a file by its VOC name failed; the session now stays in the account it was in |
+| client class `sdclient` | Added | the BASIC class gains `getvar`, `revision`, `system`, `trans`, `rtrans`, `txn`, `evaluate`, `evalconv`, `iconv`, `oconv`, `iconvs`, `oconvs`, `openseq`, `readseq`, `readblk`, `writeseq`, `writeblk`, `seek` and `weofseq` |
 | client library: dictionary | Added | `sdevaluate`, `sdevalconv`, `sdiconv`, `sdoconv`, `sdiconvs`, `sdoconvs` |
 | client library: files | Added | `sdopenseq`, `sdreadseq`, `sdreadblk`, `sdwriteseq`, `sdwriteblk`, `sdseek`, `sdweofseq` |
 | client library: headers | Added | language headers for C#, PHP, Python, Basic, PureBasic and Gambas, in the system directory's `syscom` |
@@ -523,7 +526,10 @@ Three simple layers, with no vault and nothing on by default.
 
 | Name | Change | What |
 |---|---|---|
+| agent pack | Added | the installer puts the guide and the knowledge pack for AI agents in the installation's `agent-pack` folder, when the download's pack matches the installed release; an absent or other-version pack is a note, never a stop |
+| changes document and manuals | Added | the changes document (`sd-core-solo-for-linux-<version>-changes.pdf`, `.html`, `.md`) and the manuals found beside the installer are put in the installation's `pdf` folder, the manuals through `docs.install`; anything else is left alone |
 | distributions | Changed | Debian and Ubuntu (and their derivatives) only: Fedora is refused, as RHEL, its clones, Arch and openSUSE were, and every refusal now comes before the network check, the questions and the first `sudo`; the `dnf` step is gone |
+| documentation for the AI | Added | the installer fetches the documentation pages from `SDCore4LinuxSoloDocs` into `docs/user`, where `ai` looks for the passages it sends with your question; a fetch that fails is a note, never a stop |
 | installer source message | Changed | says which source it is downloading, the release tag or `main` |
 | linger | Changed | on by default for every install, an unattended one included, so that SD stays reachable over the API and ssh when nobody is signed in; the question on a terminal defaults to yes; `--no-linger` (new) or the control file's `enable-linger=no` leaves it off. An upgrade leaves linger as it was |
 | os-access question | Added | the installer asks whether to turn on the shell and OS access, each answer no unless yes; `--os-access none`, `sh`, `os` or `both` answers it without a terminal; an upgrade says both were on before and leaves both off |
@@ -589,7 +595,9 @@ Fixes that close a way round a gate, and what the gates now ask.
 | Name | Change | What |
 |---|---|---|
 | clean-up daemon restart | Added | `sdlnxd`, which clears down sessions whose process has gone, runs as its own user unit, `sd-solo-lnxd.service`, which starts it again two seconds after it fails (`kill -9`, a crash); a stop (`sd-solo -stop`, exit 0) is not a failure and is not restarted; systemd allows five starts of the unit in a minute, of any kind, and refuses the sixth until `reset-failed`; `sd-solo.service` runs `sd-solo -start -nodaemon` and wants it; a second daemon ends at once; an upgrade writes the new units over the old ones (`solo-service.sh daemon`) |
-| default terminal | Changed | 140 by 42 |
+| default terminal | Changed | 140 by 43 |
+| other sessions' text | Changed | fixed: the text of another session (the id of a record it holds locked, in `getlocks`, `system(1083)` and the `pstat` dump) is made safe to print; control characters other than a tab and new line are shown as `?`, so a record id cannot move your cursor or change your screen |
+| the TLS relay's last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
 | message numbers | Changed | Solo's own messages 11040 to 11054 are now 14974 to 14988, and 11060 to 11065 are 14989 to 14994, with their text unchanged, so that SD Core's numbers mean the same here; the ssh key request refuses with 14975, 14976 and 14977 |
 | `sd -status` | Changed | fixed an overrun on a server that recorded no start time |
 | `update.accounts` deletion list | Changed | after the copy from `newvoc` it removes from the account's VOC the records on SD's deletion list (`sdsys/voc_removed`), but only the record SD shipped (not one of your own, not a `[locked]` one unless it is a verb), after saving a copy, and audits it; before `newvoc.mods` |

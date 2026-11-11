@@ -18,6 +18,18 @@ online for the build packages and that download. The script checks first, before
 it asks anything or changes anything, and stops with a message if it is not. It
 writes nothing to the stick.
 
+**What else it puts in place.** From the source it downloaded, the installer
+copies the guide and the knowledge pack for AI agents into the installation's
+`agent-pack` folder (only when the pack is for the release being installed). It
+also downloads the documentation pages from `github.com/dmontaine/SDCore4LinuxSoloDocs`
+(the same branch) into `docs/user`, where the `ai` verb looks for the passages it
+sends with your question. If the changes document
+(`sd-core-solo-for-linux-<version>-changes.pdf`, `.html`, `.md`) or manuals in PDF
+sit beside the installer, they are copied into the installation's `pdf` folder,
+and the manuals are made available to the `pdf` verb. **None of these stops the
+install**: a pack for another release, a page download that fails or a file that
+is not there is a note on the screen, and the installation is complete without it.
+
 ## Before you start
 
 | | |
