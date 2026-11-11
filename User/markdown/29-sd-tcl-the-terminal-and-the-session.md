@@ -241,7 +241,7 @@ clear.prompts
 command left behind. Neither prints anything.
 
 (The run-together spellings `clearinput` and `clearprompts` were second names
-for the same verbs and were removed in 1.2-0.)
+for the same verbs and were removed in 2.0-0.)
 
 > **Neither can be demonstrated down a pipe, and `clear.input` should not be
 > sent down one at all.** In a piped session the input stream *is* the script,

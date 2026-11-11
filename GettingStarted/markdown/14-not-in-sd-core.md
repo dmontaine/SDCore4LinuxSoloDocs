@@ -34,7 +34,7 @@ for Windows too, for the same reasons.**
 |---|---|
 | `update.record` — the full-screen record editor | **`sed`** or **`micro`** |
 | `modify` — the full-screen record editor from OpenQM | **`sed`** or **`micro`** |
-| `nano` — the second external editor (removed in 1.2-0) | **`micro`**, **`sed`** or **`ed`** |
+| `nano` — the second external editor (removed in 2.0-0) | **`micro`**, **`sed`** or **`ed`** |
 
 **SD's own full-screen editor is `sed`**, which needs no switch. **`micro`** opens the
 record in that program and, because it runs outside SD, needs the `os` switch
@@ -151,7 +151,7 @@ Encrypting Data* in the User set.
 
 | Gone | Notes |
 |---|---|
-| `CREATUSR` | removed in 1.2-0 with twelve other parameters; an upgrade takes the line out of a kept `sd.conf` |
+| `CREATUSR` | removed in 2.0-0 with twelve other parameters; an upgrade takes the line out of a kept `sd.conf` |
 | `APPEND.SD.PATH` | never existed on Linux: the installer links `sd-solo` into `~/.local/bin` |
 
 **`umask` is kept, deliberately, and is not on this list** — a real difference

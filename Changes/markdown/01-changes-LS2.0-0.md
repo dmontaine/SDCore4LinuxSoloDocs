@@ -1,10 +1,10 @@
-Title: Changes in LS1.2-0
+Title: Changes in LS2.0-0
 Subtitle: What was added, changed and removed in SD Core Solo for Linux since LS1.1-3 (9 October 2026), by section and in alphabetical order.
 Columns: 23 11 66
 
-**This is the list of what changed between LS1.1-3 (9 October 2026) and LS1.2-0 of SD Core Solo for Linux.** It is kept
+**This is the list of what changed between LS1.1-3 (9 October 2026) and LS2.0-0 of SD Core Solo for Linux.** It is kept
 up to date as the release is built. It was started on 24 October 2026 from SD Core for Linux's list of changes
-(`Changes in L1.2-0`, built from the feature spreadsheet and the changelog) and Solo's own changelog (`sdsys/changelog`,
+(`Changes in L2.0-0`, built from the feature spreadsheet and the changelog) and Solo's own changelog (`sdsys/changelog`,
 section "Next release"), which has the full story of each change. Solo takes the part of SD Core's work that does not need a
 second user; the rows below say what Solo has, and the section at the end says what is Solo's own.
 
@@ -17,8 +17,8 @@ second user; the rows below say what Solo has, and the section at the end says w
   or leave the machine, is **off as delivered**, and the administrator turns it on.
 - A comment at the end of a row names the spreadsheet items the row covers. It is for whoever maintains this document and
   does not show on the page.
-- **What Solo does not have yet:** the QMClient library functions and the client headers for other languages; replication; the
-  per-account gates beyond its own four (`sh`, `os`, `net`, `ai`); the shared account; the master files; the edit gates.
+- **What Solo does not have yet:** replication; the per-account gates beyond its own four (`sh`, `os`, `net`, `ai`); the shared
+  account; the master files; the edit gates.
   SD Core has them because it has more than one user.
 
 ## Read this first: changes that alter what an existing system does
@@ -28,6 +28,8 @@ second user; the rows below say what Solo has, and the section at the end says w
 | Shell and OS access | Changed | every Solo account could run Linux commands and reach any file the Linux user could; now both are **off** until the administrator runs `set.os.access`, and an upgrade leaves both off |
 | Linger | Changed | an unattended install left it off, so SD stopped when you signed out; now every install turns it on unless told `--no-linger` or `enable-linger=no`, and SD with its API and ssh stays running while nobody is signed in |
 | Where a session starts | Changed | was the command prompt; now the **home screen** of tiles |
+| Fedora | Removed | the installer installed on Fedora; it now refuses it, and installs on Debian and Ubuntu (and their derivatives) only |
+| The group size of a new file | Changed | was 2 KB (1 KB when `sd.conf` did not say); now **4 KB** on a new installation. An upgraded installation keeps its `sd.conf`, and so its 2, and a file keeps the size it has |
 | The default terminal | Changed | was 120 columns by 36 lines; now **140 by 42** |
 | `sed`, `ide`, `ced` | Changed | need a window of at least **140 by 42**, and `ed` is the editor for a smaller one |
 | An index and a record id | Changed | an index kept an upper-case copy of the id; now it follows the id **as the file holds it**, so rebuild an index that was built on LS1.1-3 |
@@ -38,6 +40,7 @@ second user; the rows below say what Solo has, and the section at the end says w
 | AccuTerm and SDTerm | Removed | were supported; use terminal type `xterm` or `vt100` |
 | Removed features | Removed | words and modes that existed to imitate other products (`option` words, `$mode` words, and the second spellings and forms of statements, clauses, functions, conversions, TCL verbs and query keywords, each listed in [REMOVED](#removed)), and other things: see [REMOVED](#removed) |
 | Message numbers | Changed | Solo's own messages 11040 to 11054 and 11060 to 11065 moved to 14974 to 14994, so a message means the same in both products; the ssh key request refuses with 14975, 14976 and 14977 |
+| The ssh key request | Changed | the API request that lets a managed computer's server install its ssh key was number **49**; it is now **72**, and 49 asks the server for its revision, as in SD Core. A program of your own that sent 49 to install a key must send 72 |
 | A silent remote server | Changed | could be waited for without limit; now it is given up on after `netreply` seconds |
 | A `select` or `list` with `by` | Changed | records with equal sort keys came out in an order that depended on where they sat in the file; now in record-id order, as `sort` and `sselect` always gave them (not with `saving unique`) |
 
@@ -331,7 +334,7 @@ The debugger and the editors, from the openQM list. The full-screen tools that a
 
 ## REMOVED
 
-These were in LS1.1-3 - or were added and taken out again during LS1.2-0 - and **SD no longer has them**. This is the one place where a removal is listed,
+These were in LS1.1-3 - or were added and taken out again during LS2.0-0 - and **SD no longer has them**. This is the one place where a removal is listed,
 whatever the area it belonged to. Most were removed because they existed only to make SD behave like another MultiValue
 product, or gave a second way to do something SD already does one way. **A program, a login paragraph or a `$basic.options` record that uses one has to
 be edited**; the last column says what to write instead. A program that was compiled with a removed mode keeps what it was
@@ -457,8 +460,8 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `ai` row in the home screen | Added | type what you want, see what will be sent, accept one proposed tile or command |
 | `ai` row in the ide | Added | explain an error or a selection, ask about the record, accept or reject proposed edits as a diff |
 | `ai` verb | Added | asks an AI one question; shows exactly what will be sent and sends only on `y` or `yes` |
-| `set.ai` | Added | the administrator chooses the provider, model and key from the prompt, and turns the `ai` gate on or off |
-| `tool.ai` | Added | the administrator's AI choice page: Anthropic, OpenAI, DeepSeek or custom, with the account's gate |
+| `set.ai` | Added | the administrator chooses the provider, model and key from the prompt, and turns the `ai` gate on or off; `set.ai models` lists a provider's own model names, `set.ai model` says when the provider does not list the name; a provider's refusal shows its own words |
+| `tool.ai` | Added | the administrator's AI choice page: Anthropic, OpenAI, Google, DeepSeek or custom, each named one with a default model, with the account's gate; S, one setup dialog: the key in a password field (handed to the helper through a file, so it passes through SD) and the model chosen from the provider's own list |
 
 ### API and client library
 
@@ -466,7 +469,14 @@ SD's own code. The sections above are the openQM items that were built, with the
 |---|---|---|
 | api request 29 | Changed | fixed: it opened a file for any login once `netfiles` bit 2 was set; it now needs the account's `net` gate (`set.net.access on`) |
 | api requests 32 and 33 | Changed | fixed: file lock and unlock acted on the last file opened, not the file named |
+| api request 70, `delete.file` | Changed | fixed: a delete the verb refused (the file open in another session, say) left the file on the disk but the client's file number dead; the number now stays good and the status is the verb's |
 | api server loop | Changed | fixed: a client that hung up before its first request left a server process using 100% of a processor |
+| api, a refused `sdlogto` | Changed | fixed: the session went on naming the refused account, so every later open of a file by its VOC name failed; the session now stays in the account it was in |
+| client library: dictionary | Added | `sdevaluate`, `sdevalconv`, `sdiconv`, `sdoconv`, `sdiconvs`, `sdoconvs` |
+| client library: files | Added | `sdopenseq`, `sdreadseq`, `sdreadblk`, `sdwriteseq`, `sdwriteblk`, `sdseek`, `sdweofseq` |
+| client library: headers | Added | language headers for C#, PHP, Python, Basic, PureBasic and Gambas, in the system directory's `syscom` |
+| client library: more functions | Added | `sdrevision`, `sdgetvar`, `sdsystem`, `sdindices`, `sdtrans`, `sdrtrans`, `sdtxn`, `sdcallx`, `sdgetarg`, `sdchecksum` |
+| client library: threads | Added | each thread has its own session, transfer buffer and arguments; several threads may use the library |
 
 ### Commands
 
@@ -503,6 +513,7 @@ Three simple layers, with no vault and nothing on by default.
 
 | Name | Change | What |
 |---|---|---|
+| group size of a new file | Changed | `grpsize` is 4 (kb) in the shipped `sd.conf`, and the built-in value when it is absent; it was 2 and 1. Fewer groups overflow: measured in SD Core, 5 to 11 percent of the groups at 2 kb and under 2 percent at 4 kb |
 | `index` and the record id | Changed | fixed: an index followed an upper-case copy of the id; it now follows the id as the file stores it |
 | record id counter | Changed | fixed: `write ... creating.seqkey` could give an id out twice after another write of the file header |
 | `sdfix`, `sdidx`, `sdconv` | Changed | fixed several faults (see the changelog); `sdidx -m` says why it cannot make the directory |
@@ -512,6 +523,7 @@ Three simple layers, with no vault and nothing on by default.
 
 | Name | Change | What |
 |---|---|---|
+| distributions | Changed | Debian and Ubuntu (and their derivatives) only: Fedora is refused, as RHEL, its clones, Arch and openSUSE were, and every refusal now comes before the network check, the questions and the first `sudo`; the `dnf` step is gone |
 | installer source message | Changed | says which source it is downloading, the release tag or `main` |
 | linger | Changed | on by default for every install, an unattended one included, so that SD stays reachable over the API and ssh when nobody is signed in; the question on a terminal defaults to yes; `--no-linger` (new) or the control file's `enable-linger=no` leaves it off. An upgrade leaves linger as it was |
 | os-access question | Added | the installer asks whether to turn on the shell and OS access, each answer no unless yes; `--os-access none`, `sh`, `os` or `both` answers it without a terminal; an upgrade says both were on before and leaves both off |

@@ -46,7 +46,7 @@ of this page. The full-screen editors need nothing extra.
 Windows, where it opens Microsoft Edit. There is no Linux equivalent to alias it
 to, so `edit` runs the **line** editor, `ed`, instead. The external full-screen
 editor is `micro`, which the SD installer installs as an ordinary package (the
-`nano` verb was removed in 1.2-0):
+`nano` verb was removed in 2.0-0):
 
 ```
 micro bp myprog

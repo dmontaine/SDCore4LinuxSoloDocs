@@ -1,9 +1,9 @@
 Title: SD Basic - The Screen Statement
-Subtitle: Menus, dialogues, forms, colour and the mouse, from BASIC.
+Subtitle: Menus, dialogs, forms, color and the mouse, from BASIC.
 
 `print`, `crt` and `input` talk to a terminal one line at a time. The `screen`
 statement talks to it a screen at a time: it draws text and boxes where you say,
-asks the user a question in a dialogue box, runs a whole form of entry fields,
+asks the user a question in a dialog box, runs a whole form of entry fields,
 check boxes, lists and buttons, shows a menu bar, and takes clicks of the mouse.
 It needs no extra package and no change to the rest of the program: it is one
 statement word followed by a verb.
@@ -43,8 +43,8 @@ screen verb {value {, value}} {clause value {, value}} ... {returning variable} 
   optional**: `title 'Confirm'`, `at 10,4`, `size 20,5`, `default 2`. A clause
   left out takes the verb's default.
 - **`returning`** names the variable that receives the answer.
-- **`then` and `else`.** `then` is taken when the user finished the dialogue
-  (a button, a choice, Return); `else` when the user cancelled (Esc), the input
+- **`then` and `else`.** `then` is taken when the user finished the dialog
+  (a button, a choice, Return); `else` when the user canceled (Esc), the input
   ended, or there is no terminal. Both are optional:
   `screen msgbox 'Done.'` is a complete statement.
 - **No terminal, no harm.** A phantom, the API and any other session that has
@@ -61,14 +61,14 @@ top left corner of the terminal.
 
 ## The screen
 
-A dialogue covers the text under it, and the terminal cannot be asked what it was
+A dialog covers the text under it, and the terminal cannot be asked what it was
 showing. So once a program has said `screen open`, the library keeps a **shadow**:
-its own record of every cell it has drawn and in what style. A dialogue saves what
+its own record of every cell it has drawn and in what style. A dialog saves what
 is under it from the shadow and puts every character back when it closes.
 
 **Text the program writes with `print` or `crt` is not in the shadow.** Draw what
-must survive a dialogue with `screen text`, or `screen refresh` will not bring it
-back. Before `screen open` a dialogue still works, but it leaves blanks where it
+must survive a dialog with `screen text`, or `screen refresh` will not bring it
+back. Before `screen open` a dialog still works, but it leaves blanks where it
 was.
 
 **A form on a screen opened with `clear` writes only what has changed** (since
@@ -78,14 +78,14 @@ is left out; choosing a record in the IDE wrote 6,635 characters to the terminal
 before and about 780 now. Two things follow. A form does not repair what the program
 printed over it with `print` or `crt`, only `screen refresh` does; and a screen opened
 *without* `clear` is written in full, as before, because the terminal may show what the
-program printed there. `screen text`, `screen box` and the dialogues always write what
+program printed there. `screen text`, `screen box` and the dialogs always write what
 they are told.
 
 | | |
 |---|---|
-| `screen open {clear} {nocursor} {minsize w,h} {nomouse} {lines}` | Takes the screen. `clear` clears it (to the theme's desktop colour); `nocursor` hides the cursor; `minsize` gives `else` on a smaller terminal; `nomouse` leaves mouse reporting off (see below); `lines` draws every border in the line-drawing characters of Unicode (see *Borders*). `else` also when there is no terminal. |
-| `screen close` | Gives the screen back: the shadow is forgotten, the cursor shown, mouse reporting off, the clip taken off, borders plain again, the theme back to mono, and the cursor moved to the first column of the last line. A coloured desktop is cleared. |
-| `screen clip {at x,y size w,h}` | Keeps everything the library draws inside the rectangle: text, boxes, forms and dialogues that reach outside it are cut at its edge, cell by cell, and the cut part is neither drawn nor remembered. With no rectangle the clip is taken off. `else` when the library does not own the screen (no `open`) or there is no terminal. |
+| `screen open {clear} {nocursor} {minsize w,h} {nomouse} {lines}` | Takes the screen. `clear` clears it (to the theme's desktop color); `nocursor` hides the cursor; `minsize` gives `else` on a smaller terminal; `nomouse` leaves mouse reporting off (see below); `lines` draws every border in the line-drawing characters of Unicode (see *Borders*). `else` also when there is no terminal. |
+| `screen close` | Gives the screen back: the shadow is forgotten, the cursor shown, mouse reporting off, the clip taken off, borders plain again, the theme back to mono, and the cursor moved to the first column of the last line. A colored desktop is cleared. |
+| `screen clip {at x,y size w,h}` | Keeps everything the library draws inside the rectangle: text, boxes, forms and dialogs that reach outside it are cut at its edge, cell by cell, and the cut part is neither drawn nor remembered. With no rectangle the clip is taken off. `else` when the library does not own the screen (no `open`) or there is no terminal. |
 | `screen clear {at x,y} {size w,h} {attr style}` | Blanks the whole screen, or a rectangle of it, in the style given (default `desktop`). |
 | `screen text string {at x,y} {attr style} {width n}` | Draws one line. Left out, `at` is where the last `screen text` ended. `width` cuts or pads the text to exactly that many cells. Text past the right edge is cut, not wrapped. |
 | `screen box {at x,y} {size w,h} {title t} {attr style} {fill}` | Draws a border (`+`, `-`, `|`, or the line-drawing characters after `screen open lines`) and, with `fill`, blanks the inside. |
@@ -95,11 +95,11 @@ they are told.
 | `screen key {timeout s} returning k` | Waits for one key. `k` is `up down left right home end pgup pgdn ins del bs tab btab enter esc f1` to `f12`, `ctrl-a` to `ctrl-z`, `alt-a` to `alt-z` and `alt-0` to `alt-9` (an Alt-letter, always in lower case), `mouse`, or the character itself. `else` on timeout or end of input. |
 | `screen mouse returning m` | What the last mouse event was (below). |
 
-Styles are named, not coloured: see *Styles and themes*.
+Styles are named, not colored: see *Styles and themes*.
 
-## Dialogues
+## Dialogs
 
-A dialogue asks one thing, waits, puts the screen back and gives the answer.
+A dialog asks one thing, waits, puts the screen back and gives the answer.
 
 ### message box
 
@@ -113,12 +113,18 @@ screen msgbox text {title t} {buttons list} {default n} {at x,y} {returning n}
 | `title` | Shown in the top border. |
 | `buttons` | The captions, as values; a string with commas and no value mark is split at the commas (`'&Yes,&No'`). An `&` makes the letter after it the button's key. No `buttons` gives one, OK. |
 | `default` | The button the box starts on (1). |
-| `at` | The top left cell; centred if left out, and moved to fit. |
+| `at` | The top left cell; centered if left out, and moved to fit. |
 | `returning` | The number of the button chosen, 0 for Esc. `then` is taken when a button was chosen. |
 
 Left and right move between the buttons, Return presses the one that has the
 focus, a button's letter presses it at once, and a click of the mouse on a
 button presses it.
+
+The box is never taller than the screen. A text with more lines than fit
+scrolls: PgUp and PgDn move a box at a time, Home and End go to the first and
+the last lines, and the bottom border says which lines are shown
+(`lines 1-30 of 75, PgUp PgDn`). The buttons stay on the screen. A text that
+fits is shown as before.
 
 ### menu
 
@@ -195,11 +201,14 @@ an entry chooses it (with `multi` it picks it); a click outside the box cancels.
 ### input box
 
 ```
-screen ask prompt {value v} {width n} {title t} {at x,y} {mask} {returning text}
+screen ask prompt {value v} {width n} {title t} {at x,y} {mask} {history list} {returning text}
 ```
 
 One line of input. `mask` shows a `*` for each character. The keys are those of
-an entry field (below).
+an entry field (below). `history` gives earlier answers, newest first, as fields:
+Up shows the next older one and Down the next newer, and Down past the newest gives
+back what had been typed. Your program keeps the list and adds to it; `screen ask`
+never changes it. A `mask` question recalls nothing.
 
 ## Forms
 
@@ -207,12 +216,29 @@ A form holds widgets and the focus, and routes the keys. You build it with
 statements, then run it, or wait on it for events.
 
 ```
-screen form {title t} {at x,y} {size w,h} returning f
+screen form {title t} {at x,y} {size w,h} {fill} returning f
+```
+
+**A form that follows the window.** With `fill` the form takes the whole window and is laid
+out again whenever the window changes. Its size (given with `size`, or worked out from what
+is in it) is the smallest window the program is laid out for. A text area or table added with
+`stretch` takes the spare room, and whatever lies to its right or below it moves over by what
+it grew; nothing else changes. Several stretching widgets on the same rows share the room.
+Below the form's own size the keyboard is held behind one warning until the window is made
+larger, and the form then comes back by itself. A program needs no code for a resize:
+
+```
+screen open clear else stop
+screen form title 'Notes' size 60,18 fill returning f
+screen memo f, 'n', text at 2,1 size 56,12 stretch 'both'
+screen button f, 'ok', '&OK' at 2,15 default
+screen run f returning pressed then null else null
+screen close
 ```
 
 `f` is a data collection: `jbuild(f)` writes the form out as JSON and `jparse`
 reads it back, so a screen can be kept as a record. A form left without a size is
-as big as its widgets need; without a place it is centred.
+as big as its widgets need; without a place it is centered.
 
 ### Adding widgets
 
@@ -221,17 +247,17 @@ place of the widget from the form's top left corner (0,0 is the corner of the
 border; the default is 1,1). The id is the widget's name: not null, not used
 before, and with no `/` or `*` in it. `else` is taken if a widget cannot be added.
 
-Most controls take `color fg,bg` as their last clause (a label, entry, check box, slider, radio group, list, combo box, button and progress bar; not a memo, table, tree or the tab strip, which have their own styling). The colours are black, blue, green, cyan, red, magenta, brown and white, for example `color 'black','green'`; either may be left out for the terminal's own. A pair of colours is one of sixteen spare styles the program shares, however many controls use it, and a seventeenth different pair, or a word that is no colour, makes the statement take its `else`. The colours survive `screen theme`. A coloured **entry or combo box keeps its colours while it has the focus** (the cursor and an underline show where it is); every other control draws its colours until it has the focus and then the focus style. On a terminal that cannot show colour the clause is ignored.
+Most controls take `color fg,bg` as their last clause (a label, entry, check box, slider, radio group, list, combo box, button and progress bar; not a memo, table, tree or the tab strip, which have their own styling). The colors are black, blue, green, cyan, red, magenta, brown and white, for example `color 'black','green'`; either may be left out for the terminal's own. A pair of colors is one of sixteen spare styles the program shares, however many controls use it, and a seventeenth different pair, or a word that is no color, makes the statement take its `else`. The colors survive `screen theme`. A colored **entry or combo box keeps its colors while it has the focus** (the cursor and an underline show where it is); every other control draws its colors until it has the focus and then the focus style. On a terminal that cannot show color the clause is ignored.
 
-**Accelerator keys.** An entry, combo box, check box, slider, selector, radio group, list, button, tab strip, memo, tree and table take `accel key` as their last clause: `accel 'alt-s'`, `'ctrl-g'`, `'f5'`. The key is f1 to f12, ctrl-a to ctrl-z (not ctrl-h, ctrl-i, ctrl-j or ctrl-m, which a terminal sends as Backspace, Tab and Return) or alt-a to alt-z and alt-0 to alt-9, in either case with a `-` or a `+` (`Alt+S`, `alt-s` and `ALT-S` are one key); any other word makes the statement take its `else`. The key reaches the control **wherever the focus is, even inside a text field**, before the focused control sees it. What it does: a button is pressed; a check box is ticked or unticked, a slider slid and a selector moved to its next word, each with a `change` event (not only a `focus` one); every other control takes the focus (a `focus` event). A control that is disabled or on another tab's page does not answer. Two controls given the same key: the first one added answers. The same applies to a letter marked with `&` in the text of a **button, check box, slider, selector or label** (`'&Shell'`, Alt+S): that letter is also the control's Alt-letter, and it is drawn underlined (in the `hotkey` style of the theme: underline in the mono theme, a colour in the colour themes) while the control does not have the focus and is not disabled. A label has no focus of its own, so its Alt-letter takes the focus to the next control that can have it: put `&Name` before the entry it names. A label reads the `&` only when it is created, so `screen set ... text` leaves an ampersand where it is. A button still also answers its plain letter when no field takes it, as before. Alt-letters reach the program only if the terminal sends Alt+x as Esc and x (most do: gnome-terminal, konsole, kitty, xterm with `metaSendsEscape`, PuTTY; macOS Terminal needs "Use Option as Meta key"), and some terminals or window managers keep a few for themselves (a menu on Alt+F, tabs on Alt+1 to 9), so pick an `f` key or a ctrl-letter where that matters. Ctrl-c, ctrl-q, ctrl-s and ctrl-z may be taken by the terminal itself. An Esc followed by a letter within a fifth of a second is read as an Alt-letter; an Esc on its own is still Esc (a cancel).
+**Accelerator keys.** An entry, combo box, check box, slider, selector, radio group, list, button, tab strip, memo, tree and table take `accel key` as their last clause: `accel 'alt-s'`, `'ctrl-g'`, `'f5'`. The key is f1 to f12, ctrl-a to ctrl-z (not ctrl-h, ctrl-i, ctrl-j or ctrl-m, which a terminal sends as Backspace, Tab and Return) or alt-a to alt-z and alt-0 to alt-9, in either case with a `-` or a `+` (`Alt+S`, `alt-s` and `ALT-S` are one key); any other word makes the statement take its `else`. The key reaches the control **wherever the focus is, even inside a text field**, before the focused control sees it. What it does: a button is pressed; a check box is ticked or unticked, a slider slid and a selector moved to its next word, each with a `change` event (not only a `focus` one); every other control takes the focus (a `focus` event). A control that is disabled or on another tab's page does not answer. Two controls given the same key: the first one added answers. The same applies to a letter marked with `&` in the text of a **button, check box, slider, selector or label** (`'&Shell'`, Alt+S): that letter is also the control's Alt-letter, and it is drawn underlined (in the `hotkey` style of the theme: underline in the mono theme, a color in the color themes) while the control does not have the focus and is not disabled. A label has no focus of its own, so its Alt-letter takes the focus to the next control that can have it: put `&Name` before the entry it names. A label reads the `&` only when it is created, so `screen set ... text` leaves an ampersand where it is. A button still also answers its plain letter when no field takes it, as before. Alt-letters reach the program only if the terminal sends Alt+x as Esc and x (most do: gnome-terminal, konsole, kitty, xterm with `metaSendsEscape`, PuTTY; macOS Terminal needs "Use Option as Meta key"), and some terminals or window managers keep a few for themselves (a menu on Alt+F, tabs on Alt+1 to 9), so pick an `f` key or a ctrl-letter where that matters. Ctrl-c, ctrl-q, ctrl-s and ctrl-z may be taken by the terminal itself. An Esc followed by a letter within a fifth of a second is read as an Alt-letter; an Esc on its own is still Esc (a cancel).
 
 | verb | what it adds |
 |---|---|
 | `screen label f, id, text {at x,y} {attr style} {width n} {color fg,bg}` | Text. A label that will be changed with `screen set` needs `width` for its longest text: a status line is a label with a width. `color` wins over `attr`. |
 | `screen frame f, id {at x,y} {size w,h} {title t}` | A border (it draws only the border; widgets added after it sit over it). |
-| `screen entry f, id {at x,y} {width n} {value v} {mask} {maxlen n} {color fg,bg} {accel key}` | One line of text; a longer text scrolls. `color 'black','green'` draws the field in those colours, also while it has the focus. |
+| `screen entry f, id {at x,y} {width n} {value v} {mask} {maxlen n} {color fg,bg} {accel key}` | One line of text; a longer text scrolls. `color 'black','green'` draws the field in those colors, also while it has the focus. |
 | `screen check f, id, text {at x,y} {value 0 or 1} {place where} {color fg,bg} {accel key}` | `text [x]`: the label, then the box. `place` says where the label is in relation to the box: `left` (the default), `right` (`[x] text`), `above` or `below` (the control is two rows high). A click on the box or on the label checks or unchecks it. |
-| `screen slider f, id, text {at x,y} {value 0 or 1} {attr style} {words w1,w2} {place where} {color fg,bg} {accel key}` | An on / off switch with its label (`place` as for a check box; left by default): `text [off | ON]` when it is on and `text [OFF | on]` when it is off. `words 'left','right'` chooses the two words (the first is the off state, the second the on state): `[left | RIGHT]` and `[LEFT | right]`. The word in force is in capitals and in the style `attr` (any style of the theme: `bold`, `highlight`, `header`, `error`, `underline` ...; bold when you give none, which is a colour in a colour theme; `window` leaves it as the form's own, so that only the capitals show the state). Space slides it the other way, Left sets it off, Right sets it on; a click on a word sets that state and a click on the label slides it the other way. `screen get` answers 1 or 0 and `screen set f, id value v` sets it (any value but 0 is on). |
+| `screen slider f, id, text {at x,y} {value 0 or 1} {attr style} {words w1,w2} {place where} {color fg,bg} {accel key}` | An on / off switch with its label (`place` as for a check box; left by default): `text [off | ON]` when it is on and `text [OFF | on]` when it is off. `words 'left','right'` chooses the two words (the first is the off state, the second the on state): `[left | RIGHT]` and `[LEFT | right]`. The word in force is in capitals and in the style `attr` (any style of the theme: `bold`, `highlight`, `header`, `error`, `underline` ...; bold when you give none, which is a color in a color theme; `window` leaves it as the form's own, so that only the capitals show the state). Space slides it the other way, Left sets it off, Right sets it on; a click on a word sets that state and a click on the label slides it the other way. `screen get` answers 1 or 0 and `screen set f, id value v` sets it (any value but 0 is on). |
 | `screen selector f, id, text, words {at x,y} {value n} {attr style} {place where} {color fg,bg} {accel key}` | One word of several in a row: `text [blue | green | RED | black]`, with `words` a dynamic array (`'blue':@vm:'green':@vm:'red':@vm:'black'`) of any length (an empty one makes the statement take its `else`). The word in force is in capitals and in the style `attr` (as for a slider: bold by default, `window` for the capitals alone), the others in lower case; `place` and `color` are as for a check box. Left and Right choose the previous and the next word and stop at the ends, Home and End the first and the last, Space the next word (the first after the last); a click on a word, the space after it or either bracket chooses it, a click on the label the next word. `screen get` answers the number of the word in force counted from one (3 for RED), `screen set f, id value n` chooses one (a number outside the words is brought into range) and `screen set f, id items words` gives it other words (the first is chosen). A change is a `change` event with the number. |
 | `screen radio f, id, items {at x,y} {value n} {across} {color fg,bg} {accel key}` | One choice of several, one to a row (or side by side with `across`). |
 | `screen list f, id, items {at x,y} {size w,h} {value n} {multi} {color fg,bg} {accel key}` | A list of values to choose from; `multi` lets several be picked. |
@@ -239,8 +265,8 @@ Most controls take `color fg,bg` as their last clause (a label, entry, check box
 | `screen button f, id, text {at x,y} {default} {cancel} {color fg,bg} {accel key}` | `[ text ]`. `default`: Return in any other widget presses it. `cancel`: pressing it, like Esc, ends the form with `else`. An `&` marks its key. |
 | `screen progress f, id {at x,y} {width n} {value v} {color fg,bg}` | `[#####     ] 60%`, 0 to 100; `color` draws the filled part. It cannot take the focus. |
 | `screen tabs f, id, labels {at x,y} {value n} {accel key}` | A strip of tabs; the chosen one is the form's page (below). |
-| `screen memo f, id, text {at x,y} {size w,h} {readonly} {wrap} {syntax name} {lnum} {accel key}` | A text area of several lines, one line to a field. `readonly` makes it a viewer; `wrap` wraps long lines at a blank instead of panning sideways; `syntax` *name* draws the text in the syntax colours of a language; `lnum` puts line numbers down the left. |
-| `screen table f, id, columns, rows {at x,y} {size w,h} {value n} {multi} {accel key}` | A heading and rows of cells (below). `multi` lets rows be marked. |
+| `screen memo f, id, text {at x,y} {size w,h} {readonly} {wrap} {syntax name} {lnum} {accel key} {stretch how}` | A text area of several lines, one line to a field. `readonly` makes it a viewer; `wrap` wraps long lines at a blank instead of panning sideways; `syntax` *name* draws the text in the syntax colors of a language; `lnum` puts line numbers down the left; `stretch` `'w'`, `'h'` or `'both'` makes it grow with the window in a `fill` form (any other word takes `else`). |
+| `screen table f, id, columns, rows {at x,y} {size w,h} {value n} {multi} {accel key} {stretch how}` | A heading and rows of cells (below). `multi` lets rows be marked; `stretch` as for a text area. |
 | `screen tree f, id, nodes {at x,y} {size w,h} {value n} {expanded} {accel key}` | A tree of nodes, some open to show what is under them (below). |
 | `screen scrollbar f, id, total {at x,y} {size w,h} {visible n} {value n}` | A scroll bar of its own, for content the program draws itself (below). |
 | `screen container f, id {at x,y} {size w,h} {title t} {noborder}` | A rectangle that owns the widgets added after `screen in` (below). |
@@ -263,7 +289,7 @@ another page, is passed over.
 | list | up, down, home, end, page up, page down; a letter jumps; with `multi` the space bar picks |
 | combo | as an entry field; down or F4 opens the list |
 | tabs | left, right, home, end |
-| memo | the arrow keys, home, end, page up and down; typing, Return (splits the line), backspace, delete (both join lines at the ends), Ctrl-K; Ctrl-A and Ctrl-E go to the ends of the row; Ctrl-B and Ctrl-F a word back and on; Ctrl-G the mark, Ctrl-X cut, Ctrl-C or Ctrl-O copy, Ctrl-V paste; Ctrl-Z undo, Ctrl-Y redo; Ctrl-T find, Ctrl-N the next one |
+| memo | the arrow keys, home, end, page up and down; typing, Return (splits the line), backspace, delete (both join lines at the ends); Home and Ctrl-E go to the ends of the row; Ctrl-P and Ctrl-U a word back and on; Ctrl-A selects all, Ctrl-G the mark, Ctrl-X cut, Ctrl-C copy, Ctrl-V paste; Ctrl-D duplicates the line, Ctrl-K (or Alt-K) cuts the whole line into the clipboard; Ctrl-Z undo, Ctrl-Y redo; Ctrl-F or Ctrl-T find, Ctrl-B find backward, F3 the next one; and SED's editing commands: Alt-Backspace and Alt-D delete the word before or at the cursor, Alt-E cuts to the end of the line, Alt-T swaps two characters, Alt-U, Alt-L and Alt-C put the word in capitals, in small letters or with a capital initial, Alt-Space closes a run of blanks into one, Alt-A indents the line as the line above, Alt-M swaps the cursor and the mark, and Ctrl-Up and Ctrl-Down move the view a line (not in a memo that wraps) |
 | table | up, down, home, end, page up, page down; left and right the current column; F3 sorts by it; `<` and `>` its width; a letter jumps to the next row whose first cell starts with it; with `multi` the space bar marks the row |
 | tree | up, down, home, end, page up, page down; right opens a node (or goes to the first one under it); left closes it (or goes to the node it is under); the space bar opens or closes; a letter jumps |
 | scrollbar | up and down (left and right when it is horizontal), page up, page down, home, end |
@@ -294,17 +320,17 @@ strip shows every widget.
 a scroll bar. Page up and page down scroll by a page less one row with the cursor
 keeping its row on the screen.
 
-**Colour for a language.** `syntax` *name* colours the text as the language *name*:
+**Color for a language.** `syntax` *name* colors the text as the language *name*:
 `sd.basic`, `c`, `json`, `markdown`, `sh`, `python`, or one a site added in the file
-`&sed.syntax&` (the same languages and rules as [SED](27a-sd-tcl-sed.html)'s colour). The colours
-are the **theme's**, so the program chooses one that has them (`dark`, `light`, `classic` or `blue`;
+`&sed.syntax&` (the same languages and rules as [SED](27a-sd-tcl-sed.html)'s color). The colors
+are the **theme's**, so the program chooses one that has them (`paper`, `night`, `classic` or `blue`;
 `mono` has none, and the text is plain in it). A name that is not a language is not an error: the
-text is drawn plain. The text is coloured as it is edited — typing `*` at the start of an SD BASIC
+text is drawn plain. The text is colored as it is edited — typing `*` at the start of an SD BASIC
 line makes it a comment as it goes in. A text of some thousand lines is slower to draw for it, because
-the colour of a line depends on the lines above it.
+the color of a line depends on the lines above it.
 
 ```
-screen theme 'dark' returning th else crt 'no colour here'
+screen theme 'night' returning th else crt 'no colour here'
 screen memo f, 'src', text at 2,2 size 40,8 syntax 'sd.basic' lnum
 ```
 
@@ -321,7 +347,9 @@ work by *row*, so a wrapped line is several rows.
 
 **Selection and the clipboard.** The selection runs from the *mark* to the cursor.
 Ctrl-G sets the mark where the cursor is (and takes it away again); the selected text
-is drawn in the `highlight` style. Ctrl-X cuts it, Ctrl-C or Ctrl-O copies it, Ctrl-V
+is drawn in the `highlight` style. **Ctrl-A selects all the text** (Home is the start
+of the row). Ctrl-X cuts the selection, Ctrl-C copies it (Ctrl-O does not: a program
+may use it for opening a record), Ctrl-V
 puts what was cut or copied in at the cursor. The clipboard belongs to the library, so
 it passes from one text area to another. Typing, Return, backspace and delete on a
 selection replace or delete it. A `readonly` area can select and copy, and nothing else.
@@ -330,11 +358,18 @@ selection replace or delete it. A `readonly` area can select and copy, and nothi
 characters (or of backspaces, or of deletes) is one step, and so is replacing a
 selection by typing over it.
 
-**Find.** Ctrl-T asks for text on the bottom row of the area and selects the first
-place it is found from the cursor on; Ctrl-N finds the next one. Case is ignored and the
+**Lines.** **Ctrl-D duplicates the line** the cursor is on, below it, and **Ctrl-K cuts the
+whole line** into the clipboard. **Alt-K** does the same, for a program that keeps
+Ctrl-K for itself through `passkeys`, as the IDE does. Ctrl-V at the start of a line puts
+a cut line back above it. Delete joins lines.
+
+**Find.** Ctrl-F or Ctrl-T asks for text on the bottom row of the area and selects the first
+place it is found from the cursor on; Ctrl-B asks and looks backward. **F3 finds the next one
+and Shift-F3 the one before**, and so does Return on the question, which starts with the last
+text. Case is ignored and the
 search goes on past the end of the text to its start. A bell means there is none.
 
-Ctrl-B and Ctrl-F move a word back and on.
+Ctrl-P and Ctrl-U move a word back and on.
 
 ### The table
 
@@ -346,7 +381,7 @@ screen table f, 'people', cols, rows at 2,1 size 36,6
 ```
 
 *columns* has one value for each column: the heading, and as a subvalue a width and
-then `L`, `R` or `C` (left, right, centred): `'20L'`, `'6R'`. A column with no width
+then `L`, `R` or `C` (left, right, centered): `'20L'`, `'6R'`. A column with no width
 is as wide as its heading and the widest cell among its first 200 rows, at most 30.
 *rows* has one row to a field and one cell to a value. The first row of the widget is
 the heading and the last column a scroll bar. A click on a row makes it the current
@@ -469,8 +504,10 @@ screen delete f, id returning n
 first column of the sheet to show and *y* the first row, from 0. It never goes past the
 sheet's edge, and `returning` says where it ended up: the column, a value mark, the row.
 `screen get f, id` of a viewport answers the same. `screen move` gives a widget a new
-place, counted as it was given, and a container, viewport or frame a new size (`size`),
-and a viewport a new sheet (`content`); everything in a container goes with it.
+place, counted as it was given; a container, viewport, frame, text area, table or tree a
+new size (`size`; a label or an entry field takes a width and stays one row high); and a
+viewport a new sheet (`content`). Everything in a container goes with it, and a text area or
+table keeps what it holds.
 `screen delete` takes a widget out of the form (and a container everything in it, at any
 depth) and says how many went; the id may be used again. `else` is taken when the form or
 the widget is not there, or a size is asked of a widget that has none.
@@ -520,7 +557,7 @@ repeat
 
 ### Waiting for events
 
-`screen run` is for a form that is a dialogue. A program that must react between
+`screen run` is for a form that is a dialog. A program that must react between
 key strokes (fill one list from another, validate a field when the user leaves it)
 asks for **one event at a time**:
 
@@ -553,33 +590,42 @@ on a `focus` or `button` event. `screen hide f` puts the screen back.
 | | |
 |---|---|
 | `screen get f, id returning v` | An entry or combo: the text. A check: 1 or 0. A radio: the number of the choice. A list: the number of the current item (with `multi`, the numbers picked, as values). Tabs: the tab. A table: the number of the current row in the rows given (with `multi`, the numbers of the rows marked). A tree: the code of the current node. A scroll bar: the number of the first line shown. A viewport: its first column and first row, from 0, with a value mark between. A memo: the text, one line to a field. A label: its text. |
-| `screen set f, id {value v} {text t} {items i} {enabled e} {wrap b} {readonly b} {visible b}` | `value` sets what `get` answers (a memo: replaces the text; tabs: chooses a tab; a scroll bar: moves it). `text` is a caption. `items` replaces the choices of a radio or list, or the rows of a table (the order of rows comes back). `enabled 0` takes a widget out of the focus ring. `wrap` and `readonly` (1 or 0) change a memo. `visible 0` hides any widget - it is not drawn and takes no focus - and `visible 1` shows it again. A form that is on the screen is redrawn at once. |
-| `screen focus f, id` | The next `run` starts with the focus there. |
+| `screen set f, id {value v} {text t} {items i} {enabled e} {wrap b} {readonly b} {visible b}` | `value` sets what `get` answers (a memo: replaces the text; tabs: chooses a tab; a scroll bar: moves it). `text` is a caption. `items` replaces the choices of a radio or list, or the rows of a table (the order of rows comes back). `enabled 0` takes a widget out of the focus ring. `wrap` and `readonly` (1 or 0) change a memo. `visible 0` hides any widget - it is not drawn and takes no focus - and `visible 1` shows it again. A form that is on the screen is redrawn at once. **If `enabled 0` or `visible 0` (or a change of tab) takes the focus from the control that has it, the focus moves on to the next control that can have it, round the ring, or to none if there is none (the cursor is then hidden); a control that cannot have the focus takes no key.** **A clause written empty is not a clause left out:** a written `value`, `text` or `items` of `''` empties the control (an empty `value` on a check box, slider, radio group or list counts as 0); a clause left out changes nothing; and a written `''` on `enabled`, `wrap`, `readonly` or `visible` changes nothing, so an empty `readonly` cannot make a read-only memo editable. A program compiled before this rule must be compiled again. |
+| `screen focus f, id {else}` | The next `run` starts with the focus there. On a form that is on the screen (between `wait`s) the focus moves for real: the control that had it and the control that has it are drawn, and the cursor goes to the new one. The control must be on the page the form shows, not hidden, not disabled and not inside a container that is hidden or disabled; otherwise the statement takes its `else` and nothing moves. The control that already has the focus is no move. A focus move made by the program is not reported as a `focus` event. |
 | `screen values f returning c` | A collection with the value of every entry, check, radio, list, combo, progress, tabs and table, named by id: `c{'name'}`. A memo is left out (ask for it with `get`). |
 | `screen hide f` | Puts the screen back under a form shown by `wait`. |
 
 ## Styles and themes
 
 Everything the library draws is drawn in a **named style**, and a **theme** says what
-each style looks like. A program asks for styles and never for colours, so one program
-works on a terminal with colour and one without.
+each style looks like. A program asks for styles and never for colors, so one program
+works on a terminal with color and one without.
 
 | style | what it is for |
 |---|---|
 | `normal` | the terminal's own look |
 | `reverse`, `underline`, `both` | the raw ones, the same in every theme |
 | `bold` | bold text on the desktop (in `classic`, bright white on the blue desktop) |
-| `window` | the body of a dialogue or form, and what is drawn in it |
+| `window` | the body of a dialog or form, and what is drawn in it |
 | `highlight` | the selected entry, the button or field that has the focus |
 | `bar` | a menu bar and the body of a menu |
 | `barsel` | the selected entry of a bar |
-| `hotkey`, `hotkey.bar` | a key letter, in a menu and on the bar |
+| `hotkey`, `hotkey.bar`, `hotkey.sel` | a key letter: in a menu, on the bar, and on the selected entry |
 | `field` | an entry field that has not the focus |
 | `disabled` | an entry that cannot be chosen |
 | `bar.disabled` | a disabled entry of a menu (dim, on the menu's own background) |
 | `desktop` | what `screen clear`, `text` and `box` draw on |
 | `text` | the text of a memo or a table |
 | `header` | the heading row of a table |
+| `error` | an error message (in `mono`: reverse and bold) |
+| `warning`, `success` | a warning, and a success message |
+| `readonly` | a control that can be read but not changed |
+| `busy` | a screen that is waiting for something |
+| `focus` | the control that has the keyboard focus |
+
+Every theme gives `warning`, `success`, `readonly`, `busy` and `focus` a look; in `mono`
+they use only bold, underline and reverse. A program that includes `sl.h` must be compiled
+again to use them (a normal install does this).
 
 ```
 screen theme name {returning current} {then ... else ...}
@@ -587,26 +633,30 @@ screen style name, foreground, background, flags
 ```
 
 Five themes ship: **`mono`**, which uses only reverse video and underline and so reads
-on any terminal; **`classic`**, dark text on light dialogues over a blue desktop;
-**`blue`**, white on blue dialogues; and **`dark`** and **`light`**, which are `mono` with
-the **syntax colours** added, for a dark and a light terminal background (the colours that
-`screen memo ... syntax` and SED's colour for the language use; `classic` and `blue`
-have them too, `mono` has none). **A program that never asks gets `mono`**, unless
-the administrator has set `SCREENTHEME=` in `sd.conf` to the theme the site wants; a
+on any terminal; **`paper`**, black and dark blue text on light gray, with the menu bar
+and menus the other way round (light gray on black, their letters yellow and underlined);
+**`night`**, white and yellow text on black, its menus black on light gray; **`classic`**,
+dark text on light dialogs over a blue desktop; and **`blue`**, white on blue dialogs. All
+but `mono` have the **syntax colors** (the colors that `screen memo ... syntax` and SED's
+color for the language use). **A program that never asks gets `mono`**, unless
+you have chosen a theme with Ctrl-T on one of SD's own pages (SD keeps that choice, and
+`screen open` starts in it) or the administrator has set `SCREENTHEME=` in `sd.conf` to
+the theme the site wants (with neither it stays `mono`, and a terminal with no color is
+`mono` whatever the line says); a
 program that asks for a theme gets the one it asked for.
 `screen theme` gives `else` for a name that is not a theme, on a terminal that cannot
-show colour and in a phantom, and leaves the theme as it was; `returning` holds the name
+show color and in a phantom, and leaves the theme as it was; `returning` holds the name
 in force. A null name only answers. If the library owns the screen it is drawn again in
 the new theme, from the shadow. `screen close` puts the theme back to `mono`.
 
-`screen style` changes one style of the theme in force. The colours are `black`,
+`screen style` changes one style of the theme in force. The colors are `black`,
 `blue`, `green`, `cyan`, `red`, `magenta`, `brown` (or `yellow`) and `white`, or null for
 the terminal's own; the flags are any of `bold`, `dim`, `reverse` and `underline`,
 separated by spaces. It gives `else`, and changes nothing, for `normal` and the raw
-styles, a name that is not a style, or a colour or flag it does not know. Choose the theme first, then
+styles, a name that is not a style, or a color or flag it does not know. Choose the theme first, then
 change its styles.
 
-There are eight colours; `bold` makes the text bright. Colour comes from the terminal's
+There are eight colors; `bold` makes the text bright. Color comes from the terminal's
 `setf` and `setb` capabilities, which the shipped `xterm`, `linux` and `ansi` entries
 have. On a terminal that scrolls when its bottom right cell is written (`ansi`) the
 library leaves that one cell of the desktop alone.
@@ -628,7 +678,7 @@ dragging and the wheel, in the form of xterm's modes 1000, 1002 and 1006. `scree
 turns the reporting off. A terminal that does not know the modes, such as the Linux
 console, ignores the request and sends nothing.
 
-With reporting on, **forms and dialogues take clicks without any help from the
+With reporting on, **forms and dialogs take clicks without any help from the
 program**:
 
 - a click on a button presses it; on a check box ticks or unticks it; on a slider or selector sets the word clicked (a slider slides the other way, a selector goes to the next word, if the text is clicked); on a radio
@@ -667,15 +717,17 @@ reset command).
 - **It imposes no window size and no lock on your program.** Ask for the size you need with
   `minsize`; a window that becomes smaller later cuts what falls outside it (cells outside the
   window are dropped, not wrapped) and your program keeps its keys. SD's own full-screen
-  programs (SED, the IDE, CED) are laid out for 140 by 42 and, when their cursor is off the
-  screen, take the keyboard behind a warning until the window is made bigger or you press
-  Ctrl-Q, y; the library routines that do it are SD's own and are not a statement.
+  programs are laid out for 140 by 43: CED, when its cursor is off the
+  screen, takes the keyboard behind a warning until the window is made bigger or you press
+  Ctrl-Q, y; the IDE, SED and the toolkit pages do it whenever the
+  window is smaller than that, wherever the cursor is; the library routines that do it are SD's
+  own and are not a statement.
 - A table sorts what it *shows*, never the rows you gave it, and a tree is the list of
   nodes you gave it with the depths you gave it: neither is a database view.
 - It has no widget for editing a record with the editor's own commands: `screen memo` has
-  selection, undo and find, but not SED's macros, buffers, split window or bindings, and
-  [SED](27a-sd-tcl-sed.html) keeps its own text area and prompt line (its menus and its
-  colour for the language use the library). [CED](27b-sd-tcl-ced.html) and
+  selection, undo, find and keyboard macros (Alt-R, Alt-P), but not the tabs, the menus
+  or the compile and run keys of the IDE and [SED](27a-sd-tcl-sed.html), which are those
+  programs' own. The IDE, SED, [CED](27b-sd-tcl-ced.html) and
   [the debugger](17-sd-basic-debugging.html) are drawn with the library.
 - It draws nothing in a phantom or over the API: every verb takes `else`.
 - Text written with `print` or `crt` is not in the shadow.

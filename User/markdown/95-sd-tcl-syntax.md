@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **192** verbs, and
+> every verb record in `newvoc`, which is **206** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-192 of them; whether a verb needs `admin` is in the GettingStarted set.
+206 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -157,6 +157,8 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`redo`** | **`redo`** {**`times`** *n*} {**`every`** *s*} *command* |
 | **`reformat`** | **`reformat`** {**`dict`**} *file* {*selection*} {*fields*} |
 | **`release`** | **`release`** *file* *id* …  ·  **`release filelock`** *file* |
+| **`remote.api`** | **`remote.api`** {**`off`** \| **`local`** \| **`open`**}  —  the listener of the SD API, port 4249 (administrator): no listener, this computer only, or every address; without a word, reports what is installed and changes nothing |
+| **`remote.ssh`** | **`remote.ssh`** {**`off`** \| **`local`** \| **`open`**}  —  the listener of Solo's own ssh server, port 4251 (administrator): no listener, this computer only, or every address; without a word, reports what is installed and changes nothing |
 | **`report.src`** | **`report.src on`** \| **`off`** \| **`report.src`** to toggle |
 | **`report.style`** | **`report.style`** {*name* \| **`off`**} |
 | **`restore.account`** | **`restore.account`** *zipfile* {*account* \| **`all`**} {**`no.query`**}  ·  **`restore.account latest`** {*account* \| **`all`**} {**`no.query`**} |
@@ -171,8 +173,9 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`select.dir`** | **`select.dir`** *pathname* {**`to`** *n*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
 | **`set`** | **`set`** *name* *value* |
-| **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai key`** *provider* {**`clear`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  —  whether the AI may be used, and its provider, model, key and limits (administrator); the key is typed at the helper's own prompt |
+| **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai models`** *provider*  ·  **`set.ai key`** *provider* {**`clear`** \| **`handover`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  —  whether the AI may be used, and its provider, model, key and limits (administrator); the key is typed at the helper's own prompt, or in tool.ai's setup dialog, which hands it over |
 | **`set.backup.directory`** | **`set.backup.directory`** {*directory*} |
+| **`set.config`** | **`set.config`** *parameter* *value*  —  changes one of 14 tuning parameters of this SD's **`sd.conf`** (administrator); *value* is a whole number inside the range SD enforces |
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
 | **`set.file`** | **`set.file`** *account* *file* *pointer* |
@@ -207,12 +210,23 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`sync.global.catalog`** | **`sync.global.catalog`** |
 | **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
-| **`tool.ai`** | **`tool.ai`**  —  the AI choice page (administrator): the provider with a check box, its model and key, Custom, and the one switch, the ai gate |
+| **`tool.ai`** | **`tool.ai`**  —  the AI choice page (administrator): the provider with a check box (Anthropic, OpenAI, Google, DeepSeek or Custom), its model (each named provider has a default) and key in one setup dialog, and the one switch, the ai gate |
+| **`tool.audit`** | **`tool.audit`**  —  the audit trail on one screen (administrator): read from its end a screen at a time, with filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record of **`$HOLD`**; it runs no command |
+| **`tool.backups`** | **`tool.backups`**  —  backups and restores on one screen (administrator): the saved directory, the archives in it with the manifest of each, who else is signed on, and **`backup.account`**, **`restore.account`** and **`set.backup.directory`** behind a box answered Run |
+| **`tool.bulk`** | **`tool.bulk`**  —  a bulk update of one data file of the account: choose the records (conditions, a saved list or every record), up to ten operations from a closed set, a dry run that writes nothing, apply under record locks after a box that asks the file's name typed, and undo of the last run |
+| **`tool.catalog`** | **`tool.catalog`**  —  the programs of the account on one screen: compiled or not, current or stale, and where each is cataloged; compile it, catalog it privately or locally, and take a catalog entry out, each through its own verb after a box that shows the command |
+| **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
+| **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the editor, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
+| **`tool.files`** | **`tool.files`**  —  the files of the account on one screen: kind, records, modulus, size, indices, trigger; make, clear and delete a file, each through its own verb after a box that shows the command; analyze a file and list its indices and triggers by handing the terminal to the verb |
 | **`tool.gates`** | **`tool.gates`**  —  the four gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files and the AI, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`** or **`set.ai gate`** after a box answered Run |
 | **`tool.keys`** | **`tool.keys`** |
 | **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
+| **`tool.query`** | **`tool.query`** {*file*}  —  the query and report builder: choose a file, mark its columns (break and total), set conditions, sorts and options, read the list / sort / count / sum sentence they make, run it into a results box, and save the query in your file &queries& and load it again; every sentence is checked before it runs |
+| **`tool.remote`** | **`tool.remote`**  —  everything that reaches SD from outside, on one screen (administrator), in four views: the two doors as the machine reports them (**`remote.api`** and **`remote.ssh`**, each off, local or open, changed after a box), the SDNet servers (**`delete.server`**; **`set.server`** with the terminal given to the verb), who is connected, and this machine's TLS identity |
 | **`tool.sessions`** | **`tool.sessions`**  —  sessions, locks and logout on one screen (administrator): every session and every lock, read again every three seconds; each key runs one **`logout`**, **`unlock`** or **`inhibit.login`** command after a box answered Run |
+| **`tool.test`** | **`tool.test`**  —  the tests of the account on one screen: the test.* programs of its program files, run with run and judged by the last line N passed, M failed (pass, fail, no verdict; an abort is a fail); run one, all of those shown or the failed ones (after a box), read what a test printed, compile a test that has no object code through basic after a box that shows the command |
 | **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
+| **`tool.voc`** | **`tool.voc`**  —  the vocabulary of the account on one screen: every VOC entry with its type, what it points at, whether a pointer works and how it differs from the shipped VOC; edit an entry in the editor, delete one through **`delete`** after a box that asks its id typed |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
 | **`update.accounts`** | **`update.accounts`** {**`all`**} |

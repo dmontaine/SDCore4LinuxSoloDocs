@@ -26,7 +26,7 @@ It is plain text in one section, and **the shipped file names no path**:
 
 ```
 [sd-solo]
-GRPSIZE=2
+GRPSIZE=4
 NUMUSERS=20
 SORTMEM=4096
 ERRLOG=50
@@ -43,7 +43,7 @@ An unrecognised parameter is not ignored. The parser abandons the file with
 `Unrecognised configuration parameter`, and SD does not start.
 
 **The parameters SD no longer has are removed from a kept `sd.conf` for you.**
-In 1.2-0 thirteen names went, because they did nothing or imitated another
+In 2.0-0 thirteen names went, because they did nothing or imitated another
 product: `APILOGIN`, `CODEPAGE`, `CREATUSR`, `EXCLREM`, `FILERULE`, `FIXUSERS`,
 `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and `TXCHAR`. A line
 naming one would now stop SD, so an upgrade, and a new install that reloads a kept
@@ -62,7 +62,7 @@ gpl` and `config contrib`:
 
 ```
 :config
-Virtual Machine Version Number LS1.1-3
+Virtual Machine Version Number LS2.0-0
 CLEANUP   300 seconds
 CMDSTACK  99
 DEADLOCK  0
@@ -72,7 +72,7 @@ ERRLOG    50 kb
 FLTDIFF   0.00000000002910
 FSYNC     0
 GRPDIR    /home/you/SDCoreSolo/group_accounts
-GRPSIZE   2
+GRPSIZE   4
 INTPREC   11
 ...
 USRDIR    /home/you/SDCoreSolo/user_accounts
@@ -226,7 +226,7 @@ is refused** (`set.os.access sh on`).
 
 ## Parameters that were removed
 
-Until 1.2-0 seven parameters were parsed and did nothing (`JNLMODE`, `JNLDIR`,
+Until 2.0-0 seven parameters were parsed and did nothing (`JNLMODE`, `JNLDIR`,
 `CREATUSR`, `CODEPAGE`, `EXCLREM`, `RINGWAIT`, `TXCHAR`), and six more imitated
 another product or chose between ways of working that SD no longer has
 (`APILOGIN`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `PORTMAP`). All thirteen

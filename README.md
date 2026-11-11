@@ -1,6 +1,6 @@
 # SD Core for Linux Solo — documentation
 
-Documentation for **SD Core for Linux Solo LS1.1-3**, a personal SD Core for one
+Documentation for **SD Core for Linux Solo LS2.0-0**, a personal SD Core for one
 Linux user. The source is in a separate repository, `SDCore4LinuxSolo`; nothing
 here is needed to build SD, and nothing there is needed to build these pages.
 
@@ -106,7 +106,7 @@ python3 tools/linkup.py   User/markdown              # *SD Basic - X* becomes a 
 
 | | |
 |---|---|
-| `docmap.py` | assigns every name the SD BASIC compiler accepts to exactly one document. **414 of 529, and it exits 1.** The 115 left are the names Solo's compiler carried from SD Core (LSOLO 52, 18 Oct 2026) and the older ones of the 1.2-0 work: each has a line on the card `94`, and **no User page of this set describes them yet** (data collections and JSON, the `screen` statement, `try` / `catch`, the new string, array, date and number functions, and the small statements and clauses). The tool prints the list; a page written for a group is added to its table |
+| `docmap.py` | assigns every name the SD BASIC compiler accepts to exactly one document. **414 of 529, and it exits 1.** The 115 left are the names Solo's compiler carried from SD Core (LSOLO 52, 18 Oct 2026) and the older ones of the 2.0-0 work: each has a line on the card `94`, and **no User page of this set describes them yet** (data collections and JSON, the `screen` statement, `try` / `catch`, the new string, array, date and number functions, and the small statements and clauses). The tool prints the list; a page written for a group is added to its table |
 | `tclmap.py` | the same for the TCL verbs, across both sets — **and it checks the page actually documents the verb**, not merely that the name occurs. **181 of 181** |
 | `confmap.py` | the same for the parameters `config.c` accepts, and it reports which of them anything still reads. It exits 1 and lists 12 parameters with no page (`DHCACHE` `INVCASE` `LGNWAIT` `MAXRLOCK` `NETWAIT` `NETREPLY` `PWDELAY` `SCREENTHEME` `USERPOOL` `USPLIT` `CLEANUP` `PHANTOMS`), not touched on 21 Oct 2026 |
 | `verbcounts.py` | every verb count written in prose, against the counts computed from the VOC (181) |

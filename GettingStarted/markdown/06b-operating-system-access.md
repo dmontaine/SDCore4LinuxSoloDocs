@@ -2,7 +2,7 @@ Title: Operating System Access
 Subtitle: The two switches, sh and os, that decide whether SD can reach the operating system: off as delivered, turned on by the administrator.
 
 `sh` runs a Linux command from the SD prompt (the shorter name `!` was removed in
-1.2-0). `OS.EXECUTE` is the way from a program, and a program can also
+2.0-0). `OS.EXECUTE` is the way from a program, and a program can also
 reach the operating system by naming a file or directory outside the account.
 **All of it is off as delivered**, and the administrator turns it on, in two
 independent switches, with `set.os.access`.

@@ -252,6 +252,35 @@ recompile rather than trying to work around it.
 **There is no conditional breakpoint.** Put a `debug` statement inside the `if`
 instead, and recompile.
 
+### Breakpoints from the IDE
+
+In the IDE's editor, **Shift-F7** sets or clears a breakpoint mark on the
+cursor's line, and a click in the gutter does the same on the line clicked. A
+marked line shows `*` in front of its line number. Build / **Clear
+breakpoints** removes every mark of the tab. Marks belong to the open program
+tab: they move with their lines as you edit, and they are not saved anywhere.
+
+**F7** compiles the program for the debugger as before. With marks, the
+debugger sets a breakpoint on each marked line and runs on to the first one
+without stopping at line 1. Build / **Debug from the first line** stops at the
+first line as F7 always did, with the breakpoints already set and the message
+*"Breakpoints set from the editor's marks: n"*.
+
+When the debugger ends, the lines that still have a breakpoint come back as the
+tab's marks, so a `brk` or `clr` you typed in the debugger is kept.
+
+What is refused, and said:
+
+- A mark on a line where no statement begins (a comment, a blank line, a label)
+  sets nothing. When no mark could be set, the debugger stops at the first line
+  and names the lines: *"No breakpoint was set on these marked lines ..."*.
+  Those marks do not come back.
+- A program can have 20 breakpoints; a twenty-first mark is refused.
+- Marks are for program tabs only. In a VOC, dictionary or data record
+  Shift-F7 says *"Breakpoints can be set in a program only"*.
+- The marks are handed over only when the record on the disk is the text in
+  the tab. F7 saves before it compiles, so this normally holds.
+
 ## Equate tokens
 
 A program compiled with `$mode debug.equates` (and for the debugger, `basic ...
@@ -291,8 +320,8 @@ always was, or as `^9` (a caret and the decimal number) after the first `^`; a
 second `^` puts the `?` back. The length shown does not change.
 
 **`window` *n*** sets the number of rows of the data area (messages and
-replies) of the **full-screen** debugger, 5 to 15; the source above it takes
-what is left. `window 3` is refused (*The data area must be 5 to 15 lines*) and
+replies) of the **full-screen** debugger, 5 to 15; the source and the Autos pane
+above it take what is left. `window 3` is refused (*The data area must be 5 to 15 lines*) and
 in line-by-line mode the command is a format error. A `window` *n* line in the
 VOC record **`$debug.options`** (the record that already holds
 `no.source.warning`) sets it at the first stop of a session.
@@ -345,7 +374,7 @@ stops three times, for 8, 9 and 10.
 
 A plain `w n` stops at every assignment as before, a new `w` replaces the old
 watch **and its condition**, and `uw` clears both. An operator that is not in
-the list, or no value after it, gives *Unrecognised command* and watches
+the list, or no value after it, gives *Unrecognized command* and watches
 nothing. `like` and `unlike` are not supported. The variable is found by its
 number in the program that set the watch, so a condition on a local variable
 works while that program is the one running.
@@ -374,47 +403,107 @@ program can ask the same question without the debugger:
 
 ## Full screen on a terminal, line by line everywhere else
 
-**On a terminal that has an alternate screen — xterm and the terminals that
-behave like it — the debugger takes the whole screen.** Its test is that the
-session is a real terminal (SD can read its window size) and that the terminal
-definition has `smcup` and `rmcup`. Then:
+**On a terminal that can address a cell and clear itself, the debugger takes the
+whole screen.** Its test is that the session is a real terminal (SD can read its
+window size) and that the terminal definition has `cup` and `clear`: xterm, the
+Linux text console, vt100, vt102, vt220, ansi, and the terminals that behave like
+them. `dumb` and `unknown` have no `cup` and stay line by line. Then:
 
-- the top row is the **title**: the program and the line about to run;
-- below it is the **source**, with line numbers; the line about to run is
-  highlighted and a line with a breakpoint has its number marked;
-- then five lines of **messages** (what a command printed), and the **command
-  line** at the bottom, where you type the commands on this page;
+- the top row is the **title bar**: the program and the line about to run at
+  the left, and at the right end `debugger` and who is signed on, as on the
+  other full-screen pages;
+- below it is the **source**. Each row has a two-cell **gutter** — `>` marks the
+  line about to run and `*` a line with a breakpoint (a breakpoint wins when the
+  line about to run has one) — then the line number and the text. The line about
+  to run is highlighted from end to end. In the `paper`, `night` and `blue`
+  themes the text is colored as SD BASIC: comments, strings, constants and the
+  statements. In the plain `classic` theme, which the debugger uses when neither
+  you nor the site has chosen one, the source has no syntax color;
+- to the right of the source, from column 93, is the **Autos** pane: the
+  variables the line about to run uses come first, in the order the line names
+  them; then those of the line the debugger last stopped at, when it is a line of
+  the same program; then the variable you are watching; then the other variables
+  of the program in the order it declares them, until the pane is full. It is empty
+  only for a program that has no variable. Each row is `name = value`, short: a
+  string is cut, and a matrix or a collection says what it is (`/name` shows more).
+  The pane is drawn again at every stop and after every command, so `set n=7` shows
+  at once. The names are the program's own spelling in the symbol table (upper case
+  unless the program is case sensitive);
+- under a rule come the **messages** (what a command printed; five rows, `window` *n*
+  changes that), and the **command line**, where you type the commands on this page;
+- below the command line the **foot** has three rows, as the other full-screen pages
+  have: a **status line** in reverse video (`[Command]`, how many breakpoints there are
+  and the variable being watched), a line across the screen, and the **function-key row**:
+  `F1 help  F2 find  F3 stop  F4 screen  F5 refresh  F7 step  F8 line  F9 run  F10 menu  ^F7 parent  ^F8 program`;
 - **F1** shows the help in a box, **F4** shows the program's own screen until
-  you press a key, and Page Up and Page Down move the source.
+  you press a key, and Page Up and Page Down move the source. The commands are as
+  they were.
+- **The top row is a menu bar**: **Esc** on its own or **F10** opens
+  it. **Run** has Run to a breakpoint (F9), Step (F7), Step a line (F8), Run to the parent
+  (Ctrl-F7), Run to the parent program (Ctrl-F8), Stop the program (F3 or Ctrl-Q) and Abort;
+  **View** the program's screen (F4), Theme (Ctrl-T) and Refresh (F5); **Help** Help (F1),
+  Keys (Ctrl-K) and Find an action (F2). The program and its line follow the titles.
+- **F2 finds an action and Ctrl-Q stops the program and leaves**, as on every page.
+  F2 lists every entry of the menus; type part of a
+  name to narrow the list, Enter to do it, Esc to close it. **Abort has no key on this screen**:
+  it is on the Run menu and in the F2 list. In line mode (a terminal too small or with no
+  cursor addressing), which has no menu bar, F2 still aborts.
+- **The keys every page has**: **F9 runs** (it was F5), **F5** and
+  **Ctrl-L** draw the screen again, **Ctrl-T** takes the next color theme and keeps it for
+  you, **Ctrl-K** lists the keys. On the command line, delete to the end of the line and swap
+  two characters, which were Ctrl-K and Ctrl-T, are **Alt-K** and **Alt-T** (or Esc, then K or T).
+  See [Using the Full-Screen Pages](29d-sd-tcl-using-the-full-screen-pages.html).
 
-**The full-screen display is laid out for 140 columns by 42 lines or more**
-(since 18 October 2026; a bigger window is used whole). **On a window smaller
-than that the debugger does not refuse: it says why, once, and is line by line
-for the session** — *The debugger needs a window of at least 140 columns by 42
-lines for its full-screen display; this one is 100 by 30, so it is using line
-mode* — because a small window is no reason to take away the way to debug a
-program. The window measured is the one on the screen, or the display `term w,h`
-gave if that is smaller. The choice is made at the first stop of a session.
+**The full-screen display is laid out for 140 columns by 43 lines or more**
+(a bigger window is used whole, and the extra width goes to the source). **On a
+window smaller than that the debugger does not refuse: it says why, once, and is
+line by line for the session** — *The debugger needs a window of at least 140
+columns by 43 lines for its full-screen display; this one is 100 by 30, so it is
+using line mode* — because a small window is no reason to take away the way to
+debug a program. The window measured is the one on the screen, or the display
+`term w,h` gave if that is smaller. The choice is made at the first stop of a
+session.
 
 If the window is made smaller **while the full-screen display is up**, the debugger
 lays itself out again within a second and shows the **upper left corner** of its
-140 by 42 layout and nothing past the edge, and draws everything again when the
-window is made bigger. The command line is on the last row, so a window under 42
-lines does not show where you type: the debugger then does not take keys. A
-warning in reverse video fills the upper left, every key is thrown away, it goes
-by itself when the window is big enough, and **Ctrl-Q, then y** leaves the
-debugger the way F3 (Stop) does. A window narrower than 140 but 42 lines or more
+140 by 43 layout and nothing past the edge, and draws everything again when the
+window is made bigger. The command line is on row 40 of 43 (the foot is below it), so
+a window of 39 lines or fewer does not show where you type: the debugger then does not
+take keys. A warning in reverse video fills the upper left, every key is thrown away,
+it goes by itself when the window is big enough, and **Ctrl-Q, then y** leaves the
+debugger the way F3 (Stop) does. A window narrower than 140 but 40 lines or more
 high shows the left part of the lines and works as usual.
 
 The program's own screen is kept by the terminal (that is what the alternate
 screen is): when you let the program run, the debugger gives the terminal back
 and the program's output is on its own screen, and it is on the alternate
-screen again at the next stop. The colours are the screen library's: the
-`classic` theme while the debugger is up if the program asked for none, and
-whatever the program or the site chose otherwise.
+screen again at the next stop. The colors are the screen library's: if the
+program asked for no theme, the debugger uses the theme you chose with Ctrl-T,
+else the site's theme (`SCREENTHEME` in `sd.conf`) while it is up, and the
+`classic` one when neither names one; and whatever the program asked for
+otherwise. When the debugger lets the program go, the program's theme is given
+back, whether or not the window was resized or `window` *n* was typed on the way.
 
-**On a terminal with no alternate screen, and in a session that is not a
-terminal, the debugger is line by line.** Every command works, as the
+**What the program's own screen becomes depends on the terminal.** A terminal
+with an alternate screen (`smcup` and `rmcup`: xterm and its kin) keeps the
+program's screen aside, and gives it back untouched when the debugger lets go.
+A terminal without one (the Linux console, vt100, vt220, ansi) has only the one
+screen, so the debugger clears it when it comes up and clears it again when it
+lets go. A program that owns the screen library's screen (it ran `SCREEN OPEN`)
+gets everything the library knows drawn again: its forms, its cursor, its theme.
+**What the program printed with `PRINT` or `CRT`, and what was on the screen
+before, is not given back** — a terminal cannot be asked what it shows, and
+the line-by-line debugger, which does not clear anything, keeps that text. For
+the same reason `F4` (or `v`) on such a terminal shows an owned screen again
+until a key is pressed, and says *"There is no second screen to show on this
+terminal"* for any other program.
+
+To keep the line-by-line debugger on a terminal that would otherwise get the
+full screen, put the word `LINE.MODE` on a line of the VOC record
+`$debug.options` (the same record that holds `WINDOW` *n*).
+
+**In a session that is not a terminal, on `dumb`, `unknown` or `null`, and in a
+window smaller than 140 by 43, the debugger is line by line.** Every command works, as the
 transcripts on this page show, and there is a real gain: because it is
 line-oriented it can be **driven from a script**. A whole debugging session can
 be fed down a pipe.
@@ -429,10 +518,26 @@ screen pictures; SD no longer supports AccuTerm.)
 In the full-screen display, when the AI is switched on (`set.ai gate on`, and a provider, a model and a key; see
 [Asking the AI](29b-sd-tcl-asking-the-ai.html)), the command **`AI`** — or `AI` and a question, such as
 `ai why is y empty` — asks it about the stop. The AI is told the program and the line, the call stack
-and about fifty lines of the source round the stop. As everywhere, **Enter shows everything that will
-be sent first**, with Send and Cancel (the default); the answer is words in a box, and the debugger's
+and about fifty lines of the source round the stop. As everywhere, **Enter shows your request and the size
+of all that will be sent first** (SD's own instruction is sent but not shown), with Send and Cancel (the default); the answer is words in a box, and the debugger's
 screen is drawn again after it. Nothing in your program or the debugger is changed, and a command in
 the answer is ignored. Line mode and a phantom do not have it.
+
+## A process dump from inside the program: `pdump`
+
+```
+pdump
+```
+
+The statement writes a process dump of the session it runs in and **the program carries
+on** at the next line; nothing is stopped. The dump is the same file the `pdump` command
+writes for a session number (see [SD TCL - Processes and
+Phantoms](30-sd-tcl-processes-and-phantoms.html), which says where it goes): the program's
+variables, each string with its length, the call stack, open files, and the environment,
+with the value of any name that looks like a secret (a key, a token, a password) left out.
+
+Use it to take a picture of a program's state at one point without stopping it. **The dump
+holds the program's data**, so remove it when you have read it.
 
 ## Who has it
 
@@ -451,11 +556,11 @@ was available regardless.
 ## What is not here
 
 **`trace` is gone.** It was removed from the compiler in July 2024. In an
-ordinary account it is *"Unrecognised statement"*.
+ordinary account it is *"Unrecognized statement"*.
 
 **The programmatic debug statements are restricted.** `debug.on`,
 `debug.off`, `debug.set`, `breakpoint` and `watch` are internal-only, and all
-five are *"Unrecognised statement"* in an ordinary account. They are
+five are *"Unrecognized statement"* in an ordinary account. They are
 what the debugger itself is built from. **`debug` — the plain statement — is
 not restricted**, and it is the one you want.
 

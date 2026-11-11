@@ -141,7 +141,7 @@ MX        MO
 | `MO` | decimal to octal |
 | `MCDX` | the same as `MX`, both ways; a second name kept for programs written for openQM |
 
-(`MCD`, `MCX` and `MCXD`, which were other second spellings of `MX`, were removed in 1.2-0: they are an invalid conversion code now, STATUS 2.)
+(`MCD`, `MCX` and `MCXD`, which were other second spellings of `MX`, were removed in 2.0-0: they are an invalid conversion code now, STATUS 2.)
 
 `MX0C` converts a hexadecimal string to characters. `MB0C` and `MO0C`
 do the same for binary and octal.

@@ -63,7 +63,9 @@ key, and the computer answers with its Linux user name, its host name, the key's
 fingerprint, the fingerprint of Solo's own ssh server's host key and the port to
 connect to (4251). From then on the
 server reaches this computer over ssh with that key and the global password. The
-same request lists and removes the server's keys.
+same request lists and removes the server's keys. **It is API request 72** (it was
+49 before LS2.0-0; 49 now asks the server's revision, as in SD Core), so a program of
+your own that sends 49 to install a key must send 72.
 
 - **Only a session signed in with the global password may ask.** The account
   password and `admin` are refused with *Only the SD Core server may manage ssh
@@ -112,7 +114,7 @@ sync global catalog done 1 catalogued 0 removed 0 refused
 
 A session with no administrator rights can then `CALL myprog(x)`. **A program
 catalogued in the account under the same name is found first**, as for any
-`CALL`. (Before 1.2-0 the server's programs were catalogued as `*name` and called
+`CALL`. (Before 2.0-0 the server's programs were catalogued as `*name` and called
 as `CALL *name`; the `*` prefix is gone, and the first `sync.global.catalog` of
 this release removes the old `*` entries and catalogues the programs again under
 their plain names.)
@@ -181,7 +183,7 @@ deny.verbs 2: sh,copy
 **A command is denied under every name that runs it.** Some names that look
 different share one: `ED` and `EDIT` both run SD's line editor, so denying one
 denies both, and the answer says what else was taken (`deny.verbs also denies, as
-the same command: ...`). (Before 1.2-0, `!` was a second name of `SH` and was
+the same command: ...`). (Before 2.0-0, `!` was a second name of `SH` and was
 denied with it; it was removed.) For example:
 
 ```

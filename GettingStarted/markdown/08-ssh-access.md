@@ -83,7 +83,7 @@ runs.** What it says:
 |---|---|
 | `ForceCommand ~/SDCoreSolo/bin/sd-solo` | every sign-in runs `sd-solo`, whatever the client asks for |
 | `UsePAM yes`, `PasswordAuthentication yes` | your Linux password, checked by PAM. `PubkeyAuthentication yes` as well: a key in the key file also works |
-| `PAMServiceName sd-solo-ssh-you` | **only where SELinux is on** (Fedora, out of the box). The computer's own `sshd` rules have a SELinux session step that only a root `sshd` can pass, so there Solo uses rules of its own, `/etc/pam.d/sd-solo-ssh-you`: the computer's rules without `pam_selinux`, `pam_loginuid` and `pam_namespace`. The installer writes the file with `sudo`; `bash <tree>/tools/solo-ssh.sh pam <tree>` says whether it is needed, `--install` writes it, `--remove` removes it. Needs OpenSSH 10.0 or later |
+| `PAMServiceName sd-solo-ssh-you` | **only where SELinux is on** (not the case on Debian or Ubuntu as installed). The computer's own `sshd` rules have a SELinux session step that only a root `sshd` can pass, so there Solo uses rules of its own, `/etc/pam.d/sd-solo-ssh-you`: the computer's rules without `pam_selinux`, `pam_loginuid` and `pam_namespace`. The installer writes the file with `sudo`; `bash <tree>/tools/solo-ssh.sh pam <tree>` says whether it is needed, `--install` writes it, `--remove` removes it. Needs OpenSSH 10.0 or later |
 | `AllowUsers you` | only your Linux user |
 | `DisableForwarding yes` | no port forwarding, which `ForceCommand` alone would not stop |
 | `StrictModes yes` | see below |
@@ -141,7 +141,7 @@ has turned the `sh` switch on (it is off as delivered) — see
 | | |
 |---|---|
 | **`local`** | the listener is `127.0.0.1:4251`: `ssh -p 4251 localhost` works, nothing else can connect, and no firewall rule is needed |
-| **`open`** | the listener is `0.0.0.0:4251`. **Allow TCP 4251 in the firewall.** The installer adds the rule if `ufw` is active, or firewalld is running (Fedora), and you let it use `sudo`; otherwise it tells you. Turned on later with `solo-service.sh ssh <tree> open`, which never uses `sudo`, it prints the one command for the firewall that is running |
+| **`open`** | the listener is `0.0.0.0:4251`. **Allow TCP 4251 in the firewall.** The installer adds the rule if `ufw` is active, or firewalld is running, and you let it use `sudo`; otherwise it tells you. Turned on later with `solo-service.sh ssh <tree> open`, which never uses `sudo`, it prints the one command for the firewall that is running |
 | **Managed** | always `open`: the SD Core for Linux server has to reach port 4251 |
 
 **The installer does not open port 22**, and Solo does not use it.

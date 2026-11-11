@@ -121,6 +121,6 @@ verb subset specifically is counted on the SD TCL syntax card in the User set.
 | Parameters settable for the current session | **28** |
 | Parameters accepted that do nothing | **7** |
 
-The parameters removed in 1.2-0, and what happens to a kept `sd.conf` that still
+The parameters removed in 2.0-0, and what happens to a kept `sd.conf` that still
 names one, are on [Configuration](16-configuration.html). `NETFILES` is live: its bit 2 opens API
 request 29, behind the NET gate (see the same page).
