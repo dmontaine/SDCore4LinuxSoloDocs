@@ -125,9 +125,9 @@ Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 once, when it starts, and keeps the settings in shared memory; a new session copies
 them from there and does not read the file itself. (The multiuser SD Core has each
 session read `sd.conf` when it starts, so there an edit reaches the sessions
-started after it.) So when `tool.config` says a parameter takes effect for each
-`session`, and `set.config` says *Sessions started from now on use it*, that is
-SD Core's rule: in Solo, stop SD and start it again before you count on the new value.
+started after it.) So `tool.config` shows every parameter as `restart`, and
+`set.config` says the change takes effect when SD is next stopped and started: stop
+SD and start it again before you count on the new value.
 
 ## The parameters on one screen: `tool.config`
 
