@@ -44,11 +44,17 @@ The quotes are taken off before anything is shown or sent.
 
 ## What is sent, and what is not
 
-Only your text and the fixed sentence. `ai` does not add your account, your files, your session or your data. If you paste a record into the question, the provider sees it. The audit trail records that you asked (your account, the program, the number of bytes), never what you asked or what came back.
+Only your text, the fixed sentence and the standing text set up with the helper (a few lines about SD; see *The AI helper* in the GettingStarted set). `ai` does not add your account, your files, your session or your data. If you paste a record into the question, the provider sees it. The audit trail records that you asked (your account, the program, the number of bytes), never what you asked or what came back.
 
 `ai` only prints the answer. It never runs anything the answer says.
 
-In the AI line of the full-screen pages and the editors (below), SD does not take questions about its own code or build (`gpl.bp`, `gplsrc`, the kernel) to the AI: it says so and sends nothing; the source is open, so ask an AI outside SD for that. In the editors, a record of SD's own files, such as a header in `syscom`, is never sent either.
+SD does not take questions about its own code or build (`gpl.bp`, `gplsrc`, the kernel) to the AI: it says so and sends nothing; the source is open, so ask an AI outside SD for that. In the editors, a record of SD's own files, such as a header in `syscom`, is never sent either.
+
+### Passages of the documentation (the AI line, not the `ai` verb)
+
+When you ask in the AI line (the home screen, a page of the toolkit, the IDE, SED, the collection editor or the debugger), SD looks through its own User documentation for the sections that match your words and adds up to four of them to the request, so that the model answers from SD's pages and not from what it remembers of other multivalue systems. The preview shows how many passages there are and how many bytes, each one's page and section in brackets (for example `[user/01-sd-basic-program-structure.md#the-program-header]`) and its first four lines, and says how many lines more it sends. A preview taller than the screen scrolls with PgUp and PgDn (Home and End go to its first and last lines; the bottom border says which lines are shown), and Send and Cancel stay on the screen. Nothing leaves until you choose Send, and Cancel is the default. A passage is at most 2,400 bytes and all of them 6,000. A request of common words, or of words no page holds, gets none. The model is asked to name the page it used, so you can find it in the documents. After `admin`, the Getting Started pages, which hold the administration, are searched too; they are never searched for a session that has not typed `admin`.
+
+If the documentation could not be fetched when SD was installed, there are no passages and the line works as it did. The `ai` verb adds no passages.
 
 ## The AI line on a page of the toolkit
 
@@ -107,5 +113,5 @@ the line, the call stack and about fifty lines of the source round the stop, and
 
 ## See also
 
-[The AI helper](24-the-ai-helper.html) (for the administrator) ·
+*The AI helper* in the GettingStarted set (for the administrator) ·
 [SD TCL - The Terminal and the Session](29-sd-tcl-the-terminal-and-the-session.html).

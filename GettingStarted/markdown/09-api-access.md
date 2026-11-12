@@ -90,8 +90,8 @@ connected.
 | `open` | listens on `0.0.0.0` — every address the computer has. A firewall on the computer must allow the port; the installer opens it with `ufw` if `ufw` is running, or with `firewall-cmd` if firewalld is, and says so if it cannot |
 | `off` | no socket unit |
 
-**To change it afterwards**, run the service script again with the new choice —
-it stops the old listener first:
+**To change it afterwards**, use `remote.api` inside SD (below), or run the
+service script again with the new choice — it stops the old listener first:
 
 ```
 bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api open
@@ -106,6 +106,52 @@ yours.
 
 **Linger matters here too.** Without it the socket, like SD, stops when your last
 session ends; see [Running SD](03-running-sd.html).
+
+### From inside SD: `remote.api`
+
+```
+remote.api
+remote.api {off | local | open}
+```
+
+The three words are the three rows above (`on` is taken as `open`). **It is the administrator's**: type
+`admin` first, or it stops with *Command requires administrator privileges*, and that holds for the report
+too. **With no keyword it reports the setting and changes nothing**: *The API is off: SD has no listener
+for it*, *The API is local: only this computer can connect (port 4249)* or *The API is open: other computers
+can connect (port 4249)*, and, when the socket is not running whatever the setting, *...but its listener is
+not running (systemd says ...)*.
+
+**It moves Solo's own socket unit and nothing else.** It runs the same service script with no `sudo`, and
+the report it prints afterwards is read back from the installed socket unit and systemd, not what was
+asked. A change the script did not confirm says *The API was not changed:* and the script's last line,
+and changes nothing. **No firewall is touched**: when `open` is asked and a firewall is running, the one
+command an administrator of the computer would run to let port 4249 through is printed. Every change writes
+one audit line, `remote.api mode=local status=ok` (or `status=refused`). **No SD session is ended**: the
+listener belongs to the socket unit, and a connection already accepted is its own service instance, so
+nothing already talking to the API is disturbed. On a managed computer leave it `open`: the server
+connects through it. `remote.ssh` does the same for ssh (see [ssh access](08-ssh-access.html)).
+
+### Everything that reaches SD from outside, on one screen: `tool.remote`
+
+```
+tool.remote
+```
+
+A full-screen page for the administrator (`admin` first; a window of 140 columns by 43 lines or more) of
+four views, chosen with the keys `1` to `4`:
+
+| View | What it shows and does |
+|---|---|
+| `1` doors | what `remote.api` and `remote.ssh` say with no keyword: **the machine's own answer**, read back from the socket units, not what the page meant. `A` changes the API and `S` changes ssh (`off`, `local` or `open`); `open` lets other computers reach this one, so its box wants the word `OPEN` typed |
+| `2` servers | the SDNet servers you have defined: name, address, remote account and mode, the pin shortened, the accounts that may use it. `X` deletes the one under the cursor (`delete.server`, which does not ask itself, so the box is the question). `N` asks every field, checks them the way `set.server` does and gives **the terminal to the verb**, whose `connect` step shows the key the server presents and its hash and asks whether to trust it |
+| `3` connected | every session now by the door it came through: the user number, the kind (user, api, sdnet, phantom), the login user, the account and where it came from |
+| `4` TLS | this installation's TLS identity as `settings.report` gives it: the certificate fields and the public-key hash another SD server pins. Never the private key |
+
+The page runs `remote.api`, `remote.ssh` and `delete.server` only after a box that shows the command and
+what it does was answered Run (**Cancel is what Enter chooses**); `set.server` is run by the verb itself on
+the terminal. The verbs write their own audit lines; the page writes nothing else. `F5` reads everything
+again, `F1` explains the page and `Ctrl-Q` leaves. Opening the page writes the audit line
+`tool start app=tool.remote`.
 
 ## What a connection costs, and how big a request may be
 

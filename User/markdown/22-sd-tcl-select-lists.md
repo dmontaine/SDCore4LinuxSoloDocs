@@ -83,6 +83,7 @@ Cleared all numbered select lists
 | **`nselect`** *file* | keep only the ids of the active list that are **not** in *file* |
 | **`form.list`** {**dict**} *file* *record* | take the list from a record's contents |
 | **`select.dir`** *pathname* {**to** *n*} | the names in an operating system directory |
+| **`selectindex`** {**dict**} *file* *index* {*value*} {**to** *n*} | the values of an alternate key index, or the ids of the records that have one value (see [Alternate Key Indexes](23-sd-tcl-alternate-key-indexes.html)) |
 
 `select` and `sselect` take the whole selection language of the query processor
 — `with`, the operators, `by` — so anything you can list you can select. See
@@ -157,6 +158,11 @@ account's `$savedlists` file and outlives it.
 | **`copy.list`** *name* {`,`*new*} {**from** *file*} {**to** *file*} | copy one, or `*` for all |
 
 Both default to list 0, and `save.list` defaults the name to the list number.
+**`save.list`** takes **`keep`** to leave the active list as it was (it has always
+emptied it) and **`count.sup`** to leave out the count of records, and **`get.list`**
+takes **`deleting`** to delete the saved list once it is loaded and `count.sup`
+too. With the name left out, a list is called after its number: `save.list` saves
+list 0 as `0`, and `get.list 0` brings it back.
 
 ```
 select voc with dispatch = "OS"
@@ -303,10 +309,13 @@ move.list src to tgt {keep}
 ```
 
 *src* and *tgt* are select list numbers, 0 to 10. The list in *src* moves to
-*tgt* and *src* is empty; with `keep` the source stays as it was, so it is a
-copy. It prints nothing when it works. A number outside 0 to 10 is refused
-(*Select list number missing or invalid*). It is the command form of the
-`movelist` statement.
+*tgt*, replacing what *tgt* held, and *src* is empty; with `keep` the source stays
+as it was, so it is a copy. Only the ids of *src* that have not been read are moved.
+A list moved onto itself, and an empty list, are left as they are. It prints nothing
+when it works. A number outside 0 to 10, a missing number, or a word other than `to`
+and `keep` is refused (*Select list number missing or invalid*, *Unexpected token
+(xx)*) and nothing is moved. `move.list 3 to 0` is how a list kept in 3 is made the
+one the next command uses. It is the command form of the `movelist` statement.
 
 
 ## A command for each id: `execute.list`

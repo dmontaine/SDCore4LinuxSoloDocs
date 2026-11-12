@@ -47,6 +47,10 @@ SETS = {
     "User": {
         "desc": "For programmers and operators. SDBasic, TCL, the VOC, dictionaries, the file system, the client API, and what an ordinary program may not compile.",
     },
+    # A document of its own, from SD Core's docs (owner, 12 Nov 2026: "Make Solo's from Core's").
+    "TUIGuide": {
+        "desc": "SD Text User Interface - Programmer's Guide. Building a full-screen page of your own in SD BASIC with the !tk routines: the frame, the menu bar, the finder, forms, confirm boxes and pick lists, with worked examples.",
+    },
 }   # Administrator merged, Solo ruling 38
 
 
@@ -485,7 +489,7 @@ def create_master_index():
 <div class="page">
 <main class="master-index">
 <h1>Documentation</h1>
-<p class="mi-subtitle">The {PRODUCT} documentation is organised into three sets, each aimed at a different audience. Each page is a self-contained HTML file.</p>
+<p class="mi-subtitle">The {PRODUCT} documentation is organised into {len(SETS)} sets, each aimed at a different audience. Each page is a self-contained HTML file.</p>
 <div class="mi-sets">
 {sets_html}
 </div>

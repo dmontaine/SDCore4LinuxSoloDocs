@@ -38,7 +38,7 @@ who used both could not tell them apart.
 | | |
 |---|---|
 | **At install** | **on, `local` (this computer only), unless you say otherwise**, as SD Core Solo for Windows does, **and the ssh server is installed for you if the computer does not have it** (as the Windows installer ticks "Install the OpenSSH server" by default). `--ssh off` declines both, `--ssh local` or `--ssh open` (reachable from the network) answers it, and the question the installer asks says plainly when answering would install the package. A managed computer is always `open`. The API is different: it is off unless you ask for it |
-| **Later** | `bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo local` (or `open`, or `off`) |
+| **Later** | `remote.ssh local` (or `open`, or `off`) inside SD, after `admin` (below); or, from a shell, `bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo local` (or `open`, or `off`) |
 | **After an upgrade** | ssh is on, `local`, only if you used ssh before (an upgrade keeps what you had); everything it keeps is below |
 
 **The installer installs the ssh server package when ssh is on and the computer does not have it** (`openssh-server`,
@@ -153,6 +153,36 @@ by default, `MaxConnections=64`, `MaxConnectionsPerSource=0`). **Solo therefore 
 (below). **Use `local`** unless something has to reach this computer from elsewhere; if you must `open`
 it, **restrict the firewall rule to the addresses that need it**, choose a strong Linux password, and
 consider keys. The same exposure exists for the computer's own ssh server on port 22.
+
+## From inside SD: `remote.ssh`
+
+```
+remote.ssh
+remote.ssh {off | local | open}
+```
+
+| | |
+|---|---|
+| `off` | there is no listener at all |
+| `local` | the listener answers on `127.0.0.1:4251` only: this computer |
+| `open` | it answers on every address: other computers can connect. `on` is taken as `open` |
+
+**It is the administrator's**: type `admin` first, or it stops with *Command requires administrator
+privileges*, and that holds for the report too. **With no keyword it reports the setting and changes
+nothing**: *ssh is off: SD has no listener for it*, *ssh is local: only this computer can connect (port
+4251)* or *ssh is open: other computers can connect (port 4251)*, and, when the socket is not running
+whatever the setting, *...but its listener is not running (systemd says ...)*.
+
+**It moves Solo's own socket unit and nothing else.** It runs `solo-service.sh`, the same script as the
+installer, with no `sudo`, and the report it prints afterwards is read back from the installed socket unit
+and systemd, not what was asked. A change that the script did not confirm says *ssh was not changed:*
+and the script's last line, and changes nothing. **No firewall is touched**: when `open` is asked and a
+firewall is running, the one command an administrator of the computer would run to let port 4251 through
+is printed. Every change writes one audit line, `remote.ssh mode=open status=ok` (or `status=refused`).
+No session is ended: a connection already made is its own service instance.
+
+`remote.api` does the same for the API (see [API access](09-api-access.html)), and `tool.remote` shows both
+on one screen.
 
 ## The lockout: three wrong passwords lock the address
 

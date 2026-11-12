@@ -16,8 +16,8 @@ SD is not running.
 > **How this page was made.** It is the page of the multiuser SD Core for Linux
 > (revised 18 October 2026), adapted for Solo on 19 October 2026. That page was
 > read from `sdidx.c` and run on scratch copies of a small indexed file in a
-> private sandbox built from the multiuser `Dev` (banner `SDIDX L1.1-3`; Solo
-> prints `LS1.1-3`). Solo's `sdidx.c` is byte for byte the multiuser file at
+> private sandbox built from the multiuser `Dev` (banner then `SDIDX L1.1-3`; Solo
+> prints `LS2.0-0`). Solo's `sdidx.c` is byte for byte the multiuser file at
 > commit `70aca05`, so Solo has every fix under *What was fixed*. The sections
 > say *run* where the output was real **in the multiuser build**; in Solo's own
 > sandbox the `sdidx` rows of the file-tools suite passed (19 Oct 2026, 92 rows

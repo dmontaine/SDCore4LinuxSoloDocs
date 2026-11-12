@@ -56,14 +56,14 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`command.logging`** | **`command.logging`** {**`on`** \| **`off`**} |
 | **`como`** | **`como on`** {*record*} \| **`off`** \| **`pause`** \| **`resume`** |
 | **`compare.files`** | **`compare.files`** {**`dict`**} *file1* {**`dict`**} *file2* {**`detail`**} |
-| **`compile.dict`** | **`compile.dict`** — the same verb as **`cd`** |
+| **`compile.dict`** | **`compile.dict`** *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`compile.dict data`** *file* {*i-type* …}  ·  **`compile.dict local`**  ·  **`compile.dict all`** |
 | **`config`** | **`config`** {**`lptr`** \| **`gpl`** \| **`contrib`** \| *param* *value*} |
 | **`configure.file`** | **`configure.file`** {**`dict`**} *voc.name* {*parameters*} \| **`default`** |
 | **`convert.data`** | **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**} |
 | **`copy`** | **`copy from`** {**`dict`**} *src* {**`to`** {**`dict`**} *tgt*} {*id* …} {**`(options`**} |
 | **`copy.list`** | **`copy.list`** *list* {**`,`***new*} {**`from`** *src*} {**`to`** *tgt*} {*options*} |
 | **`count`** | **`count`** {**`dict`**} *file* {*selection*} |
-| **`create.file`** | **`create.file`** {**`dict`**} *voc.name* {**`directory`**} {*parameters*} |
+| **`create.file`** | **`create.file`** {**`dict`**} *voc.name* {**`directory`**} {*parameters*} {**`server`** *server* {**`as`** *remote.name*}} |
 | **`create.index`** | **`create.index`** *file* *field* … {**`no.nulls`**} {**`pathname`** *path*} |
 | **`ct`** | **`ct`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`date`** | **`date`** \| **`internal`** \| *n* \| *date* |
@@ -174,7 +174,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`select.dir`** | **`select.dir`** *pathname* {**`to`** *n*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
 | **`set`** | **`set`** *name* *value* |
-| **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai models`** *provider*  ·  **`set.ai key`** *provider* {**`clear`** \| **`handover`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  —  whether the AI may be used, and its provider, model, key and limits (administrator); the key is typed at the helper's own prompt, or in tool.ai's setup dialog, which hands it over |
+| **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai models`** *provider*  ·  **`set.ai key`** *provider* {**`clear`** \| **`handover`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  ·  **`set.ai context`** *hex* \| **`-`**  —  whether the AI may be used, and its provider, model, key, limits and standing text (administrator); the key is typed at the helper's own prompt, or in tool.ai's setup dialog, which hands it over |
 | **`set.backup.directory`** | **`set.backup.directory`** {*directory*} |
 | **`set.config`** | **`set.config`** *parameter* *value*  —  changes one of 14 tuning parameters of this SD's **`sd.conf`** (administrator); *value* is a whole number inside the range SD enforces |
 | **`set.date`** | **`set.date`** *date* |

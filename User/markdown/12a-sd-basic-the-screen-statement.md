@@ -8,6 +8,10 @@ check boxes, lists and buttons, shows a menu bar, and takes clicks of the mouse.
 It needs no extra package and no change to the rest of the program: it is one
 statement word followed by a verb.
 
+This page is the reference for the statement. A guide to building a whole
+full-screen page with it and SD's own `!tk` routines, with worked examples, is the
+separate *SD Text User Interface - Programmer's Guide* set of this documentation.
+
 SD folds case, so a program may be written in either case. Keywords are shown
 here in lower case. In the tables, *italics* mark something you supply and
 **bold** marks a word typed as it stands; braces mark an optional part.

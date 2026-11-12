@@ -58,7 +58,9 @@ SET_BLURB = {
                       'way around it for the first time.',
     'User':           'Using SD Core for Linux Solo: SD BASIC, TCL, the '
                       'dictionaries and the file system.',
-}   # Administrator merged, Solo ruling 38
+    'TUIGuide':       "Programmer's Guide: a full-screen page of your own in "
+                      'SD BASIC, with the !tk routines and worked examples.',
+}   # Administrator merged, Solo ruling 38; TUIGuide from SD Core's docs, 12 Nov 2026
 
 BOOK_CSS = """
 /* --- mkbook.py: what makes a pile of pages into one document ------------- */
@@ -134,6 +136,7 @@ BOOK = """<!DOCTYPE html>
 PRETTY = {
     'GettingStarted': 'Getting Started',
     'User': 'User Guide',
+    'TUIGuide': 'SD Text User Interface',
 }
 
 

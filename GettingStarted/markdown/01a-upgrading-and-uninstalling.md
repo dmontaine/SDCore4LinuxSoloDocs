@@ -205,7 +205,27 @@ SOLO DELETE COMPLETE /home/you/SDCoreSolo
 It never deletes the directory it is running from: from inside the tree it
 copies itself to a temporary file and runs from there.
 
+## Moving the account to another computer
+
+Moving the account is a backup on one computer, a copy of one file, and a restore on the other.
+There is no verb that does it in one go; the two verbs are described under
+[Administrator commands](06-administrator-commands.html).
+
+1. On the old computer, after `admin`: `backup.account`. It writes one zip file to the saved
+   backup directory and says its name.
+2. Copy that file to the new computer (`scp`, a USB stick, anything that copies a file).
+3. On the new computer, install SD Core for Linux Solo, sign in, type `admin`, and run
+   `restore.account` with the file's full path. It says what will be replaced and asks first.
+4. **The restore happens the next time SD starts** (`systemctl --user restart sd-solo.service`,
+   or stop SD and start it), because it replaces the account you are using.
+
+**What does not come across:** a password (the new computer keeps the passwords it was installed
+with), SD's own system files and settings (`sd.conf`, the global catalog, the ssh and API choices),
+and symbolic links in the account. **The backup is an ordinary, unencrypted zip** of every file in
+the account: keep it where only you can read it, and delete it when the move is done. A Solo backup
+restores only to Solo (on Linux or on Windows), never onto the multi-user SD Core.
+
 ## Continued in
 
-[Differences from multiuser SD Core for Linux L1.1-1](01b-differences-from-multiuser-l1-1-1.html)
+[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html)
 — what Solo leaves out, adds, and does differently.

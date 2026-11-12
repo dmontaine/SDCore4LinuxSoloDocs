@@ -85,9 +85,9 @@ lists can be saved. `save.list` writes to a file and is limited only by space.
 
 | | | |
 |---|---|---|
-| Terminal definitions shipped | **63** source definitions | — |
-| Terminal names they compile to | **100** | — |
-| Default page size | **120 × 36** | — |
+| Terminal definitions shipped | **25** source definitions | — |
+| Terminal names they compile to | **36** | — |
+| Default page size | **140 × 43** (it was 120 × 36 in release LS1.1-3) | — |
 | Minimum page size | 10 lines × 20 columns | compiled |
 | Default printer page | **80 × 66** | `LPTRWIDE`, `LPTRHIGH` |
 

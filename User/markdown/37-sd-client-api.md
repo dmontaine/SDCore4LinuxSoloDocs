@@ -1,5 +1,5 @@
 Title: SD Client API
-Subtitle: The sdclilib client library, its functions across four language bindings, and the server status codes.
+Subtitle: The sdclilib client library, its functions across eight language bindings, and the server status codes.
 
 The SDClient API lets an external application connect to SD, open
 files, read and write records, execute commands, call subroutines,
@@ -34,8 +34,8 @@ because Linux resolves a shared library by its own rules (`rpath`,
 `LD_LIBRARY_PATH`, or the standard library paths), not by which directory
 happens to be searched first.
 
-The header, `sdclilib.h`, ships with the source tree at
-`sdb_ai/sd64/gplsrc/sdclilib`.
+The header, `sdclilib.h`, is installed in `~/SDCoreSolo/syscom` with the
+other language headers (see [SD Client API: Language Bindings](37b-sd-client-api-bindings.html)).
 
 ## Connection
 
@@ -98,14 +98,27 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 
 | Function | Returns | Description |
 |---|---|---|
-| `SDConnect(host, port, user, pass, account)` | Boolean | connect over TCP |
+| `SDConnect(host, port, user, pass, account)` | Boolean | connect over TCP. A connection that fails returns false and `SDError()` says why; the session number it was given is the current one afterwards, so **select the session you were using with `SDSetSession`** before going on |
 | `SDConnectLocal(account)` | Boolean | **disabled on Solo** — always false |
 | `SDConnected()` | Boolean | is a session active |
 | `SDDisconnect()` | none | end the current session |
 | `SDDisconnectAll()` | none | end all sessions |
 | `SDGetSession()` | Integer | get the current session number |
 | `SDSetSession(session)` | Boolean | switch to a session |
-| `SDLogto(account)` | Boolean | switch to another account |
+| `SDLogto(account)` | Boolean | switch to another account: true if the server moved there, false (and `SDError()` says why) if not, in which case the session stays where it was. Solo has one account, so there is nowhere else to go |
+
+**Sessions.** One program can hold up to **1024** sessions at once, each with its own server process and number. The server's own user table (`USERPOOL`) is the real ceiling. Open more than one with `SDConnect`, one after another, noting `SDGetSession()` each time, and move between them with `SDSetSession`.
+
+**Threads.** The client library may be used from several threads of one process, as OpenQM's QMClient may, on these rules:
+
+- **The current session belongs to the thread.** `SDSetSession` and `SDGetSession` act on the calling thread's own selection, so two threads can work on two sessions at the same time. A thread that has not selected a session starts on session 0, which is the one the first connection of the process received; a thread given a session by another thread must `SDSetSession` it before use.
+- **A session must not be used by two threads at the same time.** The library does not serialise requests on one session. If more than one thread can reach it, take your own lock round each action, and treat an `SDExecute` and the `SDRespond` calls that answer it as one action.
+- **The table of sessions is shared**, so `SDConnect`, `SDDisconnect` and `SDDisconnectAll` may be called from any thread; each connect is given a slot of its own however many start at the same moment.
+- **The transfer buffer and the `SDCallx` / `SDGetArg` arguments are per thread**, so one thread's call does not overwrite another's results. They are released when the thread ends, or when no session is left.
+- **A connection that fails keeps its slot for the thread that made it**, so that `SDError()` still says why after another thread has connected and disconnected; the slot is given back by that thread's next `SDConnect`, `SDSetSession` or `SDDisconnect`, by its end, or by `SDDisconnectAll`.
+- The same applies to a session that dies under its thread (`SDConnected()` is false for it and `SDError()` says why).
+
+**A session whose server has ended** — its `AUTOLOGOUT` period ran out, it was logged out, the process was killed — does not hang the client: the next request on it comes back empty, `SDError()` says the connection failed, and `SDDisconnect()` cleans it up. A session can set its own limit by executing the `AUTOLOGOUT` command (`SDExecute("AUTOLOGOUT 10")`: ten minutes idle; the period is in minutes, 0 turns it off).
 
 ### File operations
 
@@ -121,8 +134,11 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDDelete(fileNo, id)` | none | delete a record |
 | `SDDeleteu(fileNo, id)` | none | delete with an update lock |
 | `SDRecordlock(fileNo, id, updateLock, wait)` | none | set a record lock |
+| `SDRecordlocked(fileNo, id)` | Integer | query the lock on a record, as `recordlocked()` does: **-3** another user holds a file lock, **-2** an update lock, **-1** a read lock; **0** not locked; **1** this session holds a read lock, **2** an update lock, **3** a file lock. A file number that is not open gives 0 and `SDError()` says so |
 | `SDRelease(fileNo, id)` | none | release a record lock |
 | `SDMarkMapping(fileNo, state)` | none | enable/disable mark mapping |
+| `SDTrans(file, id, field, action)` | String | `trans()` on the server. `field` is a dictionary name, a field number or -1 for the whole record; `id` may be several ids separated by value marks; `action` is `X` (null if the record is missing, the default) or `C` (the id). The marks of the answer are lowered one level, as `trans()` lowers them. The `B` (binary open) action is refused |
+| `SDRTrans(file, id, field, action)` | String | the same with the marks left as they are |
 
 ### Record manipulation
 
@@ -139,12 +155,12 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | Function | Returns | Description |
 |---|---|---|
 | `SDField(str, delim, first, occurrences)` | String | extract a field from a delimited string |
-| `SDDcount(src, delim)` | Long | count delimiters |
+| `SDDcount(src, delim)` | Long | the number of delimited items: 1 more than the number of times `delim` occurs, counting non-overlapping occurrences from the left; 0 for a null string or a null delimiter. **The delimiter may be more than one character** (`a::b::c` by `::` is 3) |
 | `SDChange(str, old, new, occurrences, start)` | String | replace substrings |
 | `SDMatch(src, template)` | Boolean | match a string against a pattern |
 | `SDMatchfield(src, template, component)` | String | extract a matched component |
 | `SDSubstr(...)` | String | substring (language-specific) |
-| `SDChecksum(data)` | Integer | the number SD's own `checksum()` gives for the same string, worked out in the library **with no connection to SD**. A byte of 128 or more is taken as a signed character, as the server reads it. A check for accidental damage, not a hash for security; the null string is 0 |
+| `SDChecksum(data)` | Long | the number SD's own `checksum()` gives for the same string, worked out in the library **with no connection to SD**. A byte of 128 or more is taken as a signed character, as the server reads it. A check for accidental damage, not a hash for security (the message digests are the server's `digest()`); the null string is 0 |
 
 ### Command execution
 
@@ -153,11 +169,12 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDExecute(cmnd, err)` | String | execute a TCL command |
 | `SDRespond(response, err)` | String | respond to a prompt from `SDExecute` |
 | `SDEndCommand()` | none | end a multi-line command |
-| `SDCall(name, argcount, ...)` | none | call a cataloged subroutine (pass by reference) |
-| `SDCallx(name, argcount, ...)` | Integer | call a cataloged subroutine (pass by value) |
+| `SDCall(name, argcount, ...)` | none | call a cataloged subroutine; the arguments the subroutine changed are put back into yours |
+| `SDCallx(name, argcount, ...)` | none | the same call, but your arguments are **not** changed: read each one the subroutine changed with `SDGetArg(n)` afterwards |
+| `SDGetArg(argNo)` | String | argument *n* (1 to 20) of the last `SDCallx`; free it with `SDFree` |
 
-> `SDCall` and `SDCallx` are variadic: 0 to 20 arguments. Each binding
-> provides per-arity wrappers — `SDCall0` through `SDCall20`, and
+> `SDCall` and `SDCallx` are variadic: 0 to 20 arguments. The PureBasic
+> header provides per-arity wrappers — `SDCall0` through `SDCall20`, and
 > `SDCallx0` through `SDCallx20`.
 
 ### Select lists
@@ -173,15 +190,54 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDReadNext(listNo, err)` | String | read next select list id |
 | `SDReadList(listNo, err)` | String | read the whole list as a dynamic array |
 | `SDClearSelect(listNo)` | none | clear a select list |
-| `SDRelease(fileNo, id)` | none | release a read lock |
+| `SDIndices(fileNo, indexName)` | String | `indices()` on the server: with a null name the names of the file's alternate key indexes, with a name that index's details; the null string for an index the file has not |
 
-### Session and package management
+### The server: revision, variables, SYSTEM() and transactions
 
 | Function | Returns | Description |
 |---|---|---|
-| `SDEnterPackage(name)` | Boolean | enter a package context |
-| `SDExitPackage(name)` | Boolean | exit a package context |
-| `SDGetArg(argNo)` | String | get a command argument |
+| `SDRevision()` | String | the client's revision on its own before a connection; once connected, the client's and the server's, as two values separated by a value mark. Works without a connection |
+| `SDGetVar(name)` | String | the value of an `@` variable on the server, with or without the `@`, in either case. The names it knows are `@SELECTED`, `@LOGNAME` (also `@USER`), `@WHO`, `@PATH`, `@USERNO`, `@TTY`, `@DS`, `@SENTENCE`, `@COMMAND`, `@SYSTEM.RETURN.CODE`, `@USER.RETURN.CODE`, `@DATE`, `@TIME`, `@ID`, `@ANS` and `@USER0` to `@USER4`; any other name gives the null string, not an error |
+| `SDSystem(key)` | String | `system(key)` on the server |
+| `SDTxn(mode)` | none | **1** start a transaction, **2** commit, **3** abort, **4** commit *non-durably*: a transaction nested in another is merged into its parent, which alone writes to the files (see *Locks and transactions*). Modes 2 to 4 need a transaction to be running; a mode out of range or a commit with nothing to commit is refused with a message and the session goes on |
+
+### Dictionary items and conversions
+
+| Function | Returns | Description |
+|---|---|---|
+| `SDEvaluate(dictFileNo, names, data, id)` | String | evaluate dictionary items on the server against a record. `dictFileNo` is the number `SDOpen("DICT name")` gave, `names` one name or several separated by value marks, `data` the record (it becomes `@RECORD`) and `id` its id (`@ID`; pass the null string when the item does not use it). The answers come back joined by **item marks** (character 255). D and I items work; an I-type that is not compiled is compiled for the call and the dictionary is **not written to**. A name that is not in the dictionary gives the null string; a phrase or other item that defines no data, and an expression that will not compile, give the null string with `SDError()` saying which. Conversion codes in the item are *not* applied |
+| `SDEvalConv(dictFileNo, names, data, id)` | String | the same, and the item's output conversion is applied to each value of its answer |
+| `SDIConv(data, code)` | String | `iconv()` on the server, which has every conversion code |
+| `SDOConv(data, code)` | String | `oconv()` on the server |
+| `SDIConvs(data, code)` | String | `iconvs()`: the conversion is applied to each element of a dynamic array in turn |
+| `SDOConvs(data, code)` | String | `oconvs()` |
+
+After a conversion `SDStatus()` is **the conversion's own status** — 0 after a successful one, otherwise as `iconv()` and `oconv()` describe it — and it is for that call alone: the next successful conversion leaves it 0. These need a connection. **A session that is restricted with `SDCLIENT` cannot reach a file or call a program, so it is refused a conversion code that does either** — a `T` code with a file in it, or a `U` code; the ordinary codes (dates, masked decimals, case) are not affected.
+
+### Sequential files
+
+| Function | Returns | Description |
+|---|---|---|
+| `SDOpenSeq(file, id, modes)` | Integer | open a sequential file, as `openseq` does. With an `id`, `file` is the name of a **directory file** and `id` the item in it; with a **null `id`**, `file` is a **pathname**. Returns a file number, or **0** with `SDStatus()` and `SDError()` saying why. A file that is not there yet gets a number and is made by the first write. `modes` is added up from: **2** give up with a locked answer if another process has the file (without it the call waits), **16** read only, **256** append, **512** overwrite (empty the file on opening), **1024** flush after every write, **4096** shared (append, for several writers) |
+| `SDReadSeq(fileNo, err)` | String | the next line, without its terminator. `err` is the server's answer: **2** at the end of the file, where the string is empty |
+| `SDReadBlk(fileNo, bytes, actual)` | String | up to *bytes* bytes (1 to 100,000,000). `actual` is how many came back: fewer at the end of the file, **0** with nothing left. The data may hold any byte, zero included, so read it by `actual` and not by its terminator |
+| `SDWriteSeq(fileNo, rec)` | none | write a line and a terminator |
+| `SDWriteBlk(fileNo, rec, bytes)` | none | write exactly *bytes* bytes, no terminator added |
+| `SDSeek(fileNo, offset, relTo)` | none | position: *relTo* **0** from the start, **1** from here, **2** from the end (a negative offset counts back) |
+| `SDWeofSeq(fileNo)` | none | cut the file off at the current position |
+| `SDClose(fileNo)` | none | close it (the same function as for any file) |
+| `SDWriteSeqKey(fileNo, rec)` | String | **not a sequential file function**: write *rec* to the **hashed** file `SDOpen` gave, under the id the file's own counter gives it (`write … creating.seqkey`), and return that id. The update lock the write takes is released before the call returns. A directory file is refused, with the null string and `SDError()` saying a hashed file is needed |
+| `SDWriteuSeqKey(fileNo, rec)` | String | the same, and the update lock is **kept** (`writeu`) |
+
+Their numbers begin at 10001 and are not those of `SDOpen`, so a number of one kind given to a function of the other is refused. The counter starts at 1 and is set with `configure.file … next` ([SD Basic - File Handling](07-sd-basic-file-handling.html)).
+
+**The gates are the ones `openseq` has for any program.** A session whose server is restricted with `SDCLIENT` cannot open any file. An item of a directory file is an SD file and is opened through the VOC, as `openseq` opens it. **A bare pathname is an operating system file, and while the account's `os` switch is off it reaches only the account's own directory by it**: a path outside it, a path that climbs out with `..` and a new file in `/tmp` are all refused with *… is not a file this account may open*, and nothing is made. The switch is turned on with `set.os.access` (see *Operating system access* in the GettingStarted set).
+
+### Packages
+
+| Function | Returns | Description |
+|---|---|---|
+| `SDEnterPackage(name)`, `SDExitPackage(name)` | Boolean | **not supported**: licensed packages are not part of SD and the server refuses both. The library still exports them, and the language headers do not declare them |
 
 ### Error handling
 
@@ -192,70 +248,7 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDStatus()` | Long | get the last server status code |
 | `SDFree(ptr)` | none | free a returned pointer |
 
-## Language bindings
+## Continued in
 
-The API headers define bindings for four languages. The function
-signatures are identical in meaning; the syntax differs.
-
-### Gambas3
-
-```
-Library "./sdclilib"
-Extern SDConnect(Host As String, Port As Integer, UserName As String,
-  Password As String, Account As String) As Boolean
-Extern SDRead(FileNo As Integer, Id As String,
-  ByRef Errno As Integer) As String
-```
-
-### PureBasic
-
-```
-PrototypeC.l P_SDConnect(host.p-utf8, port.l, user.p-utf8,
-  pass.p-utf8, account.p-utf8)
-PrototypeC.i P_SDRead(fno.l, id.p-utf8, *err)
-```
-
-Per-arity prototypes are provided for `SDCall` and `SDCallx`:
-`P_SDCall0` through `P_SDCall20`, `P_SDCallx0` through `P_SDCallx20`.
-
-### Free Pascal / Lazarus
-
-```pascal
-type
-  TSDConnectFn = function(Host: PAnsiChar; Port: LongInt;
-    User, Pass, Account: PAnsiChar): LongInt; cdecl;
-  TSDReadFn = function(FileNo: LongInt; Id: PAnsiChar;
-    Err: PLongInt): PAnsiChar; cdecl;
-```
-
-A `LoadSdCliLib` function loads the library and resolves all
-function pointers; `UnloadSdCliLib` releases it.
-
-### Python (ctypes)
-
-```python
-import ctypes
-_lib = ctypes.CDLL('./sdclilib.so')
-
-SDConnect = _lib.SDConnect
-SDConnect.argtypes = [ctypes.c_char_p, ctypes.c_int,
-    ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p]
-SDConnect.restype = ctypes.c_int
-
-SDRead = _lib.SDRead
-SDRead.argtypes = [ctypes.c_int, ctypes.c_char_p,
-    ctypes.POINTER(ctypes.c_int)]
-SDRead.restype = ctypes.c_char_p
-```
-
-Per-arity `CFUNCTYPE` definitions are provided for `SDCall` and
-`SDCallx` wrappers.
-
-## What the API cannot do
-
-| | |
-|---|---|
-| `sh` and `OS.EXECUTE` | **refused over the API while the `sh` and `os` switches are off, which is how they are delivered** (the API server reads the switches when it enters the account, and answers *is not permitted to use the operating system shell* to an `execute 'sh ...'`); once the administrator has turned a switch on (`set.os.access`) the client's next login can use it, at the account's own Linux permissions like any other session. `SDCLIENT` in `sd.conf` is a further control, if a site wants one; see *Operating system access* and *Configuration* in the GettingStarted set |
-| Open files outside the account | refused on the multiuser product (status 3035 — *not permitted*); **not measured on Solo** |
-| Reach the credential file | never, and cannot be added |
-| Enumerate accounts | refused; all three failure cases give the same message |
+[SD Client API: Language Bindings](37b-sd-client-api-bindings.html) — the eight
+language headers and what the API cannot do

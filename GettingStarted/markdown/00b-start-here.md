@@ -22,6 +22,11 @@ OpenQM documents are not authoritative here.
 additions, changes and deletions — of features, of structure, of security and
 of commands. **These pages cover those changes.**
 
+If you have used OpenQM, or upstream `sdb64`, much of SD Core will still be
+familiar: the same data model, the same query processor, the same BASIC. If you
+are bringing programs over from another MultiValue database, start with
+[Migrating to SD](26-migrating-to-sd.html).
+
 ## Two ways to use it, one install
 
 **There is one installer and no mode to choose.** It asks for a **global
@@ -44,8 +49,8 @@ management features are added to SD Core for Linux.
 
 These pages describe changes, so **used to**, **no longer** and **now** run all
 through them. **The comparison is against the multiuser SD Core for Linux
-L1.1-1 this release was made from** — see
-[Differences from multiuser SD Core for Linux L1.1-1](01b-differences-from-multiuser-l1-1-1.html)
+this product was made from** — what it does differently in this release is in
+[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html)
 — and, behind it, upstream `sdb64`, ScarletDME and OpenQM 2.6.6.
 
 ## The pages
@@ -60,7 +65,7 @@ that no page runs longer than a reader will scroll.
 | **00a** | [Copyright and license](00a-copyright-and-licence.html) | The copyright and the license for this set, in full and in one place |
 | **01** | [Installing](01-installation.html) | What the installer asks, what it puts where, and the control file for installing many computers |
 | **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the computer |
-| **01b** | [Differences from multiuser SD Core for Linux L1.1-1](01b-differences-from-multiuser-l1-1-1.html) | What Solo leaves out, adds and does differently |
+| **01b** | [Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html) | What Solo leaves out, adds and does differently |
 | **02** | **[Your first thirty minutes](02-first-run.html)** | **Start here if you just want it working** |
 | **03** | [Running SD](03-running-sd.html) | How SD starts, stopping it, and the command line |
 | **04** | [Scheduled jobs](04-scheduled-jobs.html) | Running an SD command on a timer |
@@ -91,6 +96,9 @@ that no page runs longer than a reader will scroll.
 | **23** | [Giving an AI agent an installation of its own](23-giving-an-ai-agent-its-own-installation.html) | Why the wall for an agent has to be a computer, and the recipe |
 | **24** | [The AI helper](24-the-ai-helper.html) | Asking an AI model a question from SD: the provider, the key, the gate, and what a helper that runs as you cannot promise |
 | **25** | [The MCP door](25-the-mcp-door.html) | Letting an AI agent's MCP client use your account through read-only tools: the two switches (both off), the audit line, and what the door does not add |
+| **26** | [Migrating to SD](26-migrating-to-sd.html) | Bringing programs and queries from another MultiValue database: where the compatibility words are set, and the words SD does not accept |
+| **26a** | [Option words](26a-migrating-option-words.html) | The words of the `option` command, one line each |
+| **26b** | [Mode words](26b-migrating-mode-words.html) | The names `$mode` accepts and the lines of a `$basic.options` record, one line each |
 
 ## The five things most likely to surprise you
 
@@ -109,7 +117,7 @@ they work for the rest of that session. See
 `sduser` on every computer, whatever your Linux user is called. There is no
 `sdsys` Linux user, no groups to join and no `sudo` helper. The account and
 grant commands are gone. See
-[Differences from multiuser SD Core for Linux L1.1-1](01b-differences-from-multiuser-l1-1-1.html).
+[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html).
 
 **4. Commands and names are lower case, completely.** Typing in upper case
 still works — SD converts it — but nothing can exist in two casings. See

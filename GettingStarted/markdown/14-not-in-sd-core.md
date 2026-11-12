@@ -21,7 +21,6 @@ for Windows too, for the same reasons.**
 | `create.account`, `delete.account`, `modify.account` | nothing: there is one account, `sduser`, made by the installer |
 | `grant`, `revoke`, `list.grants` | nothing: there is one Linux user and no groups to join |
 | `modify.password` | **`set.password`** — your own account password with no `admin`, `set.password admin` after `admin`, `set.password global` from the server |
-| `remote.ssh`, `remote.api` | the installer's choices, changed with `tools/solo-service.sh` and `tools/solo-ssh.sh` — see [ssh access](08-ssh-access.html) and [API access](09-api-access.html) |
 | `sdsys` as a Linux user, `sdusers` and `sdu_<name>` groups, `sd-elevate` | none of them. SD runs as you, and never as root |
 | `batch.jobs` | none: a scheduled job may run any command — see [Scheduled jobs](04-scheduled-jobs.html) |
 | `ssh`/`api`/`both`/`none` route keywords, `sh-on`/`sh-off`/`os-on`/`os-off` | gone earlier, with the `os.users` permit list they set |

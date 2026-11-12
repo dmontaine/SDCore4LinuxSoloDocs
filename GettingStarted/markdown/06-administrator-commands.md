@@ -273,6 +273,41 @@ by you only**, because a backup holds your account's files. An earlier release
 refuses to start if `sd.conf` holds a `BACKUPDIR` line, so take the line out
 before going back to one.
 
+### Backups and restores on one screen: `tool.backups`
+
+```
+tool.backups
+```
+
+A full-screen page for the administrator (`admin` first; a window of 140 columns by 43 lines or
+more). The top box names the saved backup directory, says how many archives it holds, and says
+**whether another session is signed on**: `backup.account` and `restore.account` both run only when
+every other session has logged out, so the page lists the other sessions (the same check the verbs
+make) and **shows no box for a command while any is there**. The list is the archives of the
+directory (the files `SD-host-...-yyyymmdd-hhmmss.zip`), newest first: when each was made (from its
+name), its size, how many accounts it holds and for which product (from its manifest). The box at
+the foot shows the manifest of the one under the cursor, read without unpacking anything: the
+product, the SD version, the host and the date, and the account with its files, bytes and
+directories.
+
+| Key | Runs |
+|---|---|
+| `B` | `backup.account all` |
+| `A` | `backup.account name ...`, for the account names you type (Solo has one, `sduser`; a name that is not an account is refused by the verb) |
+| `R` | `restore.account archive all no.query`, the archive under the cursor |
+| `D` | `set.backup.directory path`, for the absolute path you type |
+
+Each shows its command and what it does in a box answered Run or Cancel, **and Cancel is what Enter
+chooses**. The page runs those four commands and no other; the verbs ask for the administrator again
+and write their own audit lines. **A restore replaces the account's data**, so its box says so and
+wants the word `RESTORE` typed. The verb's own question (Enter is No) cannot be answered through a
+page, so the page gives `no.query` after its box has asked; it does not give it any other way. An
+archive that holds an account other than `sduser` is refused by the page, which names it. As at
+the prompt, the restore of the account you are using is prepared and happens the next time SD
+starts. Where a command cannot be done, the verb says why and the page shows its last line on the
+status line. `F5` reads the directory, the archives and the sessions again, `F1` explains the page
+and `Ctrl-Q` leaves. Opening the page writes the audit line `tool start app=tool.backups`.
+
 ### `settings.report`
 
 ```

@@ -290,7 +290,7 @@ display, it says so and does nothing.
 When the AI is on (the administrator has chosen a provider, given it a model and a key,
 **and turned the AI gate on with `set.ai gate on`**, which is off as delivered; see
 [Asking the AI](29b-sd-tcl-asking-the-ai.html) and
-[The AI helper](24-the-ai-helper.html)) the home screen has one more row, just above the
+*The AI helper* in the GettingStarted set) the home screen has one more row, just above the
 status line, that starts **`AI>`**. Without the AI there is no such row and nothing on this
 page changes.
 
@@ -330,7 +330,7 @@ bytes.out=...`), never what you asked or what came back.
 tile to withhold and no per-account permission to ask for: the one switch is the AI gate,
 which the administrator turns on with `set.ai gate on` (never `modify.account`). And the
 helper that talks to the provider runs **as you**, not as a user of its own, so any program
-you run, not only SD, can reach it; [The AI helper](24-the-ai-helper.html) says what that
+you run, not only SD, can reach it; *The AI helper* in the GettingStarted set says what that
 weakens. The row, the preview and the proposals are the same.
 
 ## Not yet

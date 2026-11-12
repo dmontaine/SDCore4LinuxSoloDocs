@@ -11,8 +11,8 @@ sound.
 > **How this page was made.** It is the page of the multiuser SD Core for Linux
 > (revised 18 October 2026), adapted for Solo on 19 October 2026. That page was
 > read from `sdfix.c` and run on scratch copies of a small file in a private
-> sandbox built from the multiuser `Dev` (its banner reads `SDFIX L1.1-3`; Solo's
-> reads `SDFIX LS1.1-3`). Solo's `sdfix.c` is byte for byte the multiuser file at
+> sandbox built from the multiuser `Dev` (its banner then read `SDFIX L1.1-3`; Solo's
+> reads `SDFIX LS2.0-0`). Solo's `sdfix.c` is byte for byte the multiuser file at
 > commit `70aca05`, so Solo has the fixes listed at the end of
 > [sdfix: what it checks and repairs](20a-sdfix-checks-and-repairs.html). Each
 > result is marked *run* (the damage was made and the output is real **in the
@@ -137,7 +137,7 @@ from a script, feed every answer, starting with `s` to stop the paging:
 
 ```
 $ sdfix zzcust
-[ SDFIX LS1.1-3   Copyright, Ladybridge Systems, 2007.  All rights reserved. ]
+[ SDFIX LS2.0-0   Copyright, Ladybridge Systems, 2007.  All rights reserved. ]
 
 Processing zzcust
 Checking file header...

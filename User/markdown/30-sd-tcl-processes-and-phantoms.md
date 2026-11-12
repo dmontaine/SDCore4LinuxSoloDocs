@@ -132,7 +132,7 @@ never started.
 > to know.** When SD is fed commands down a pipe, the phantom child inherits
 > that pipe. The job then never completes — not even after the parent session
 > has exited — and the only way out is to kill the process, which leaves an
-> entry in the user table that needs `sd-solo -cleanup`, run as SDSYS, to clear.
+> entry in the user table that needs `sd-solo -cleanup` to clear.
 > **`phantom` is for a person at a prompt, or for a program, and not for a
 > piped script.** The listings above are quoted from the verb's own message
 > texts for that reason.
@@ -283,7 +283,7 @@ and nothing is lost. The file is `sddump.`*n* in the directory named by the
 `DUMPDIR` is empty, which is how it ships:
 
 ```
-Dumping process state as /usr/local/sdsys/sddump.27
+Dumping process state as /home/you/SDCoreSolo/sddump.27
 ```
 
 It holds the `@`-variables, the current sentence and command, the call stack,
@@ -296,7 +296,7 @@ it when the question it was written to answer has been answered.
 |---|---|
 | *User number required* | `pdump` with no number |
 | *Not logged in* | no session has that user number |
-| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set and the session is not SDSYS |
+| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set, the session has not typed `admin`, and the target session signed in under another login name |
 
 **It is an event, not a call.** `pdump` marks the target and returns; the target
 writes the file when it next looks at its event flags. A process that is wedged

@@ -46,7 +46,7 @@ is not there is a note on the screen, and the installation is complete without i
 |---|---|
 | Distribution | Debian or Ubuntu based (Linux Mint, Pop!_OS and the like) — read from `/etc/os-release`. Fedora, RHEL and its clones (Rocky, Alma), Arch and openSUSE are not supported (Fedora since 11 November 2026). Any other, and those, are refused in words before the installer checks the network, asks a question or uses `sudo` |
 | Rights | your own ordinary user. **`sudo` is used for these things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), `loginctl enable-linger`, and — only where SELinux is on and ssh is on — writing Solo's own sign-in rules, `/etc/pam.d/sd-solo-ssh-<you>` (the computer's own rules need root at one step that Solo's ssh server, running as you, cannot pass; OpenSSH 10.0 or later) |
-| The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers, and the ssh server `openssh-server` if ssh is on and the computer has none) with `sudo`; with it, it only checks they are there |
+| The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers, the console mouse daemon `gpm`, and the ssh server `openssh-server` if ssh is on and the computer has none) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
 
 **SD Core for Linux (the multi-user product) may be installed on the same
@@ -219,6 +219,27 @@ SOLO INSTALL COMPLETE /home/you/SDCoreSolo
 **If a step fails the installer stops and says which**, with the end of its
 log. Nothing is put back — a failed first install leaves whatever it had made;
 remove it with `deletesdsolo.sh` and start again.
+
+## The full-screen editors
+
+**The installer installs `micro` as an ordinary package**, because the
+`micro` verb runs it. It is not offered as a choice — an editor verb that does
+nothing is worse than either answer. **`ed`**, the line editor, and **`sed`**, the
+full-screen editor with menus, are part of SD and need nothing installed; they
+always work. `micro` is one of the packages the install requires: if it cannot be
+installed, the install stops.
+
+## The mouse on the Linux console
+
+**The installer installs `gpm`**, the daemon that reads the mouse on a Linux text
+console with no desktop, so that the full-screen pages, the IDE and the debugger
+have a mouse there too. The Debian and Ubuntu package enables and starts the
+daemon itself; the installer does not. **If `gpm` cannot be installed** (in a
+container, for example) **the installer prints a warning and goes on**: SD runs
+without it, and there is then no mouse on a bare console. Install it later with
+`sudo apt-get install gpm`. Removing SD leaves the package installed. A session in
+a terminal emulator or over ssh does not use it. See *SD Terminal Information*
+in the User set.
 
 ## Changing any of it afterwards
 

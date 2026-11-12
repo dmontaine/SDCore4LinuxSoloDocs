@@ -66,7 +66,7 @@ and keywords of its 2.0-0 work.** Counted on 21 Oct 2026:
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
-multiuser SD Core for Linux L1.1-1* in the GettingStarted set. (SDSYS's own VOC,
+SD Core for Linux L2.0-0* in the GettingStarted set. (SDSYS's own VOC,
 which nobody signs in to, is built from the larger `voc_template`: 480 records.)
 
 > **`edit` used to be exactly this kind of trap** — a record present in the

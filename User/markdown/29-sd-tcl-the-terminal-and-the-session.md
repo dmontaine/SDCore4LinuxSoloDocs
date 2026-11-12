@@ -43,22 +43,22 @@ Page depth: 9999
 
 The depth stayed at 9999 because only the width was given.
 
-### The page is the terminal's own size, and SD's default is 140 × 42
+### The page is the terminal's own size, and SD's default is 140 × 43
 
 **SD asks the terminal how big it is.** When a session starts on a terminal, and
 again each time the window is resized, SD reads the size of the window and makes
 it the page: `@crtwide` and `@crthigh` follow it, and so does `term`. A program
 that draws a screen — the SCREEN statement — sees an 80 × 24 window as 80 × 24.
-(**SD's own full-screen programs are the exception: SED, the IDE and CED are
-laid out for 140 × 42 or more**, SD's default size, and refuse a window smaller
-than that; the debugger's full-screen display says so and is line by line
-instead. If the window is made smaller while one of them runs, it shows the
+(**SD's own full-screen programs are the exception: SED, the IDE, CED and the
+full-screen pages are laid out for 140 × 43 or more**, SD's default size; they
+refuse a window smaller than that, and the debugger's
+full-screen display says so and is line by line instead. If the window is made smaller while one of them runs, it shows the
 upper left corner and stops taking keys while the cursor is off the screen — see
 the SED page. A `screen open` program of your own asks for the size it needs
 with `minsize`, and SD asks nothing more of it.)
 
-**SD's default is 140 columns by 42 lines, not 80 × 24** (it was 120 by 36
-until 18 October 2026). It is what a session gets when there is no terminal to
+**SD's default is 140 columns by 43 lines, not 80 × 24** (it was 120 by 36
+in release LS1.1-3). It is what a session gets when there is no terminal to
 ask — a phantom, a piped script, a service — and a report that looks wrapped or
 truncated on a narrow window is usually the window, not the report.
 
@@ -69,7 +69,7 @@ truncated on a narrow window is usually the window, not the report.
 | 1 | **the terminal's own window size**, as the terminal reports it |
 | 2 | when there is no terminal to ask: the `LINES` and `COLUMNS` environment variables, if they are numeric |
 | 3 | otherwise the terminfo entry's `lines` and `cols` |
-| 4 | **otherwise 42 and 140** |
+| 4 | **otherwise 43 and 140** |
 
 and whatever comes out is then raised to the minimum of 10 lines by 20 columns
 if it is smaller. **`term` with a size typed by hand sets the page from then on,
@@ -77,8 +77,8 @@ until the next time the window is resized**, and it is taken as typed: any width
 from 20 to 32767 and any depth from 10 to 32767, larger or smaller than the
 default, with no other ceiling.
 
-> **`term default` puts the 140 × 42 pair back, and it prints nothing when it
-> does.** The verb sets the same 140 × 42 that is the fallback, whatever size
+> **`term default` puts the 140 × 43 pair back, and it prints nothing when it
+> does.** The verb sets the same 140 × 43 that is the fallback, whatever size
 > the window is, then returns without a message — so the way to see that it
 > worked is a bare `term` after it, not the command itself:
 >
@@ -86,17 +86,19 @@ default, with no other ceiling.
 > :term default
 > :term
 > Page width: 140
-> Page depth: 42
+> Page depth: 43
 > ```
 >
 > `term 120,36` does the same thing by hand and is worth knowing for the cases
 > where you want some other size back, the old default included.
 
-**`Device`** is the terminfo entry in use, `windows` on this port. If a terminal
-type has no terminfo entry SD falls back to `windows` rather than failing, so
-this line is worth reading when screen handling misbehaves.
+**`Device`** is the terminfo entry in use. If a terminal type has no terminfo
+entry SD falls back rather than failing: to `xterm` for a terminal of the xterm
+family (`xterm-256color`, `gnome`, `konsole`, `tmux`, `screen` and the like) and
+to `linux` otherwise, so this line is worth reading when screen handling
+misbehaves.
 
-### Which types SD has: `list.term.types`
+### Which terminal types SD knows: `list.term.types`
 
 ```
 list.term.types {lptr {n}}
@@ -128,7 +130,8 @@ A full-screen diagnostic for the terminal and the keyboard. It changes nothing a
 reads nothing private (it shows the terminal type, the window and the locale, which
 the session already knows), and it needs no administrator password. It needs a
 window of at least **140 columns by 43 lines** and says so, with the size it found,
-if the window is smaller. Use it when a function key does nothing, an arrow prints
+if the window is smaller (or bigger than 500 by 300, which it also refuses before
+it draws). Use it when a function key does nothing, an arrow prints
 `^[[A`, color looks wrong or the mouse does not answer.
 
 | box | what it shows |
@@ -139,19 +142,23 @@ if the window is smaller. Use it when a function key does nothing, an arrow prin
 | **Mouse** | the last mouse event (press, release, drag, wheel), where it was, and the counts |
 | **Box drawing** and **Styles** | the borders the library draws with, and the library's sixteen styles each drawn in itself, so the theme in force can be seen on this terminal |
 
-Every key is shown **before** the program acts on it. The program uses four:
-**Ctrl-L** clears what has been seen, **Ctrl-R** switches between names and raw
-bytes, **Ctrl-T** changes the theme (mono, classic, blue; a terminal that cannot
-show color keeps mono and says so) and **Ctrl-Q** leaves, so a key that ends the
-program can only be tested by leaving.
+Every key is shown **before** the program acts on it. The program uses five:
+**Ctrl-L** clears what has been seen (it uses no function key, so every function key can be tested), **Ctrl-R** switches between names and raw
+bytes, **Ctrl-T** takes the next theme and keeps it for you, as on every page (a terminal that cannot
+show color keeps mono and says so), **Ctrl-K** lists these keys and **Ctrl-Q** leaves, so a key that ends the
+program can only be tested by leaving. `tool.keys` has no menu bar, so that Esc and F10 can be
+tested here like any other key.
 
-**A key that makes the terminal beep and shows nothing in names mode is one the
-terminal type does not name.** SD decodes keys with the terminfo entry for the
-type in force, so an F-key or an End key the entry does not list is dropped, and
-the rest of its bytes may show up as stray characters (the End sequence of an
-xterm sent to a `vt100` arrives as `~`). Press **Ctrl-R**, then press the key
-again: the bytes it sent are shown, which is what a terminfo entry needs. An
-Alt-letter shows as `alt-x` on a terminal that sends Alt+x as Esc and x.
+**A key that makes the terminal beep and shows nothing in names mode is one SD
+has no name for.** SD understands the usual keys of every terminal in both
+cursor-key modes (the arrows, Home, End, Insert, Delete, Page Up and Down,
+Shift-Tab, F1 to F12, and the Ctrl, Shift and Alt forms of them such as
+`ctrl-left` and `ctrl-pgup`), then adds those of the terminfo entry for the type
+in force. A control sequence it has no name for is ignored whole: it is no longer
+typed into your text. A byte of 128 or more is never a key. Press **Ctrl-R**,
+then press the key again: the bytes it sent are shown, which is what a terminfo
+entry needs. An Alt-letter shows as `alt-x` on a terminal that sends Alt+x as Esc
+and x. Pasted text arrives as one `paste` key, however long it is.
 
 Make the window smaller while it runs and the cursor lock takes the keyboard
 with the message that the window is too small; make it larger again and the
@@ -270,8 +277,19 @@ is normal.
 
 *n* is minutes and 0 turns it off. **It applies to an API session too**: a client that
 executes `autologout 10` (`SDExecute("AUTOLOGOUT 10")`) has its server session ended after
-ten minutes in which it sent nothing (see [SD Client API](37-sd-client-api.html)).
-The setting belongs to the one session that gave it.
+ten minutes in which it sent nothing, and its next request fails at once
+(see [SD Client API](37-sd-client-api.html)). The setting belongs to the one session that gave it.
+
+**It works in the full-screen programs too.** The screen library, `ide`, the
+home screen and every tool page wait for a key one second at a time, and each of those waits used to
+start the timer again, so a session left in one of them was never logged out. SD now adds up the time
+spent waiting across such short waits: only a key actually typed (or the break key) starts the period
+again, and the logout is the same as at the prompt. A page left open without typing, `tool.sessions`
+included, is therefore logged out like any other session. A program that waits for a key with no time
+limit behaves as before, and a timed wait exactly as long as the `autologout` period still ends with a
+plain timeout. **A program that polls the keyboard with very short timed `keyin`s and does work between
+them counts as waiting**, because the polls add up with nothing typed: `autologout` can end it, and
+only a key resets the count.
 
 ## The command echo: `echo`
 
@@ -454,7 +472,7 @@ is a stamped, attributed entry in the system error log:
 
 **The user number, the process id and the account name are added for you**, so
 a message does not need to say who wrote it. The log is
-`/usr/local/sdsys/errlog`, shared by every session, which makes `logmsg`
+`~/SDCoreSolo/errlog`, shared by every session, which makes `logmsg`
 the right way for a phantom or a scheduled job to report something a person will
 read later — there is no terminal to print to and no transcript kept.
 

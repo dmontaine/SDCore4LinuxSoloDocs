@@ -22,7 +22,7 @@ would run on a big-endian machine, because there is none to run it on.
 > where the output was real **in the multiuser build**; in Solo's own sandbox the
 > `sdconv` rows of the file-tools suite passed (19 Oct 2026) and nothing else on
 > this page was run in Solo. It was not run as another user or as root. The banner is
-> shown as Solo prints it, `LS1.1-3`; the multiuser product prints `L1.1-3`.
+> shown as Solo prints it, `LS2.0-0`; the multiuser product prints `L2.0-0`.
 
 ## The short version
 
@@ -85,7 +85,7 @@ that did nothing:
 
 ```
 $ sdconv -B objfile
-[ SDCONV LS1.1-3   Copyright, Ladybridge Systems, 2007.  All rights reserved. ]
+[ SDCONV LS2.0-0   Copyright, Ladybridge Systems, 2007.  All rights reserved. ]
 
 $ echo $?
 0

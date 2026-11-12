@@ -25,7 +25,8 @@ the marker file `.sdcoresolo`). The server and the client both read the
 It is plain text in one section, and **the shipped file names no path**:
 
 ```
-[sd-solo]
+[sd]
+SCREENTHEME=paper
 GRPSIZE=4
 NUMUSERS=20
 SORTMEM=4096
@@ -98,7 +99,8 @@ contributors — those two need no `admin`.
 ## Changing a parameter
 
 Editing `sd.conf` and restarting SD is the durable route, and for most parameters
-it is the only one.
+it is the only one. Fourteen tuning parameters can also be changed from SD itself, with
+`set.config` or the `E` key of `tool.config` (see *Changing a parameter from SD*, below).
 
 **Some parameters can also be changed for the current session** (after `admin`):
 
@@ -118,6 +120,94 @@ The parameters that can be changed this way are `DUMPDIR`,
 
 Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 `sd-solo -start`). That includes every limit which sizes the shared memory segment.
+
+**In Solo every change to `sd.conf` waits for the next start.** SD reads the file
+once, when it starts, and keeps the settings in shared memory; a new session copies
+them from there and does not read the file itself. (The multiuser SD Core has each
+session read `sd.conf` when it starts, so there an edit reaches the sessions
+started after it.) So when `tool.config` says a parameter takes effect for each
+`session`, and `set.config` says *Sessions started from now on use it*, that is
+SD Core's rule: in Solo, stop SD and start it again before you count on the new value.
+
+## The parameters on one screen: `tool.config`
+
+```
+tool.config
+```
+
+A full-screen page for the administrator (`admin` first; a window of 140 columns by 43 lines or
+more). **It looks, and it can change 14 of the parameters**; it writes no file itself. A change is
+made by the verb `set.config` (below), and only after you have typed a value, the page has checked
+it against the range SD enforces and a box has shown the exact command and been answered Run. The
+other parameters are not changed from SD; editing the file and restarting SD stays the way to change
+them.
+
+The page has three views. **P, the parameters**: one row for every parameter SD knows, from the table
+`config.table` in the installation directory, which names every parameter SD reads. The columns are
+the value this SD is running with (what `config()` reports), the value `sd.conf` says now (the file is
+read again, a parameter written twice counted the way SD counts it, the flag parameters added up),
+the default (what SD uses when the file does not say), when a change takes effect and whether anything
+acts on it. A row marked `*` is one where the file and the running SD disagree. **A name in the file
+that SD does not know is listed at the end as `unknown`, and the top of the page names it**: SD does
+not start with it (the section *A name SD does not recognize stops it starting* above). `D` shows only
+the rows where the file and SD disagree, and `S` only the parameters the file sets. The last column,
+`Change`, says `e` for a parameter the page can change (press `E`) and `by hand` for every other.
+
+**B, the backup directory**: the directory saved with `set.backup.directory` and whether it is there;
+**R, the report**: the operating system part of `settings.report`, made when the view is opened and
+on F5. It holds no key and no password hash. `F5` reads the file, the backup directory and the report
+again; `E` changes the parameter under the cursor, or says why it cannot be changed here; `F1`
+explains the page; `Ctrl-Q` leaves. Opening the page writes the audit line
+`tool start app=tool.config`; a change writes the line of `set.config` (below), and nothing else the
+page does is written.
+
+### Changing a parameter from SD: `set.config` and the `E` key
+
+```
+set.config cleanup 600
+```
+
+The administrator's verb (`admin` first). It changes **one** line of the `sd.conf` this SD reads (the
+file `SD_CONFIG` names if it is set, else `~/SDCoreSolo/sd.conf`): the first word is a parameter name
+(letters and digits; SD makes it capitals, as the file spells it) and the second a whole number. It
+writes the file itself, since the file is yours. It accepts only the 14 parameters below, and only a
+value inside the range SD itself enforces for that parameter when SD starts (so it cannot accept what
+SD would refuse). It adds or replaces the line **inside the `[sd]` section**, the only place SD reads;
+a second line for the same parameter in that section is dropped, because SD keeps the last one; every
+other line is kept exactly as it was. The new file is written beside the old one and renamed over it
+with the old file's mode, and **the file as it was is kept as `sd.conf.bak`** (one generation).
+Success is the file read back: exactly one line for the parameter in the `[sd]` section, saying the
+value. A refusal says why and writes nothing.
+
+**One audit line** for each change asked for and checked: `set.config key=cleanup value=600 status=ok`,
+or `status=refused`.
+
+**On the page.** `E` on a row whose `Change` column says `e` asks for the new value (the question
+shows what SD runs with and what the file says), checks that it is a whole number inside the range
+before anything else happens, and then shows the exact command in the toolkit's box with a plain
+sentence about when it takes effect. Cancel, which is what Enter chooses, runs nothing. `E` on any
+other row writes nothing: it shows why the parameter is not changed from SD, and the exact line to
+add by hand in the `[sd]` section.
+
+**The 14 parameters** are the tuning ones: each is range-checked by SD and each only sizes or times
+something SD does; none is a door, a path, a command, a log or a security setting:
+
+| Parameter | Range |
+|---|---|
+| `CLEANUP` | 30 to 3600 |
+| `DHCACHE` | 0 to 1024 |
+| `GRPSIZE` | 1 to 8 |
+| `LGNWAIT` | 0 to 32767 |
+| `LPTRHIGH` | 10 to 32767 |
+| `LPTRWIDE` | 10 to 1000 |
+| `MAXCALL` | 10 to 1000000 |
+| `MAXRLOCK` | 0 to 100000 |
+| `NETREPLY` | 1 to 3600 |
+| `NETWAIT` | 1 to 3600 |
+| `NUMLOCKS` | 1 to 32767 |
+| `RECCACHE` | 0 to 32 |
+| `SORTMRG` | 2 to 10 |
+| `USPLIT` | 0 to 1 |
 
 ## Sessions and limits
 
@@ -209,6 +299,12 @@ changed by running `tools/solo-service.sh install` again — see
 | `STARTUP` | empty | A command run when SD starts |
 | `OBJECTS` | 0 (no limit) | Compiled programs held in memory at once |
 | `OBJMEM` | 0 (no limit) | Memory those programs may occupy, in KB |
+
+## The screen
+
+| Parameter | Default | Effect |
+|---|---|---|
+| `SCREENTHEME` | unset (`mono`); `paper` in the shipped `sd.conf` | The color theme that a program using the `SCREEN` statement gets when it does not choose one: `paper`, `night`, `mono`, `classic` or `blue`. `paper` is black and dark blue text on light gray, with the menu bar and menus the other way round; `night` is white and yellow text on black; `mono` uses only reverse video, underline and bold and reads on any terminal. The shipped `sd.conf` says `SCREENTHEME=paper`, so the toolkit pages, the IDE, SED and the debugger show paper on a color terminal on a fresh install. An upgrade adds `SCREENTHEME=paper` to a kept `sd.conf` that has no `SCREENTHEME` line, and leaves a line that is there alone. A terminal with no color (vt100, a phantom, a pipe) is `mono` whatever the line says, and so is a name that is not a theme, without an error. A program that asks for a theme gets that one, and reads the value with `config('SCREENTHEME')`. **Your own choice wins**: Ctrl-T or View > Theme on any full-screen program keeps the theme chosen, and every full-screen program starts in it from then on; `SCREENTHEME` is what you see until you have chosen |
 
 ## The shell
 
