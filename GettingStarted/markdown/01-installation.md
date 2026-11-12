@@ -7,23 +7,33 @@ user who runs it.** Everything goes into that user's home directory, in
 is written outside your home directory, and SD never runs as root — the script
 refuses to run as root, and so does `sd-solo`.
 
-**There is no prebuilt package.** The script downloads the source from
+**There is no prebuilt package.** SD is built from source during the install.
+Run from a clone of the repository, the script downloads the source from
 `github.com/dmontaine/SDCore4LinuxSolo` (the `main` branch) into a temporary
 directory, `~/.sdsolotmp`, builds it there, installs it, and deletes the
-download when it ends. A release zip can be unzipped on a USB stick and the
-script run from there, with `bash /media/<you>/<stick>/installsdsolo.sh` — use
-`bash`, because a stick formatted FAT, exFAT or NTFS has no execute permission.
-The stick carries only the installer and the documentation: the computer must be
-online for the build packages and that download. The script checks first, before
-it asks anything or changes anything, and stops with a message if it is not. It
-writes nothing to the stick.
+download when it ends.
 
-**What else it puts in place.** From the source it downloaded, the installer
-copies the guide and the knowledge pack for AI agents into the installation's
-`agent-pack` folder (only when the pack is for the release being installed). It
-also downloads the documentation pages from `github.com/dmontaine/SDCore4LinuxSoloDocs`
-(the same branch) into `docs/user`, where the `ai` verb looks for the passages it
-sends with your question. If the changes document
+**From a release zip.** The zip carries the installer, the documentation and
+Solo's complete source (its `source` folder, with a `SHA256SUMS` list of every
+file in it), and SD is built from that folder: nothing is downloaded from GitHub.
+Before it asks anything, the installer checks every file of `source` against the
+list and stops with a message if one is changed, missing or not listed;
+download the zip again and unpack it into an empty folder. A zip made from a
+release candidate is named a pre-release when the install starts and ends. The
+zip can be unzipped on a USB stick and the script run from there, with
+`bash /media/<you>/<stick>/installsdsolo.sh` — use `bash`, because a stick
+formatted FAT, exFAT or NTFS has no execute permission. The computer must still
+be online for the build packages; the script checks first, before it asks
+anything or changes anything, and stops with a message if it is not. It writes
+nothing to the stick.
+
+**What else it puts in place.** From the source, the installer copies the guide
+and the knowledge pack for AI agents into the installation's `agent-pack` folder
+(only when the pack is for the release being installed). It also puts the
+documentation pages into `docs/user`, where the `ai` verb looks for the passages
+it sends with your question: from a release zip they come from its `source/docs`
+folder, otherwise they are downloaded from
+`github.com/dmontaine/SDCore4LinuxSoloDocs` (the same branch). If the changes document
 (`sd-core-solo-for-linux-<version>-changes.pdf`, `.html`, `.md`) or manuals in PDF
 sit beside the installer, they are copied into the installation's `pdf` folder,
 and the manuals are made available to the `pdf` verb. **None of these stops the
