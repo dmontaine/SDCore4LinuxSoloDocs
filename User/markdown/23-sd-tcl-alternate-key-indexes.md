@@ -171,7 +171,7 @@ Deleted index F2
 with one catch:
 
 > **`delete.index` matches the index name exactly, and index names are held in
-> upper case.** `delete.index zzak f1` answers *"Unrecognised index name
+> upper case.** `delete.index zzak f1` answers *"Unrecognized index name
 > (f1)"* — on a file where `list.index zzak f1` had just found the index and
 > printed it. **`list.index` folds case and `delete.index` does not**, so a name
 > that lists perfectly well may still refuse to delete. Use **`all`**, or type
@@ -248,7 +248,7 @@ Records...  Key value......................................................
 at each page. **The node settings and the sizes of the nodes are not reported:**
 SD's indices are not read at that level from BASIC, and `list.index detail` or
 `statistics` is the place for the rest. An index name that is not there is
-*Unrecognised index name (NOSUCH)*, and no file name at all is *File name
+*Unrecognized index name (NOSUCH)*, and no file name at all is *File name
 required*.
 
 ### Switching an index off: `disable.index`
@@ -277,7 +277,7 @@ switches it on**; until then its contents are out of date. `selectindex` reads
 whatever the index holds, enabled or not, so on a disabled index it may be wrong.
 
 Without an index name `disable.index` asks for one (*Index name:*); a name that is
-not there is *Unrecognised index name (NOSUCH)* and a file that is not there is
+not there is *Unrecognized index name (NOSUCH)* and a file that is not there is
 *File not found*. **Like `delete.index` it needs the file to itself**: another
 session that had the file open would go on using, and keeping up, an index this
 one had switched off.
@@ -353,7 +353,7 @@ holds `Bern`, `Oslo` and `Rome`: the values, which are not record ids, so a
 is matched as it is stored in the index (its internal form), as the statement
 does.** The index name is looked up as typed, then in lower case, then in upper
 case, so `selectindex T3 city` works. A name that is not there is
-*Unrecognised index name (NOSUCH)*, and no index name at all is *Index name
+*Unrecognized index name (NOSUCH)*, and no index name at all is *Index name
 required*.
 
 ## Who has these verbs

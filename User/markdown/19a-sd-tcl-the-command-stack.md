@@ -186,7 +186,7 @@ from the source and were not run.
 **There is no online help and `help` is not a verb.** The command processor
 still has internal verb 14 reserved for it and the routine is an empty stub —
 its body is commented out and it returns immediately. **No VOC record points at
-it**, in any account type, so the name is not even recognised. The F1 key at the
+it**, in any account type, so the name is not even recognized. The F1 key at the
 command prompt reaches the same empty routine and therefore does nothing. **This
 documentation is the help system.**
 

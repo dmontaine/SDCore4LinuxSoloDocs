@@ -51,7 +51,7 @@ satisfied. The upgrade prints its path.
 
 | | |
 |---|---|
-| **replaced** | the programs (`bin/`), the system programs and their catalogue, SD's messages, the VOC templates and SD's own VOC and dictionaries, and the other files the release ships |
+| **replaced** | the programs (`bin/`), the system programs and their catalog, SD's messages, the VOC templates and SD's own VOC and dictionaries, and the other files the release ships |
 | **kept, byte for byte** | your account and its data (`user_accounts/sduser`), the credential store `$cred` (all three passwords and the kept copy), `sd.conf`, the audit trail and the error log (the audit trail keeps its old lines and appends), the service units and Solo's own ssh directory with its host key and key file (the units are renamed in place if they name the old server file, below), and on a managed computer the server's programs in `global.bp.out` and the list of denied commands in `solo.policy` |
 
 **Upgrading an installation made before the server was renamed `sd-solo`.**
@@ -104,8 +104,8 @@ it. So an upgrade also, for you:
   takes the `sd.conf` parameters SD no longer has out of your kept `sd.conf` (SD would
   refuse to start on one);
 - recompiles SD's own dictionaries;
-- catalogues the server's programs in `global.bp.out` again, on a managed
-  computer (`sync.global.catalog`), because the global catalogue is one of the
+- catalogs the server's programs in `global.bp.out` again, on a managed
+  computer (`sync.global.catalog`), because the global catalog is one of the
   files replaced.
 
 The installer records where it came from: `~/SDCoreSolo/.sdcore-install` gains
@@ -167,7 +167,7 @@ remove what was kept for good, delete the directory (`rm -rf ~/SDCoreSolo`).
 ### Installing again over kept data
 
 **A new install into a directory that holds kept data offers it back.** The
-installer recognises it by the stamp, the account and `sd.conf` and nothing else (a
+installer recognizes it by the stamp, the account and `sd.conf` and nothing else (a
 directory with anything more in it is refused, as any non-empty directory is):
 
 ```

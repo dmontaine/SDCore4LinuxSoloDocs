@@ -45,10 +45,10 @@ shipped source for the system programs.
 
 ## C
 
-**Catalogue** — the registry of compiled programs. A catalogued program
+**Catalog** — the registry of compiled programs. A cataloged program
 can be run by name from any account that can reach it. Private
-catalogue is per-account; local catalogue puts the VOC entry in the
-account's own VOC; global catalogue is system-wide and is changed by nobody
+catalog is per-account; local catalog puts the VOC entry in the
+account's own VOC; global catalog is system-wide and is changed by nobody
 in a session — on a managed computer it is the SD Core server's.
 
 **Common block** — a named memory area shared between subroutines.
@@ -156,7 +156,7 @@ TCL commands. Replaces the removed PROC language.
 
 **Programmer** — retired, 18 Sep 2026. Used to name the middle of three
 account tiers. Every account now has the full development set (compile,
-catalogue, edit, file creation, index management, bulk record editing,
+catalog, edit, file creation, index management, bulk record editing,
 process introspection) that this tier used to grant — see *Accounts* in
 the *Getting Started* set.
 

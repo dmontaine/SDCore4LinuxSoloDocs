@@ -153,8 +153,8 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDExecute(cmnd, err)` | String | execute a TCL command |
 | `SDRespond(response, err)` | String | respond to a prompt from `SDExecute` |
 | `SDEndCommand()` | none | end a multi-line command |
-| `SDCall(name, argcount, ...)` | none | call a catalogued subroutine (pass by reference) |
-| `SDCallx(name, argcount, ...)` | Integer | call a catalogued subroutine (pass by value) |
+| `SDCall(name, argcount, ...)` | none | call a cataloged subroutine (pass by reference) |
+| `SDCallx(name, argcount, ...)` | Integer | call a cataloged subroutine (pass by value) |
 
 > `SDCall` and `SDCallx` are variadic: 0 to 20 arguments. Each binding
 > provides per-arity wrappers — `SDCall0` through `SDCall20`, and

@@ -41,7 +41,7 @@ system(key)
 
 | Key | | Value |
 |---|---|---|
-| `31` | licence number | `0` |
+| `31` | license number | `0` |
 | `42` | IP address | *empty* |
 | `91` | is this Windows? | `0` — this port is never Windows |
 | `1006` | Windows NT style? | `0` — vestigial, never set on this port |
@@ -124,7 +124,7 @@ the OS switch (`set.os.access os on`), and to any other the answer is a null str
 | `20` | print jobs passed to the spooler | a count for the whole system since SD started, all sessions together. openQM gives the job's reference; SD does not read the spooler's own job number back |
 | `19` | a unique value from the date and time | two five digit numbers, the day and the second; a second value in the same second, from **any** process, gets a letter on the end (`a`, `b` … `z`, `aa`). The time is the process's own, so two users in different time zones can get the same value |
 | `21` | a unique value from the date and a sequence | two five digit numbers, the day and a count that starts at 1 again each day |
-| `45` | the name of the running program | its catalogue name |
+| `45` | the name of the running program | its catalog name |
 | `1048` | a sequence number | unique across all sessions until SD restarts, then 1 again |
 | `1049` | is `hush` in effect? | `0` or `1` |
 | `1062` | has `signal()` been raised for this process? | `1` and **cleared by reading it**: `until system(1062)` is the loop of a phantom that waits to be told |

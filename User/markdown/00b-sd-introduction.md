@@ -44,10 +44,10 @@ BASIC.
 single-user edition of SD Core for Linux: one account, `sduser`, installed in
 your home directory and run as you. There are no `#ifdef` branches keeping
 Windows alive in this source — SD Core Solo for Windows is a separate project,
-kept in behavioural parity by deliberate policy, and this is not a build of it.
+kept in behavioral parity by deliberate policy, and this is not a build of it.
 
-SD Core is free software under the GNU General Public Licence v3. `config gpl`
-displays the licence and `config contrib` the list of contributors. Installing
+SD Core is free software under the GNU General Public License v3. `config gpl`
+displays the license and `config contrib` the list of contributors. Installing
 means cloning the source and building it — see the GettingStarted set.
 
 ## The four components
@@ -87,7 +87,7 @@ to insert, type your lines, a full stop on its own line to stop
 inserting, then `fi` to file and exit.
 
 `sed` is a full-screen editor that runs inside SD, with drop-down menus and
-colour for SD BASIC that you turn on when you want it; it needs no operating
+color for SD BASIC that you turn on when you want it; it needs no operating
 system permission. You can also use `micro` (a full-screen editor that
 highlights SD BASIC) once the administrator has turned the `os` switch on
 (`set.os.access os on`; it is off as delivered, because it runs outside SD).
@@ -113,7 +113,7 @@ like — the folder is on disk at:
 ~/SDCoreSolo/user_accounts/sduser/bp
 ```
 
-Compile and catalogue it from inside SD:
+Compile and catalog it from inside SD:
 
 ```
 basic bp myprog

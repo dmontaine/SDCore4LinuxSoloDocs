@@ -91,14 +91,14 @@ again. The very first connection is trusted. See [API access](09-api-access.html
 
 ## The server's programs: `global.bp.out`
 
-**The global catalogue of a managed computer holds the server's programs.** The
+**The global catalog of a managed computer holds the server's programs.** The
 user can run them — `CALL name` — and cannot add, replace or remove any, with or
 without `admin`.
 
 | | |
 |---|---|
 | `global.bp.out` | a file of **compiled programs only** — no source is installed. Empty after installation; the server fills it. It is `~/SDCoreSolo/global.bp.out` |
-| `sync.global.catalog` | makes the global catalogue match `global.bp.out` |
+| `sync.global.catalog` | makes the global catalog match `global.bp.out` |
 
 **To add a program**, a server session copies its compiled object into
 `global.bp.out` — for example from a `BP.OUT` it has written it to — and runs
@@ -113,10 +113,10 @@ sync global catalog done 1 cataloged 0 removed 0 refused
 ```
 
 A session with no administrator rights can then `CALL myprog(x)`. **A program
-catalogued in the account under the same name is found first**, as for any
-`CALL`. (Before 2.0-0 the server's programs were catalogued as `*name` and called
+cataloged in the account under the same name is found first**, as for any
+`CALL`. (Before 2.0-0 the server's programs were cataloged as `*name` and called
 as `CALL *name`; the `*` prefix is gone, and the first `sync.global.catalog` of
-this release removes the old `*` entries and catalogues the programs again under
+this release removes the old `*` entries and catalogs the programs again under
 their plain names.)
 
 **To remove one**, delete it from `global.bp.out` and run `sync.global.catalog`
@@ -129,18 +129,18 @@ removed myprog
 sync global catalog done 0 cataloged 1 removed 0 refused
 ```
 
-**What `sync.global.catalog` does:** every object in `global.bp.out` is catalogued
-under its plain name, **in lower case** — every name in the catalogue is lower
+**What `sync.global.catalog` does:** every object in `global.bp.out` is cataloged
+under its plain name, **in lower case** — every name in the catalog is lower
 case — replacing any older copy; a program whose name begins with `$`, `!`, `_`,
-`*` or `-` is refused, since those characters are SD's own. Every catalogue entry
+`*` or `-` is refused, since those characters are SD's own. Every catalog entry
 with no `$`, `!` or `_` prefix and no object left in `global.bp.out` is removed.
-SD's own system programs in the catalogue are never touched, because every one of
+SD's own system programs in the catalog are never touched, because every one of
 them begins with `$`, `!` or `_`, and nothing else can put an entry without one
 there. An object it cannot load is refused by name and the rest still go in. The
 last line always reads `sync global catalog done <n> cataloged <n> removed <n>
 refused`.
 
-**An upgrade catalogues them again for you.** It replaces the global catalogue
+**An upgrade catalogs them again for you.** It replaces the global catalog
 with the new release's, then runs `sync.global.catalog`; `global.bp.out` itself
 is kept.
 
@@ -148,8 +148,8 @@ is kept.
 
 | | |
 |---|---|
-| *The global catalogue can only be changed by the SD Core server* | `sync.global.catalog`, or writing `global.bp.out`, `gcat` or the deny list, from a session that did not sign in with the global password — `admin` included |
-| *The global catalogue holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog* | `CATALOG ... GLOBAL`, a `CATALOG` name beginning `*`, `!`, `_` or `$`, or `DELETE.CATALOG` of a global entry — from any session |
+| *The global catalog can only be changed by the SD Core server* | `sync.global.catalog`, or writing `global.bp.out`, `gcat` or the deny list, from a session that did not sign in with the global password — `admin` included |
+| *The global catalog holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog* | `CATALOG ... GLOBAL`, a `CATALOG` name beginning `*`, `!`, `_` or `$`, or `DELETE.CATALOG` of a global entry — from any session |
 
 **A user's own program cannot write to them either.** A BASIC program that
 opens `global.bp.out` and `WRITE`s to it is refused by SD itself, with `STATUS()`
@@ -157,7 +157,7 @@ saying so, whatever the caller's rights.
 
 **On a computer with no global password** there is no server: `sync.global.catalog`
 says *this computer has no global password, so no SD Core server manages it and
-there is nothing to manage*, changes nothing, and the global catalogue holds only
+there is nothing to manage*, changes nothing, and the global catalog holds only
 SD's own programs.
 
 ## Commands the user may not run: `deny.verbs`
@@ -208,7 +208,7 @@ its own code; a command already needing `admin` needs it whatever the list says.
 
 **SD enforces these rules; Linux does not.** The whole `~/SDCoreSolo` directory
 belongs to the computer's Linux user, who can change any file in it from outside
-SD — `global.bp.out`, the catalogue, the list of denied commands, even the kept
+SD — `global.bp.out`, the catalog, the list of denied commands, even the kept
 password. What managed mode protects is what happens inside SD. A computer whose
 user must not be able to change these needs that user to lack the Linux rights to
 the directory, and Solo does not set that up.

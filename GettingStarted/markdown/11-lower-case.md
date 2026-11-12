@@ -37,10 +37,10 @@ spellings behind it** — every name in every ruled category is lower case,
 checked directly against the source tree (`gplbld/verify-nocase.py`, part of this
 project's own build checks), not merely claimed.
 
-## Global catalogue names are the exception
+## Global catalog names are the exception
 
-**The names of programs in the global catalogue are upper case** — `$LOGIN`,
-`!set.password`, and on a managed computer the server's programs, catalogued as
+**The names of programs in the global catalog are upper case** — `$LOGIN`,
+`!set.password`, and on a managed computer the server's programs, cataloged as
 `*NAME` by `sync.global.catalog`. `catalog` upper-cases a global name, and the
 loader looks it up upper-cased, so a program that `CALL *zzgsub` finds the entry
 `*ZZGSUB`. You type them in either case; nothing you write changes.

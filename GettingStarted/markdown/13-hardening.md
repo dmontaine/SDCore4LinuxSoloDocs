@@ -1,13 +1,13 @@
 Title: Other hardening
-Subtitle: The global catalogue, the logs, line endings, and the rest of the smaller changes.
+Subtitle: The global catalog, the logs, line endings, and the rest of the smaller changes.
 
 Everything on this page is a change you may notice while testing, grouped by
 what it touches. The identity model and the file permissions are on
 [Security](12-security.html); this is the remainder.
 
-## The global catalogue
+## The global catalog
 
-**Nobody changes the global catalogue in a session** — not with `admin`, not with
+**Nobody changes the global catalog in a session** — not with `admin`, not with
 the global password. `catalog ... global`, and `delete.catalog` of a name that is
 global (a name starting `*`, `!`, `_` or `$`), are refused, and so is a program's
 own `write`, `delete` or `clear` of `global.bp.out` and `gcat`:
@@ -17,19 +17,19 @@ own `write`, `delete` or `clear` of `global.bp.out` and `gcat`:
 The global catalogue holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog
 ```
 
-This matters because the global catalogue holds the programs SD runs for
+This matters because the global catalog holds the programs SD runs for
 everybody, `$login` among them. **Replacing one runs your code in every session,
 and deleting one stops everybody signing in.** In the multiuser product `admin`
 was enough to overwrite SD's own `$` and `!` programs; here it is not.
 
-**On a managed computer the catalogue is the server's**, made from the compiled
+**On a managed computer the catalog is the server's**, made from the compiled
 programs the server puts in `global.bp.out` and kept in step by
 `sync.global.catalog`, which only a session signed in with the global password
 can run. See [Managed mode](15-managed-mode.html). **On a computer with no
-global password the global catalogue is only SD's own** and `sync.global.catalog`
+global password the global catalog is only SD's own** and `sync.global.catalog`
 says there is nothing to manage.
 
-**Nothing changes for local and private cataloguing**, which is what programmers
+**Nothing changes for local and private cataloging**, which is what programmers
 use day to day:
 
 ```
@@ -38,7 +38,7 @@ catalog bp myprog local    this account's VOC
 ```
 
 Both still work, and neither offers to remove a same-named global entry any
-more. The only thing you cannot do is catalogue a program whose name starts with
+more. The only thing you cannot do is catalog a program whose name starts with
 `*`, `!`, `_` or `$` — those characters mean *global*. Name it without one.
 
 ## The pcode library
@@ -113,7 +113,7 @@ the terminal emulator or console set.
 variants such as `vt100-w` and `vt220-at` — so `term wyse60` still works.
 
 **A name that is not installed is refused and your current type is kept** —
-*"Unrecognised terminal name"* — so a typo costs you nothing. **`term` with no
+*"Unrecognized terminal name"* — so a typo costs you nothing. **`term` with no
 argument reports the type actually in force**, which is how to check.
 
 Watch for near-misses all the same. There is no plain `vt320` — the shipped name

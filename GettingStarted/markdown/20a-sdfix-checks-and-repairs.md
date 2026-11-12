@@ -120,7 +120,7 @@ and took the fixes on 19 October. They were in the program, not in the use of
 it. Each was *run* before it was fixed and again afterwards in the multiuser
 build; in Solo's own sandbox the file-tools suite was red on the program as Solo
 had it and green with the fixes (19 Oct 2026). They are listed so that an older
-copy of `sdfix` can be recognised.
+copy of `sdfix` can be recognized.
 
 1. **`-F` could not delete an index subfile that sits in the file's own
    directory.** *AK0 subfile found but not expected* was followed by *Corrected

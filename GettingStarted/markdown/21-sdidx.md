@@ -26,8 +26,8 @@ SD is not running.
 >
 > **A copy of `sdidx` older than 19 October 2026** (every Solo release up to and
 > including `LS1.1-3`) still does what the first version of the multiuser page
-> said: the old behaviour is described under *What was fixed* so that you can
-> recognise it.
+> said: the old behavior is described under *What was fixed* so that you can
+> recognize it.
 
 ## The short version
 
@@ -210,7 +210,7 @@ The first version of the multiuser page found these by running the program. Each
 was fixed in the multiuser SD on 18 October and in Solo on 19 October, and the
 fix is tested by the file-tools suite (`sandbox-tools.py`; Solo runs an adapted
 copy of it). They are listed so that a copy of `sdidx` older than that can be
-recognised.
+recognized.
 
 1. **The old local index files were not deleted when the path was long.** `-m`
    (from local to elsewhere) and `-d` (local) deleted each `%n` through a name

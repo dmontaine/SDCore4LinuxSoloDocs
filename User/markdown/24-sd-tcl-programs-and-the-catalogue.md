@@ -1,8 +1,8 @@
-Title: SD TCL - Programs and the Catalogue
+Title: SD TCL - Programs and the Catalog
 Subtitle: Compiling SD BASIC, running it, and giving it a name you can type.
 
 Getting from source to something you can type is three steps: **compile it, put
-it in a catalogue, then call it by name.** Only the first is compulsory.
+it in a catalog, then call it by name.** Only the first is compulsory.
 
 SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
@@ -44,7 +44,7 @@ a source record `ZZPROG` compiles to an object record `zzprog`. That is this
 port's naming, and it is worth knowing before you go looking for the object by
 the name you typed.
 
-## Running without cataloguing
+## Running without cataloging
 
 ```
 run {file} record
@@ -61,13 +61,13 @@ ZZPROG OK
 `run` needs the file and record name every time. It is what you use while you
 are still writing the thing.
 
-## The catalogue is what gives a program a name
+## The catalog is what gives a program a name
 
 ```
 catalog {file {call.name}} {program | *} {local | global | pcode} {no.xref}
 ```
 
-Catalogue it and the name becomes a command:
+Catalog it and the name becomes a command:
 
 ```
 catalog bp zzprog
@@ -83,12 +83,12 @@ ZZPROG OK
 read `zzprog hello`, so arguments arrive as typed and the program parses them
 itself.
 
-**A program run by its catalogue name takes `lptr` and `no.page` as `run`
+**A program run by its catalog name takes `lptr` and `no.page` as `run`
 does.** The words stay in the sentence for the program to see. A word in
-quotation marks is not a keyword. This applies to a catalogue name only, not to
+quotation marks is not a keyword. This applies to a catalog name only, not to
 the name of a VOC verb.
 
-### Three catalogues, and they are not the same
+### Three catalogs, and they are not the same
 
 | | |
 |---|---|
@@ -96,22 +96,22 @@ the name of a VOC verb.
 | **local** | a VOC entry in the account, so the name works only there |
 | **global** | `gcat` in the system account — **every account sees it** |
 
-**Nobody catalogues globally on Solo — `admin` or not.** `catalog ... global` is
-refused with *"The global catalogue holds the SD Core server's programs from
+**Nobody catalogs globally on Solo — `admin` or not.** `catalog ... global` is
+refused with *"The global catalog holds the SD Core server's programs from
 global.bp.out and is changed only by sync.global.catalog"*. **The same refusal
-applies to an implicit global catalogue** — one chosen by a `!`, `_` or `$`
+applies to an implicit global catalog** — one chosen by a `!`, `_` or `$`
 prefix on the call name rather than by the `global` keyword (the `*` and `-`
-prefixes were removed in 2.0-0) — so the prefix is not a way round it. On a managed computer the global catalogue is the SD Core
+prefixes were removed in 2.0-0) — so the prefix is not a way round it. On a managed computer the global catalog is the SD Core
 for Linux server's, and only it can change it — see *Managed mode* in the
-GettingStarted set. Catalogue your own programs `private` or `local`.
+GettingStarted set. Catalog your own programs `private` or `local`.
 
-Private and local cataloguing need none of this and work in a programmer's own
+Private and local cataloging need none of this and work in a programmer's own
 account.
 
 **`catalog ... local` asks before it overwrites.** When the VOC already holds a
-local catalogue pointer under that name and it points at a different object
+local catalog pointer under that name and it points at a different object
 file, you are asked first (Return is no). `no.query` goes ahead without asking,
-and cataloguing the same file again does not ask.
+and cataloging the same file again does not ask.
 
 ### Seeing and removing
 
@@ -167,21 +167,21 @@ p3 deleted from the local catalogue
 
 After `delete.catalog p3 local` the compiled program was still in the object
 file (`bp.out`); after `decatalog p3` it was gone. A name that is not a local
-entry is *p9 is not in the local catalogue* (the name as you typed it), and no
-name at all is *Catalogue name required*. It acts on the local catalogue only;
-the private and the global catalogue are `delete.catalog`'s.
+entry is *p9 is not in the local catalog* (the name as you typed it), and no
+name at all is *Catalog name required*. It acts on the local catalog only;
+the private and the global catalog are `delete.catalog`'s.
 
-### Where a program is catalogued: `find.program`
+### Where a program is cataloged: `find.program`
 
 ```
 find.program name {detail}
 ```
 
 For the case where the wrong version of a program seems to run because it is
-catalogued in two places. It reports where *name* is, **in the order a program is
-loaded**: the local catalogue (a VOC entry that points at the object file), the
-private catalogue (the account's `cat` directory, or the directory named by
-`$private.catalogue`) and the global catalogue (`gcat` in the system directory).
+cataloged in two places. It reports where *name* is, **in the order a program is
+loaded**: the local catalog (a VOC entry that points at the object file), the
+private catalog (the account's `cat` directory, or the directory named by
+`$private.catalogue`) and the global catalog (`gcat` in the system directory).
 For each place it is found it gives the time it was compiled and what it is: a
 program, a subroutine or a function with its number of arguments, or a class
 module.
@@ -203,10 +203,10 @@ Program is in the private catalogue
 ```
 
 and the flags the object carries (internal, debug, recursive, trusted, case
-sensitive, may be called by `sdcall`). A name that is catalogued nowhere is
-*cproc is not catalogued*. SD's objects carry no compiler version and no source
+sensitive, may be called by `sdcall`). A name that is cataloged nowhere is
+*cproc is not cataloged*. SD's objects carry no compiler version and no source
 pathname, so neither is shown. **The object files are read as directory file
-records, so you see only what your VOC, the shared global catalogue and the
+records, so you see only what your VOC, the shared global catalog and the
 operating system access switch let you open.**
 
 The listings were produced by running them in a sandbox build of SD Core for
@@ -752,8 +752,8 @@ program in a phantom process"*. The debugger itself is covered in
 `delete.catalog`, `delete.common`, `find.program`,
 `generate`, `ide`, `map`, `run`.
 
-**Running a catalogued program never needed any of these anyway** — a
-catalogued name runs by being typed, with no VOC record of its own — so an
+**Running a cataloged program never needed any of these anyway** — a
+cataloged name runs by being typed, with no VOC record of its own — so an
 application deployed this way was always reachable regardless of what
 verbs an account had.
 

@@ -31,7 +31,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`ai`** | **`ai`** *text*  —  ask the AI the administrator has chosen: you see what will be sent and say yes first; put text that ends with **`?`** in quotes (needs the AI gate: **`set.ai gate on`**) |
 | **`alias`** | **`alias`** *command* *target* |
 | **`analyse.index`** | **`analyse.index`** *file* {*index* {**`statistics`**} {**`detail`**}} {**`lptr`** {*n*}} {**`no.page`**} |
-| **`analyze.file`** | **`analyze.file`** — the same verb as **`analyse.file`** |
+| **`analyze.file`** | **`analyze.file`** {**`dict`**} *file* {**`statistics`**} {**`lptr`**} |
 | **`autologout`** | **`autologout`** {*minutes*} |
 | **`backup.account`** | **`backup.account`** {*account* \| **`all`**} {**`to`** *directory*} |
 | **`basic`** | **`basic`** {*file*} *record* {*record* …} |

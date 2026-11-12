@@ -1,9 +1,9 @@
 Title: Embedded Python
-Subtitle: The CPython interpreter built into SD, the dictionary, list and string objects it exposes, and the twenty-one catalogued functions that reach it from BASIC.
+Subtitle: The CPython interpreter built into SD, the dictionary, list and string objects it exposes, and the twenty-one cataloged functions that reach it from BASIC.
 
 SD Core for Linux embeds CPython so a BASIC program can run Python code and
-exchange data with it. Twenty-one catalogued routines carry this - counted
-alongside the rest of SD's global catalogue in the User set's *SD Standard
+exchange data with it. Twenty-one cataloged routines carry this - counted
+alongside the rest of SD's global catalog in the User set's *SD Standard
 Subroutines* page, which does not repeat them; this page is where they are
 documented.
 
@@ -16,8 +16,8 @@ deffun PY_CREATEDICT(dictname) calling '!PY_CREATEDICT'
 status = PY_CREATEDICT('mydict')
 ```
 
-All twenty-one are `$internal`-compiled and ship already catalogued, so no
-account needs to compile or catalogue anything to use them - only `deffun`
+All twenty-one are `$internal`-compiled and ship already cataloged, so no
+account needs to compile or catalog anything to use them - only `deffun`
 and a call. Failure is always `status()`, not the returned value: several of
 these functions return an empty string on both "genuinely empty" and
 "failed," so `status()` is what tells them apart. **Every one of the

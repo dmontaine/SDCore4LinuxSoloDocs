@@ -74,7 +74,7 @@ Statements, functions, `$mode` words and compiler directives.
 | `class` initial values | Added | a `public` or `private` variable may start with a value; `inherits` passes constants to the inherited class <!--s 356 565--> |
 | `class` lookup | Changed | a class with 32 names or more is searched through an index, many times faster <!--s 13--> |
 | `class`: `restricted` | Added | a name for the class and the classes that inherit it, and no one else <!--s g168--> |
-| `class`: `run` | Added | `run` of a class module or its catalogue name makes the object, runs its `main` and lets it go <!--s 484--> |
+| `class`: `run` | Added | `run` of a class module or its catalog name makes the object, runs its `main` and lets it go <!--s 484--> |
 | `clearcommon name` | Added | sets the variables of the named common block to zero <!--s 52--> |
 | `compare()` | Changed | an `i` after `l` or `r` in the justification compares ignoring case; `compares()` does it over two arrays <!--s 307 g114--> |
 | `convert()` | Changed | `mcn-`, `mc/n-`, `mcs`, `mcp` with a quoted replacement character, `mt` with `m`, `md` options in any order <!--s 23 183 198 298 488--> |
@@ -142,7 +142,7 @@ Statements, functions, `$mode` words and compiler directives.
 | `sselectv`, `sselectn` | Added | sorted selects into a select list variable; `right.aligned` and `descending` <!--s 209 243 367--> |
 | `status()` after a transaction | Added | 0 if it committed, 1021 if it rolled back <!--s 19--> |
 | string arithmetic | Added | `sadd`, `ssub`, `smul`, `sdiv`, `scmp`: exact string arithmetic on numbers of any length and any decimals <!--s 391 468--> |
-| substring assignment | Added | `s[3] = "xy"` overwrites the last three characters, and honours `pick.substr` for an element of a dynamic array <!--s 41 325--> |
+| substring assignment | Added | `s[3] = "xy"` overwrites the last three characters, and honors `pick.substr` for an element of a dynamic array <!--s 41 325--> |
 | `trans()` family | Changed | `trans()`, `rtrans()`, `xlate()`: accept `a`, `s` and `c` items and an `l` link; a file that will not open takes the error action of the call <!--s 43 182 7--> |
 | variable names | Changed | a name with two or more underscores together (`a__b`) is valid <!--s 336--> |
 | `watch` | Changed | the debugger's `watch variable operator value` stops only when the condition is met <!--s 45--> |
@@ -181,9 +181,9 @@ File handling: opening, indexes, triggers, print files, sorting, sequential file
 | Name | Change | What |
 |---|---|---|
 | `account:file` file names | Changed | always available, with no `filerule` setting: a name in no VOC entry with one colon is read as a Q-pointer to that account's file and meets every Q-pointer check; in Solo it reaches only the one account's own files |
-| `analyse.file` | Changed | `statistics` shows a histogram of group utilisation <!--s 360--> |
+| `analyse.file` | Changed | `statistics` shows a histogram of group utilization <!--s 360--> |
 | `analyse.index` | Added | every index with its number of values and spread <!--s g9--> |
-| `catalog -name` | Added | a hyphen is a global catalogue prefix; `delete.catalog -name` removes it <!--s 217--> |
+| `catalog -name` | Added | a hyphen is a global catalog prefix; `delete.catalog -name` removes it <!--s 217--> |
 | `clear.file` | Changed | fixed: a `no.resize` file keeps its modulus <!--s 590--> |
 | `configure.file ... reporting` | Added | shows how many records have been converted <!--s 172--> |
 | `create.file` | Added | `comment`, `multifile` and a relative `pathname` kept relative in the VOC <!--s 383 522 278--> |
@@ -194,10 +194,10 @@ File handling: opening, indexes, triggers, print files, sorting, sequential file
 | `disable.index` | Added | stops an index being kept up to date for a large load; `build.index` switches it on <!--s g28--> |
 | exclusive access | Changed | a command that needs a file to itself names the user holding it when it cannot get it <!--s 107--> |
 | `file.stat` | Added | one line per file: type, modulus, records, bytes and flags; limited to named files; with dictionaries <!--s 109 152 g40--> |
-| `find.file`, `find.program` | Added | what a file is; the catalogue entries of a program <!--s g42 g43--> |
+| `find.file`, `find.program` | Added | what a file is; the catalog entries of a program <!--s g42 g43--> |
 | `fixdir` | Added | takes the carriage returns out of directory file items that came from a Windows system <!--s 458--> |
 | hashed files | Changed | a split that finds the disk nearly full stops before the file's size is changed; `sdfix -z` clears dead space <!--s 329 33--> |
-| `hold.file.logger` | Added | a catalogued subroutine called when a hold file print unit opens and closes <!--s 56--> |
+| `hold.file.logger` | Added | a cataloged subroutine called when a hold file print unit opens and closes <!--s 56--> |
 | `l-type` dictionary links | Added | usable in an `i`-type; links may follow links, up to ten, and reach `a`, `s` and `e` items <!--s 7 204 544--> |
 | `list.common detail` | Added | shows where each common block was created <!--s 362--> |
 | `list.index` | Changed | the report may go to a printer <!--s 73--> |
@@ -210,7 +210,7 @@ File handling: opening, indexes, triggers, print files, sorting, sequential file
 | `set.mode` | Added | the permission bits of records of a directory file <!--s g81--> |
 | `set.trigger` | Changed | fixed: refused every function name; takes `all`; no longer needs exclusive access <!--s 388 157--> |
 | sort of long records | Changed | the disk sort handles records and keys over 32 KB <!--s 455--> |
-| trigger on a read | Changed | fixed: a locally catalogued read trigger could end the process <!--s 317--> |
+| trigger on a read | Changed | fixed: a locally cataloged read trigger could end the process <!--s 317--> |
 | `vocname` letters | Added | `r` opens a file read-only, `n` non-transactionally, `s` with forced writes, from field 6 of its VOC entry <!--s 197 380 102--> |
 
 ## QUERY
@@ -278,7 +278,7 @@ Commands and VOC verbs that every account has, and the command language.
 |---|---|---|
 | `block.print`, `block.term` | Added | print text, or show it on the terminal, in letters seven rows high <!--s g11 g12--> |
 | `catalog ... local relative` | Added | stores the object file's path relative to the account <!--s 131--> |
-| `catalog` overwrite | Changed | pointing a local catalogue entry at a different object file asks first <!--s 490--> |
+| `catalog` overwrite | Changed | pointing a local catalog entry at a different object file asks first <!--s 490--> |
 | `catalog` prefix | Added | a prefix separate from the call name; `$private.catalog` or `$private.catalogue` <!--s 210 93--> |
 | catalog name as a command | Changed | a program run by its catalog name takes `lptr`, `no.page` and the like |
 | command stack | Changed | `.c-` undoes a `.0`; the stack is kept in the account the user entered <!--s 296 396--> |
@@ -286,7 +286,7 @@ Commands and VOC verbs that every account has, and the command language.
 | `como` | Added | `append`, `in file`; `$como` ids pass the same name transform <!--s 8 361 9--> |
 | `compare.files` | Added | counts the records only in one, only in the other, in both but different <!--s 534--> |
 | `ct` | Changed | `id.sup`, `num.sup`; lower case file names; the object code of a compiled dictionary item is not shown <!--s 242 347 373--> |
-| `decatalog` | Added | deletes a local catalogue entry and its object code <!--s 576--> |
+| `decatalog` | Added | deletes a local catalog entry and its object code <!--s 576--> |
 | `delete` | Changed | a record another user holds locked is reported and skipped <!--s 50--> |
 | `delete.account` | Changed | not stopped by a file it cannot open when it looks for references <!--s 348--> |
 | `delete.common all except` | Added | deletes every named common block but those listed <!--s 425--> |
@@ -297,12 +297,12 @@ Commands and VOC verbs that every account has, and the command language.
 | `hot spot monitor` | Changed | counts opens, reads, writes and deletes of each program <!--s 491--> |
 | `if` in a paragraph | Added | `exists`, `not.exists`, `in` and `not.in`, with `no.case` <!--s 28 230 426 476--> |
 | inline prompts | Changed | largely case insensitive; may use quoted prompt strings <!--s 171 377--> |
-| `k` entry in the VOC | Changed | fixed: a `k` entry over a locally catalogued program stopped with "Unable to load" <!--s 263--> |
+| `k` entry in the VOC | Changed | fixed: a `k` entry over a locally cataloged program stopped with "Unable to load" <!--s 263--> |
 | list merges | Changed | `list.union`, `list.inter`, `list.diff`, `merge.list` find a key without scanning, so large lists merge in seconds <!--s 414--> |
 | `list.item` | Changed | numbers lines beyond 999 with as many digits as needed <!--s 349--> |
 | `listu`, `who`, `pstat` | Changed | `!listu` too: show the account and the login name; `listu detail`; the blocking user and when a wait began <!--s 12 24 29 38 77 121 289 427 577--> |
 | `logto reset all` | Added | discards all programs, menus and paragraphs at every command level <!--s 30--> |
-| `map local`, `map no.page` | Added | list the locally catalogued programs; heading once <!--s 153 287--> |
+| `map local`, `map no.page` | Added | list the locally cataloged programs; heading once <!--s 153 287--> |
 | `move.list` | Added | the command form of `movelist` <!--s g62--> |
 | `multisort` | Added | `!multisort` sorts several related lists by one of them <!--s 568--> |
 | `option` words | Added | `dir.dtm`, `git` and `spool.command` (twenty more were added and removed again, see REMOVED; SD Core's `inherit.ownership` is not in Solo, which has one operating-system user, by the owner's word of 9 November 2026) <!--s 288 79 314 428 461 445 37 57 154 165 404 429 49 g230 g231 g232 g233 g237 g239 g240 g241 g242 g245 g247 g248--> |
@@ -399,7 +399,7 @@ compiled with until it is compiled again. More rows are added as the removal goe
 | `extract()`, `replace()`, `insert()`, `delete()` and `subr()` | Removed | write `a<f,v>`, `a<f,v> = x`, `ins x before a<f,v>`, `del a<f,v>` and `call` or `deffun` |
 | `procread`, `procwrite`, `@pib`, `@sib`, `@pob`, `@sob` | Removed | leftovers of PROC, which went earlier |
 | `!` (the shell verb) | Removed | write `sh command` |
-| the global catalog prefixes `*` and `-` | Removed | `!` and `$` stay, and `_` names a recursive pcode program; in managed mode the SD Core server's programs are catalogued under their plain names: write `call name`, not `call *name` (see `sync.global.catalog` under New Features Unique to SD Core Solo) |
+| the global catalog prefixes `*` and `-` | Removed | `!` and `$` stay, and `_` names a recursive pcode program; in managed mode the SD Core server's programs are cataloged under their plain names: write `call name`, not `call *name` (see `sync.global.catalog` under New Features Unique to SD Core Solo) |
 | the word forms of query operators | Removed | `equal`, `greater`, `less`, `before`, `after`, `matches`, `matching`, `not.matching` and `spoken`: write `eq`, `gt`, `lt`, `like`, `unlike` and `said` (the word `not` stays) |
 | `colour`, `without`, `no.grand.total` | Removed | write `color`, `with no` and `grand.total "'L'"` |
 | fourteen dead query keywords | Removed | `verify`, `verify.sup`, `exclusive`, `creating`, `inquiring`, `portrait`, `odd`, `even`, `mark`, `space`, `no.label`, `no.object`, `static` and `encrypt` were read by nothing; `group` stays |
@@ -445,7 +445,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `set.start.default` | Added | `menu` or `terminal`: where a session starts |
 | `set.tile` | Added | takes a home screen tile off the page or puts it back; `set.tile` alone lists what is off |
 | `set.viewer` | Added | allows one PDF reader for the `pdf` verb; none is allowed as delivered |
-| `sync.global.catalog` | Changed | in managed mode it catalogues the SD Core server's programs under their plain names (`call name`; the `*` prefix is gone), takes a catalogue entry with no `$ ! _` prefix for the server's, refuses a program whose name begins with `$ ! _ * -`, and sweeps away the `*name` entries an earlier release made; a program catalogued in the account under the same name is found first |
+| `sync.global.catalog` | Changed | in managed mode it catalogs the SD Core server's programs under their plain names (`call name`; the `*` prefix is gone), takes a catalog entry with no `$ ! _` prefix for the server's, refuses a program whose name begins with `$ ! _ * -`, and sweeps away the `*name` entries an earlier release made; a program cataloged in the account under the same name is found first |
 | shell and OS access | Changed | until now every Solo account could run Linux commands and reach any file the Linux user could; both are off until the administrator turns them on |
 | `tool.gates` | Added | full-screen page of the account's four gates (`sh`, `os`, `net`, `ai`): on or off for this session, what the register says, how each is delivered and when a change reaches you; after `admin`, Enter turns a gate on or off through its own verb |
 | `tool.menus` | Added | full-screen page that shows the home screen's settings and runs the verbs once you answer Run |
@@ -546,8 +546,8 @@ Three simple layers, with no vault and nothing on by default.
 | redraw | Changed | the library writes only the text that changed, so a screen no longer flashes |
 | `screen selector` | Added | a choice of one word among several |
 | `screen slider` | Added | an on and off switch with words of your choice |
-| `screen` statement | Added | menus, dialogues and forms from BASIC; colour; tabs, text areas, tables; the mouse |
-| themes | Added | `mono`, `classic` and `blue`; colour works on the Linux console terminal type |
+| `screen` statement | Added | menus, dialogues and forms from BASIC; color; tabs, text areas, tables; the mouse |
+| themes | Added | `mono`, `classic` and `blue`; color works on the Linux console terminal type |
 | window size | Changed | SD reads the terminal's window size at the start and when it is resized; `@crtwide` and `@crthigh` follow it |
 
 ### SDNet
@@ -579,7 +579,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | audit trail rotation | Changed | fixed: `sd-solo -start` renames a trail of 1 MB or more to `audit.<date>-<time>`, a name with a one-second resolution, and the rename replaced a file already called that; a rotation onto a name that is taken is now refused, the trail stays whole and SD starts as usual |
 | commands that change a file you name | Changed | fixed: `get.list ... deleting`, `save.list`, `delete.list`, `sort.list`, `copy.list`, `map file`, `format`, `fixdir`, `generate`, `compile.dict`, `set.trigger`, `reformat ... to`, `sp.view`, `como ... in`, the object file of `basic` and `create.file` of an existing file, and over the API `write`, `delete` and `clearfile` could be pointed at the VOC or a server file; each now asks first |
 | deleting a directory tree | Changed | fixed: `delete.file` of a directory file and the other deletes of a whole tree followed a symbolic link inside it and deleted what it pointed at; a link is now removed as a link and its target left alone |
-| `$internal` programs | Changed | fixed: a program a user compiled and catalogued locally ran with internal privilege without `admin`; only the global catalogue or an `admin` session keeps it |
+| `$internal` programs | Changed | fixed: a program a user compiled and cataloged locally ran with internal privilege without `admin`; only the global catalog or an `admin` session keeps it |
 | named common | Changed | fixed: a program that ended while holding objects in named common freed them twice |
 | named common with a `$` or `_` name | Changed | the system's own common blocks: only an internal program may declare or join one; any other program stops with message 11598 |
 | operating system paths | Changed | `dir()`, `select.dir`, `oscopy`, `!oscopy`, `!ioscopy`, `deleteseq` of a path, `opentemp`, `digest` of a file, `setptr ... as pathname`, `setpu`, the embedded Python and a VOC pointer out of the account each ask the account's `os` switch |
@@ -613,10 +613,10 @@ Fixes that close a way round a gate, and what the gates now ask.
 | `debugger` full-screen display | Added | on a terminal with an alternate screen the debugger takes the whole screen: source, breakpoints, messages and the command line; F1 help, F4 the program's screen |
 | home screen | Added | a session on a terminal starts in a screen of tiles (the editor, the IDE, the record editor, a terminal, the keys test, sign out); arrows, Tab, letters, mouse, F5, F10; there is no Switch account |
 | home screen, two sessions | Changed | fixed: a session that started at the home screen kept the next session waiting at sign-on (the missing `start.default` was read with a lock that was never let go); `set.start.default`, `tool.menus`, `tool.viewers` and `osread` close what they read the same way |
-| `ide` | Added | tree, tabs, compile errors table, find, run, catalogue and debug; Ctrl-E hands a record to `sed` |
+| `ide` | Added | tree, tabs, compile errors table, find, run, catalog and debug; Ctrl-E hands a record to `sed` |
 | `ide` redraw | Changed | no flash; a click on the menu bar opens the menu; the active pane is marked `[*]` |
 | immediate messages | Changed | `message ... immediate` is shown in a box on any terminal |
-| `sed` | Changed | the full-screen editor is back with a menu bar, the keys most editors have (`emacs` in `&sed.options&` keeps the old ones), undo and redo, syntax colour and the mouse; its keys are decoded from the terminal's terminfo entry <!--s 365--> |
+| `sed` | Changed | the full-screen editor is back with a menu bar, the keys most editors have (`emacs` in `&sed.options&` keeps the old ones), undo and redo, syntax color and the mouse; its keys are decoded from the terminal's terminfo entry <!--s 365--> |
 | `sed` open of a missing path | Changed | fixed: opening a path that does not exist (and the retry in upper case) kept the name locked until the editor was closed |
 | `sed`, `ide`, `ed` input ended | Changed | fixed: they used all of a processor for ever when their input had ended |
 

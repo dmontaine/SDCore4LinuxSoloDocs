@@ -32,12 +32,12 @@ Types](32b-sd-voc-private-vocabulary-and-parser.html), which also describes
 `$voc.parser`, the record that hands a VOC record of a type SD does not know
 to a program of your own.
 
-### If neither has it, the catalogue is tried
+### If neither has it, the catalog is tried
 
-A name that is not in the VOC or the private vocabulary is looked for in the **private catalogue**
-of the account and then in the **global catalogue**, `gcat`. A hit is
+A name that is not in the VOC or the private vocabulary is looked for in the **private catalog**
+of the account and then in the **global catalog**, `gcat`. A hit is
 treated exactly as though the VOC had held `V` / `CA` / *name*. This is
-why a program you have catalogued can be run by typing its name with no
+why a program you have cataloged can be run by typing its name with no
 VOC record of its own.
 
 If neither has it, the command is refused by name.
@@ -171,7 +171,7 @@ neither takes anything away.
 `listu`, `update.accounts` and the rest — and each one refuses with *Command
 requires administrator privileges* until `admin`. There is no `create.account`,
 `delete.account`, `modify.account`, `remote.ssh` or `remote.api` anywhere: an
-unknown name is simply not recognised. See *Administrator commands* in the
+unknown name is simply not recognized. See *Administrator commands* in the
 GettingStarted set.
 
 ## Case on disk

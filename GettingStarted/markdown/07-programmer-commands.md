@@ -8,16 +8,16 @@ This page is a reference for what each of them does, not a list of what you have
 been given.
 
 **Two things, named as they come up below, still need more than the verb**:
-cataloguing globally is refused to everyone, and editing the VOC directly needs
+cataloging globally is refused to everyone, and editing the VOC directly needs
 `admin` — see [What actually gates these](#what-actually-gates-these) at the foot
 of this page. The full-screen editors need nothing extra.
 
-## Compile, catalogue and run
+## Compile, catalog and run
 
 | | |
 |---|---|
 | **`basic`** | compile SD BASIC source |
-| **`catalog`** | add to the catalogue |
+| **`catalog`** | add to the catalog |
 | **`delete.catalog`** | remove from it |
 | **`compile.dict`** | compile dictionary items |
 | **`run`** | run a compiled program |
@@ -25,11 +25,11 @@ of this page. The full-screen editors need nothing extra.
 | **`generate`** | generate source |
 | **`phantom`** | start a background process |
 
-> **Nobody catalogues globally.** `catalog ... global`, and `delete.catalog` of a
+> **Nobody catalogs globally.** `catalog ... global`, and `delete.catalog` of a
 > global entry, are refused whoever asks and whether or not `admin` is unlocked.
-> On a managed computer the global catalogue is the SD Core for Linux server's
-> — see [Managed mode](15-managed-mode.html). Private and local cataloguing
-> work as they always did: catalogue your own programs with `catalog ... local`.
+> On a managed computer the global catalog is the SD Core for Linux server's
+> — see [Managed mode](15-managed-mode.html). Private and local cataloging
+> work as they always did: catalog your own programs with `catalog ... local`.
 
 ## Edit and debug
 
@@ -55,7 +55,7 @@ micro dict customers name
 
 The verb writes the record to a working copy, opens the editor on it, reads
 it back, and asks whether to save. For a `bp` record it then offers the compile
-and the catalogue.
+and the catalog.
 
 **It runs outside SD, so it needs the `os` switch**, which is off as delivered
 (without it it says it is not available to the account; the administrator turns
@@ -66,7 +66,7 @@ it on with `set.os.access os on`, and `ed` needs nothing of the kind). See
 
 **It highlights SD BASIC.** The `micro` verb copies SD's syntax file into your
 `~/.config/micro/syntax` the first time it is used. **It applies to a `bp` record
-and to nothing else.** SD names the working copy so the editor can recognise the
+and to nothing else.** SD names the working copy so the editor can recognize the
 language — a record edited out of any other file is treated as plain text, which
 is correct for a VOC entry or a data record.
 
@@ -182,7 +182,7 @@ and `modify` are gone and are not coming back. See
 | | |
 |---|---|
 | Changing the VOC directly | `admin` first: `ed voc`, a program's `write` or `delete` to the VOC, `copy` into it, `.s` and `.d`. Everything SD writes to the VOC itself, as a side effect, is not gated |
-| The global catalogue | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
+| The global catalog | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
 | The deny list (managed mode) | `admin` or the global password unlocks what the server denied |
 | File permissions | ordinary Linux file permissions on your own directory — see [Security](12-security.html) |
 | Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `micro`); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
@@ -193,7 +193,7 @@ and `modify` are gone and are not coming back. See
 into a reused file name previously produced an object SD could not subsequently
 open.
 
-**Object code and the catalogue are replaced on upgrade.** The compiled
+**Object code and the catalog are replaced on upgrade.** The compiled
 programs, the messages, include records and VOC templates are all overwritten by
 a new release — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 **Anything in your own account — your `bp` file and everything compiled from it

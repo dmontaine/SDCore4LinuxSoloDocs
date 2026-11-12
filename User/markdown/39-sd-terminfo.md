@@ -3,7 +3,7 @@ Subtitle: The terminfo database, the definitions that ship, and the compiler tha
 
 SD uses a terminfo database to know what byte sequences a terminal sends for
 each key, and what sequences to emit for screen control — cursor movement,
-clear, colour, bold, underline.
+clear, color, bold, underline.
 
 Most installations never touch it. The shipped definitions cover the
 terminals in ordinary use, and `linux` works with any standard Linux
@@ -92,7 +92,7 @@ definition.
 ## Ending one attribute: `eblink`, `edim`, `erev`, `ebold` and `eprot`
 
 SD turned blink, half intensity, reverse video and bold off with `sgr0`, which ends **every**
-attribute and the colours as well. A terminal entry can now give each its own capability:
+attribute and the colors as well. A terminal entry can now give each its own capability:
 
 | capability | ends | sent by |
 |---|---|---|
@@ -104,10 +104,10 @@ attribute and the colours as well. A terminal entry can now give each its own ca
 
 When the entry defines the capability, the function sends it; **when it does not, the function
 sends `sgr0` as before.** No entry that ships with SD defines any of the five, so nothing changes
-until you add them. SD's own programs that use `@(-14)` to put the colours back (the query
+until you add them. SD's own programs that use `@(-14)` to put the colors back (the query
 processor's styles, SED, the pick lists) therefore behave as they did on every stock terminal.
 Think before you give an entry an `erev` of its own: it ends reverse video and nothing else, where
-`sgr0` ended the colours too.
+`sgr0` ended the colors too.
 
 `terminfo.src` is replaced by an upgrade, so keep the additions in a separate file of
 your own, and compile them with `sdtic` as described below. The start functions `@(-5)` and

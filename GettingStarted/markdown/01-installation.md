@@ -137,7 +137,7 @@ is no `sdsys` subdirectory as there is on Windows.
 | `sd.conf` | the configuration. See [Configuration](16-configuration.html) |
 | `user_accounts/sduser` | the one SD account, and your data |
 | `$cred/` | the credential store: the verifiers for the three passwords, and the kept copy of the account password. Mode 700 |
-| `gcat/`, `gpl.bp.out/`, `voc`, `messages/`, `syscom/`… | SD's own files: the global catalogue, the system programs (compiled only — no source is installed), the messages, SD's own VOC and dictionaries |
+| `gcat/`, `gpl.bp.out/`, `voc`, `messages/`, `syscom/`… | SD's own files: the global catalog, the system programs (compiled only — no source is installed), the messages, SD's own VOC and dictionaries |
 | `global.bp.out/`, `solo.policy/` | on a managed computer, the SD Core for Linux server's programs and the list of commands denied to you. See [Managed mode](15-managed-mode.html) |
 | `audit`, `errlog` | the audit trail and the error log |
 | `tools/` | `solo-service.sh`, `solo-ssh.sh` and `deletesdsolo.sh` — see [The installed scripts](17-the-installed-scripts.html) |

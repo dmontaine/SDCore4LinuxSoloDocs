@@ -38,7 +38,7 @@ reached from other computers. See [The account and its passwords](05-account-typ
 |---|---|
 | Every session | asks the account password |
 | Administrator commands | refused until `admin`. The eight that had no check of their own — `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` — are gated too. See [Administrator commands](06-administrator-commands.html) |
-| The VOC | direct edits need `admin`; the global catalogue is changed by nobody in a session |
+| The VOC | direct edits need `admin`; the global catalog is changed by nobody in a session |
 | The shell and OS access | refused until the administrator turns the `sh` or `os` switch on with `set.os.access`: off on a new install, and on an upgrade unless you answered yes when the installer asked — see [Operating system access](06b-operating-system-access.html) |
 | The NET gate | API request 29 (open an `account;file` file for a client) is refused until the administrator sets `NETFILES=2` in `sd.conf` and turns the gate on with `set.net.access on`: both off as delivered; and a VOC pointer that leads out of the account is refused unless the account has the `os` switch on — see [API access](09-api-access.html) |
 | The daemon | runs as you, never as root; SD refuses to start as root |
@@ -74,7 +74,7 @@ signed in to**: nobody logs in to it, and there is no `sdsys` Linux user.
 ## On a managed computer
 
 **The SD Core for Linux server can add to what is locked** — the global
-catalogue, the list of denied commands — and it signs in with the global
+catalog, the list of denied commands — and it signs in with the global
 password. **All of that is SD enforcing it, and none of it is Linux enforcing
 it**: the user of the computer owns the files and can change them from outside
 SD. What managed mode protects is what happens *inside* SD. See

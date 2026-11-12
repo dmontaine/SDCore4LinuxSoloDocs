@@ -294,7 +294,7 @@ sort.list names1
 `@system.return.code` is the number of items. A list that is not there is
 *Saved select list 'NOSUCH' not found*. The file named by `from` is held to the
 same rule as for `copy`: a VOC can be changed only after `admin`, and the global
-catalogue's directories only with the global password.
+catalog's directories only with the global password.
 
 ## Moving a list to another number: `move.list`
 

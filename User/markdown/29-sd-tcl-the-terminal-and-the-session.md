@@ -1,5 +1,5 @@
 Title: SD TCL - The Terminal and the Session
-Subtitle: Screen size, terminal behaviour, silence, the inactivity timer, and writing to the error log.
+Subtitle: Screen size, terminal behavior, silence, the inactivity timer, and writing to the error log.
 
 Two different things are called the terminal. **`term` is the page** — how wide
 and how deep SD thinks your screen is, which decides where output wraps and when
@@ -129,11 +129,11 @@ reads nothing private (it shows the terminal type, the window and the locale, wh
 the session already knows), and it needs no administrator password. It needs a
 window of at least **140 columns by 43 lines** and says so, with the size it found,
 if the window is smaller. Use it when a function key does nothing, an arrow prints
-`^[[A`, colour looks wrong or the mouse does not answer.
+`^[[A`, color looks wrong or the mouse does not answer.
 
 | box | what it shows |
 |---|---|
-| **Terminal** | the terminal type SD is using (`TERM (SD)`, what `term` sets) and the one in the environment (`TERM (env)`), the window and the layout, the locale and whether the borders are line characters (UTF-8) or `+ - \|`, whether the terminal can show colour, the theme, how many mouse events have arrived, how keys are being read, and how many of the 52 keys in the grid have been seen |
+| **Terminal** | the terminal type SD is using (`TERM (SD)`, what `term` sets) and the one in the environment (`TERM (env)`), the window and the layout, the locale and whether the borders are line characters (UTF-8) or `+ - \|`, whether the terminal can show color, the theme, how many mouse events have arrived, how keys are being read, and how many of the 52 keys in the grid have been seen |
 | **Last keys** | the 25 newest keys, newest first. **Names** (the start): the name the screen library reports for the key — `up`, `f5`, `ctrl-g`, `alt-s`, `mouse`, or the character itself with its code. **Raw** (Ctrl-R): the bytes the terminal sent, the first eight, in hex, with the characters beside them |
 | **Keys seen** | the arrows, home, end, paging, insert, delete, backspace, tab, back-tab, Enter, Esc, the twelve function keys, the control keys, an Alt-letter, a printable character and the mouse; a key is ticked, and drawn bold, once it has been pressed |
 | **Mouse** | the last mouse event (press, release, drag, wheel), where it was, and the counts |
@@ -142,7 +142,7 @@ if the window is smaller. Use it when a function key does nothing, an arrow prin
 Every key is shown **before** the program acts on it. The program uses four:
 **Ctrl-L** clears what has been seen, **Ctrl-R** switches between names and raw
 bytes, **Ctrl-T** changes the theme (mono, classic, blue; a terminal that cannot
-show colour keeps mono and says so) and **Ctrl-Q** leaves, so a key that ends the
+show color keeps mono and says so) and **Ctrl-Q** leaves, so a key that ends the
 program can only be tested by leaving.
 
 **A key that makes the terminal beep and shows nothing in names mode is one the
@@ -181,7 +181,7 @@ gone quiet — it takes a keyword and `display` is one of them. The full set:
 | **`pterm newline cr`** \| **`lf`** \| **`crlf`** | the output line ending |
 | **`pterm return cr`** \| **`lf`** | the input line ending |
 | **`pterm binary on`** \| **`off`** | pass bytes through untranslated |
-| **`pterm telnet on`** \| **`off`** | recognise `TN_IAC` |
+| **`pterm telnet on`** \| **`off`** | recognize `TN_IAC` |
 | **`pterm reset`** *string* | the terminal reset string |
 | **`pterm prompt`** `":"` `"::"` | change the command prompt and the continuation prompt |
 
@@ -392,7 +392,7 @@ Decimal separator   : '.'
 Naming one of the three shows just that one. Naming one and a value sets it, and
 **`nls default`** puts all three back to `$`, `,` and `.`. A setting lasts for the
 session: the next session starts from the defaults. Anything other than the three
-names is refused, *"x is not a recognised NLS key"*.
+names is refused, *"x is not a recognized NLS key"*.
 
 These are the same three values that **`getnls`** and **`setnls`** read and set
 from SD BASIC (see [Data Conversion](06-sd-basic-data-conversion.html)). SD Core

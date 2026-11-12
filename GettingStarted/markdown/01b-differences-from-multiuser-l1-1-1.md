@@ -40,7 +40,7 @@ read it, as they could read a `~/.pgpass`. See
 |---|---|
 | the administrator verbs are SDSYS's, and only SDSYS has them | the same verbs are in your account and **need `admin` first** — including eight that had no check of their own because only SDSYS had them: `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` (`CONFIG GPL` and `CONFIG CONTRIB`, which the sign-on banner tells everyone to type, need no `admin`) |
 | editing the VOC directly is any account's own business | `ED VOC`, a program's `WRITE` or `DELETE` to the VOC, `COPY` into it, and saving or deleting a sentence with `.S` and `.D` **need `admin`**. What SD writes to the VOC as a side effect — `CREATE.FILE`'s entry, the command stack — does not |
-| SDSYS can `CATALOG ... GLOBAL` | **nobody changes the global catalogue**, `admin` or not. On a managed computer it holds the SD Core for Linux server's programs. See [Other hardening](13-hardening.html) |
+| SDSYS can `CATALOG ... GLOBAL` | **nobody changes the global catalog**, `admin` or not. On a managed computer it holds the SD Core for Linux server's programs. See [Other hardening](13-hardening.html) |
 | `remote.ssh`, `remote.api` | **gone.** The API and ssh are chosen when installing, and changed with the scripts in `~/SDCoreSolo/tools` |
 | `update.accounts` updates every account | updates the one account, and an upgrade runs it for you |
 
@@ -52,7 +52,7 @@ See [Administrator commands](06-administrator-commands.html).
 SD Core for Linux server also manages it and signs in with that password. The
 installer lets the global password be left blank, in which case no server manages
 the computer; there is no "standalone or managed" question. The server can put compiled programs into the global
-catalogue (`global.bp.out`, `sync.global.catalog`) and keep a list of commands
+catalog (`global.bp.out`, `sync.global.catalog`) and keep a list of commands
 the user may not run (`deny.verbs`). An installer control file,
 `sd-solo-setup.conf`, sets up many computers the same way, leaving the account
 password to be chosen at first login. From LS1.1-2 the server can also install its
@@ -93,7 +93,7 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
   to work without `admin`.
 - **A client that signs in with a Linux user name**, or with the old cleartext
   login.
-- **Anything that writes the global catalogue.** Catalogue programs locally
+- **Anything that writes the global catalog.** Catalog programs locally
   (`CATALOG ... LOCAL`) instead.
 - **Anything that expects `/usr/local/sdsys`, `/etc/sd.conf` or `/home/sd`.**
   Use `~/SDCoreSolo`.

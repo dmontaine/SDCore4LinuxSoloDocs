@@ -91,7 +91,7 @@ See [API access](09-api-access.html).
 ## Virtual file systems
 
 **SD has never been able to open a virtual file system.** Nothing in the
-file-opening code ever recognised a `VFS:` pathname. What the language carried was
+file-opening code ever recognized a `VFS:` pathname. What the language carried was
 the *outline* of one, and none of it could be reached.
 
 All of it has been removed, so the language no longer offers a feature it cannot
@@ -169,7 +169,7 @@ something an application ever called. **`py_json`, `py_term`, `py_test` and
 Python.
 
 **`pcl` is unaffected as a printer feature** — the `pcl` keyword and the
-catalogued `pcl` routine are both still there.
+cataloged `pcl` routine are both still there.
 
 ## Things that were never features, and are not coming
 

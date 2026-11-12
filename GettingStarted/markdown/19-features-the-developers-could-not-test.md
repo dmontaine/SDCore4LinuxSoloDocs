@@ -1,7 +1,7 @@
 Title: Features the developers could not test
 Subtitle: The parts of SD Core for Linux Solo that were built and reasoned about but never exercised, what is known about each, and what it would take to settle it.
 
-Everything else in this documentation describes behaviour that was run and
+Everything else in this documentation describes behavior that was run and
 watched. **This page is the exception, and it exists so that the exception is
 visible in one place rather than scattered through the reference as footnotes.**
 
@@ -46,7 +46,7 @@ ran the package installation (`apt`), and linger was on.
 **The lockout (built 2 Oct 2026): known in pieces.** Three wrong passwords from one address in ten
 minutes lock that address for ten minutes. The rules were run with a fake `sshd` over real loopback
 connections from separate addresses (a wrong password counts, a key does not, a sign-in forgets
-the failures, the window and the end of a lock are honoured), and with the real `sshd` and a
+the failures, the window and the end of a lock are honored), and with the real `sshd` and a
 terminal typing wrong passwords, **and on the owner's installed Solo through its own systemd unit** (the
 third wrong password closed the connection, the next connection was reset before any prompt, `locked` and
 `unlock` worked, and the address reached the password stage again). **Not known:** a guess spread over
@@ -222,7 +222,7 @@ them.
 **`micro`'s key bindings are the program's own, unmodified — this
 release does not implement or alter the editor**, only launches it and
 stages its syntax highlighting. If a binding surprises you, that is the
-program's own documented behaviour, not something to report against SD.
+program's own documented behavior, not something to report against SD.
 
 ## What is NOT on this page, and why
 

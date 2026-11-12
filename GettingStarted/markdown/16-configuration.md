@@ -37,9 +37,9 @@ comments record why each value was chosen. Read them before changing anything.
 **An upgrade keeps your `sd.conf`** — see
 [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 
-### A name SD does not recognise stops it starting
+### A name SD does not recognize stops it starting
 
-An unrecognised parameter is not ignored. The parser abandons the file with
+An unrecognized parameter is not ignored. The parser abandons the file with
 `Unrecognised configuration parameter`, and SD does not start.
 
 **The parameters SD no longer has are removed from a kept `sd.conf` for you.**
@@ -92,7 +92,7 @@ is longer than eight, so that only shows up if you pass something which is not a
 parameter.
 
 Two further forms exist. `config lptr` reports the settings of the default
-printer, and `config gpl` and `config contrib` display the licence and the list of
+printer, and `config gpl` and `config contrib` display the license and the list of
 contributors — those two need no `admin`.
 
 ## Changing a parameter
@@ -148,7 +148,7 @@ Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 
 | Parameter | Default on a new install | Effect |
 |---|---|---|
-| `SDSYS` | the installation directory itself, `~/SDCoreSolo` | The system directory. **You do not set it**: it is worked out from where `bin/sd` is, and SD does not start if the global catalogue is not found beneath it |
+| `SDSYS` | the installation directory itself, `~/SDCoreSolo` | The system directory. **You do not set it**: it is worked out from where `bin/sd` is, and SD does not start if the global catalog is not found beneath it |
 | `USRDIR` | `<home>/user_accounts` | Where the account lives |
 | `GRPDIR` | `<home>/group_accounts` | Where group accounts would live. Solo has none, and the directory is empty |
 | `DUMPDIR` | unset | Where process dumps are written |
@@ -230,7 +230,7 @@ Until 2.0-0 seven parameters were parsed and did nothing (`JNLMODE`, `JNLDIR`,
 `CREATUSR`, `CODEPAGE`, `EXCLREM`, `RINGWAIT`, `TXCHAR`), and six more imitated
 another product or chose between ways of working that SD no longer has
 (`APILOGIN`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `PORTMAP`). All thirteen
-are gone; see [A name SD does not recognise stops it starting](#a-name-sd-does-not-recognise-stops-it-starting)
+are gone; see [A name SD does not recognize stops it starting](#a-name-sd-does-not-recognize-stops-it-starting)
 above for what happens to a kept `sd.conf` that still names one. The `PATH:` form
 of a file name went with `FILERULE`: write an F-pointer instead.
 
@@ -246,5 +246,5 @@ was refused for nothing but the bit, so a site that had set `NETFILES=2` had
 let an API login open a file named in the VOC of any directory that holds a
 `voc`: take the setting out, or turn the NET gate on knowing what it allows.
 
-There is no licence parameter and no licence verb. SD Core is GPL v3 and is not
-licensed per site or per user; `config gpl` displays the licence text.
+There is no license parameter and no license verb. SD Core is GPL v3 and is not
+licensed per site or per user; `config gpl` displays the license text.

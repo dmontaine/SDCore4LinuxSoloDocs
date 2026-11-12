@@ -57,7 +57,7 @@ that no page runs longer than a reader will scroll.
 | | | |
 |---|---|---|
 | **00** | Start here | this page |
-| **00a** | [Copyright and licence](00a-copyright-and-licence.html) | The copyright and the licence for this set, in full and in one place |
+| **00a** | [Copyright and license](00a-copyright-and-licence.html) | The copyright and the license for this set, in full and in one place |
 | **01** | [Installing](01-installation.html) | What the installer asks, what it puts where, and the control file for installing many computers |
 | **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the computer |
 | **01b** | [Differences from multiuser SD Core for Linux L1.1-1](01b-differences-from-multiuser-l1-1-1.html) | What Solo leaves out, adds and does differently |
@@ -75,7 +75,7 @@ that no page runs longer than a reader will scroll.
 | **11** | [Lower case](11-lower-case.html) | Case in commands, file names and record ids |
 | **12** | [Security](12-security.html) | What protects the database, and what does not |
 | **12a** | [Security and the operating system](12a-security-and-the-operating-system.html) | Reaching the computer from inside SD, and the audit trail |
-| **13** | [Other hardening](13-hardening.html) | The global catalogue, the logs, and the rest |
+| **13** | [Other hardening](13-hardening.html) | The global catalog, the logs, and the rest |
 | **14** | [Not in SD Core](14-not-in-sd-core.html) | What has been removed, and what to use instead |
 | **15** | [Managed mode](15-managed-mode.html) | What an SD Core for Linux server can do to a managed computer |
 | **16** | [Configuration](16-configuration.html) | `sd.conf` and its parameters |
@@ -133,7 +133,7 @@ reference for the language and the command processor is the separate User set.
 ## Where the source is
 
 **Both repositories are public, and everything in them is open source.** SD is
-GPL software — `config gpl` at an `sd-solo` prompt displays the licence, and the
+GPL software — `config gpl` at an `sd-solo` prompt displays the license, and the
 installed directory carries it as the file `licence`.
 
 | | |

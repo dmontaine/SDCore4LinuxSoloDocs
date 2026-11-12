@@ -129,7 +129,7 @@ rtnval = sdext(arg, isargmv, key)
 function table, so an ordinary account does not merely get refused — it gets a
 misleading error. An unknown function is read as a matrix reference, so the
 complaint is about a `dim` statement the program does not contain, reported at the
-last line rather than at the call. That behaviour is covered by the restricted
+last line rather than at the call. That behavior is covered by the restricted
 commands card in the User set.
 
 `$internal` needs both halves: the compiler tests for internal mode **and** for the
@@ -175,9 +175,9 @@ The programs that call `sdext()` are the credential and login ones — `apisrvr`
 `cred_set`, `cred_verify`, `sd_get_salt`, `sd_key_from_pw` and `sdclient` — the
 embedded-Python interface (the `py_*` programs), and the three key ring
 subroutines `keyring_set`, `keyring_clear` and `keyring_list`. The last three are
-catalogued for general use as `!keyset`, `!keyclear` and `!keylist`, so an
+cataloged for general use as `!keyset`, `!keyclear` and `!keylist`, so an
 application reaches the ring without reaching `sdext()`. The others are not
-catalogued for general use as a way to reach the interface, so they are not an
+cataloged for general use as a way to reach the interface, so they are not an
 indirect route to it either.
 
 ## Two constants that are not SDEXT keys

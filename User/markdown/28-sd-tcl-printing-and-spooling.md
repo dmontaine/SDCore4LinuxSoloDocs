@@ -160,7 +160,7 @@ it alone.)*
 **Unlike SD Core for Windows, `at` accepts any name without checking it
 against a list of installed printers.** This port hands whatever name you
 give it straight to the configured spooler command; a name the spooler
-itself does not recognise fails when the job is actually sent, not when
+itself does not recognize fails when the job is actually sent, not when
 `at` is typed.
 
 ## Holding a unit open

@@ -61,7 +61,7 @@ VOC, `COPY` into it — and saving or deleting a sentence with `.S` and `.D`.
 What SD writes to the VOC as a side effect of an ordinary command —
 `CREATE.FILE`'s entry, the command stack — is not gated.
 
-**Refused even with `admin`**: changing the global catalogue (`CATALOG ...
+**Refused even with `admin`**: changing the global catalog (`CATALOG ...
 GLOBAL`, `DELETE.CATALOG` of a global entry, a write to `global.bp.out`), and
 the commands that are the SD Core for Linux server's — see
 [Managed mode](15-managed-mode.html).
@@ -96,7 +96,7 @@ the wrong one for changing the installation.
 | | |
 |---|---|
 | *New parameter value required* | `config numlocks` with nothing after it. **The report form is `config` alone** |
-| *Not a recognised private configuration parameter name* | the name cannot be set per session |
+| *Not a recognized private configuration parameter name* | the name cannot be set per session |
 | *Invalid value for this parameter* | it can, and the value is wrong |
 
 ### `SET.DATE`
