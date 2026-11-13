@@ -9,15 +9,9 @@ seventeen documents in this set are where that lives.
 braces an optional part. SD folds case, so any of this may be written in
 either case.
 
-> **This page is generated, and it is checked for completeness rather than
-> proof-read for it.** The roster comes from `BCOMP`'s own tables — the same
-> extraction the rest of this set uses — and `tools/mksyntax.py` refuses to
-> write the page if a single name that belongs on it has no line. Argument
-> counts for functions are read out of `BCOMP`'s dispatch table, which is
-> positional against the name list and carries each name in a comment; the
-> script asserts the two agree before it uses either. The shapes that a count
-> cannot express — every statement, and about twenty functions — come from
-> documents 01 to 17, where each one is described in full.
+> This page lists every statement and function an application may use. The shapes
+> that an argument count cannot express — every statement, and about twenty
+> functions — are described in full in documents 01 to 17.
 
 **What is not here, and where it went.** Everything on this card is something
 an application may use. Names that an ordinary program **cannot** compile are
@@ -171,7 +165,7 @@ exist.**
 | **`epoch`** | `epoch()` |
 | **`eqs`** | `eqs(`*a*, *b*`)` |
 | **`equate`** | `equate` *name* `to` *value* {, *name* `to` *value*} … |
-| **`execute`** | `execute` *cmd* {`capturing` *v*} {`returning` *v*} {`passlist` *l*} {`rtnlist` *v*} {`stacklist`} |
+| **`execute`** | `execute` *cmd* {`capturing` *v* or `silent`} {`returning` *v*} {`passlist` *l*} {`rtnlist` *v*} {`stacklist`} |
 | **`exit`** | `exit` — leave the enclosing `loop` or `for` |
 | **`exp`** | `exp(`*a*`)` |
 | **`expand`** | `expand(`*c*`{`*path*`}` {, *file.var*}`)` |
@@ -378,8 +372,8 @@ exist.**
 | **`os.error`** | `os.error()` |
 | **`os.execute`** | `os.execute` *command* {`capturing` *var*} |
 | **`osdelete`** | `osdelete` *path* — a path outside the account's own directory needs the `os` switch |
-| **`osread`** | `osread` *var* `from` *path* `then` … `else` … — a path outside the account's own directory needs the `os` switch |
 | **`ospath`** | `ospath(`*path*, *key* {, *qualifier*}`)` — keys 0 to 18, see [Status and the Machine](16a-sd-basic-status-and-the-machine.html); an internal program's own `ospath()` has other numbers |
+| **`osread`** | `osread` *var* `from` *path* `then` … `else` … — a path outside the account's own directory needs the `os` switch |
 | **`oswrite`** | `oswrite` *expr* `to` *path* — a path outside the account's own directory needs the `os` switch |
 | **`outerjoin`** | `outerjoin(`*a*, *b*, *c*`)` |
 | **`overlay`** | clause of `input` — type over what is already there ***(clause word)*** |
@@ -507,6 +501,7 @@ exist.**
 | **`shared`** | `openseq` *path*`,` *id* `shared to` *file.var* `then` … `else` … ***(clause word)*** |
 | **`shift`** | `shift(`*a*, *b*`)` |
 | **`signal`** | `signal(`*user.no*`)` |
+| **`silent`** | clause of `execute`, `phantom` and `os.execute` — run the command and throw its output away (not with `capturing`) ***(clause word)*** |
 | **`sin`** | `sin(`*a*`)` |
 | **`sleep`** | `sleep` {*seconds*}   ·   `sleep` *hh:mm:ss* |
 | **`smul`** | `smul(`*a*, *b*`)` |
@@ -586,8 +581,8 @@ exist.**
 | | |
 |---|---|
 | **`vartype`** | `vartype(`*a*`)` |
-| **`void`** | `void` *function.call* — call a function and discard its value |
 | **`vocpath`** | `vocpath(`*file* {, *dict.flag*}`)` |
+| **`void`** | `void` *function.call* — call a function and discard its value |
 | **`vslice`** | `vslice(`*array*, *value.number*`)` |
 
 ## W
