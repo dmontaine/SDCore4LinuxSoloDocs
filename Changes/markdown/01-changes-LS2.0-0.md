@@ -27,6 +27,7 @@ second user; the rows below say what Solo has, and the section at the end says w
 
 | Name | Change | What |
 |---|---|---|
+| A refused sign-on | Changed | ended with exit status 0, as a session that signed on did; now **1**, so a script, a job or an ssh command can tell refused from done |
 | A `select` or `list` with `by` | Changed | records with equal sort keys came out in an order that depended on where they sat in the file; now in record-id order, as `sort` and `sselect` always gave them (not with `saving unique`) |
 | A silent remote server | Changed | could be waited for without limit; now it is given up on after `netreply` seconds |
 | A sort that uses work files | Changed | gave equal keys in an order that depended on `sortmem` and `sortmrg`; it now gives the order the sort gives in memory (equal keys newest first, the first duplicate kept) |
