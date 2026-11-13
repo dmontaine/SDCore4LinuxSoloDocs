@@ -328,6 +328,10 @@ replaces the shipped records and keeps any you added** under another id (the cou
 how many). Reading the help is not gated: the text is the product's own documentation of
 its screens.
 
+A record that has more in the documentation names the document on its second line, as the
+`pdf` directory holds it: the book first, then the chapter (`user-29a-sd-tcl-the-home-screen`;
+the books are `user` and `gettingstarted`). The Documentation button runs `pdf` with that name.
+
 ## See also
 
 [Administrator commands](06-administrator-commands.html) ·
