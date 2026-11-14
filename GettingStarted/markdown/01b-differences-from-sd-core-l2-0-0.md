@@ -105,9 +105,10 @@ See [Installing](01-installation.html) and [Running SD](03-running-sd.html).
   so with `chattr +a`, which needs root; Solo cannot, so you can edit your own
   audit trail. It is a record for you, not evidence against you.
 - **The API's TLS relay cannot become `nobody`**, because nothing in Solo is
-  root. Instead a system-call filter locks it down before it touches the
-  network: it can copy bytes and nothing else, and it is killed if it tries to
-  open a file, make a connection or run a program.
+  root. The same system-call filter that SD Core puts on it after it has dropped
+  its privileges is all that locks it down here: the relay can copy bytes and
+  nothing else, and it is killed if it tries to open a file, make a connection
+  or run a program.
 
 ## What might stop working
 

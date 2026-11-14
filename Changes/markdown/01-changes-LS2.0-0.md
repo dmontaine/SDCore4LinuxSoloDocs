@@ -548,7 +548,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `ai` standing text | Added | a few lines sent first with every AI request (what SD Core Solo is, its conventions and gates, where its help is, your own facts); SD ships a default; after `admin`, `tool.ai` T edits it (Save, Shipped default), `set.ai context` at the prompt; kept in your Solo directory (`ai/context`, mode 0600); invisible in the preview and your question is unchanged; plain ASCII, 4,000 characters, and a text naming SD's own code is refused |
 | `ai` verb | Added | asks an AI one question; shows exactly what will be sent and sends only on `y` or `yes` |
 | `set.ai` | Added | the administrator chooses the provider, model and key from the prompt, and turns the `ai` gate on or off; `set.ai models` lists a provider's own model names, `set.ai model` says when the provider does not list the name; a provider's refusal shows its own words |
-| `tool.ai` | Added | the administrator's AI choice page: Anthropic, OpenAI, Google, DeepSeek or custom, each named one with a default model, with the account's gate; S, one setup dialog: the key in a password field (handed to the helper through a file, so it passes through SD) and the model chosen from the provider's own list |
+| `tool.ai` | Added | the administrator's AI choice page: Anthropic, OpenAI, Google, DeepSeek or custom, each named one with a default model, with the account's gate; S, one setup dialog: the key in a password field (handed to the helper through a file, so it passes through SD) and the model chosen from the provider's own list; C, the custom connection, is one form with its six fields in view, and a refusal names the field and keeps what was typed |
 
 ### API and client library
 
