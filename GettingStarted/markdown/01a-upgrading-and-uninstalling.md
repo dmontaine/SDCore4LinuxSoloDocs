@@ -134,7 +134,7 @@ It says what it will remove, and asks whether to keep your data and configuratio
 
 | | |
 |---|---|
-| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`), `sd.conf` and, if there are any, the `newvoc.mods` directory of your own VOC records and the saved copies of VOC records the update removed (`voc_removed.saved`). Everything else in the directory is removed |
+| `--keep-data` | **leaves your data and configuration where they are**, in `~/SDCoreSolo`: the account's files (`user_accounts/sduser`), `sd.conf`, **the passwords** (`$cred`), the audit trail (`audit` and its rotated copies), the API's TLS key (`sd-tls`), the ssh server's host key and your keys (`sshd`), the AI settings and keys (`ai`), the SDNet logins (`netlogins`), where sessions start (`start.default`) and, if there are any, the `newvoc.mods` directory of your own VOC records and the saved copies of VOC records the update removed (`voc_removed.saved`) — what SD Core for Linux keeps when its accounts are kept. Everything else in the directory is removed |
 | `--delete-data` | removes the whole directory |
 | `--yes` | do not ask "Continue?" |
 
@@ -158,8 +158,9 @@ files itself if `solo-service.sh remove` is refused, and, if any file whose name
 files **before it removes the installation directory or your data**. Run it again from a
 login session, or with `XDG_RUNTIME_DIR` set, or remove those files yourself.
 
-**The passwords, the audit trail, the deny list and SD's own files are always
-removed.** What `--keep-data` leaves is your data and your configuration, not an
+**SD's own files, the deny list and the programs an SD Core server catalogued
+(`global.bp.out`) are always removed**; a server puts the last two back. What
+`--keep-data` leaves is your data, your configuration and what goes with them, not an
 installation, plus a small stamp, `.sdcore-kept`, that says which release made the
 data and when it was left. Nothing is moved, so nothing can be lost in a move. To
 remove what was kept for good, delete the directory (`rm -rf ~/SDCoreSolo`).
@@ -167,8 +168,9 @@ remove what was kept for good, delete the directory (`rm -rf ~/SDCoreSolo`).
 ### Installing again over kept data
 
 **A new install into a directory that holds kept data offers it back.** The
-installer recognizes it by the stamp, the account and `sd.conf` and nothing else (a
-directory with anything more in it is refused, as any non-empty directory is):
+installer recognizes it by the stamp, the account and what `--keep-data` keeps, and
+nothing else (a directory with anything more in it, or with a link where one of those
+should be, is refused, as any non-empty directory is):
 
 ```
 Saved data was found: /home/you/SDCoreSolo
@@ -177,13 +179,17 @@ Reload your saved data and configuration into this new install? [Y/n]
 
 | | |
 |---|---|
-| **Yes** (the default) | the account's files and `sd.conf` are used in the new install, and the account's VOC is refreshed the way an upgrade does it. The directory as you left it is kept beside the new one as `~/SDCoreSolo.kept-<date and time>`, a safety copy — delete it when you are satisfied |
+| **Yes** (the default) | the account's files, `sd.conf` and the rest of what was kept are used in the new install: the passwords, the TLS and ssh host keys (so clients that trust them go on trusting them), the AI settings, the SDNet logins and where sessions start (not asked again); the audit trail goes on from where it was. The account's VOC is refreshed the way an upgrade does it. The directory as you left it is kept beside the new one as `~/SDCoreSolo.kept-<date and time>`, a safety copy — delete it when you are satisfied |
 | **No** (start clean) | the kept data is moved aside to `~/SDCoreSolo.kept-<date and time>`, **never deleted**, and the install is a clean one |
 
-**The new install asks for new passwords either way**, because they were not kept —
-and that includes the global password, which is optional. **This is how a computer
-becomes managed after the fact: uninstall keeping the data, install again giving a
-global password, and reload.** It is also how a global password is dropped.
+**A reload keeps the passwords and asks for none**: the installer says
+*Passwords: kept from the previous install - not changed*. Starting clean asks for new
+ones, as a fresh install does. **To replace the kept passwords, give password files with
+the reload** (`--account-password-file`, `--admin-password-file`, `--global-password-file`,
+or a control file with a global password): they are set instead, and the kept ones are not
+used. **This is how a computer becomes managed after the fact: uninstall keeping the data,
+install again with `--reload-data --global-password-file` *file* and the other two.** A
+kept install from before this release kept no passwords, so its reload asks for them.
 
 **If SD will not start on the kept `sd.conf`** (an item this release no longer knows),
 the install still completes with the default `sd.conf` and says so; the kept copy is

@@ -178,7 +178,8 @@ contents. There is no file until you make one, and nothing is created for you. I
 is applied when the VOC is built at install and at every `update.accounts`, which
 an upgrade runs, and **an upgrade leaves the file where it is.** `deletesdsolo.sh
 --keep-data` keeps it too: the account, `sd.conf`, a `newvoc.mods` directory and the
-saved copies of removed VOC records (`voc_removed.saved`) are what is left beside the
+saved copies of removed VOC records (`voc_removed.saved`) are kept, with the passwords, keys
+and settings listed in *Upgrading and uninstalling*, beside the
 `.sdcore-kept` stamp, and a new install that reloads the
 saved data puts the directory back before it refreshes the VOC, so your records are
 applied again at once. (Only a real directory is kept; a link or a plain file of that

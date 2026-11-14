@@ -25,8 +25,14 @@ programmer's view of their own processes.
 ## Who is signed in: `listu`
 
 ```
-listu {no.page} {lptr {n}}
+listu {detail} {no.page} {lptr {n}}
 ```
+
+`detail` adds a line above the report: the interactive users, the API sessions,
+the phantoms that count as licensed, the other phantoms, and the most users
+there have been at once since SD started. `system(1056)` gives the same five
+numbers. **SD has no license count**, so the third number is whatever the system
+marks as chargeable.
 
 ```
 :listu
