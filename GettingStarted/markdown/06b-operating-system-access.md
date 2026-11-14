@@ -219,15 +219,17 @@ see [Security](12-security.html).
 
 ## At install and at upgrade
 
-**The installer asks**, once, on a terminal, with the default no for each:
+**A fresh install asks**, once, on a terminal, with the default no for each:
 `Turn on the shell (SH) for your SD account? [y/N]` and `Turn on OS access
-(os.execute, outside files, Python, micro) for your SD account? [y/N]`. An
-upgrade asks the same, because **before this release the shell and OS access
-were always on**, and an existing Solo would otherwise lose them without a word;
-say yes to each you want to keep. The answer can be given on the command line,
-`--os-access none|sh|os|both`, or in a control file (`os-access=`); with no
-terminal, or with `--yes` and no answer, nothing is turned on here, which on a
-new account is off and on an upgrade leaves the switches as they were.
+(os.execute, outside files, Python, micro) for your SD account? [y/N]`. The
+answer can be given on the command line, `--os-access none|sh|os|both`, or in a
+control file (`os-access=`); with no terminal, or with `--yes` and no answer,
+nothing is turned on, and both are off.
+
+**An upgrade does not ask**: it keeps the two switches as they are. A Solo from
+before this release (LS1.1-3) had no switches, its shell and OS access always
+on; after the upgrade it has neither set, so **both are off** until you type
+ADMIN and then `set.os.access sh on` or `set.os.access os on`.
 
 ## On a managed computer
 
