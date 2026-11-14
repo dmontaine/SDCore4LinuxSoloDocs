@@ -161,6 +161,7 @@ Statements, functions, `$mode` words and compiler directives.
 | `$mode non.durable.txn` | Added | a committed nested transaction writes nothing until the outer one commits <!--s g221 442--> |
 | `$mode partial.expressions` | Added | `a and b` and `a or b` stop evaluating as soon as the value is known <!--s 417--> |
 | `$mode strict.equate` | Added | warns when a name given to `equate` or `$define` is also a statement or function name <!--s 582--> |
+| `$mode trap.unused` | Changed | warns only of a variable set by a plain `x = ...` and never read; a variable a statement fills (`readu`, `locate ... setting`) is not reported |
 | `$mode trap.unused.main` | Added | `trap.unused` for the program's own variables <!--s g227--> |
 | `no.query` on cataloging | Added | the `basic` command, the `$catalogue` directive and the `catalogue` line of `$basic.options` take `no.query`, which stops the compiler asking before it removes an older entry |
 | `oconv()` date `i` | Changed | the `i` code of a `d` conversion (the ISO week number) gives the week; without `yi` beside it, it gave whatever number was left in memory |
@@ -186,6 +187,7 @@ Statements, functions, `$mode` words and compiler directives.
 | `select.socket()` | Added | waits on the sockets held in a matrix <!--s 161 g176--> |
 | `selectindexv` family | Added | `selectindexv`, `selectleftv`, `selectrightv`: index scans into a select list variable <!--s g177--> |
 | `send` | Added | `writeseq`, or with a colon `writeblk`, to a file opened with `openseq` <!--s g178--> |
+| `sendmail` | Changed | fails (`er$ioe`, the mail command's status in `os.error`) when the mail command cannot run or fails; it reported success |
 | `set.socket.mode` trace | Added | `skt$info.trace` logs the data sent and received on a socket to an owner-only file <!--s 162--> |
 | `socket.info()` | Changed | fixed: `skt$info.open` on a number, a string or an unassigned variable stopped with a fatal error <!--s 249--> |
 | `!sort` | Changed | sorts a select list variable; the internal sort is open to programs <!--s 274 371--> |
@@ -725,6 +727,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | `sd-solo -status` | Changed | fixed an overrun on a server that recorded no start time |
 | `sd-solo -stop` and `sd-solo -restart` | Changed | a session still attached ten seconds after the termination signal is ended with SIGKILL, and the stop says how many; before, it was left running with SD gone under it. A session idle at a terminal or on a pipe leaves by itself |
 | session whose SD was stopped | Changed | ends at once with a message in syslog and on its terminal, instead of spinning at full processor use for ever |
+| sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
 | the TLS relay's last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
 | upgrade: retired files and `sd.conf` parameters | Changed | an upgrade deletes the files this release stopped shipping and takes the retired parameters out of a kept `sd.conf` (SD would not start on them); `deletesdsolo.sh --keep-data` keeps the saved VOC copies (`voc_removed.saved`) for the next install |
 
@@ -747,6 +750,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | home screen refused tile | Changed | a tile whose command is refused shows its message until a key is pressed, and the home screen no longer ends |
 | home screen small window | Changed | a session that starts in the home screen is signed out when the window is too small for it, even with the Terminal tile on (it used to be left at the prompt) |
 | home screen sub-menus | Added | a tile can open a second page of tiles with a Back tile, Esc and the path on the status line; eight deep; the delivered page declares none yet |
+| home screen version | Added | the date line in the header ends with the product and its version: `SD Core Solo for Linux LS2.0-0` |
 | `ide` | Added | tree, tabs, compile errors table, find, run, catalog and debug; Ctrl-E zooms the editor to the whole screen, and Go > Edit in SED hands a record to `sed` |
 | `ide` autologout countdown | Added | with `autologout` set, the status line counts down the last 60 seconds before the session is signed out and says whether unsaved changes will be lost; any key stops it; it reads the inactivity clock `autologout` itself uses |
 | `ide` breakpoints | Added | Shift-F7 or a click in the gutter marks a line of a program tab (`*`); F7 runs to the first mark, Build / Debug from the first line stops at line 1 with them set; what the debugger still has comes back as marks; up to 20, only lines where a statement begins |
