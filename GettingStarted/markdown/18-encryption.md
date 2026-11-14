@@ -1,7 +1,7 @@
 Title: Encryption and the SDEXT interface
 Subtitle: What libsodium provides, what an application can reach, and what SD does and does not do about keys.
 
-SD Core for Linux Solo links libsodium (`libsodium-dev`, installed as an ordinary
+SD Core Solo for Linux links libsodium (`libsodium-dev`, installed as an ordinary
 distribution package by the installer) rather than shipping its own copy. Two
 things are built on it: the credential exchange that authenticates an API login,
 and BASIC functions and a conversion that encrypt the data an application chooses

@@ -1,9 +1,9 @@
 Title: Start here
-Subtitle: What SD Core for Linux Solo is, what this set covers, and what it deliberately leaves out.
+Subtitle: What SD Core Solo for Linux is, what this set covers, and what it deliberately leaves out.
 
 You already know MultiValue. This set does not teach it.
 
-**SD Core for Linux Solo is a personal SD for one Linux user.** Everything it
+**SD Core Solo for Linux is a personal SD for one Linux user.** Everything it
 has — programs and data — lives in one directory in that user's home,
 `~/SDCoreSolo`, and it runs as that user. It has **one SD account, `sduser`**,
 and no way to make another. It never runs as root and refuses to start as
@@ -134,7 +134,7 @@ cleartext API login will not connect. See [ssh access](08-ssh-access.html) and
 **LS2.0-0.** Linux only and English only. **It is a hobby
 project with no release schedule.**
 
-This set covers installing and running SD Core for Linux Solo, administering
+This set covers installing and running SD Core Solo for Linux, administering
 it, managed mode, and what differs from the multiuser SD Core for Linux. The
 reference for the language and the command processor is the separate User set.
 

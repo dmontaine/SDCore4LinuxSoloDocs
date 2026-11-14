@@ -130,7 +130,7 @@ The limits, and what they are as delivered:
 
 Press **T** on `tool.ai` (or choose Provider, Standing text). A box shows the text that is sent first with every AI request, and says whether it is SD's default or yours. Edit it there: Enter starts a new line and Tab moves to the buttons. **Save** shows the command and its effect in a Run / Cancel box (Enter chooses Cancel), and Run keeps your text. **Shipped default** removes yours, so SD's default is sent again. **Cancel** or Esc changes nothing.
 
-The default tells the AI that this is SD Core for Linux Solo, that it should answer for SD and not for another multivalue product, that command words are lower case, which dictionary types there are, that there is one user and one account and that `admin` makes the same person the administrator, that access to the operating system and the shell is a gate that is off as delivered, and where SD's help is: F1 and the `[?]` buttons, the `pdf` command, and the documentation on the web. Put your own facts in it, such as which files matter and how your programs are named.
+The default tells the AI that this is SD Core Solo for Linux, that it should answer for SD and not for another multivalue product, that command words are lower case, which dictionary types there are, that there is one user and one account and that `admin` makes the same person the administrator, that access to the operating system and the shell is a gate that is off as delivered, and where SD's help is: F1 and the `[?]` buttons, the `pdf` command, and the documentation on the web. Put your own facts in it, such as which files matter and how your programs are named.
 
 What is kept:
 

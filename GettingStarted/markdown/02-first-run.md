@@ -1,7 +1,7 @@
 Title: Your first thirty minutes
 Subtitle: From a finished install to a file with data in it, an administrator command, and a command run from a script.
 
-This page assumes SD Core for Linux Solo is installed. It is a walkthrough,
+This page assumes SD Core Solo for Linux is installed. It is a walkthrough,
 not a reference — every step links to the page that explains it properly.
 
 ## 1. Start SD
@@ -21,7 +21,7 @@ computer installed from a control file there is none yet, and it asks you to
 choose one now:
 
 ```
-This account has no password yet. Choose one now - SD Core for Linux Solo asks for it every time it is used.
+This account has no password yet. Choose one now - SD Core Solo for Linux asks for it every time it is used.
 ```
 
 The sign-on banner names the product and its version, `LS2.0-0`.

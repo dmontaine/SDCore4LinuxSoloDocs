@@ -1,5 +1,5 @@
 Title: System limits
-Subtitle: The sizes, counts and depths compiled into SD Core for Linux Solo, and which of them a site can change.
+Subtitle: The sizes, counts and depths compiled into SD Core Solo for Linux, and which of them a site can change.
 
 Two kinds of number appear on this page and they behave differently.
 

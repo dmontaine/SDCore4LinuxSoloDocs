@@ -1,6 +1,6 @@
-# SD Core for Linux Solo — documentation
+# SD Core Solo for Linux — documentation
 
-Documentation for **SD Core for Linux Solo LS2.0-0**, a personal SD Core for one
+Documentation for **SD Core Solo for Linux LS2.0-0**, a personal SD Core for one
 Linux user. The source is in a separate repository, `SDCore4LinuxSolo`; nothing
 here is needed to build SD, and nothing there is needed to build these pages.
 
@@ -21,7 +21,7 @@ Three document sets, each with the same three folders:
 
 | | |
 |---|---|
-| `GettingStarted/` | **38 pages** — installing, upgrading and uninstalling SD Core for Linux Solo, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own (`23`), the AI helper (`24`), the MCP door (`25`) and migrating from another MultiValue database (`26`-`26b`). `01b` is *Differences from SD Core for Linux L2.0-0*. The multiuser product's Administrator set is merged in here |
+| `GettingStarted/` | **38 pages** — installing, upgrading and uninstalling SD Core Solo for Linux, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own (`23`), the AI helper (`24`), the MCP door (`25`) and migrating from another MultiValue database (`26`-`26b`). `01b` is *Differences from SD Core for Linux L2.0-0*. The multiuser product's Administrator set is merged in here |
 | `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (491 names an application may use), `95` SD TCL (181 verbs), `96` the 72 names an ordinary program may not compile |
 | `TUIGuide/` | **11 pages** — *SD Text User Interface - Programmer's Guide*: building a full-screen page of your own in SD BASIC with the public `!tk` routines and `tkpub.h` - the shape of a program, the window and its floor, the key table and menus, the finder, the confirm box, the form, the pick lists, the output pane, and how a page uses the `screen` statement with the routines - with five worked example programs and a reference of every routine. Made from SD Core for Linux's guide (the library is the same); a document of its own, with its own page numbers and its own book |
 

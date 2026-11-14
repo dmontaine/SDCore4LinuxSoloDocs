@@ -54,9 +54,9 @@ LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/'
 # still reads.  They are here rather than imported from add_nav.py because that
 # module runs work at import time.
 SET_BLURB = {
-    'GettingStarted': 'Installing SD Core for Linux Solo, and finding your '
+    'GettingStarted': 'Installing SD Core Solo for Linux, and finding your '
                       'way around it for the first time.',
-    'User':           'Using SD Core for Linux Solo: SD BASIC, TCL, the '
+    'User':           'Using SD Core Solo for Linux: SD BASIC, TCL, the '
                       'dictionaries and the file system.',
     'TUIGuide':       "Programmer's Guide: a full-screen page of your own in "
                       'SD BASIC, with the !tk routines and worked examples.',
@@ -225,7 +225,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--set', required=True)
     ap.add_argument('--out', required=True)
-    ap.add_argument('--product', default='SD Core for Linux Solo')
+    ap.add_argument('--product', default='SD Core Solo for Linux')
     ap.add_argument('--version', default='LS2.0-0')
     args = ap.parse_args()
 

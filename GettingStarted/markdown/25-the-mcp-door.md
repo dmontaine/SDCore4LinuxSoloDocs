@@ -1,7 +1,7 @@
 Title: The MCP Door
 Subtitle: Letting an AI agent's MCP client use your SD account through four read-only tools, and one more if you allow it - two switches, both off, and what a door like this does and does not add.
 
-The Model Context Protocol (MCP) is how an AI agent - Claude Code, an IDE's assistant, any program that speaks it - is given tools. SD Core for Linux Solo can offer such a client a small set of tools that use **your own account**: look at the files, read a record, list some records, and, only if you allow it, run a sentence. This page is for the administrator (`admin` first). It says what is offered, what the two switches do, what is written down about every call, and what the door is not.
+The Model Context Protocol (MCP) is how an AI agent - Claude Code, an IDE's assistant, any program that speaks it - is given tools. SD Core Solo for Linux can offer such a client a small set of tools that use **your own account**: look at the files, read a record, list some records, and, only if you allow it, run a sentence. This page is for the administrator (`admin` first). It says what is offered, what the two switches do, what is written down about every call, and what the door is not.
 
 > **Nothing is on as delivered.** Both switches are off. Until the administrator runs `set.mcp on`, the launcher answers an agent's first message with an error that says so, and a request written by hand is refused inside SD as well.
 

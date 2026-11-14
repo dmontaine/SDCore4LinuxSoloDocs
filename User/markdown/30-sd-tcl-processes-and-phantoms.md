@@ -57,6 +57,12 @@ and the address in hexadecimal.
 For a process that is **waiting for a lock**, `pstat` also shows when the wait
 began, as `list.readu detail` already did.
 
+**What `pstat` prints is another session's text, and it is made safe first.**
+The command, the record it waits for, its program names and its account are shown with each control
+character, `del`, byte from 128 to 159 and mark character as `?`, so that a session cannot send a code to
+your terminal by what it types or locks. The text of `@pstat` (below) gets the same treatment, except that
+its marks are still shown as spaces.
+
 ### The levels are additive
 
 | | |
@@ -288,7 +294,7 @@ Dumping process state as /home/you/SDCoreSolo/sddump.27
 
 It holds the `@`-variables, the current sentence and command, the call stack,
 open files and their locks, and named and unnamed common — which is to say **it
-holds application data**, and it is written where any SD user can read it.
+holds application data**. Each dump file is created readable by its owner alone.
 Treat a dump as you would the data of the program that produced it, and delete
 it when the question it was written to answer has been answered.
 

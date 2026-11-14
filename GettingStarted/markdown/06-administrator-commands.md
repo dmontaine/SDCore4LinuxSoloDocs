@@ -351,6 +351,16 @@ it back (the person's list stays in their file), and without a word the verb say
 program of the account's own runs the command the person could type at the prompt, so it adds
 no access: the switches and the gates apply as they do there.
 
+```
+set.recovery {on | off}
+```
+
+**`set.recovery on`** has the IDE keep a recovery copy of text you have not saved, readable only by
+you in `~/.local/state/sd/recovery/sduser/`, and offer it back when the record is opened again
+after a lost session (*SD Basic - TCL Programs and the Catalogue* describes it). It is **off as
+delivered**; `set.recovery off` stops new copies (the ones that exist are kept until answered),
+and without a word the verb says which it is. It takes effect at once.
+
 **`tool.menus`** is the same settings as a page: the *Accounts* box and the *Menu* box (where the
 account starts, whether it may add its own programs, and a line for each tile), with a `[?]`
 on each row (F1, `?` or a click) that explains it. **It writes nothing itself**: Enter on a row

@@ -11,7 +11,7 @@ SD folds case, so a command may be typed in either case. Commands are shown
 here in lower case. In the tables, *italics* mark something you supply.
 
 > **The behavior on this page was run on SD Core for Linux**, in ordinary
-> sessions, with the names `zzpv`, `zzhello` and the like. SD Core for Linux Solo
+> sessions, with the names `zzpv`, `zzhello` and the like. SD Core Solo for Linux
 > has the same command processor (`$cproc`, read for this page: the lookup order,
 > the handler call and the sign-on read of `$voc.parser` are the same lines), but
 > **the examples were not run again on Solo**. What differs on Solo is who may write

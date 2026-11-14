@@ -35,14 +35,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mkdoc
 
 DOCS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PRODUCT = "SD Core for Linux Solo"
+PRODUCT = "SD Core Solo for Linux"
 VERSION = "LS2.0-0"
 
 # ── Set definitions ──────────────────────────────────────────
 
 SETS = {
     "GettingStarted": {
-        "desc": "Installing, running and administering SD Core for Linux Solo, managed mode, and what differs from the multiuser SD Core for Linux.",
+        "desc": "Installing, running and administering SD Core Solo for Linux, managed mode, and what differs from the multiuser SD Core for Linux.",
     },
     "User": {
         "desc": "For programmers and operators. SDBasic, TCL, the VOC, dictionaries, the file system, the client API, and what an ordinary program may not compile.",

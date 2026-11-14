@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **208** verbs, and
+> every verb record in `newvoc`, which is **209** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-208 of them; whether a verb needs `admin` is in the GettingStarted set.
+209 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -58,7 +58,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`compare.files`** | **`compare.files`** {**`dict`**} *file1* {**`dict`**} *file2* {**`detail`**} |
 | **`compile.dict`** | **`compile.dict`** *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`compile.dict data`** *file* {*i-type* …}  ·  **`compile.dict local`**  ·  **`compile.dict all`** |
 | **`config`** | **`config`** {**`lptr`** \| **`gpl`** \| **`contrib`** \| *param* *value*} |
-| **`configure.file`** | **`configure.file`** {**`dict`**} *voc.name* {*parameters*} \| **`default`** |
+| **`configure.file`** | **`configure.file`** {**`dict`**} *voc.name* {*parameters*} \| **`default`**  ·  **`configure.file`** *voc.name* **`next`** *n* \| **`query`** |
 | **`convert.data`** | **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**} |
 | **`copy`** | **`copy from`** {**`dict`**} *src* {**`to`** {**`dict`**} *tgt*} {*id* …} {**`(options`**} |
 | **`copy.list`** | **`copy.list`** *list* {**`,`***new*} {**`from`** *src*} {**`to`** *tgt*} {*options*} |
@@ -84,7 +84,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`docs.install`** | **`docs.install`** *directory*  —  copy the PDF files of a directory into the pdf directory of the install directory (administrator) |
 | **`dump`** | **`dump`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`echo`** | **`echo on`** \| **`off`** \| **`echo`** to toggle |
-| **`ed`** | **`ed`** {**`dict`**} *file* {*id* …} |
+| **`ed`** | **`ed`** {**`dict`**} *file* {*id* … \| **`creating.seqkey`**} |
 | **`edit`** | **`edit`** {**`dict`**} *file* *record* |
 | **`encrypt.key`** | **`encrypt.key set`** *name* *salt* {**`confirm`**}  ·  **`encrypt.key clear`** {*name*}  ·  **`encrypt.key list`** |
 | **`execute.list`** | **`execute.list`** *command* {**`;`** *command* …}  —  a pair of brackets `()` in a command is replaced by each id of list 0 in turn |
@@ -111,7 +111,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`import.xml`** | **`import.xml`** *pathname* *file* {**`id`** *name* \| **`generate`**} {**`overwriting`**} |
 | **`inhibit.login`** | **`inhibit.login`** {**`on`** \| **`off`**} |
 | **`list`** | **`list`** {**`dict`**} *file* {*selection*} {*fields*} {*options*} |
-| **`list.common`** | **`list.common`** {**`all`**} |
+| **`list.common`** | **`list.common`** {**`all`**} {**`detail`**} |
 | **`list.files`** | **`list.files`** |
 | **`list.index`** | **`list.index`** *file* {*field* …} |
 | **`list.item`** | **`list.item`** {**`dict`**} *file* {*selection*} |
@@ -147,11 +147,11 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`pdebug`** | **`pdebug`** {*command*} |
 | **`pdf`** | **`pdf`** {*name*}  —  show a documentation PDF in the installed reader, whatever the account's os switch says (the administrator allows the reader: **`set.viewer`**); without a name, lists the documents |
 | **`pdump`** | **`pdump`** *n* |
-| **`phantom`** | **`phantom`** *command* |
+| **`phantom`** | **`phantom`** {**`no.msg`**} {**`data`**} {**`group`**} {**`user`** *n*} {**`log`** *file*} *command* |
 | **`printer`** | **`printer`** {*unit*} **`query`** \| **`at`** *name* \| **`file`** *file* *record* \| **`width`** *n* \| **`lines`** *n* \| **`top.margin`** *n* \| **`bottom.margin`** *n* \| **`left.margin`** *n* \| **`keep.open`** \| **`close`** \| **`reset`** |
 | **`profiler`** | **`profiler on`** {**`user`** *n*} {*event* …} \| **`off`** {**`user`** *n*} \| {**`display`**} {**`user`** *n*} |
 | **`pstat`** | **`pstat`** {**`user`** *n*} {**`level`** *n*} {**`no.page`**} {**`lptr`** {*n*}} |
-| **`pterm`** | **`pterm display`** \| **`lptr`** \| **`break`** … \| **`case`** … \| **`newline`** … \| **`return`** … \| **`binary`** … \| **`telnet`** … \| **`reset`** *string* \| **`prompt`** *p* *c* |
+| **`pterm`** | **`pterm display`** \| **`lptr`** \| **`break`** … \| **`newline`** … \| **`return`** … \| **`binary`** … \| **`telnet`** … \| **`reset`** *string* \| **`prompt`** *p* *c* |
 | **`qselect`** | **`qselect`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`quit`** | **`quit`** — the same verb as **`off`** |
 | **`rebuild.all.indices`** | **`rebuild.all.indices`** {**`no.query`**} |
@@ -187,6 +187,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.os.access`** | **`set.os.access`** \| **`set.os.access sh on`** \| **`set.os.access sh off`** \| **`set.os.access os on`** \| **`set.os.access os off`** |
 | **`set.password`** | **`set.password`** \| **`set.password admin`** \| **`set.password global`** |
 | **`set.pins`** | **`set.pins`** {**`on`** \| **`off`**}  —  whether the account may add its own programs to its home screen (administrator; off as delivered); without a word, says which |
+| **`set.recovery`** | **`set.recovery`** {**`on`** \| **`off`**}  —  whether the IDE keeps a recovery copy of unsaved text (administrator; off as delivered); without a word, says which |
 | **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a,b,c*} {**`no.query`**} |
 | **`set.start.default`** | **`set.start.default`** {**`menu`** \| **`terminal`**}  —  where a session starts (the home screen is the delivered start); without a word, says what it is |
 | **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
@@ -210,7 +211,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`stop`** | **`stop`** |
 | **`sum`** | **`sum`** {**`dict`**} *file* {*selection*} *field* |
 | **`sync.global.catalog`** | **`sync.global.catalog`** |
-| **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`colour`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
+| **`term`** | **`term`** \| *width*{`,`*lines*} {*type*} \| **`color`** *bg*{`,`*fg*} \| **`default`** \| **`display`** |
 | **`time`** | **`time`** \| **`internal`** |
 | **`tool.ai`** | **`tool.ai`**  —  the AI choice page (administrator): the provider with a check box (Anthropic, OpenAI, Google, DeepSeek or Custom), its model (each named provider has a default) and key in one setup dialog, and the one switch, the ai gate |
 | **`tool.audit`** | **`tool.audit`**  —  the audit trail on one screen (administrator): read from its end a screen at a time, with filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record of **`$HOLD`**; it runs no command |

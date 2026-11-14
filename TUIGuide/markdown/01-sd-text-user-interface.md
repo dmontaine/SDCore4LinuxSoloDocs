@@ -1,7 +1,7 @@
 Title: SD Text User Interface
 Subtitle: Programmer's Guide
 
-The full-screen pages of SD Core for Linux Solo - the home screen, `tool.files`,
+The full-screen pages of SD Core Solo for Linux - the home screen, `tool.files`,
 `tool.query` and the rest - are built from one library. Its public part lets a
 program of your own, in your account, draw a page that looks like those pages and answers the same keys: the
 menu bar on the top row, **F2** to find an action, the context menu, the status line,

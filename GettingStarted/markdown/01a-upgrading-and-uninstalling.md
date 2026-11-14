@@ -214,7 +214,7 @@ There is no verb that does it in one go; the two verbs are described under
 1. On the old computer, after `admin`: `backup.account`. It writes one zip file to the saved
    backup directory and says its name.
 2. Copy that file to the new computer (`scp`, a USB stick, anything that copies a file).
-3. On the new computer, install SD Core for Linux Solo, sign in, type `admin`, and run
+3. On the new computer, install SD Core Solo for Linux, sign in, type `admin`, and run
    `restore.account` with the file's full path. It says what will be replaced and asks first.
 4. **The restore happens the next time SD starts** (`systemctl --user restart sd-solo.service`,
    or stop SD and start it), because it replaces the account you are using.

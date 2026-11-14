@@ -156,6 +156,7 @@ account's `$savedlists` file and outlives it.
 | **`get.list`** {*name*} {**to** *n*} | load it back into list *n* |
 | **`delete.list`** *name* | delete the saved list |
 | **`copy.list`** *name* {`,`*new*} {**from** *file*} {**to** *file*} | copy one, or `*` for all |
+| **`sort.list`** *name* {**from** *file*} | sort a saved list, in place |
 
 Both default to list 0, and `save.list` defaults the name to the list number.
 **`save.list`** takes **`keep`** to leave the active list as it was (it has always
@@ -346,7 +347,7 @@ A line with nothing after the verb is refused (*A command is needed after
 EXECUTE.LIST*).
 
 The listings in the sections from `show.list` to here were produced by running
-them in a sandbox build of SD Core for Linux Solo, as the administrator. What is
+them in a sandbox build of SD Core Solo for Linux, as the administrator. What is
 read from the source and was not run: the guard on the file `sort.list` is
 given with `from`, and the refusal of an `execute.list` with no command.
 

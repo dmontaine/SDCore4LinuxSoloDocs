@@ -1,7 +1,7 @@
 Title: ssh access
 Subtitle: Reaching SD on this computer over ssh, on Solo's own port, what the installer sets up, and what it costs.
 
-**An ssh sign-in on port 4251 lands inside SD.** SD Core for Linux Solo runs its own
+**An ssh sign-in on port 4251 lands inside SD.** SD Core Solo for Linux runs its own
 small ssh server for itself. You sign in with your Linux account name and password,
 and instead of a shell you get `sd-solo`, which asks for the SD account password.
 

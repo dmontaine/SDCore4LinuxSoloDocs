@@ -425,8 +425,8 @@ page's box says that too.
 
 A record named `MASTER.LOGIN` in the VOC of the SD system directory (`~/SDCoreSolo/voc`, not
 the account's own VOC), if it is a paragraph (its first line is `PA`), is run **once by every
-new session, before the account's own `LOGIN` paragraph**: an interactive session and a
-phantom. An API session does not run it. There is none as delivered, so nothing runs by
+new session, before the account's own `LOGIN` paragraph**: an interactive session, a
+phantom and an API session. There is none as delivered, so nothing runs by
 default, and the account's own `LOGIN` paragraph is the ordinary place for what a session
 should do when it starts; a session shows what it is by `@tty`. It runs in the account,
 **under the account's own switches**: it can do no more there than the account can.

@@ -1,7 +1,7 @@
 Title: Security
-Subtitle: Who can reach SD Core for Linux Solo, what each password guards, and what does not protect it.
+Subtitle: Who can reach SD Core Solo for Linux, what each password guards, and what does not protect it.
 
-SD Core for Linux Solo is built for **one Linux user on one computer**, and its
+SD Core Solo for Linux is built for **one Linux user on one computer**, and its
 protection follows from that. Read this page before relying on it for anything
 beyond that.
 

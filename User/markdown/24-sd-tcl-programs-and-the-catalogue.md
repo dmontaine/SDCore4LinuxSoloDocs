@@ -443,8 +443,11 @@ operating system, which is the way out when a save failed or the file was replac
   refused with a message; a file with **bytes from 128 to 247** (another character set, or UTF-8) is edited
   like any other, as a record is.
 - **The file is locked while the tab is open**, as a record is: a second session that tries to open it is told
-  it is in use, and closing the tab (or any other way out) gives the lock back. A tab for a file you may not
-  write opens read-only and says so.
+  it is in use, and closing the tab (or any other way out) gives the lock back. **A program you run from the
+  IDE that does a bare `release` lets go of the file's lock**; the save still reads the file again first. A tab
+  for a file you may not write opens read-only and says so.
+- **No recovery copy is kept** for such a tab, whatever the setting of `set.recovery`: the copy would be kept
+  in your home, and the file may be anywhere.
 
 **Making a file of the operating system.** In the name form of New (Ctrl-N), Save as,
 the first save of an untitled buffer, Write a copy and Export the selection, type `path:/full/name` in the
@@ -529,7 +532,7 @@ and enter `X` as line 1 and the words as line 2 (for example `INDENT TABS 4 NO.M
 
 **If `autologout` is set** (the default is off) **the status line counts down the last 60 seconds** before
 the session would be signed out: *Idle: signing out in 42 s*, followed by *; unsaved changes will be
-lost* when there are any. Any key
+lost* when there are any, or *; a recovery copy is kept* when the recovery copy below is on. Any key
 stops it. It reads the same inactivity clock that `autologout` uses, so a wait for the AI counts.
 
 Run and debug give the terminal to the program and come back to the IDE when
@@ -702,9 +705,22 @@ mono, night and paper, skipping those the terminal cannot show, and **SD keeps t
 choice for you**: the IDE, every page, SED and the debugger start in it
 from then on, in this account and in later sessions.
 
+**A recovery copy of text you have not saved**, **if the administrator has turned it on**
+(`set.recovery on`, after `admin`; it is off as delivered, and `set.recovery` alone says whether it is on). Then
+the IDE copies the text of every changed record after a second without typing, before it hands the screen to a
+program, and when the session ends. **The copies are in your own Linux home**, in
+`~/.local/state/sd/recovery/sduser/` (the home the password database gives your Linux user, never the `HOME`
+variable), readable only by you and **outside the account, so `backup.account` never contains them**. They are
+made only when your home and every directory below it are a real directory of yours that nobody else can write,
+and every directory above the home belongs to root or to you and cannot be written by group or other (a sticky
+one such as `/tmp` excepted): a home under a group-writable directory gets no copies. The copy is deleted when
+you save, close or quit normally. If the terminal closes, the connection drops or the IDE is aborted, the next
+time you open that record the IDE asks whether to **use the copy**, **delete it**, or **not open the record**
+(which keeps it); a text typed in an untitled buffer is offered in a new tab. The record itself is not changed
+until you save. Turning the recovery copy off does not delete copies that exist. `sed` keeps none.
+
 **What it does not do:** it has no replace across records, no project files and no completion; it
-edits collection-file records only as JSON text or fields; it keeps no recovery copy of unsaved text;
-and an operating-system file is a plain text file in one piece (no NUL, no byte from 248 to 255, 2 MB at
+edits collection-file records only as JSON text or fields; and an operating-system file is a plain text file in one piece (no NUL, no byte from 248 to 255, 2 MB at
 most; a file with content is never replaced by a new one, no directory is made, and there is no rename, delete
 or change of mode).
 
@@ -721,7 +737,7 @@ the keys named first staying).
 whatever the cursor is doing: a warning in reverse video fills the upper left
 corner, every key and mouse click is thrown away, and nothing of the IDE is drawn
 meanwhile. The warning gives the size of the window and the size the IDE needs,
-says that **Ctrl-Q, then y** leaves and that text you have not saved is then lost,
+says that **Ctrl-Q, then y** leaves and that **text you have not saved is lost unless the recovery copy is on**,
 and is worded shorter in a very small window so
 that it always fits (the sizes are always on its first row). When the window is big
 enough again the warning goes by itself and the whole layout, foot included, is
@@ -731,8 +747,9 @@ lock, which looks at the cursor, not at the window.
 A window made bigger, or smaller and then big enough again, keeps everything you
 were doing: the editor's undo and redo steps, the selection,
 the text to find (F3), the cursor and the view, the messages table's row, the open
-nodes of the tree and a half-typed AI request. Coming back from Run or Debug builds
-the screen again, keeping the text.
+nodes of the tree and a half-typed AI request. The parts of the screen are moved and
+sized where they are; if one of them cannot be moved, the IDE builds the screen again,
+keeping the text. Coming back from Run or Debug also builds the screen again.
 
 ## The two that are not like the others
 

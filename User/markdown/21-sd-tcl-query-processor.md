@@ -562,7 +562,7 @@ clear.select
 ```
 
 A `scan` that finds nothing prints `0 record(s) selected to list 0`. The listings
-were produced by running them in a sandbox build of SD Core for Linux Solo, as the
+were produced by running them in a sandbox build of SD Core Solo for Linux, as the
 administrator; that `scan` shows no lines with `no.match` is read from the source
 (`search ... no.match` itself was run).
 

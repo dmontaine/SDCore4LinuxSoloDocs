@@ -1,5 +1,5 @@
 Title: Features the developers could not test
-Subtitle: The parts of SD Core for Linux Solo that were built and reasoned about but never exercised, what is known about each, and what it would take to settle it.
+Subtitle: The parts of SD Core Solo for Linux that were built and reasoned about but never exercised, what is known about each, and what it would take to settle it.
 
 Everything else in this documentation describes behavior that was run and
 watched. **This page is the exception, and it exists so that the exception is

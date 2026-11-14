@@ -2,7 +2,7 @@ Title: SDNet - Files on Another SD Server
 Subtitle: Open a file that lives on another SD server and use it with READ, WRITE, SELECT and LIST; what the administrator turns on, and what stays off.
 
 **Read this first.** SDNet lets a program open a file on **another SD server** through an
-ordinary `OPEN` and then use it with the ordinary file statements. In SD Core for Linux Solo
+ordinary `OPEN` and then use it with the ordinary file statements. In SD Core Solo for Linux
 it is **delivered off, in four places**: the account has no NET gate, no server is defined,
 nobody has a login on one, and no VOC entry points at one. The administrator turns each on,
 deliberately, and each can be turned off again. **It has been run in private test

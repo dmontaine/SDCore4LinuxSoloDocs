@@ -7,7 +7,7 @@ An AI agent that works on an SD project needs a place to work and a limit on wha
 
 ## Why not a second Linux user
 
-SD Core for Linux Solo has **one account**, `sduser`, and its two OS switches belong to that account alone ([The account and its passwords](05-account-types.html)). There is no second account to make for an agent and nothing inside the account that scopes it: whoever has the account password has all of it, less what the two switches withhold. **Only one SD can run on a computer** ([Running SD](03-running-sd.html)): the shared-memory name is machine-wide, so a second Solo for another Linux user would attach to the first one's segment. So the agent cannot have an installation of its own beside yours, and the two ssh and API ports (4251 and 4249) are fixed as well.
+SD Core Solo for Linux has **one account**, `sduser`, and its two OS switches belong to that account alone ([The account and its passwords](05-account-types.html)). There is no second account to make for an agent and nothing inside the account that scopes it: whoever has the account password has all of it, less what the two switches withhold. **Only one SD can run on a computer** ([Running SD](03-running-sd.html)): the shared-memory name is machine-wide, so a second Solo for another Linux user would attach to the first one's segment. So the agent cannot have an installation of its own beside yours, and the two ssh and API ports (4251 and 4249) are fixed as well.
 
 ## The two OS switches
 
@@ -15,7 +15,7 @@ SD Core for Linux Solo has **one account**, `sduser`, and its two OS switches be
 
 ## Two shapes
 
-The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core for Linux Solo source repository, with a template for the project's `CLAUDE.md` and a Claude Code skill that carries the SD knowledge (see the page *SD and AI Agents* in the User set).
+The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for Linux source repository, with a template for the project's `CLAUDE.md` and a Claude Code skill that carries the SD knowledge (see the page *SD and AI Agents* in the User set).
 
 **Shape 1: the agent is a client of your installation, with both switches off.** It gets the account and nothing outside it: it cannot run a Linux command, read or write a file outside the account's directory, or change the VOC. It can read, change and delete everything the account holds, **including your production data**, so use it only where the agent may touch that data.
 

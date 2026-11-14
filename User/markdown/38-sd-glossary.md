@@ -1,13 +1,13 @@
 Title: SD Glossary
 Subtitle: Terms used in SD Core documentation, from account to VOC.
 
-This glossary defines the terms used throughout the SD Core for Linux Solo
+This glossary defines the terms used throughout the SD Core Solo for Linux
 documentation set. Terms are listed in alphabetical order.
 
 ## A
 
 **Account** — a workspace: a directory containing one or more files, a
-VOC, and its own `bp` source file. SD Core for Linux Solo has one, `sduser`, in
+VOC, and its own `bp` source file. SD Core Solo for Linux has one, `sduser`, in
 `~/SDCoreSolo/user_accounts/sduser`. Entry to it is the account password.
 
 **Administrator** — a session that has unlocked the administrator commands

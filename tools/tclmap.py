@@ -150,7 +150,7 @@ DOCS = [
  ('User', '31-sd-tcl-locks.md', """
    release
  """),
- # 30 Sep 26 SD Core for Linux Solo (LSOLO 11): the Administrator set is merged
+ # 30 Sep 26 SD Core Solo for Linux (LSOLO 11): the Administrator set is merged
  # into GettingStarted, as in Solo for Windows.  The account and grant verbs and
  # remote.api and remote.ssh are not in Solo.  Each surviving verb is assigned
  # where the rewritten page explains it - including admin, set.password,
@@ -162,7 +162,7 @@ DOCS = [
    set.password
  """),
  ('GettingStarted', '06-administrator-commands.md', """
-   admin backup.account clean.account config restore.account set.backup.directory set.date set.pins set.start.default set.tile settings.report tool.menus update.accounts
+   admin backup.account clean.account config restore.account set.backup.directory set.date set.pins set.recovery set.start.default set.tile settings.report tool.menus update.accounts
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
    clear.locks list.locks list.readu listu lock logout tool.sessions unlock

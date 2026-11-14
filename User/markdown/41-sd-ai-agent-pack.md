@@ -1,5 +1,5 @@
 Title: SD and AI Agents: the Guide, the Knowledge Pack and the Skill
-Subtitle: What an AI agent is given to work in SD Core for Linux Solo, how it is kept true, and the two rules that do not bend: the walls are walls, and what is not a wall is not a permission.
+Subtitle: What an AI agent is given to work in SD Core Solo for Linux, how it is kept true, and the two rules that do not bend: the walls are walls, and what is not a wall is not a permission.
 
 An AI agent (Claude Code, or any tool that reads files) that is asked to write SD BASIC meets a language that looks like OpenQM, UniVerse or D3 and is not. It guesses names that SD lacks, and the compiler's answer to a missing function is a complaint about a matrix nobody declared. This page describes what the source repository holds to prevent that. **It holds documents and a generator. It does not connect an agent to SD, it holds no key, it calls no model, and nothing in it is installed on the computer by the installer.** It is the `sdb_ai/sd64/agent-pack` folder of the source tree.
 
@@ -32,7 +32,7 @@ The line numbers in a chunk's `src=path:line#hash` are locators that may lag aft
 
 ## What it does not do
 
-It does not make an agent right; it makes the commonest mistakes cheap to avoid. It has not been measured with a model (the plan has a benchmark of thirty tasks, run with and without the guide, and it is not built). It describes SD Core for Linux Solo at its stamp plus what has been carried into it from the full product's release in progress; items marked 2.0-0 may be missing from a released install. SD Core for Linux has its own pack, made from its own sources, and the two differ where the products do: `agent-pack/README.md` lists every difference and why.
+It does not make an agent right; it makes the commonest mistakes cheap to avoid. It has not been measured with a model (the plan has a benchmark of thirty tasks, run with and without the guide, and it is not built). It describes SD Core Solo for Linux at its stamp plus what has been carried into it from the full product's release in progress; items marked 2.0-0 may be missing from a released install. SD Core for Linux has its own pack, made from its own sources, and the two differ where the products do: `agent-pack/README.md` lists every difference and why.
 
 ## See also
 

@@ -1,7 +1,7 @@
 Title: SD Core - Introduction and Getting Started
 Subtitle: What a multivalue database is, what SD is, the four components, and your first session.
 
-This page orients you to SD Core for Linux Solo: what a multivalue database is,
+This page orients you to SD Core Solo for Linux: what a multivalue database is,
 where SD came from, what the pieces are, and how to take your first steps. It
 is the only page in this set that assumes nothing.
 
@@ -25,7 +25,7 @@ that carries these marks, and the angle-bracket forms (`a<f,v>`), `ins` and
 
 ## What SD is
 
-SD Core for Linux Solo is built from upstream `sdb64`, a MultiValue database
+SD Core Solo for Linux is built from upstream `sdb64`, a MultiValue database
 with elements found in the main SD version and in ScarletDME. ScarletDME
 was a fork of the original GPL release of OpenQM 2.6.6.
 
@@ -40,7 +40,7 @@ If you have used OpenQM, or upstream `sdb64`, much of SD Core will still be
 familiar: the same data model, the same query processor, the same
 BASIC.
 
-**SD Core for Linux Solo is Linux only, and for one user.** It is the
+**SD Core Solo for Linux is Linux only, and for one user.** It is the
 single-user edition of SD Core for Linux: one account, `sduser`, installed in
 your home directory and run as you. There are no `#ifdef` branches keeping
 Windows alive in this source — SD Core Solo for Windows is a separate project,
@@ -143,7 +143,7 @@ computer, the global password. It lasts until you leave SD or type
 ## What is not in SD Core
 
 The following were in OpenQM, in ScarletDME, or in upstream `sdb64`, and
-are not in SD Core for Linux Solo:
+are not in SD Core Solo for Linux:
 
 | Gone | Why |
 |---|---|

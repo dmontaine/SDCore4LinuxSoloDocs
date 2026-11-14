@@ -7,7 +7,7 @@ and manage select lists — all through a single shared library.
 
 **The API is a normal way to use SD**, not a facility reserved for developers
 and administrators. A person running a custom GUI program that talks to SD needs
-API access and may need nothing else. **On SD Core for Linux Solo the API is off
+API access and may need nothing else. **On SD Core Solo for Linux the API is off
 unless you chose it when installing** (a computer a server manages needs it open), and it signs
 in to the one account, `sduser`, with the account password — see *API access* in
 the GettingStarted set.
@@ -50,12 +50,12 @@ other language headers (see [SD Client API: Language Bindings](37b-sd-client-api
 
 ### Why SDConnectLocal is disabled
 
-`SDConnectLocal` sends no password, and every SD Core for Linux Solo session
+`SDConnectLocal` sends no password, and every SD Core Solo for Linux session
 proves the account password. It also could not work: it `fork()`s and `exec()`s
 the server at a path it finds from `/etc/sd.conf` (or `$SD_CONFIG`), which a Solo
 tree does not have — so before it was disabled it **hung for ever** waiting on a
 child that never started. It now returns false immediately and the error text
-(`SDError()`) reads *SDConnectLocal is not available in SD Core for Linux Solo -
+(`SDError()`) reads *SDConnectLocal is not available in SD Core Solo for Linux -
 connect with SDConnect and the account password*.
 
 **The login is SCRAM-SHA-256.** A client that sends a password in

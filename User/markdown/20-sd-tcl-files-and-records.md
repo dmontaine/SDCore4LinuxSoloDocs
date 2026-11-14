@@ -157,6 +157,8 @@ are `call` (a subroutine), `open`, `read` (including `readu`, `readv` and
 `matread`), `write`, `delete`, `openseq`, `readseq`, `writeseq`, `execute` (the
 first 32 characters of the command) and `object` (a call of a class module's
 object). Name some after `on` to log only those; none means all of them.
+The names the display shows (files, subroutines, commands, programs) are made safe to print: a
+control character, `del`, a byte from 128 to 159 or a mark character is shown as `?`.
 
 `display` is a list of the event types with a count of each. Type the **number** of
 a line to open it: the names the events were on (the file, the subroutine, the
@@ -440,7 +442,7 @@ refused as they are for `ed` and `copy`: only a session signed in with the globa
 password may change them.
 
 The listings in these two sections were produced by running them in a sandbox
-build of SD Core for Linux Solo, as the administrator; the refusal of the global
+build of SD Core Solo for Linux, as the administrator; the refusal of the global
 catalog's directories is read from the source and was not run.
 
 ## Seeing what is actually in a record
@@ -543,7 +545,7 @@ t3                   p9                   PRE.WRITE, POST.WRITE
 
 With nothing to report the list is empty and the last line says `0 file(s) with
 a trigger function`. The listing was produced by running it in a sandbox build of
-SD Core for Linux Solo, as the administrator.
+SD Core Solo for Linux, as the administrator.
 
 ### A trigger on a directory file
 

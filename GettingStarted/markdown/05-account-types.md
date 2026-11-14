@@ -3,7 +3,7 @@ Subtitle: sduser, the account password, the kept copy, and the administrator and
 
 ## One account: `sduser`
 
-**SD Core for Linux Solo has one SD account, and it is always called
+**SD Core Solo for Linux has one SD account, and it is always called
 `sduser`** — on every computer, whatever your Linux user is called. The
 installer makes it, in `~/SDCoreSolo/user_accounts/sduser`. `WHO`, `@LOGNAME`
 and the audit trail all say `sduser`, and so does the user name an API client
@@ -98,7 +98,7 @@ is set again.
 first `sd-solo` typed at that computer's keyboard asks you to choose one:
 
 ```
-This account has no password yet. Choose one now - SD Core for Linux Solo asks for it every time it is used.
+This account has no password yet. Choose one now - SD Core Solo for Linux asks for it every time it is used.
 ```
 
 You get three tries; each of a weak password, one equal to the global

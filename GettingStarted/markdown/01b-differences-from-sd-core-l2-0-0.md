@@ -1,7 +1,7 @@
 Title: Differences from SD Core for Linux L2.0-0
-Subtitle: What SD Core for Linux Solo leaves out, adds and does differently.
+Subtitle: What SD Core Solo for Linux leaves out, adds and does differently.
 
-**SD Core for Linux Solo LS2.0-0 is the single-user edition of SD Core for Linux
+**SD Core Solo for Linux LS2.0-0 is the single-user edition of SD Core for Linux
 L2.0-0**, and the language, the query processor, the file system, the editors,
 the full-screen pages and nearly every command are the same. This page is for a
 reader who knows the multiuser product. The User set applies to both.

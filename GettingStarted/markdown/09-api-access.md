@@ -73,7 +73,7 @@ been chosen at the keyboard, only the global password is accepted.
 
 **`SDConnectLocal` is disabled.** It sends no password, which Solo does not
 allow. A client that calls it gets, at once, *SDConnectLocal is not available in
-SD Core for Linux Solo - connect with SDConnect and the account password*. Use
+SD Core Solo for Linux - connect with SDConnect and the account password*. Use
 `SDConnect` to this computer's own address instead (`127.0.0.1`).
 
 ## The port

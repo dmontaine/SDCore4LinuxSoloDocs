@@ -101,6 +101,7 @@ The server side of the API, the client library and the language headers.
 | client library: `sdcallx` | Added | `sdcallx` and `sdgetarg`: calls with arguments of any size from the C client library |
 | client library: threads | Added | each thread has its own session, transfer buffer and arguments; several threads may use the library |
 | client library: tls | Changed | the network session is always encrypted (TLS), so SD meets the QMClient encryption items; Solo's API port is 4249 |
+| `master.login` | Changed | the paragraph runs for API connections as for interactive and phantom sessions |
 
 ## BASIC
 
@@ -507,6 +508,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `set.net.access` | Added | the account's `net` gate: `set.net.access on` and `off`; off as delivered; it guards API request 29 and every remote file |
 | `set.os.access` | Added | the shell (`sh`) and operating system access (`os`) are two switches on the account, both off as delivered; `set.os.access sh on`, `os on`, `off`; seen at the next sign-on |
 | `set.pins` | Added | `set.pins on` lets the account add programs of its own to its home screen (`my.menu`); off as delivered |
+| `set.recovery` | Added | `set.recovery on` has the IDE keep a recovery copy of unsaved text, readable only by you in `~/.local/state/sd/recovery/sduser/`; off as delivered (SD Core: `modify.account ... recovery-on`) |
 | `set.start.default` | Added | `menu` or `terminal`: where a session starts |
 | `set.tile` | Added | takes a home screen tile off the page or puts it back; `set.tile` alone lists what is off |
 | `set.tile` standard ids | Changed | the seven development tiles and `recent` are standard ids (there is no Switch account tile in Solo); the Back tile of a sub-menu cannot be turned off |
@@ -552,7 +554,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | Name | Change | What |
 |---|---|---|
 | api file administration | Added | a session signed in with the global password (that of the SD Core server that manages this Solo) may run `analyse.file`, `configure.file`, `create.index`, `build.index`, `delete.index`, `disable.index`, `create.file` and `delete.file` in the account, `fcontrol` on an open file and `write ... creating.seqkey`; a session signed in with the account password is refused each, and the refusal is audited; a Solo with no global password (as delivered) serves none |
-| api request 29 | Changed | fixed: it opened a file for any login once `netfiles` bit 2 was set; it now needs the account's `net` gate (`set.net.access on`) |
+| api request 29 | Changed | fixed: it opened a file for any login once `netfiles` bit 2 was set; it now needs the account's `net` gate (`set.net.access on`), and the OS question for a pointer out of the account |
 | api requests 32 and 33 | Changed | fixed: file lock and unlock acted on the last file opened, not the file named |
 | api request 70, `delete.file` | Changed | fixed: a delete the verb refused (the file open in another session, say) left the file on the disk but the client's file number dead; the number now stays good and the status is the verb's |
 | api server loop | Changed | fixed: a client that hung up before its first request left a server process using 100% of a processor |
@@ -615,6 +617,7 @@ Three simple layers, with no vault and nothing on by default.
 | group size of a new file | Changed | `grpsize` is 4 (kb) in the shipped `sd.conf`, and the built-in value when it is absent; it was 2 and 1. Fewer groups overflow: measured in SD Core, 5 to 11 percent of the groups at 2 kb and under 2 percent at 4 kb |
 | `index` and the record id | Changed | fixed: an index followed an upper-case copy of the id; it now follows the id as the file stores it |
 | index, deleting many records | Changed | fixed: in an index of three levels, removing the last value of a block took its whole branch out of the index (lookups missed records that were there, deleted values stayed listed), and a branch left with one block left its neighbors pointing at a freed block |
+| index on a right justified item | Changed | a new one keeps its keys in one order, the empty key, then numbers by value, then text, so a scan and a lookup agree when the item holds both numbers and text; building it no longer loses ids under keys equal as numbers (1, 01, 001); an existing index keeps its old order until it is made again, and an older SD cannot open a file holding the new kind |
 | record id counter | Changed | fixed: `write ... creating.seqkey` could give an id out twice after another write of the file header |
 | `sdfix`, `sdidx`, `sdconv` | Changed | fixed several faults (see the changelog); `sdidx -m` says why it cannot make the directory |
 | sort of equal or ordered keys | Changed | fixed: a long run took minutes; 100,000 equal keys took 168 seconds, now a fraction of one |
@@ -634,6 +637,7 @@ Three simple layers, with no vault and nothing on by default.
 | linger | Changed | on by default for every install, an unattended one included, so that SD stays reachable over the API and ssh when nobody is signed in; the question on a terminal defaults to yes; `--no-linger` (new) or the control file's `enable-linger=no` leaves it off. An upgrade leaves linger as it was |
 | release package source | Added | a release zip carries Solo's complete source in a `source` folder with its `SHA256SUMS`; the installer (and an `--upgrade`) checks every file against the list before it asks anything, builds from that folder instead of downloading it, takes the AI line's documentation from it, and stops on a changed, missing or unlisted file. A package made from a release-candidate tag is named a pre-release at the start and the end |
 | os-access question | Added | the installer asks whether to turn on the shell and OS access, each answer no unless yes; `--os-access none`, `sh`, `os` or `both` answers it without a terminal; an upgrade does not ask and keeps the two as they are (a Solo from before the switches, LS1.1-3, has neither set, so both are off; type ADMIN, then `set.os.access`, to turn them on) |
+| source not installed | Changed | the install compiles SD and removes `gpl.bp`, the C source and objects and the build files; an upgrade removes what an earlier install left; the complete source is in the release zip's `source` folder |
 | start question | Added | a fresh install asks whether sessions start at the home screen or at the command prompt (the home screen unless you say otherwise); `--start menu` or `--start terminal`, or `start=` in the install file, answers it without a terminal; an upgrade asks nothing and keeps what the site had, and keeps the prompt for an install from before the home screen; `set.start.default` changes it later |
 | uninstaller and the systemd user units | Changed | fixed: `deletesdsolo.sh` run from a shell that cannot reach the user manager (ssh command, cron) deleted the installation and left the enabled units; it now finds the manager's socket itself, removes the unit files if `solo-service.sh remove` is refused, and stops before removing anything of the installation or your data if a unit file is still there |
 
@@ -727,7 +731,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | `sd-solo -status` | Changed | fixed an overrun on a server that recorded no start time |
 | `sd-solo -stop` and `sd-solo -restart` | Changed | a session still attached ten seconds after the termination signal is ended with SIGKILL, and the stop says how many; before, it was left running with SD gone under it. A session idle at a terminal or on a pipe leaves by itself |
 | session whose SD was stopped | Changed | ends at once with a message in syslog and on its terminal, instead of spinning at full processor use for ever |
-| sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
+| sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core Solo for Linux, ...`) |
 | the TLS relay's last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
 | upgrade: retired files and `sd.conf` parameters | Changed | an upgrade deletes the files this release stopped shipping and takes the retired parameters out of a kept `sd.conf` (SD would not start on them); `deletesdsolo.sh --keep-data` keeps the saved VOC copies (`voc_removed.saved`) for the next install |
 

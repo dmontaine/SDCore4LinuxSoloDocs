@@ -72,7 +72,7 @@ item puts it in field 3: `D`, the field number, `XE;salary`, a heading, a format
 The conversion never holds a key. It names one, and the key is looked up in a **ring in
 the memory of your own process**: it is set by `!keyset`, cleared by `!keyclear`, empty at
 the start of every session, and not handed to a phantom (a phantom that must decrypt calls
-`!keyset` itself). **SD Core for Linux Solo has one account and no `logto`**, so a
+`!keyset` itself). **SD Core Solo for Linux has one account and no `logto`**, so a
 session's ring ends with the session. The ring is never written to a disk, the audit trail
 or a `$como` file. It holds 16 keys.
 

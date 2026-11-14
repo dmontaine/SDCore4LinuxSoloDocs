@@ -92,7 +92,7 @@ the client. Key 11 hashes the certificate's **public key**, not the certificate,
 so a renewed certificate over the same key gives the same value. **The client does
 not check the certificate against anything**: the hash is for the program to compare
 with a value it already trusts, as `set.server ... connect` does for the SDNet
-server definitions (see [SD Core for Linux Solo - SDNet](42-sd-sdnet.html)).
+server definitions (see [SD Core Solo for Linux - SDNet](42-sd-sdnet.html)).
 
 **Key 2 means two different things and the difference is easy to miss.** On
 the socket you dialled out with it is **the port you dialled**; on a socket you

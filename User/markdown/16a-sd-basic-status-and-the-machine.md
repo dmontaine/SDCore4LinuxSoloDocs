@@ -100,8 +100,9 @@ and pass it back.
 | `@user.return.code` | `0` |
 | `@crtwide` / `@crthigh` | `200` / `9999` — whatever `TERM` last set |
 
-**`@who` and `@logname` differ in case for the same account.** Compare them
-with `upcase()` on both sides or the test fails on a machine where it worked.
+**`@who` and `@logname` are the same, `sduser`, and both are lower case.** A
+program that compares one with an upper-case literal fails; compare with
+`'sduser'`.
 
 `set.exit.status` sets what SD returns to the operating system when the session
 ends.
@@ -227,7 +228,9 @@ table still holds it.
 **`sendmail`, `chgphant()` and `ccall()` compile for an ordinary account**, and
 each needs something outside SD before it can do anything: `sendmail` a mail
 relay, `chgphant` a phantom to change, and `ccall` a C function registered into
-the executable. Nothing on this page depends on them.
+the executable. Nothing on this page depends on them. `sendmail` takes its
+`else` when the mail command cannot be run or ends with a failure: `status()`
+is then 3010 (an I/O error) and `os.error()` holds the command's status.
 
 ## See also
 
