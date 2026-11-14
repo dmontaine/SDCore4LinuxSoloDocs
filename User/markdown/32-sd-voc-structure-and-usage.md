@@ -44,30 +44,28 @@ valid PROC and it is the interpreter that is gone.
 ### What the shipped VOC holds
 
 Counted directly from `newvoc` in the system directory — the VOC a new account
-starts with, 475 records, by each record's own field-1 type character (the type
+starts with, 434 records, by each record's own field-1 type character (the type
 is the first character; a record whose field 1 reads `Verb to ...` is `V`).
-**It was 417 records before the sync from SD Core (LSOLO 52) brought in the verbs
-and keywords of its 2.0-0 work.** Counted on 21 Oct 2026:
+Counted on 14 Nov 2026:
 
 | Type | Count |
 |---|---|
-| `V` | 177 |
-| `K` | 271 |
-| `F` | 8 |
-| `R` | 10 |
-| `PA` | 2 |
-| `S` | 2 |
-| `Q` | 2 |
+| `V` | 205 |
+| `K` | 218 |
+| `F` | 7 |
+| `PA` | 1 |
+| `S` | 1 |
+| `Q` | 1 |
 | `X` | 1 |
 
-**The four keyword-verbs are among the 271 `K` records.** `break`, `count`,
+**The four keyword-verbs are among the 218 `K` records.** `break`, `count`,
 `display` and `off` are counted as keywords here and are also verbs, so Solo has
-177 + 4 = **181 verbs**.
+205 + 4 = **209 verbs**, the number on the syntax card. No `R` record is shipped.
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
 SD Core for Linux L2.0-0* in the GettingStarted set. (SDSYS's own VOC,
-which nobody signs in to, is built from the larger `voc_template`: 480 records.)
+which nobody signs in to, is built from the larger `voc_template`: 439 records.)
 
 > **`edit` used to be exactly this kind of trap** — a record present in the
 > VOC whose old type field read `Verb - Full screen editor` rather than `V`,
@@ -141,12 +139,12 @@ target, and the remaining fields carry options.
 
 | Field 2 | Field 3 | What it does |
 |---|---|---|
-| `CA` | *catalog name* | a cataloged program — 98 of the shipped verbs |
-| `IN` | *number* | internal verb *n*, handled by the command processor itself — 42 verbs |
+| `CA` | *catalog name* | a cataloged program — 167 of the shipped verbs |
+| `IN` | *number* | internal verb *n*, handled by the command processor itself — 37 verbs |
 | `OS` | *text* | an operating-system command — `sh`, and nothing else |
 | `CS` | *path* | a locally cataloged function |
 
-The first three rows account for all 139 of Solo's `V` records. The
+The first three rows account for all 205 of Solo's `V` records. The
 remaining four verbs are the keyword records described above — `break`,
 `count`, `display` and `off` — where field 2 holds a keyword number rather than a
 dispatch type, and it is field 3 that marks the record as a verb.

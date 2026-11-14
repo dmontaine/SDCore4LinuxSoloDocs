@@ -102,8 +102,8 @@ it.
 
 | | VOC records |
 |---|---|
-| Your account (`newvoc`) | **414** |
-| SDSYS (`voc_template`) | **422** |
+| Your account (`newvoc`) | **434** |
+| SDSYS (`voc_template`) | **439** |
 
 **These are record counts, not verb counts** — a VOC record may be a verb, a
 keyword, a file pointer, a sentence or a paragraph, and only some are verbs.
