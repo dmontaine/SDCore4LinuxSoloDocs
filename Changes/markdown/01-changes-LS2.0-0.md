@@ -87,6 +87,7 @@ The server side of the API, the client library and the language headers.
 
 | Name | Change | What |
 |---|---|---|
+| api sign-in: audit | Added | the first entry to an account writes `api login user= account=` to the audit trail |
 | `autologout` | Changed | reaches an API session; a client hang found while testing it is fixed |
 | client library: call name | Changed | a subroutine called from the client may have a name as long as the lower of 128 and `maxidlen` (it was 63), as on the server's own `call` |
 | client library: collection files | Changed | a record read from a data collection file reaches the client as its JSON text, as `ct` shows it |
