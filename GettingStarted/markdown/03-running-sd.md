@@ -80,6 +80,12 @@ followed by a crash leave the daemon down. `systemctl --user reset-failed sd-sol
 `systemctl --user restart sd-solo.service` when you want the unit to run it. Only one
 daemon runs at a time: a second `sdlnxd` finds the first and ends.
 
+**A script may capture what `sd-solo -start` prints.** `x=$(sd-solo -start)` or
+`sd-solo -start | tee start.log` returns as soon as SD has started. The daemon it
+leaves running does not keep the script's pipe: it writes to `/dev/null` instead,
+so anything it prints after the start is not seen there. Sent to a file or a
+terminal, its output goes there as before.
+
 **A System V segment does not survive a reboot** — the kernel clears its IPC
 state on every restart. A reboot always leaves a clean slate; the "segment
 present, daemon dead" case above is about a crash the computer did **not**
