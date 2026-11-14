@@ -622,6 +622,7 @@ Three simple layers, with no vault and nothing on by default.
 
 | Name | Change | What |
 |---|---|---|
+| access questions | Changed | the API and ssh questions are SD Core's two: *Allow API access from other computers? (y/N)* and *Allow ssh access from other computers? (y/N)*, where `off/local/open` was typed before. A no leaves the API off and ssh on for this computer only, as the old defaults did; a y opens each to the network. `--api` and `--ssh` still take `off`, `local` or `open`, and `remote.api` / `remote.ssh` change them afterwards |
 | agent pack | Added | the installer puts the guide and the knowledge pack for AI agents in the installation's `agent-pack` folder, when the download's pack matches the installed release; an absent or other-version pack is a note, never a stop |
 | changes document and manuals | Added | the changes document (`sd-core-solo-for-linux-<version>-changes.pdf`, `.html`, `.md`) and the manuals found beside the installer are put in the installation's `pdf` folder, the manuals through `docs.install`; anything else is left alone |
 | distributions | Changed | Debian and Ubuntu (and their derivatives) only: Fedora is refused, as RHEL, its clones, Arch and openSUSE were, and every refusal now comes before the network check, the questions and the first `sudo`; the `dnf` step is gone |

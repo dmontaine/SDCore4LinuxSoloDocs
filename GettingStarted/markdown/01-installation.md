@@ -101,13 +101,18 @@ says *global pw: none - no SD Core server manages this computer*, or *set*.
 
 ### 2. The API and ssh
 
-**These are your choice with or without a global password.** (Until
-6 October 2026 a managed computer had both forced open and was not asked.)
+**These are your choice with or without a global password.** The installer asks
+SD Core's two questions, each answered no unless you type `y`:
+
+```
+Allow API access from other computers? opens TCP port 4249 (y/N)
+Allow ssh access from other computers? opens TCP port 4251 (y/N)
+```
 
 | | |
 |---|---|
-| **API listener** | `off` (the default), `local` (this computer only) or `open` (reachable from the network). Port 4249, fixed |
-| **ssh straight into sd-solo** | on and `local` (this computer only) by default, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it (`--ssh off` declines both); `off`, `local` or `open`, on Solo's own port 4251, fixed. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if it is on, the installer asks for a public key file and adds it to Solo's own key file. `--ssh local` or `--ssh open` answers it, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
+| **API** | **no** (the default): the API is **off**, with no listener at all. **y**: it listens for other computers on port 4249 (fixed). `--api off`, `--api local` (this computer only) or `--api open` on the command line answers it without asking; afterwards `remote.api` changes it |
+| **ssh straight into sd-solo** | **no** (the default): on for **this computer only**, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it. **y**: reachable from other computers, on Solo's own port 4251 (fixed). `--ssh off` turns it off and declines the package, and with no ssh server program and `--skip-packages` it is off and not asked; afterwards `remote.ssh` changes it. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if ssh is on, the installer asks for a public key file and adds it to Solo's own key file, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running, and reachable over the API and ssh, when nobody is signed in at the computer. **On by default** (since 9 November 2026), for an unattended install too; on a terminal the installer asks, with yes as the answer Enter gives. `--no-linger`, or `enable-linger=no` in the control file, leaves it off, and then SD stops when your last session ends. Linger keeps SD and the ports you opened running while you are signed out; it is a persistent setting of your account, which `loginctl disable-linger` turns off later |
 
 **A computer that an SD Core server manages needs both `open`**: the server has to
