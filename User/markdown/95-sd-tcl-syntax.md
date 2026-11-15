@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **209** verbs, and
+> every verb record in `newvoc`, which is **212** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-209 of them; whether a verb needs `admin` is in the GettingStarted set.
+212 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -155,6 +155,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`qselect`** | **`qselect`** {**`dict`**} *file* {*id* … \| **`*`**} {**`(options`**} |
 | **`quit`** | **`quit`** — the same verb as **`off`** |
 | **`rebuild.all.indices`** | **`rebuild.all.indices`** {**`no.query`**} |
+| **`receive`** | **`receive`** {**`overwrite`**} |
 | **`redo`** | **`redo`** {**`times`** *n*} {**`every`** *s*} *command* |
 | **`reformat`** | **`reformat`** {**`dict`**} *file* {*selection*} {*fields*} |
 | **`release`** | **`release`** *file* *id* …  ·  **`release filelock`** *file* |
@@ -173,6 +174,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`select`** | **`select`** {**`dict`**} *file* {*selection*} {*list.no*} |
 | **`select.dir`** | **`select.dir`** *pathname* {**`to`** *n*} |
 | **`selectindex`** | **`selectindex`** {**`dict`**} *file* *index* {*value*} {**`to`** *n*} |
+| **`send`** | **`send`** *file* *id* {*id* …} |
 | **`set`** | **`set`** *name* *value* |
 | **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai models`** *provider*  ·  **`set.ai key`** *provider* {**`clear`** \| **`handover`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  ·  **`set.ai context`** *hex* \| **`-`**  —  whether the AI may be used, and its provider, model, key, limits and standing text (administrator); the key is typed at the helper's own prompt, or in tool.ai's setup dialog, which hands it over |
 | **`set.backup.directory`** | **`set.backup.directory`** {*directory*} |
@@ -193,6 +195,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
 | **`set.trigger`** | **`set.trigger`** *file* *name* {*modes*} |
 | **`set.viewer`** | **`set.viewer`** {{**`add`** \| **`remove`**} **`pdf`** *program*}  —  the programs that may be started without the **`os`** switch to show a document (none is allowed as delivered); without arguments, lists them |
+| **`set.xfer.access`** | **`set.xfer.access`** \| **`set.xfer.access on`** \| **`set.xfer.access off`**  —  whether the account may move files with **`receive`** and **`send`** over Solo's ssh (administrator; off as delivered, and **`XFER`** in sd.conf must be 1 too); without a word, says which |
 | **`setptr`** | **`setptr`** *unit* \| **`default`**`,`*width*`,`*depth*`,`*top*`,`*bottom*`,`*mode* {`,`*options*}  ·  **`setptr display`**  ·  **`setptr`** *unit*`,`**`display`** |
 | **`settings.report`** | **`settings.report`** {*directory*} |
 | **`sh`** | **`sh`** *command* |
@@ -221,7 +224,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
 | **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the editor, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
 | **`tool.files`** | **`tool.files`**  —  the files of the account on one screen: kind, records, modulus, size, indices, trigger; make, clear and delete a file, each through its own verb after a box that shows the command; analyze a file and list its indices and triggers by handing the terminal to the verb |
-| **`tool.gates`** | **`tool.gates`**  —  the four gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files and the AI, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`** or **`set.ai gate`** after a box answered Run |
+| **`tool.gates`** | **`tool.gates`**  —  the five gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files, the AI and file transfer, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`**, **`set.ai gate`** or **`set.xfer.access`** after a box answered Run |
 | **`tool.keys`** | **`tool.keys`** |
 | **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
 | **`tool.query`** | **`tool.query`** {*file*}  —  the query and report builder: choose a file, mark its columns (break and total), set conditions, sorts and options, read the list / sort / count / sum sentence they make, run it into a results box, and save the query in your file &queries& and load it again; every sentence is checked before it runs |

@@ -170,6 +170,10 @@ DOCS = [
  ('GettingStarted', '06b-operating-system-access.md', """
    sh ! set.os.access docs.install load.help set.viewer tool.gates tool.viewers
  """),
+ # 15 Nov 26, the Solo carry of SD Core's S.242: receive and send, and the switch set.xfer.access, are explained on the User page for the transfer.
+ ('User', '29e-sd-tcl-moving-files-in-and-out.md', """
+   receive send set.xfer.access
+ """),
  # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
  ('GettingStarted', '09-api-access.md', """
    set.net.access

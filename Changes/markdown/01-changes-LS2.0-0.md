@@ -507,6 +507,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `set.config` | Added | administrator only: changes one of 14 tuning parameters of `sd.conf`: a name on SD's list and a whole number inside the range SD enforces; the old file is kept as `sd.conf.bak` |
 | `set.mcp` | Added | administrator only: opens the MCP door for an AI agent's MCP client (`set.mcp on`) and gives it the write tool (`set.mcp write on`); both off as delivered; Getting Started page 25, The MCP door |
 | `set.net.access` | Added | the account's `net` gate: `set.net.access on` and `off`; off as delivered; it guards API request 29 and every remote file |
+| `set.xfer.access` | Added | the account's file transfer switch: `set.xfer.access on` and `off`; off as delivered; with `XFER=1` in `sd.conf` it lets `receive` and `send` move plain-text files over Solo's ssh |
 | `set.os.access` | Added | the shell (`sh`) and operating system access (`os`) are two switches on the account, both off as delivered; `set.os.access sh on`, `os on`, `off`; seen at the next sign-on |
 | `set.pins` | Added | `set.pins on` lets the account add programs of its own to its home screen (`my.menu`); off as delivered |
 | `set.recovery` | Added | `set.recovery on` has the IDE keep a recovery copy of unsaved text, readable only by you in `~/.local/state/sd/recovery/sduser/`; off as delivered (SD Core: `modify.account ... recovery-on`) |
@@ -519,7 +520,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `tool.audit` | Added | after `admin`: full-screen page that reads the audit trail from its end, a screen at a time: filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record; it changes nothing else |
 | `tool.backups` | Added | after `admin`: full-screen page for backups and restores: the saved directory, the archives in it with each manifest, whether another session is signed on (a backup and a restore need every other session out), and `backup.account`, `restore.account` and `set.backup.directory` behind a box |
 | `tool.config` | Added | after `admin`: full-screen page that shows every `sd.conf` parameter with what SD is running with, what the file says, the default and when a change takes effect, and names a line SD does not know; `E` changes one of 14 tuning parameters through `set.config` behind a box answered Run, and shows why and the line to add by hand for the rest |
-| `tool.gates` | Added | full-screen page of the account's four gates (`sh`, `os`, `net`, `ai`): on or off for this session, what the register says, how each is delivered and when a change reaches you; after `admin`, Enter turns a gate on or off through its own verb |
+| `tool.gates` | Added | full-screen page of the account's five gates (`sh`, `os`, `net`, `ai`, `xfer`): on or off for this session, what the register says, how each is delivered and when a change reaches you; after `admin`, Enter turns a gate on or off through its own verb |
 | `tool.menus` | Added | full-screen page that shows the home screen's settings and runs the verbs once you answer Run |
 | `tool.menus` | Changed | a row for each development tile and the Recent group in the Menu box |
 | `tool.remote` | Added | after `admin`: full-screen page for everything that reaches SD from outside: the API (port 4249) and ssh (port 4251) doors as the machine reports them (changed after a box, through `remote.api` and `remote.ssh`), the SDNet servers (delete, define with the terminal given to `set.server`), who is connected and this machine's TLS identity |
@@ -528,6 +529,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `update.accounts` deletion list | Changed | after the copy from `newvoc` it removes from the account's VOC the records on SD's deletion list (`sdsys/voc_removed`), but only the record SD shipped (not one of your own, not a `[locked]` one unless it is a verb), after saving a copy, and audits it; before `newvoc.mods` |
 | `update.accounts` in the SDSYS account | Changed | the administrator's own VOC is updated from `voc_template`, not `newvoc` (no visible change in Solo today: the two sets hold the same `tool.gates`) |
 | `update.accounts` that cannot write the VOC | Changed | the account is left as it was with a line that says so (its file permissions refuse the write), and the command ends with its counts, where it stopped with error 3018 |
+| `XFER` and the transfer limits | Added | `sd.conf`: `XFER` (0 as delivered; 1 lets the account transfer files once `set.xfer.access` is on), `XFERFILE` (10 MB a file), `XFERSLOT` (100 MB a transfer), `XFERWAIT`, `XFERIDLE`, `XFERMAX` (60 minutes) and `XFERKIND` (the endings taken; blank is any plain text); read when Solo starts |
 
 ### AI
 
@@ -572,6 +574,8 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `basic ... no.catalog` | Added | compiles and runs no catalog directive: a `$catalog` line in the source or in a file it includes, or a `CATALOG` line in `$BASIC.OPTIONS`, is not acted on and the compile says so |
 | `menu` | Added | opens the full-screen menu (the home screen) from any account; `home` and `exit` stay |
 | `pdf` | Added | shows a document in the PDF reader the administrator has allowed, even for an account that may not run programs |
+| `receive` | Added | opens a transfer for plain-text files coming in to the account's file `xfer.in` from an sftp client signed in to Solo's ssh (port 4251) with your Linux name, waits, and says what came with each file's SHA-256; `receive overwrite` lets a file replace one of the same name |
+| `send` | Added | `send <file> <id> ...` copies records that are plain text to the account's file `xfer.out` and opens a transfer for an sftp client to fetch them; the same switches and the same confinement as `receive` |
 | `tool.*` pages with several boxes | Changed | the box the keyboard is in is marked `[*]` in its top right corner and the others `[-]`, as in the IDE (`tool.bulk`, `tool.query`, `tool.test`, `tool.sessions`, `tool.menus`, `tool.ai`) |
 | `tool.bulk` | Added | full-screen bulk update of one data file: records chosen by conditions, a saved list or all, up to ten operations, a dry run first, apply under record locks after a box that asks the file's name typed, and undo of the last run |
 | `tool.catalog` | Added | full-screen list of the account's program records (kind, compile time, size, current or stale, private / local / global catalog) with compile (basic), catalog privately or locally (catalog) and take an entry out (delete.catalog, decatalog), each the ordinary verb after a box |
@@ -754,6 +758,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | home screen keys | Changed | the Terminal is Alt-T (it was Ctrl-T); Ctrl-Q is the one key that leaves, for the prompt after `home` typed there and otherwise by signing out; Ctrl-T is the theme and Ctrl-K the keys of the screen, as on every page; Go > Start the tile (Enter) |
 | home screen menu bar | Changed | made from the page's key table like every other page's: each entry shows its key (new: Alt-T Terminal, Ctrl-R Recent group, Ctrl-K Keys, F6 the AI line), F10 left the foot row, and / finds a tile by any part of its name |
 | home screen Recent group | Added | `View > Recent group`: the tiles started last, newest first, six at most; off as delivered, the person's own record in `&menus&`; `set.tile` with `recent off` is the administrator's wall |
+| home screen Receive files | Added | a tile that runs `receive` and waits for Enter after it, shown only where a transfer can be opened (`XFER` on and the account's switch on) |
 | home screen refused tile | Changed | a tile whose command is refused shows its message until a key is pressed, and the home screen no longer ends |
 | home screen small window | Changed | a session that starts in the home screen is signed out when the window is too small for it, even with the Terminal tile on (it used to be left at the prompt) |
 | home screen sub-menus | Added | a tile can open a second page of tiles with a Back tile, Esc and the path on the status line; eight deep; the delivered page declares none yet |
