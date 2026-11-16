@@ -208,12 +208,6 @@ something SD does; none is a door, a path, a command, a log or a security settin
 | `RECCACHE` | 0 to 32 |
 | `SORTMRG` | 2 to 10 |
 | `USPLIT` | 0 to 1 |
-| `XFER` | 0 to 1 |
-| `XFERFILE` | 1 to 1048576 |
-| `XFERIDLE` | 10 to 3600 |
-| `XFERMAX` | 0 to 86400 |
-| `XFERSLOT` | 1 to 4194304 |
-| `XFERWAIT` | 10 to 3600 |
 
 ## Sessions and limits
 
@@ -260,17 +254,18 @@ you set it, choose a directory only you can read.
 ## File transfer over ssh
 
 `receive` and `send` (see [Moving files in and out](../../User/html/29e-sd-tcl-moving-files-in-and-out.html)).
-Each takes effect when SD is next started, as every parameter not listed above.
+Each takes effect when SD is next started, as every parameter not listed above. None of them is
+one of the 14 parameters `set.config` changes: `XFER` is a door, and the limits are added by hand.
 
-| Parameter | Default | Effect |
-|---|---|---|
-| `XFER` | 0 | **The system's switch, off as delivered.** 1 lets the account move files with `receive` and `send` over Solo's ssh, once its own switch is on too (`set.xfer.access on`). It opens a door from the network into the account's transfer folders: see [Security](12-security.html) |
-| `XFERFILE` | 10240 | The largest file one transfer takes, in kilobytes; a bigger file is refused and discarded |
-| `XFERSLOT` | 102400 | The most one transfer takes in all its files, in kilobytes |
-| `XFERWAIT` | 600 | Seconds a transfer waits for the sftp program's first connection before it closes |
-| `XFERIDLE` | 120 | Seconds a transfer stays open after its last file has finished; a file still moving is never cut off |
-| `XFERMAX` | 3600 | Seconds a transfer may stay open at most; 0 removes the ceiling |
-| `XFERKIND` | blank | The endings a received file's name must have, separated by commas (`csv,txt`); blank takes any plain-text file |
+| Parameter | Default | Range | Effect |
+|---|---|---|---|
+| `XFER` | 0 | 0 to 1 | **The system's switch, off as delivered.** 1 lets the account move files with `receive` and `send` over Solo's ssh, once its own switch is on too (`set.xfer.access on`). It opens a door from the network into the account's transfer folders: see [Security](12-security.html) |
+| `XFERFILE` | 10240 | 1 to 1048576 | The largest file one transfer takes, in kilobytes; a bigger file is refused and discarded |
+| `XFERSLOT` | 102400 | 1 to 4194304 | The most one transfer takes in all its files, in kilobytes |
+| `XFERWAIT` | 600 | 10 to 3600 | Seconds a transfer waits for the sftp program's first connection before it closes |
+| `XFERIDLE` | 120 | 10 to 3600 | Seconds a transfer stays open after its last file has finished; a file still moving is never cut off |
+| `XFERMAX` | 3600 | 0 to 86400 | Seconds a transfer may stay open at most; 0 removes the ceiling |
+| `XFERKIND` | blank | | The endings a received file's name must have, separated by commas (`csv,txt`); blank takes any plain-text file |
 
 ## The API
 

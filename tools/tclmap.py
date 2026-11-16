@@ -79,7 +79,7 @@ if len(roster) < 100:
 
 DOCS = [
  ('User', '19-sd-tcl-command-processor.md', """
-   abort clear.data clear.input clr
+   abort clear.data clr
    display go if message off pause quit report.src stop break
  """),
  # The command stack, the @-variables and the session verbs left 19 for 19a
@@ -126,7 +126,7 @@ DOCS = [
    printer setptr sp.view spool como report.style
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
-   autologout bell clear.prompts date date.format echo
+   autologout bell clear.input clear.prompts date date.format echo
    hush logmsg nls pdf pterm sleep term time tool.keys
  """),
  # 23 Oct 26 Solo carry 14: the home screen page
@@ -151,8 +151,8 @@ DOCS = [
    release
  """),
  # 30 Sep 26 SD Core Solo for Linux (LSOLO 11): the Administrator set is merged
- # into GettingStarted, as in Solo for Windows.  The account and grant verbs and
- # remote.api and remote.ssh are not in Solo.  Each surviving verb is assigned
+ # into GettingStarted, as in Solo for Windows.  The account and grant verbs are
+ # not in Solo.  Each surviving verb is assigned
  # where the rewritten page explains it - including admin, set.password,
  # deny.verbs and sync.global.catalog, which Solo added.
  ('User', '19a-sd-tcl-the-command-stack.md', """
@@ -168,11 +168,15 @@ DOCS = [
    clear.locks list.locks list.readu listu lock logout tool.sessions unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh ! set.os.access docs.install load.help set.viewer tool.gates tool.viewers
+   sh set.os.access docs.install load.help set.viewer tool.gates tool.viewers
  """),
- # 15 Nov 26, the Solo carry of SD Core's S.242: receive and send, and the switch set.xfer.access, are explained on the User page for the transfer.
+ # 15 Nov 26, the Solo carry of SD Core's S.242: receive and send are explained on the User page for the transfer.  16 Nov 26 (found by Windows):
+ # the switch set.xfer.access is on the administrator's commands page, which names it bare; the User page only ever writes "set.xfer.access on".
  ('User', '29e-sd-tcl-moving-files-in-and-out.md', """
-   receive send set.xfer.access
+   receive send
+ """),
+ ('GettingStarted', '06-administrator-commands.md', """
+   set.xfer.access
  """),
  # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
  ('GettingStarted', '09-api-access.md', """
@@ -206,7 +210,7 @@ DOCS = [
    scan
  """),
  ('User', '22-sd-tcl-select-lists.md', """
-   copy.listp execute.list move.list show.list sort.list
+   execute.list move.list select.dir show.list sort.list
  """),
  ('User', '23-sd-tcl-alternate-key-indexes.md', """
    analyse.index disable.index rebuild.all.indices selectindex
@@ -215,13 +219,39 @@ DOCS = [
    decatalog find.program
  """),
  ('User', '28-sd-tcl-printing-and-spooling.md', """
-   block.print set.queue sp.assign
+   block.print
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
    block.term list.term.types
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    list.phantoms profiler
+ """),
+ # 16 Nov 26: the verbs that were on no page of this map (tclmap said NO PAGE for 21), each given the page that explains it; every one of them
+ # was already named there.  copy.listp, set.queue, sp.assign and ! are removed verbs (voc_removed) and left the map the same day.
+ ('User', '20-sd-tcl-files-and-records.md', """
+   oscopy set.mode
+ """),
+ ('User', '29c-sd-tcl-the-development-tools.md', """
+   tool.bulk tool.catalog tool.dict tool.files tool.query tool.test tool.voc
+ """),
+ ('GettingStarted', '06-administrator-commands.md', """
+   list.voc.removed restore.voc tool.backups
+ """),
+ ('GettingStarted', '06a-sessions-and-locks.md', """
+   inhibit.login lock.tracer
+ """),
+ ('GettingStarted', '08-ssh-access.md', """
+   remote.ssh tool.remote
+ """),
+ ('GettingStarted', '09-api-access.md', """
+   remote.api
+ """),
+ ('GettingStarted', '12a-security-and-the-operating-system.md', """
+   tool.audit
+ """),
+ ('GettingStarted', '16-configuration.md', """
+   set.config tool.config
  """),
 ]
 
