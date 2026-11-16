@@ -302,7 +302,7 @@ directories.
 Each shows its command and what it does in a box answered Run or Cancel, **and Cancel is what Enter
 chooses**. The page runs those four commands and no other; the verbs ask for the administrator again
 and write their own audit lines. **A restore replaces the account's data**, so its box says so and
-wants the word `RESTORE` typed. The verb's own question (Enter is No) cannot be answered through a
+wants the word `restore` typed (in either case). The verb's own question (Enter is No) cannot be answered through a
 page, so the page gives `no.query` after its box has asked; it does not give it any other way. An
 archive that holds an account other than `sduser` is refused by the page, which names it. As at
 the prompt, the restore of the account you are using is prepared and happens the next time SD

@@ -142,7 +142,7 @@ four views, chosen with the keys `1` to `4`:
 
 | View | What it shows and does |
 |---|---|
-| `1` doors | what `remote.api` and `remote.ssh` say with no keyword: **the machine's own answer**, read back from the socket units, not what the page meant. `A` changes the API and `S` changes ssh (`off`, `local` or `open`); `open` lets other computers reach this one, so its box wants the word `OPEN` typed |
+| `1` doors | what `remote.api` and `remote.ssh` say with no keyword: **the machine's own answer**, read back from the socket units, not what the page meant. `A` changes the API and `S` changes ssh (`off`, `local` or `open`, chosen from a list that starts on `off`); `open` lets other computers reach this one, so its box wants the word `open` typed (in either case) |
 | `2` servers | the SDNet servers you have defined: name, address, remote account and mode, the pin shortened, the accounts that may use it. `X` deletes the one under the cursor (`delete.server`, which does not ask itself, so the box is the question). `N` asks every field, checks them the way `set.server` does and gives **the terminal to the verb**, whose `connect` step shows the key the server presents and its hash and asks whether to trust it |
 | `3` connected | every session now by the door it came through: the user number, the kind (user, api, sdnet, phantom), the login user, the account and where it came from |
 | `4` TLS | this installation's TLS identity as `settings.report` gives it: the certificate fields and the public-key hash another SD server pins. Never the private key |
