@@ -253,7 +253,7 @@ you set it, choose a directory only you can read.
 
 ## File transfer over ssh
 
-`receive` and `send` (see [Moving files in and out](../../User/html/29e-sd-tcl-moving-files-in-and-out.html)).
+`receive` and `send` (see *Moving Files In and Out* in the User documentation).
 Each takes effect when SD is next started, as every parameter not listed above. None of them is
 one of the 14 parameters `set.config` changes: `XFER` is a door, and the limits are added by hand.
 

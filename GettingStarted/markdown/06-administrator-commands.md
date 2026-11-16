@@ -46,7 +46,7 @@ password is never displayed, stored or logged.
 | `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
-| `set.xfer.access` | show, or turn on and off, file transfer over Solo's ssh (`receive` and `send`, with `XFER=1` in `sd.conf`); off as delivered — [Security](12-security.html), and for the person [Moving files in and out](../../User/html/29e-sd-tcl-moving-files-in-and-out.html) |
+| `set.xfer.access` | show, or turn on and off, file transfer over Solo's ssh (`receive` and `send`, with `XFER=1` in `sd.conf`); off as delivered — [Security](12-security.html), and for the person *Moving Files In and Out* in the User documentation |
 | `set.start.default`, `set.tile`, `set.pins`, `tool.menus` | where a session starts, which tiles the home screen has, whether the account may add its own — [The home screen's settings](#the-home-screens-settings) below |
 | `set.viewer`, `tool.viewers`, `docs.install`, `load.help` | the readers `pdf` may start, the documents it shows, the context help — [Operating system access](06b-operating-system-access.html) |
 | `set.ai`, `tool.ai` | whether the AI may be used (`set.ai gate on`; off as delivered), its provider, model and key, and the page that does it — [The AI helper](24-the-ai-helper.html) |

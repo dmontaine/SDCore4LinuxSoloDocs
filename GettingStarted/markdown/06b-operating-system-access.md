@@ -66,7 +66,7 @@ tool.gates
 lists the five gates this account has - **Shell** (`sh`), **OS.EXECUTE** (`os`),
 **Remote files** (`net`, [API access](09-api-access.html)), **AI**
 ([The AI helper](24-the-ai-helper.html)) and **File transfer** (`xfer`, `set.xfer.access`;
-[Moving files in and out](../../User/html/29e-sd-tcl-moving-files-in-and-out.html), read each time
+*Moving Files In and Out* in the User documentation, read each time
 it is used, so "this session" is what the register says now) - with, for each: whether it is ON or
 off **for this session**, what the register holds (shown to the administrator
 only), how it is delivered (off, every one), whether it reaches beyond SD (every
