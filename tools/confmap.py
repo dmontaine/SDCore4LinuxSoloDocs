@@ -157,25 +157,33 @@ for param in roster:
 # refuses a name that is not on the roster, so it cannot drift silently.
 
 DOCUMENTS = {
- # 22 Sep 26 - LINUX FORK.  APIPORT and NETDIRS are not parameters this
- # port's config.c accepts at all: whether SD listens for the API is
- # systemd's sdclient.socket unit, not a start-up config value, and there
- # is no config-file mechanism here widening an API session's file access
- # beyond its own account (see 07's own "The API" section).
+ # 22 Sep 26 - LINUX FORK.  APIPORT is not a parameter this port's config.c
+ # accepts: whether SD listens for the API is systemd's socket unit, not a
+ # start-up config value.  NETDIRS IS one since 17 Nov 26 (the four-version
+ # audit: directories outside the account that a session with the os switch
+ # off may reach; empty as delivered) and is on 16c with the other paths.
  # 30 Sep 26 SD Core Solo for Linux (LSOLO 11): the Administrator set is merged
  # into GettingStarted; configuration is page 16.
  'GettingStarted/markdown/16-configuration.md': """
    CLEANUP CMDSTACK DEADLOCK DEBUG DHCACHE DUMPDIR ERRLOG FDS FLTDIFF FSYNC
-   GRPDIR GRPSIZE INTPREC LGNWAIT LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN MAXRLOCK
-   MUSTLOCK NETFILES NETREPLY NETWAIT NUMFILES NUMLOCKS NUMUSERS OBJECTS OBJMEM
-   PDUMP PHANTOMS PWDELAY RECCACHE SAFEDIR SCREENTHEME SDCLIENT SDSYS SH SH1
-   SORTMEM SORTMRG SORTWORK SPOOLER STARTUP TEMPDIR TERMINFO USERPOOL USPLIT
-   USRDIR XFER XFERFILE XFERIDLE XFERKIND XFERMAX XFERSLOT XFERWAIT YEARBASE
+   GRPDIR GRPSIZE INTPREC LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN
+   MUSTLOCK NUMUSERS OBJECTS OBJMEM
+   RECCACHE SAFEDIR SCREENTHEME SDCLIENT SDSYS SH SH1
+   SORTMEM SORTMRG SORTWORK SPOOLER TEMPDIR TERMINFO
+   USRDIR YEARBASE
+ """,
+ # 17 Nov 26 (four-version audit, page-length split): 16 became 16, 16b and 16c
+ 'GettingStarted/markdown/16b-changing-a-parameter-from-sd.md': """
+   LGNWAIT MAXRLOCK
+ """,
+ 'GettingStarted/markdown/16c-the-parameters.md': """
+   NETDIRS NETFILES NETREPLY NETWAIT NUMFILES NUMLOCKS PDUMP PHANTOMS PWDELAY STARTUP
+   USERPOOL USPLIT XFER XFERFILE XFERIDLE XFERKIND XFERMAX XFERSLOT XFERWAIT
  """,
  # 03 Oct 26 SD Core Solo for Linux (LSOLO 30): BACKUPDIR is written by SET.BACKUP.DIRECTORY
  # (S.53), not by hand, and page 06 is where it is explained - saved directory, what it
  # means and how to take it out.  The check that the page names it is confmap's own.
- 'GettingStarted/markdown/06-administrator-commands.md': """
+ 'GettingStarted/markdown/06c-backup-and-restore.md': """
    BACKUPDIR
  """,
 }

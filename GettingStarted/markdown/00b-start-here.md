@@ -66,13 +66,17 @@ that no page runs longer than a reader will scroll.
 | **01** | [Installing](01-installation.html) | What the installer asks, what it puts where, and the control file for installing many computers |
 | **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the computer |
 | **01b** | [Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html) | What Solo leaves out, adds and does differently |
+| **01c** | [Installing many computers](01c-installing-many-computers.html) | The control file, what the installer checks when it finishes, the editors and the mouse, and changing any of it afterwards |
 | **02** | **[Your first thirty minutes](02-first-run.html)** | **Start here if you just want it working** |
 | **03** | [Running SD](03-running-sd.html) | How SD starts, stopping it, and the command line |
 | **04** | [Scheduled jobs](04-scheduled-jobs.html) | Running an SD command on a timer |
 | **05** | [The account and its passwords](05-account-types.html) | `sduser`, the account password, the administrator and global passwords |
 | **06** | [Administrator commands](06-administrator-commands.html) | The commands that need `admin` first |
 | **06a** | [Sessions and locks](06a-sessions-and-locks.html) | Who is signed in, what is locked, and clearing it |
+| **06a1** | [Task locks and the sessions screen](06a1-task-locks-and-forcing-a-lock-open.html) | Task locks, forcing a lock open, and the sessions and locks screen |
 | **06b** | [Operating system access](06b-operating-system-access.html) | Reaching Linux from inside SD |
+| **06b1** | [Showing a document with pdf](06b1-showing-a-document-with-pdf.html) | The one bypass of the `os` switch, naming a reader, and the context help |
+| **06c** | [Backing up and restoring the account](06c-backup-and-restore.html) | Writing the account to a zip file, putting it back, and recording the system's settings |
 | **07** | [Development and file commands](07-programmer-commands.html) | Compiling, editing, and the verbs that maintain files and indexes |
 | **08** | [ssh access](08-ssh-access.html) | Reaching SD on this computer over ssh |
 | **09** | [API access](09-api-access.html) | The client API, its port, and its login |
@@ -85,6 +89,8 @@ that no page runs longer than a reader will scroll.
 | **15** | [Managed mode](15-managed-mode.html) | What an SD Core for Linux server can do to a managed computer |
 | **16** | [Configuration](16-configuration.html) | `sd.conf` and its parameters |
 | **16a** | [System limits](16a-system-limits.html) | The sizes and counts SD works within |
+| **16b** | [Changing a parameter from SD](16b-changing-a-parameter-from-sd.html) | `set.config` and the `E` key of the configuration screen |
+| **16c** | [Configuration - the parameters](16c-the-parameters.html) | Every parameter SD accepts, by subject, and the ones that were removed |
 | **17** | [The installed scripts](17-the-installed-scripts.html) | The scripts in the installed directory |
 | **17a** | [The scripts SD runs itself](17a-scripts-sd-runs-itself.html) | The ones the installer and SD call, which nobody types |
 | **18** | [Encryption and the SDEXT interface](18-encryption.html) | What encryption SD has, and the interface behind it |
@@ -95,6 +101,7 @@ that no page runs longer than a reader will scroll.
 | **22** | [sdconv, the byte order convertor](22-sdconv.html) | What it converts (compiled programs only), and what it refuses |
 | **23** | [Giving an AI agent an installation of its own](23-giving-an-ai-agent-its-own-installation.html) | Why the wall for an agent has to be a computer, and the recipe |
 | **24** | [The AI helper](24-the-ai-helper.html) | Asking an AI model a question from SD: the provider, the key, the gate, and what a helper that runs as you cannot promise |
+| **24a** | [Setting up the AI helper](24a-setting-up-the-ai-helper.html) | The AI choice page, the `set.ai` verb, the standing text, the key, a custom provider, the audit trail and troubleshooting |
 | **25** | [The MCP door](25-the-mcp-door.html) | Letting an AI agent's MCP client use your account through read-only tools: the two switches (both off), the audit line, and what the door does not add |
 | **26** | [Migrating to SD](26-migrating-to-sd.html) | Bringing programs and queries from another MultiValue database: where the compatibility words are set, and the words SD does not accept |
 | **26a** | [Option words](26a-migrating-option-words.html) | The words of the `option` command, one line each |

@@ -137,7 +137,7 @@ DOCS = [
  ('User', '29b-sd-tcl-asking-the-ai.md', """
    ai
  """),
- ('GettingStarted', '24-the-ai-helper.md', """
+ ('GettingStarted', '24a-setting-up-the-ai-helper.md', """
    set.ai tool.ai
  """),
  # 11 Nov 26 S.211: the MCP door
@@ -162,13 +162,23 @@ DOCS = [
    set.password
  """),
  ('GettingStarted', '06-administrator-commands.md', """
-   admin backup.account clean.account config restore.account set.backup.directory set.date set.pins set.recovery set.start.default set.tile settings.report tool.menus update.accounts
+   admin clean.account config set.date set.pins set.recovery set.start.default set.tile tool.menus update.accounts
+ """),
+ # 17 Nov 26 (four-version audit, page-length split): backup and restore moved to 06c
+ ('GettingStarted', '06c-backup-and-restore.md', """
+   backup.account restore.account set.backup.directory settings.report tool.backups
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
-   clear.locks list.locks list.readu listu lock logout tool.sessions unlock
+   list.readu listu logout
+ """),
+ ('GettingStarted', '06a1-task-locks-and-forcing-a-lock-open.md', """
+   clear.locks list.locks lock tool.sessions unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh set.os.access docs.install load.help set.viewer tool.gates tool.viewers
+   sh set.os.access tool.gates
+ """),
+ ('GettingStarted', '06b1-showing-a-document-with-pdf.md', """
+   docs.install load.help set.viewer tool.viewers
  """),
  # 15 Nov 26, the Solo carry of SD Core's S.242: receive and send are explained on the User page for the transfer.  16 Nov 26 (found by Windows):
  # the switch set.xfer.access is on the administrator's commands page, which names it bare; the User page only ever writes "set.xfer.access on".
@@ -236,7 +246,7 @@ DOCS = [
    tool.bulk tool.catalog tool.dict tool.files tool.query tool.test tool.voc
  """),
  ('GettingStarted', '06-administrator-commands.md', """
-   list.voc.removed restore.voc tool.backups
+   list.voc.removed restore.voc
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
    inhibit.login lock.tracer
@@ -251,7 +261,10 @@ DOCS = [
    tool.audit
  """),
  ('GettingStarted', '16-configuration.md', """
-   set.config tool.config
+   tool.config
+ """),
+ ('GettingStarted', '16b-changing-a-parameter-from-sd.md', """
+   set.config
  """),
 ]
 
