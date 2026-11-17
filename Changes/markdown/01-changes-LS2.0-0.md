@@ -355,7 +355,7 @@ Commands and VOC verbs that every account has, and the command language.
 | `k` entry in the VOC | Changed | fixed: a `k` entry over a locally cataloged program stopped with "Unable to load" <!--s 263--> |
 | list merges | Changed | `merge.list` finds a key without scanning, so large lists merge in seconds <!--s 414--> |
 | `list.item` | Changed | numbers lines beyond 999 with as many digits as needed <!--s 349--> |
-| `list.readu`, `pstat`, `getlocks()`, `system(1083)` | Changed | another session's text (a lock's record id, file path or user name, a command, a program name, `@pstat`) shows a control character, `del`, bytes 128-159 and a mark character as `?` and cannot send a code to your terminal; the locks and `fileinfo(f, 1039)` are unchanged |
+| `list.readu`, `pstat`, `getlocks()`, `system(1083)` | Changed | another session's text (a lock's record id, file path or user name, a command, a program name, `@pstat`) shows a control character, `del`, bytes 128-159 and a mark character as `?` and cannot send a code to your terminal; the locks and `fileinfo(f, 1039)` are unchanged; `hsm` and `profiler display` show it the same way, and `kernel(K$SHOW.SAFE, text)` gives a program the same rule |
 | `listu`, `who`, `pstat` | Changed | `!listu` too: show the account and the login name; `listu detail`; the blocking user and when a wait began <!--s 12 24 29 38 77 121 289 427 577--> |
 | `map local`, `map no.page` | Added | list the locally cataloged programs; heading once <!--s 153 287--> |
 | `move.list` | Added | the command form of `movelist` <!--s g62--> |
@@ -565,7 +565,8 @@ SD's own code. The sections above are the openQM items that were built, with the
 | api requests 32 and 33 | Changed | fixed: file lock and unlock acted on the last file opened, not the file named |
 | api request 70, `delete.file` | Changed | fixed: a delete the verb refused (the file open in another session, say) left the file on the disk but the client's file number dead; the number now stays good and the status is the verb's |
 | api server loop | Changed | fixed: a client that hung up before its first request left a server process using 100% of a processor |
-| api, a refused `sdlogto` | Changed | fixed: the session went on naming the refused account, so every later open of a file by its VOC name failed; the session now stays in the account it was in |
+| api server, last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
+| api server, refused `sdlogto` | Changed | fixed: the session went on naming the refused account, so every later open of a file by its VOC name failed; the session now stays in the account it was in |
 | client class `sdclient` | Added | the BASIC class gains `getvar`, `revision`, `system`, `trans`, `rtrans`, `txn`, `evaluate`, `evalconv`, `iconv`, `oconv`, `iconvs`, `oconvs`, `openseq`, `readseq`, `readblk`, `writeseq`, `writeblk`, `seek` and `weofseq` |
 | client library: restricted | Changed | fixed two faults under `sdclient 1` and `2`: a heap overrun on a refusal, and a refused call that still ran |
 | client library: `sdchecksum` | Added | a checksum computed on the client |
@@ -745,14 +746,12 @@ Fixes that close a way round a gate, and what the gates now ask.
 | compiled kernel | Changed | built with optimization (`-O2`, with `-fwrapv` and `-fno-strict-aliasing`) where it had none: string and `locate` work about 3.4 times as fast, a BASIC loop 1.5 times, index builds, sorts and writes 1.15 to 1.2 times (measured in SD Core); `_FORTIFY_SOURCE=3` and `-fstack-protector-strong` end a session at a buffer overrun instead of letting it corrupt memory |
 | default terminal | Changed | 140 by 43 |
 | message numbers | Changed | Solo's own messages 11040 to 11054 are now 14974 to 14988, and 11060 to 11065 are 14989 to 14994, with their text unchanged, so that SD Core's numbers mean the same here; the ssh key request refuses with 14975, 14976 and 14977 |
-| other sessions' text | Changed | fixed: the text of another session (the id of a record it holds locked, in `getlocks`, `system(1083)` and the `pstat` dump; the command, program names and `@pstat` that `pstat`, `hsm` and `profiler display` read) is made safe to print; control characters other than a tab and new line are shown as `?`, so that text cannot move your cursor or change your screen; `kernel(K$SHOW.SAFE, text)` gives a program the same rule |
 | print and index clear failures | Changed | a print command that fails is reported on the terminal, and an index whose clear could not shrink its file reports an error |
 | `sd-solo -start` | Changed | a script that captures its output through a pipe (`x=$(sd-solo -start)`) gets it and goes on; the background daemon kept the pipe and the script waited until `sd-solo -stop`. A phantom and the STARTUP command give back a pipe the same way; a file or a terminal is kept |
 | `sd-solo -status` | Changed | fixed an overrun on a server that recorded no start time |
 | `sd-solo -stop` and `sd-solo -restart` | Changed | a session still attached ten seconds after the termination signal is ended with SIGKILL, and the stop says how many; before, it was left running with SD gone under it. A session idle at a terminal or on a pipe leaves by itself |
 | session whose SD was stopped | Changed | ends at once with a message in syslog and on its terminal, instead of spinning at full processor use for ever |
 | sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
-| the TLS relay's last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
 | upgrade: retired files and `sd.conf` parameters | Changed | an upgrade deletes the files this release stopped shipping and takes the retired parameters out of a kept `sd.conf` (SD would not start on them); `deletesdsolo.sh --keep-data` keeps the saved VOC copies (`voc_removed.saved`) for the next install |
 
 ### Tools and the home screen
