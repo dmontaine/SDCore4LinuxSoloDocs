@@ -1,13 +1,13 @@
 Title: The AI Helper
 Subtitle: One provider and one model, a key that SD never shows or keeps, and one gate - and what a helper that runs as you can and cannot promise.
 
-SD can ask an AI model a question for you (the `ai` verb, see *SD TCL - Asking the AI* in the User set). This page is for the administrator (`admin` first): it says what is set up, what leaves the machine, how to choose the provider and give it a model and a key, how to turn the gate on and off, and **what is weaker here than in SD Core**.
+SD can ask an AI model a question for you (the `ai` verb, see *SD TCL - Asking the AI* in the User set). This page is for the administrator (`admin` first): it says what is set up, what leaves the computer, how to choose the provider and give it a model and a key, how to turn the gate on and off, and **what is weaker here than in SD Core**.
 
-> **Nothing is on as delivered.** There is no provider, no key, and the gate is off (each named provider comes with a default model, so the model is the one thing you need not supply). Until you have done the other three, the `ai` verb says so in words and nothing is sent anywhere. Turning one of them on is your act, and each is one command (or one key on the AI choice page) that can be undone.
+> **Nothing is on as delivered.** There is no provider, no key, and the gate is off (each named provider comes with a default model, so the model is the one thing you need not supply). The installer asks nothing about the AI. Until you have done the other three, the `ai` verb says so in words and nothing is sent anywhere. Turning one of them on is your act, and each is one command (or one key on the AI choice page) that can be undone.
 
-## What leaves the machine
+## What leaves the computer
 
-When you type `ai some text`, SD shows you the text, the provider and the model, and asks whether to send it. Only if you answer `y` or `yes` does anything go out. What goes out is your standing text (below), that text, one fixed sentence that asks for a short plain answer, and a limit on the length of the answer. It is sent over **https**, with the certificate checked, to the address of the provider you chose, and to nowhere else. The key goes only to that address.
+When you type `ai some text`, SD shows you the provider, the model and the size of all that will be sent, then your text, and asks whether to send it. Only if you answer `y` or `yes` does anything go out. What goes out is your standing text (below), that text, one fixed sentence that asks for a short plain answer, and a limit on the length of the answer. It is sent over **https**, with the certificate checked, to the address of the provider you chose, and to nowhere else. The key goes only to that address. No proxy is used: a computer that reaches the internet only through an HTTP proxy cannot use the AI.
 
 SD adds nothing of the account, the session or the data. You can of course type or paste whatever you like into the question, which is why the preview is not optional.
 
@@ -52,7 +52,7 @@ The installer writes the socket and the service unit (and an upgrade writes them
 ## The four things that turn it on
 
 1. **A provider.** One: Anthropic, OpenAI, Google, DeepSeek or Custom.
-2. **A model** for that provider. Each of the four named providers comes with a default model, shown on the page and used until you choose another (in the setup dialog, or `set.ai model PROVIDER NAME`; a dash goes back to the default). The defaults were read from the providers' own pages and have not been tried against a real key; model names change, and the setup dialog offers the provider's own list once a key is set. Custom has no default.
+2. **A model** for that provider. Each of the four named providers comes with a default model, shown on the page and used until you choose another (in the setup dialog, or `set.ai model PROVIDER NAME`; a dash goes back to the default). Model names change, so check the one you will pay for; the setup dialog offers the provider's own list once a key is set, and `set.ai models PROVIDER` prints it at the prompt. Model names are case-sensitive. Custom has no default.
 3. **A key** for that provider, from the provider's own account. It is typed or pasted in the setup dialog (shown as `*`) or at the helper's own prompt, and kept for the helper only.
 4. **The gate**: `set.ai gate on`. It is a setting of the helper (the line `gate=yes` in `ai/ai.conf`); anything else, or no line, is off.
 
@@ -62,13 +62,13 @@ The installer writes the socket and the service unit (and an upgrade writes them
 tool.ai
 ```
 
-An administrator-only full-screen page (140 columns by 43 lines at least). It has two boxes.
+An administrator-only full-screen page (140 columns by 43 lines at least), and a tile on the home screen (*Data, network and AI*, **AI**). It has two boxes.
 
-**Provider** lists Anthropic, OpenAI, Google and DeepSeek, then Custom, one to a row. A check box marks the provider in use; none marked means the AI is off. The four named providers come with their address and a default model filled in (the Model column says `(default)` beside one you have not changed); you supply the key, and S (setup) sets the key and the model together. **Custom** is the fifth choice, where you fill in everything yourself: a name, an `https://` address, the request layout (`anthropic` or `openai`), the authentication (`bearer` or `x-api-key`), a version header (or none) and the name of the field that limits the length of an answer. Below the list, the row under the cursor is shown in full, with the file of certificate authorities and the limits.
+**AI provider** lists Anthropic, OpenAI, Google and DeepSeek, then Custom, one to a row. A check box marks the provider in use; none marked means the AI is off. The four named providers come with their address and a default model filled in (the Model column says `(default)` beside one you have not changed); you supply the key, and S (setup) sets the key and the model together. **Custom** is the fifth choice, where you fill in everything yourself: a name, an `https://` address, the request layout (`anthropic` or `openai`), the authentication (`bearer` or `x-api-key`), a version header (or none) and the name of the field that limits the length of an answer. Below the list, the row under the cursor is shown in full, with the file of certificate authorities and the limits.
 
 **May this account use the AI?** is the one row for your account, with the state of the gate.
 
-| Key | In the Provider box | In the Account box |
+| Key | In the AI provider box | In the Account box |
 |---|---|---|
 | Enter or space | check the provider under the cursor (you type its name to confirm), or uncheck the one in use | turn the gate on (you type `ai`) or off |
 | S | the setup dialog for the provider under the cursor: the key and the model, the model chosen from the provider's own list (below) | |
@@ -77,7 +77,8 @@ An administrator-only full-screen page (140 columns by 43 lines at least). It ha
 | D | remove the Custom connection (the helper refuses while it is in use) | |
 | A | the file of certificate authorities (you type `ca` to confirm) | |
 | L | change a limit | |
-| F6, or Left and Right | change box | change box |
+| T | the standing text, in a box with an editor | the same |
+| F6, Shift-F6, Left, Right | change box (F6 goes on to the AI line when the AI is on for this account) | change box |
 | F1, `?` or a click on `[?]` | explain the box | explain the box |
 | F5 | read the machine again | read the machine again |
 | Ctrl-Q | leave | leave |
@@ -87,7 +88,7 @@ An administrator-only full-screen page (140 columns by 43 lines at least). It ha
 **The setup dialog (S).** It looks the same every time, whatever is already set:
 
 - **Key**, a password field. What you type or paste is shown as `*`. When a key is already set the field shows a row of twelve stars, which keeps it; replace them to give a new key.
-- **Model**, a list of the provider's own model names, with the one in use chosen. With no key yet the list says the key comes first: enter the key and press Tab, and the list is filled from the provider with that key. A model in use that the list does not hold is pointed out, and when it differs from a listed one only in capitals the listed one is chosen for you.
+- **Model**, a list of the provider's own model names, with the one in use chosen. With no key yet the list says the key comes first: enter the key and press Tab, and the list is filled from the provider with that key. A model in use that the list does not hold is pointed out, and when it differs from a listed one only in capitals (`Deepseek-V4-Pro` for `deepseek-v4-pro`) the listed one is chosen for you.
 - **Other name**, only for a model the list does not hold, such as on a Custom server that gives no list. A name typed here is still checked against the list when there is one.
 - **Save** sets what you chose; **Cancel** or Esc changes nothing more (a key already handed over by Tab stays set, and the page says so).
 
@@ -128,7 +129,7 @@ The limits, and what they are as delivered:
 
 ## The standing text
 
-Press **T** on `tool.ai` (or choose Provider, Standing text). A box shows the text that is sent first with every AI request, and says whether it is SD's default or yours. Edit it there: Enter starts a new line and Tab moves to the buttons. **Save** shows the command and its effect in a Run / Cancel box (Enter chooses Cancel), and Run keeps your text. **Shipped default** removes yours, so SD's default is sent again. **Cancel** or Esc changes nothing.
+Press **T** on `tool.ai` (or choose AI provider, Standing text). A box shows the text that is sent first with every AI request, and says whether it is SD's default or yours. Edit it there: Enter starts a new line and Tab moves to the buttons. **Save** shows the command and its effect in a Run / Cancel box (Enter chooses Cancel), and Run keeps your text. **Shipped default** removes yours, so SD's default is sent again. **Cancel** or Esc changes nothing.
 
 The default tells the AI that this is SD Core Solo for Linux, that it should answer for SD and not for another multivalue product, that command words are lower case, which dictionary types there are, that there is one user and one account and that `admin` makes the same person the administrator, that access to the operating system and the shell is a gate that is off as delivered, and where SD's help is: F1 and the `[?]` buttons, the `pdf` command, and the documentation on the web. Put your own facts in it, such as which files matter and how your programs are named.
 
@@ -143,7 +144,7 @@ At the prompt the verb takes the text as one word of hexadecimal (`set.ai contex
 
 ## The key
 
-The key is typed at the helper's own prompt (`set.ai key anthropic`) or in the setup dialog on the page. At the prompt it goes from your terminal straight to the helper and SD never sees it. From the dialog it passes through your SD session's memory and a hand-over file in a directory only you can enter, which is removed at once (see above). Either way it is written to `ai/keys/anthropic`, mode 0600; SD does not keep it, print it or put it in the audit trail, and the page and the verb read back only whether it is **set**. `set.ai key anthropic clear` removes it. A key is never an argument of a command, so it is in no process list and no history. Deleting your Solo directory (`deletesdsolo.sh`) deletes the keys with it.
+The key is typed at the helper's own prompt (`set.ai key anthropic`) or in the setup dialog on the page. At the prompt it goes from your terminal straight to the helper and SD never sees it; the prompt shows one `*` for each character you type or paste (Backspace takes one back), so a long key shows that it arrived, and the key itself is never shown (the number of stars is its length, which anyone looking at the screen can count). From the dialog it passes through your SD session's memory and a hand-over file in a directory only you can enter, which is removed at once (see above). Either way it is written to `ai/keys/anthropic`, mode 0600; SD does not keep it, print it or put it in the audit trail, and the page and the verb read back only whether it is **set**. `set.ai key anthropic clear` removes it. A key is never an argument of a command, so it is in no process list and no history. Deleting your Solo directory (`deletesdsolo.sh`) deletes the keys with it.
 
 If a key is lost or shown to someone, clear it and ask the provider for a new one: SD cannot tell you who has seen it.
 
@@ -167,6 +168,10 @@ set.ai key set provider=anthropic from=page
 set.ai key cleared provider=anthropic
 set.ai custom name=MyLLM host=api.example.com
 set.ai limit name=tokens-day value=50000
+set.ai context bytes=1640
+set.ai context=default
+set.ai context refused name=gpl.bp
+ai refused why=context app=home name=gpl.bp
 tool start app=tool.ai
 ```
 
@@ -177,9 +182,9 @@ The `ai request` line is written by the SD kernel **before** the connection is m
 | What you see | What it means |
 |---|---|
 | `The AI helper could not be reached: it is not running, or it is not installed` | the socket is not there: `systemctl --user status sd-solo-ai.socket`; an install from before this release gets it from the upgrade, or `bash tools/solo-service.sh ai <your Solo directory>` |
-| `The AI is off: the administrator has not chosen a provider` | nothing is checked on the page (`set.ai provider ...`) |
-| `The AI is not turned on: ... set.ai gate on` | the gate is off |
-| `The AI is not set up for anthropic: the administrator has not set its key` (or, for Custom, `model`) | the provider is chosen but its key (or Custom's model) is missing |
+| `The AI is off: the administrator has not chosen a provider (tool.ai or set.ai)` | nothing is checked on the page (`set.ai provider ...`) |
+| `The AI is not turned on: the administrator can turn it on with set.ai gate on` | the gate is off |
+| `The AI is not set up for anthropic: the administrator has not set its key (tool.ai or set.ai)` (or, for Custom, `model`) | the provider is chosen but its key (or Custom's model) is missing |
 | `The AI did not answer: refused (the provider refused the request (HTTP 400): ...)` | the provider's own words follow the status: often a model it does not have; choose one from its list with S |
 | `The AI did not answer: limit (...)` | one of the limits above is used up; wait, or raise it |
 | `The AI did not answer: net (...)` or `timeout` | the provider could not be reached; check the address, the certificate and the clock |
@@ -192,4 +197,5 @@ The helper, the verb and the page are tested against a stand-in provider on this
 
 [Administrator commands](06-administrator-commands.html) ·
 [Operating system access](06b-operating-system-access.html) ·
+[Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) ·
 [Giving an AI agent an installation of its own](23-giving-an-ai-agent-its-own-installation.html).

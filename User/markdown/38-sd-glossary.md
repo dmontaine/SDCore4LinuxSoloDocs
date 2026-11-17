@@ -25,9 +25,9 @@ When fields are associated, a value mark in one corresponds to a value
 mark in all of them at the same position.
 
 **Attribute** — a field in a dictionary record that defines one column
-of a query report. Dictionary field 1 is the name, field 2 is the
-type, field 3 is the conversion, field 4 is the correlative, field 5
-is the format, field 6 is the header, field 7 is the association.
+of a query report. In a `D` item field 1 is the type, field 2 is the
+location, field 3 is the conversion, field 4 is the heading, field 5
+is the format, field 6 is single or multivalued, field 7 is the association.
 
 ## B
 
@@ -59,9 +59,9 @@ without arguments.
 on input (`iconv`) or output (`oconv`). Examples: `D` for dates, `MR`
 for masked decimal, `MC` for case conversion.
 
-**Correlative** — a dictionary field 4 entry that defines
-pre-processing of a field value before the conversion is applied.
-Examples: `A` (arithmetic), `F` (function), `I` (index).
+**Correlative** — a computation applied to a field value before the
+conversion is applied. SD has no A or S dictionary items; the computation
+is written as an I-type item.
 
 ## D
 

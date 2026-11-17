@@ -204,7 +204,7 @@ described in a different layout (the display name in field 3, the conversion
 in field 7, a correlative code in field 8, the justification in field 9 and the
 width in field 10); its S item was the same. SD does not read one. `compile.dict` refuses it with the message
 *A or S type dictionary item NAME is not compiled: write it as a D-type or an
-I-type* and makes no object code, and a query that names one
+I-type* and makes no object code, `cd` refuses it, and a query that names one
 is stopped with *Unexpected A type item (NAME) in query sentence*. Write the
 item again as a `D` item (a field of the record) or as an `I` item (a value
 worked out from the record, where the correlative's calculation goes).

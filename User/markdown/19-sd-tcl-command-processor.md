@@ -183,9 +183,6 @@ tick
 again the moment it ends, for as long as nobody presses the break key. Give such
 a `redo` a `times`.
 
-The listing was produced by running it, in a sandbox build of SD Core for Linux
-Solo, as the administrator.
-
 ## Continued in
 
 [SD TCL - The Command Stack](19a-sd-tcl-the-command-stack.html) — the command

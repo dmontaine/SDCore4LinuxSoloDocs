@@ -33,7 +33,7 @@ where the passphrase lives before it writes the application.
 |---|---|---|---|
 | The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt). SD is unchanged and this set has no page for it | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
 | The program | `sdkey()` and `sdencrypt()` in an application | a copy of the SD files, a backup, a person with file access but not the key | the program itself, its variables, anyone who holds the key |
-| The conversion | `XE` in a dictionary item, with the key held in a ring in the process | the same, and the field reads decrypted for a session that holds the key | the same, and a debugger on that process |
+| The conversion | `XE` in a dictionary item, with the key held in a ring in the process | the same, and the field reads decrypted for a session that holds the key | the same, and root or a debugger on that process |
 
 None of them hides the record id, the other fields, which values are empty or how
 long a value is. The second and third are the application's; the first is the
@@ -108,11 +108,12 @@ encrypted with a fresh nonce), `total` adds cipher text, an index holds cipher t
 and no plaintext reaches the disk, and `copy` moves the stored value. The User page
 lists each.
 
-**`encrypt.key` applies no strength rule to the passphrase.** The rule for SD
-passwords is not applied, because this is not an SD password: nothing is stored or
-compared. The tighter alternative, applying that rule or a minimum length, is a
-decision for the owner. A site that wants one can write it into the application
-that asks for the passphrase.
+**`encrypt.key set` refuses a passphrase of fewer than 12 characters** (since 30 October 2026; message 11994),
+after it has seen that the two typed copies match. That is its only rule. The rule for SD passwords is not
+applied, because this is not an SD password: nothing is stored or compared. `sdkey()`, the function a program
+calls, is unchanged and takes any passphrase that is not empty, so a site that wants a stricter or a looser rule
+writes it into the application that asks for the passphrase. A long phrase of words is a better passphrase than
+eight characters of every kind.
 
 ## The SDEXT interface
 
@@ -155,7 +156,7 @@ character about one time in nine. The argument buffers are zeroed when a call en
 | `SD_RANDBYTES` | 107 | count | Random bytes |
 | `SD_XORBYTES` | 108 | two equal-length values | Their exclusive-or |
 | `SD_CTEQUAL` | 109 | two values | `1` or `0`, compared in constant time |
-| `SD_TLS_CBIND` | 110 | none | This session's TLS channel binding, as the `c=` value its SCRAM login must carry; empty when the session is not TLS (a local pipe session) |
+| `SD_TLS_CBIND` | 110 | none | This session's TLS channel binding, as the `c=` value its SCRAM login must carry; empty when the session is not TLS |
 | `SD_KEYRING` | 120 | `set` name key · `clear` name · `list` | The key ring of the XE conversion: the key id, the number removed, or one field per key. Reached only through `!keyset`, `!keyclear` and `!keylist` |
 
 `SD_CTEQUAL` reports a malformed argument as an error rather than as `0`, because
@@ -185,4 +186,4 @@ indirect route to it either.
 `SD_ENCODEHX` (201) and `SD_ENCODE64` (202) are defined alongside the SDEXT keys
 and are easily mistaken for them. They are not keys and `sdext()` does not
 implement them — passing either as a key returns a key error. They are the third
-argument to `sdencrypt()` and `sddecrypt()`, and they are documented above.
+argument to `sdencrypt()` and `sddecrypt()`.

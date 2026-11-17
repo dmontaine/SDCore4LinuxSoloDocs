@@ -36,6 +36,7 @@ of this page. The full-screen editors need nothing extra.
 | | |
 |---|---|
 | **`ed`** | the line editor. Needs nothing installed. `edit` is an alias for it |
+| **`sed`** | a **full-screen** editor that runs inside SD, with drop-down menus and color for SD BASIC and five other languages |
 | **`micro`** | a **full-screen** editor — opens the record in `micro` |
 | **`debug`** | the BASIC debugger |
 | **`pstat`** · **`pdebug`** · **`pdump`** · **`dump`** | process introspection |
@@ -44,31 +45,38 @@ of this page. The full-screen editors need nothing extra.
 
 **`edit` is not a full-screen editor here** — a real difference from SD Core for
 Windows, where it opens Microsoft Edit. There is no Linux equivalent to alias it
-to, so `edit` runs the **line** editor, `ed`, instead. The external full-screen
-editor is `micro`, which the SD installer installs as an ordinary package (the
-`nano` verb was removed in 2.0-0):
+to, so `edit` runs the **line** editor, `ed`, instead. There are two full-screen
+editors. **`sed` is SD's own**: a program written in SD BASIC that runs inside SD,
+so it needs no installing and no operating-system permission (its menus, keys and
+syntax color are described in *The SED Screen Editor*, in the User documentation).
+The other is the program `micro`, which the SD installer installs as an ordinary
+package (the `nano` verb was removed in 2.0-0):
 
 ```
+sed   bp myprog
 micro bp myprog
 micro dict customers name
 ```
 
-The verb writes the record to a working copy, opens the editor on it, reads
-it back, and asks whether to save. For a `bp` record it then offers the compile
-and the catalog.
+`micro` writes the record to a working copy, opens the editor on it, reads it
+back, and asks whether to save. For a `bp` record it then offers the compile and
+the catalog. `sed` edits the record itself, locks it while it is open, and
+compiles from its own Tools menu.
 
-**It runs outside SD, so it needs the `os` switch**, which is off as delivered
-(without it it says it is not available to the account; the administrator turns
-it on with `set.os.access os on`, and `ed` needs nothing of the kind). See
+**`micro` runs outside SD, so it needs the `os` switch**, which is off as
+delivered (without it it says it is not available to the account; the
+administrator turns it on with `set.os.access os on`, and `ed` and `sed` need
+nothing of the kind: `sed` asks for the `os` switch only when it is given an
+operating-system path outside the account's own directory). See
 [Operating system access](06b-operating-system-access.html).
 
-**It is a terminal editor**, so it works over ssh as well as at the console.
+**Both are terminal editors**, so they work over ssh as well as at the console.
 
-**It highlights SD BASIC.** The `micro` verb copies SD's syntax file into your
-`~/.config/micro/syntax` the first time it is used. **It applies to a `bp` record
-and to nothing else.** SD names the working copy so the editor can recognize the
-language — a record edited out of any other file is treated as plain text, which
-is correct for a VOC entry or a data record.
+**Both highlight SD BASIC.** `micro`'s highlighting is per-user: the `micro` verb
+copies SD's syntax file into your `~/.config/micro/syntax` the first time it is
+used. **It applies to a `bp` record and to nothing else.** SD names the working
+copy so the editor can recognize the language — a record edited out of any other
+file is treated as plain text, which is correct for a VOC entry or a data record.
 
 **`ed` is unaffected and is still there.**
 
@@ -146,8 +154,9 @@ the keyboard, that is worth reporting** with the terminal you connected from.
 **A session with no terminal is refused**: an API session or a piped script has
 nowhere to draw a full screen.
 
-The removed full-screen editors are a different matter: `sed`, `update.record`
-and `modify` are gone and are not coming back. See
+The removed full-screen editors are a different matter: `update.record` and
+`modify` are gone and are not coming back. (`sed` was removed once and has
+returned, above.) See
 [Not in SD Core](14-not-in-sd-core.html).
 
 ## Files
@@ -185,7 +194,7 @@ and `modify` are gone and are not coming back. See
 | The global catalog | nobody, `admin` or not — `catalog global`, `delete.catalog` of a global entry, a write to `global.bp.out` or `gcat` |
 | The deny list (managed mode) | `admin` or the global password unlocks what the server denied |
 | File permissions | ordinary Linux file permissions on your own directory — see [Security](12-security.html) |
-| Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `micro`); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
+| Reaching the operating system | two switches, **off as delivered**: `sh` (the `sh` verb) and `os` (`OS.EXECUTE`, a path outside the account, the embedded Python, `micro`, and a path outside the account that `sed` is given); the administrator turns each on with `set.os.access` (`admin` first) — see [Operating system access](06b-operating-system-access.html) |
 
 ## Two things to know when you compile
 

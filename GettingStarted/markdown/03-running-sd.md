@@ -96,6 +96,18 @@ so a second SD — Solo for another user, or the multiuser SD Core for Linux —
 would attach to the first one's segment. That is why the installer refuses to
 run beside the multiuser product.
 
+## `sh` runs as you, when the shell switch is on
+
+It needs the shell switch (`set.os.access sh on`), which is off as delivered;
+with it, the command runs as your own Linux user. See [Operating system
+access](06b-operating-system-access.html).
+
+**Starting `sd-solo` from inside `sh`** is refused. The shell that `sh` and
+`os.execute` start is marked as SD's own, and `sd-solo` typed there answers "SD
+is already running in this session - type exit to return to it." in every form
+of the command. It keeps a second session from being nested inside the first;
+it is not a wall, because the mark is an environment variable of that shell.
+
 ## The command line
 
 ```

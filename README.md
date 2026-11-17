@@ -125,9 +125,6 @@ two to disagree.
 
 ## A new clone
 
-Set the identity per repository; this machine has no global one:
-
-```
-git config user.name dmontaine
-git config user.email bigriverguy@posteo.net
-```
+A commit needs a name and an e-mail address. Set them per repository with
+`git config user.name` and `git config user.email`; this machine has no global
+identity.

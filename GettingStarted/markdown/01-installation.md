@@ -139,6 +139,38 @@ or `--yes` and no `--os-access`, nothing is turned on. The administrator can tur
 either on or off later with `set.os.access`; a change is seen at the next sign-on.
 See [Operating system access](06b-operating-system-access.html).
 
+### 4. Where sessions start
+
+On a new installation only, one question: **Start new sessions at the home
+screen or at the command prompt? (H/p)**. The answer Enter gives is the **home
+screen**, the full-screen menu of tiles, as delivered; `p` starts a session at
+the command prompt. `--start menu` or `--start terminal` answers it without a
+terminal, and with no terminal, or `--yes` and no `--start`, the home screen is
+kept. **An upgrade does not ask**: it keeps the start the installation has, and an
+installation from before the home screen keeps starting at the prompt. The
+administrator can change it later with `set.start.default menu` or
+`set.start.default terminal`, or on the Starts in row of `tool.menus`.
+
+### 5. The PDF reader
+
+The `pdf` command shows a document of the documentation in a PDF reader, even for
+an account that may not run programs, so it starts only a reader the
+administrator has allowed, and **none is allowed as delivered**. When the computer
+has a reader SD knows (`evince`, `okular`, `zathura`, `atril`, `xreader`,
+`mupdf`, `qpdfview` or `xpdf`, the first found in `/usr/bin`, `/usr/local/bin` or
+`/bin`) and none is allowed yet, the installer asks **Allow *reader* to show the
+documentation? (y/N)**; the answer Enter gives is no. `--viewer NAME` allows that
+reader, and `--viewer none` allows none, without a terminal; with no terminal, or
+`--yes` and no `--viewer`, nothing is allowed. Allowing a reader runs
+`set.viewer add pdf NAME`, which tests the program and refuses one that fails. An
+upgrade keeps the reader the administrator chose. Later: `admin`, then
+`set.viewer`, or the Bypass programs page.
+
+**Allowing a reader is a loosening:** that one program may then be started for an
+account whose `os` switch is off, and a graphical reader can open other files you
+may read and follow links. Allow only a reader you trust. See
+[Operating system access](06b-operating-system-access.html).
+
 The last question is **Continue?** Answering no changes nothing.
 
 ## What lands where
@@ -189,6 +221,8 @@ bash installsdsolo.sh --control-file /media/stick/sd-solo-setup.conf
 | `deny-verbs=` | a comma-separated list of commands the user of the computer may not run without the administrator or global password. Only a session signed in with the global password can change the list afterwards, so on a computer with no global password it is fixed until a reinstall. See [Managed mode](15-managed-mode.html) |
 | `ssh-public-key-file=` | a public key whose owner may ssh straight into `sd-solo`, on port 4251 (turns ssh on, `local`). `ssh-match=` is gone: a control file that still names it is warned about and the line is ignored |
 | `os-access=` | `none`, `sh`, `os` or `both`: which of the shell and OS access to turn on. Blank asks on a terminal and means `none` without one; both are off unless named |
+| `start=` | `menu` or `terminal`: where new sessions start, the home screen or the command prompt. Blank takes the home screen; an upgrade or a reload of kept data keeps what the installation had |
+| `viewer=` | the name of a PDF reader to allow for the `pdf` command (`evince`, `okular`, `zathura`, `atril`, `xreader`, `mupdf`, `qpdfview` or `xpdf`), or `none`. Blank allows none |
 | `enable-linger=` | `yes` or `no`. Blank is yes: `loginctl enable-linger` is run unless this says `no` (`--enable-linger` or `--no-linger` on the command line wins); anything else is refused |
 | `reload-data=` | `yes` or `no`: what to do when the install directory holds data and configuration an earlier uninstall kept — use them, or move them aside and install clean. Blank asks on a terminal and reloads when there is none; it does nothing when nothing was kept. See [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) |
 
@@ -257,4 +291,4 @@ in the User set.
 ## Continued in
 
 [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) —
-installing a new release over an existing one, and taking SD off the computer.
+upgrading an existing installation, and uninstalling.

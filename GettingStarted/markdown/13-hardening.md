@@ -73,8 +73,7 @@ journalctl --user -u sd-solo.service
 
 ### API connections in the journal
 
-Every accepted API connection is logged with the address and port it came from
-(measured on a Solo tree, with the API on `local`):
+Every accepted API connection is logged with the address and port it came from:
 
 ```
 sd_Log[115214]: API connection over TCP from 127.0.0.1 port 41506 (SD login required)
@@ -110,7 +109,7 @@ session's actual `TERM` — over ssh, whatever your client sent; locally, whatev
 the terminal emulator or console set.
 
 **25 definitions ship, compiling to 36 terminal names** — the extra names are
-variants such as `vt100-w` — so `term wyse60` still works.
+variants such as `vt100-w` — so `term wyse60` still works. (The `-at` types of AccuTerm and SDTerm's `sdterm` were removed: SD does not support those terminal programs.)
 
 **A name that is not installed is refused and your current type is kept** —
 *"Unrecognized terminal name"* — so a typo costs you nothing. **`term` with no
@@ -125,7 +124,7 @@ a definition that is not there.
 ### The page is 140 × 43, not 80 × 24
 
 **SD's default terminal size is 140 columns by 43 lines** (it was 120 by 36
-in release LS1.1-3). **A terminal narrower than that makes wide reports
+until 18 October 2026, and 140 by 42 until 2 November 2026). **A terminal narrower than that makes wide reports
 look wrapped or truncated**, which reads as a formatting bug and is not one.
 
 `term` reports the size in force, above the `Device` line:

@@ -140,6 +140,10 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | `SDTrans(file, id, field, action)` | String | `trans()` on the server. `field` is a dictionary name, a field number or -1 for the whole record; `id` may be several ids separated by value marks; `action` is `X` (null if the record is missing, the default) or `C` (the id). The marks of the answer are lowered one level, as `trans()` lowers them. The `B` (binary open) action is refused |
 | `SDRTrans(file, id, field, action)` | String | the same with the marks left as they are |
 
+`SDTrans` and `SDRTrans` open the file and its dictionary on the server, so a session that the administrator has restricted with `SDCLIENT` is refused them (message 5262, "File access is disabled").
+
+**On Solo only a session signed in with the global password may send the requests that administer a file** (create or delete a file or an index, change a file's configuration; see *SDNet - Files on Another SD Server*): one signed in with the account password is refused with *This session cannot administer files here: sign in with the global password*, and a Solo with no global password (the delivered state) allows none of them.
+
 ### Record manipulation
 
 | Function | Returns | Description |
@@ -205,7 +209,7 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 
 | Function | Returns | Description |
 |---|---|---|
-| `SDEvaluate(dictFileNo, names, data, id)` | String | evaluate dictionary items on the server against a record. `dictFileNo` is the number `SDOpen("DICT name")` gave, `names` one name or several separated by value marks, `data` the record (it becomes `@RECORD`) and `id` its id (`@ID`; pass the null string when the item does not use it). The answers come back joined by **item marks** (character 255). D and I items work; an I-type that is not compiled is compiled for the call and the dictionary is **not written to**. A name that is not in the dictionary gives the null string; a phrase or other item that defines no data, and an expression that will not compile, give the null string with `SDError()` saying which. Conversion codes in the item are *not* applied |
+| `SDEvaluate(dictFileNo, names, data, id)` | String | evaluate dictionary items on the server against a record. `dictFileNo` is the number `SDOpen("DICT name")` gave, `names` one name or several separated by value marks, `data` the record (it becomes `@RECORD`) and `id` its id (`@ID`; pass the null string when the item does not use it). The answers come back joined by **item marks** (character 255). D and I items work (SD has no A or S items since 2.0-0); an I-type that is not compiled is compiled for the call and the dictionary is **not written to**. A name that is not in the dictionary gives the null string; a phrase or other item that defines no data, and an expression that will not compile, give the null string with `SDError()` saying which. Conversion codes in the item are *not* applied |
 | `SDEvalConv(dictFileNo, names, data, id)` | String | the same, and the item's output conversion is applied to each value of its answer |
 | `SDIConv(data, code)` | String | `iconv()` on the server, which has every conversion code |
 | `SDOConv(data, code)` | String | `oconv()` on the server |

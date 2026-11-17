@@ -90,7 +90,7 @@ A follow-up is **used once**: the next request takes it whether you send it or c
 |---|---|
 | `The AI is off: the administrator has not chosen a provider` | nothing has been set up |
 | `The AI is not turned on: the administrator can turn it on with set.ai gate on` | the gate is off |
-| `The AI is not set up for anthropic: the administrator has not set its key` (or, for Custom, `model`) | the provider is chosen but not finished |
+| `The AI is not set up for anthropic: the administrator has not set its key (tool.ai or set.ai)` (or, for Custom, `model`) | the provider is chosen but not finished |
 | `The AI did not answer: limit (...)` | you have used the hourly or the daily limit |
 | `The AI did not answer: net (...)` or `timeout` | the provider could not be reached or did not answer in time |
 | `The AI helper could not be reached` | the helper that talks to the provider is not running |

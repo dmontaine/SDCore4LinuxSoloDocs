@@ -14,7 +14,7 @@ Administrator commands unlocked for this session
 ```
 
 **Type the administrator password** — or, on a managed computer, the global
-password. **It lasts until you leave SD or type `admin OFF`**:
+password. **It lasts until you leave SD or type `admin off`**:
 
 ```
 :admin off
@@ -39,9 +39,9 @@ password is never displayed, stored or logged.
 | | |
 |---|---|
 | `set.password admin` | change the administrator password — [The account and its passwords](05-account-types.html) |
-| `CONFIG` | report or set configuration — except `CONFIG GPL` and `CONFIG CONTRIB`, which need nothing |
-| `SET.DATE` | set the session's date |
-| `CLEAN.ACCOUNT` | empty the account's scratch files |
+| `config` | report or set configuration — except `config gpl` and `config contrib`, which need nothing |
+| `set.date` | set the session's date |
+| `clean.account` | empty the account's scratch files |
 | `update.accounts` | refresh the account's VOC |
 | `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
@@ -53,22 +53,22 @@ password is never displayed, stored or logged.
 | `set.jobs.access` | show, or turn on and off, SD's scheduled jobs (`set.job`, `run.job`, `tool.jobs`); off as delivered, and off refuses every job at its next run — [Scheduled jobs](04-scheduled-jobs.html) |
 | `tool.gates` | all six gates on one page (sh, os, net, ai, file transfer and scheduled jobs), and the page that changes them (any session sees it; Enter changes a gate after `admin`) — [Operating system access](06b-operating-system-access.html) |
 | `tool.sessions` | who is signed on, what is locked, and `logout`, `unlock` and `inhibit.login` on one screen — [Sessions and locks](06a-sessions-and-locks.html) |
-| `LISTU`, `LOGOUT ALL` | [Sessions and locks](06a-sessions-and-locks.html) |
-| `LIST.READU`, `LIST.LOCKS`, `LOCK`, `CLEAR.LOCKS`, `UNLOCK` | [Sessions and locks](06a-sessions-and-locks.html) |
+| `listu`, `logout all` | [Sessions and locks](06a-sessions-and-locks.html) |
+| `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock` | [Sessions and locks](06a-sessions-and-locks.html) |
 | anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
 
 **Refused without `admin`, with *The VOC can only be changed after admin*:**
-editing the VOC directly — `ED VOC`, a program's `WRITE` or `DELETE` to the
-VOC, `COPY` into it — and saving or deleting a sentence with `.S` and `.D`.
+editing the VOC directly — `ed voc`, a program's `write` or `delete` to the
+VOC, `copy` into it — and saving or deleting a sentence with `.s` and `.d`.
 What SD writes to the VOC as a side effect of an ordinary command —
-`CREATE.FILE`'s entry, the command stack — is not gated.
+`create.file`'s entry, the command stack — is not gated.
 
-**Refused even with `admin`**: changing the global catalog (`CATALOG ...
-GLOBAL`, `DELETE.CATALOG` of a global entry, a write to `global.bp.out`), and
+**Refused even with `admin`**: changing the global catalog (`catalog ...
+global`, `delete.catalog` of a global entry, a write to `global.bp.out`), and
 the commands that are the SD Core for Linux server's — see
 [Managed mode](15-managed-mode.html).
 
-**`LOGOUT` on its own needs nothing** — it ends your own session, like `QUIT`
+**`logout` on its own needs nothing** — it ends your own session, like `quit`
 — **and nor does `sd-solo -k`**, because it is a switch on the program, not a
 command in a session. **`sh` needs no `admin`, but it needs its switch**: it is
 refused (*is not permitted to use the operating system shell*) until the
@@ -79,13 +79,13 @@ instead; see [The account and its passwords](05-account-types.html).
 
 ## The maintenance verbs
 
-### `CONFIG`
+### `config`
 
 ```
 config                     report every setting
 config lptr                the same, to the default printer
 config param value         set one, for this session only
-config gpl                 display the licence
+config gpl                 display the license
 config contrib             display the contributors
 ```
 
@@ -101,14 +101,14 @@ the wrong one for changing the installation.
 | *Not a recognized private configuration parameter name* | the name cannot be set per session |
 | *Invalid value for this parameter* | it can, and the value is wrong |
 
-### `SET.DATE`
+### `set.date`
 
 ```
 set.date date
 ```
 
 **Sets the date SD reports in this session, not the computer's clock.** SD
-keeps an offset from the real date for the session; `DATE()` and `TIMEDATE()`
+keeps an offset from the real date for the session; `date()` and `timedate()`
 return the new date until the session ends. Other sessions and Linux are not
 affected. The argument goes through SD's `D` conversion, so anything
 `iconv(…, 'D')` accepts will do:
@@ -120,7 +120,7 @@ affected. The argument goes through SD's `D` conversion, so anything
 
 It is for testing date-dependent code without touching the clock.
 
-### `CLEAN.ACCOUNT`
+### `clean.account`
 
 ```
 :clean.account
@@ -374,7 +374,7 @@ verbs write the audit trail, in lower case; the page only runs them.
 
 ## Not here
 
-There is no `APPEND.SD.PATH`: the installer links `sd-solo` into `~/.local/bin`, and
+There is no `append.sd.path`: the installer links `sd-solo` into `~/.local/bin`, and
 whether that directory is on your PATH is between you and your shell's startup
 file. There are no `create.account`, `delete.account`, `modify.account`,
-`GRANT`, `REVOKE` or `LIST.GRANTS` — see [Not in SD Core](14-not-in-sd-core.html).
+`grant`, `revoke` or `list.grants` — see [Not in SD Core](14-not-in-sd-core.html).

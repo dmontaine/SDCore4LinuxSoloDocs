@@ -61,7 +61,7 @@ that no page runs longer than a reader will scroll.
 
 | | | |
 |---|---|---|
-| **00** | Start here | this page |
+| **00** | Start here | this page — what the set is and what it leaves out |
 | **00a** | [Copyright and license](00a-copyright-and-licence.html) | The copyright and the license for this set, in full and in one place |
 | **01** | [Installing](01-installation.html) | What the installer asks, what it puts where, and the control file for installing many computers |
 | **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the computer |
@@ -162,13 +162,17 @@ and PDF you are reading are generated from it.
 itself, and on the documentation repository for an error in these pages. If
 you are not sure which, the server one is the right guess.
 
-**Issues rather than pull requests.** Both repositories are writable only by
-the author, so a change cannot be merged from outside; a clear issue is worth
-more than a patch nobody can apply. A patch attached to an issue is welcome.
+**Issues rather than pull requests.** Both repositories are readable by anyone
+and **writable only by the author**, so a change cannot be merged from outside;
+a clear issue is worth more than a patch nobody can apply. A patch attached to
+an issue is welcome, it just travels that way.
 
 The two things worth reporting in most detail are **anything that behaves
 differently from OpenQM and is not described here**, and **anything in these
-pages that turns out not to be true of the build you are running**.
+pages that turns out not to be true of the build you are running**. The second
+is as valuable as the first.
 
 **Quote the version as `LS2.0-0`** — the string in the header bar of every page
-here, in the sign-on banner, and in what `sd-solo --version` reports.
+here, in the sign-on banner, and in what `sd-solo --version` reports. The bare
+`2.0-0` is the same release; the `LS` says it is the Linux Solo one, and that is
+the part worth keeping in a report.

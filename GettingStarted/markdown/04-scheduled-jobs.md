@@ -73,7 +73,7 @@ again with `set.jobs.access on`.
 There is no permit list to fill in and no administrator rights to give it: a
 command on the `sd-solo` command line signs in with the copy of the account password
 kept for you, and runs. Unlike the multiuser SD Core for Linux there is no
-`batch.jobs` file, and the command may carry arguments — `sd list customers
+`batch.jobs` file, and the command may carry arguments — `sd-solo list customers
 with city = "Leeds"` is a job.
 
 ## Setting one up

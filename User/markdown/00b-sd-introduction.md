@@ -42,9 +42,9 @@ BASIC.
 
 **SD Core Solo for Linux is Linux only, and for one user.** It is the
 single-user edition of SD Core for Linux: one account, `sduser`, installed in
-your home directory and run as you. There are no `#ifdef` branches keeping
-Windows alive in this source — SD Core Solo for Windows is a separate project,
-kept in behavioral parity by deliberate policy, and this is not a build of it.
+your home directory and run as you. SD Core Solo for Windows is a separate
+product, built to behave the same way for the people who use it, and this is
+not a build of it.
 
 SD Core is free software under the GNU General Public License v3. `config gpl`
 displays the license and `config contrib` the list of contributors. Installing

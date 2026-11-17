@@ -232,7 +232,7 @@ in.
 
 | | |
 |---|---|
-| `sysmsg(2831)` | `Unrecognised statement` |
+| `sysmsg(2831)` | `Unrecognized statement` |
 | `sysmsg(6711, 'ABC')` | `Unable to find source record ABC` |
 | `sysmsg(2201)` | `Account name '' is not in register` — an unfilled substitution comes back empty |
 | `sysmsg(99999)` | `[99999] Message not found` |

@@ -246,8 +246,7 @@ other word is *Unexpected token*.
 **A phantom is listed only once it has signed on.** `phantom` reports the user
 number it has given the new process at once, and a `list.phantoms` typed in the
 same second showed the heading and nothing under it; the row was there a moment
-later. The listings were produced by running the verb in a sandbox build of SD
-Core for Linux Solo, as the administrator.
+later.
 
 ## Telling a phantom what to do: `child()` and `signal()`
 
@@ -372,8 +371,8 @@ Profiler off for user 28: 29 events in 13 entries
 
 (The `...` is the report `list` printed.) **The table is kept in SD's `$ipc`
 file under the user number, so no file is left on the disk.** A profile outlives
-the session that made it: the sandbox listed the profiles of sessions that had
-already ended.
+the session that made it: the profiles of sessions that have already ended can
+still be listed.
 
 `profiler` (or `profiler display`) then shows it. With several profiles it lists
 them and asks which to open:
@@ -414,10 +413,6 @@ for user 1 - use profiler on, run the programs, then profiler off*. **Another
 user's process can be profiled by the administrator only**, because a profile
 holds the files that user's programs open and the commands they execute
 (*Only the administrator can profile another user's process*).
-
-The listings were produced by running the verb in a sandbox build of SD Core for
-Linux Solo, as the administrator. Levels 3 and 4, the full-profile message, and
-the refusal for another user's process are read from the source and were not run.
 
 ## Who has these verbs
 

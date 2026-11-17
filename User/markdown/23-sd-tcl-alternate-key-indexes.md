@@ -45,7 +45,7 @@ create.index zzak f1
 ```
 
 ```
-Added index for F1
+Added index for f1
 ```
 
 That reports success, and the index it made matches no records at all. The
@@ -59,7 +59,7 @@ list.index zzak f1
 Alternate key indices for file zzak
 Number of indices = 1
 Index name...... En Type Nulls S/M Fmt Field/Expression
-F1                N  D    Yes   S   L  1
+f1                N  D    Yes   S   L  1
 ```
 
 **The `En` column is the one to read. `N` means the index is not enabled** —
@@ -67,7 +67,7 @@ it exists, it is listed, and it will not find anything. After `build.index` the
 same line reads `Y`:
 
 ```
-F1                Y  D    Yes   S   L  1
+f1                Y  D    Yes   S   L  1
 ```
 
 **So `list.index` is the check**, and *"the index is there"* is not the same
@@ -89,7 +89,7 @@ session** fails this way every time, because `create.index` leaves the file
 open. From a fresh session it succeeds:
 
 ```
-Building index 'F1'...
+Building index 'f1'...
 6 records processed
 Populating index...
 ```
@@ -124,8 +124,8 @@ list.index zzak f1 f2
 Alternate key indices for file zzak
 Number of indices = 2
 Index name...... En Type Nulls S/M Fmt Field/Expression
-F1                Y  D    Yes   S   L  1
-F2                Y  D    Yes   S   L  2
+f1                Y  D    Yes   S   L  1
+f2                Y  D    Yes   S   L  2
 ```
 
 | column | |
@@ -175,19 +175,21 @@ delete.index zzak all
 ```
 
 ```
-Deleted index F1
-Deleted index F2
+Deleted index f1
+Deleted index f2
 ```
 
-`all` removes every index on the file. Naming them individually also works —
-with one catch:
+`all` removes every index on the file. Naming them individually works too, and
+**in either case**: index names are held in lower case, `list.index` prints them
+that way, and `delete.index zzak f1`, `delete.index zzak F1` and
+`delete.index zzak f1 f2` all do what they say (the answer is
+*Deleted index f1*, in lower case, whichever case you typed).
 
-> **`delete.index` matches the index name exactly, and index names are held in
-> upper case.** `delete.index zzak f1` answers *"Unrecognized index name
-> (f1)"* — on a file where `list.index zzak f1` had just found the index and
-> printed it. **`list.index` folds case and `delete.index` does not**, so a name
-> that lists perfectly well may still refuse to delete. Use **`all`**, or type
-> the name exactly as `list.index` prints it.
+> **An older SD held index names in upper case and `delete.index` matched them
+> exactly:** `delete.index zzak f1` then answered *"Unrecognized index name
+> (f1)"* on a file where `list.index zzak f1` had just found the index. If you
+> meet that, the SD you are talking to is older than this page; use **`all`**,
+> or type the name exactly as `list.index` prints it.
 
 Deleting the file removes its indexes with it.
 
@@ -196,8 +198,7 @@ Deleting the file removes its indexes with it.
 `analyse.index` says how an index is doing, `disable.index` switches it off for a
 bulk load, `rebuild.all.indices` rebuilds every index the account has, and
 `selectindex` reads an index from the command line. The listings in this
-section were produced by running them in a sandbox build of SD Core for Linux
-Solo, as the administrator, against a file `T3` of five records whose field 2
+section are for a file `T3` of five records whose field 2
 holds a city (`Oslo` twice, `Rome` twice, `Bern` once) with an index `CITY` on
 it.
 

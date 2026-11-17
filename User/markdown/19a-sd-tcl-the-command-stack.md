@@ -151,8 +151,8 @@ Command logging is off
 Command logging is on: <account directory>/clog.19.log
 ```
 
-(In the second listing the path was the sandbox's, and *account directory* stands
-for it here; the 19 is the user number of that session.) **The log is named
+(*account directory* stands for the path of your account's directory; the 19 is the
+user number of that session.) **The log is named
 `clog.`*user number*`.log` and is kept in the account directory.** SD does not put it in a shared temporary directory, because
 another user could make a file of that name first. It belongs to you and nobody
 else can read it (mode 0600); each session adds to it and nothing empties it.
@@ -176,10 +176,6 @@ The `on` that starts the log is not in it; every command after it is, and the
 `off` that ends it is the last line. A word after `on` or `off`, or any word but
 those two, is refused with *Unexpected token*, and if the log cannot be made
 (*The command log could not be started*) nothing is logged.
-
-The listings were produced by running them in a sandbox build of SD Core for
-Linux Solo, as the administrator; the `Cmd`, `PA` and `Exec` origins are read
-from the source and were not run.
 
 ## What is not here
 

@@ -346,11 +346,6 @@ again a4
 A line with nothing after the verb is refused (*A command is needed after
 EXECUTE.LIST*).
 
-The listings in the sections from `show.list` to here were produced by running
-them in a sandbox build of SD Core Solo for Linux, as the administrator. What is
-read from the source and was not run: the guard on the file `sort.list` is
-given with `from`, and the refusal of an `execute.list` with no command.
-
 ## Who has these verbs
 
 **All of them are in every account.** Building, saving and combining lists

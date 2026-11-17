@@ -9,16 +9,13 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> **The listings on this page were produced by running the verbs** on the
-> multiuser SD Core for Linux, whose code for them Solo shares apart from the
-> gates, and re-checked on Solo. Paths are shown as they read on a Solo
-> computer.
+> Paths are shown as they read on a Solo computer.
 
 ## Two things are not on this page, on purpose
 
 **A programmer needs to understand locks without being able to force one**, so
-the User set keeps that part of the subject: what a task lock is against a
-database lock, and `release`, which gives back locks your own session holds.
+user documentation keeps the part of the subject that is theirs: what a task lock is against a
+database lock, and `release`, which gives back locks your own session holds and needs no privilege at all.
 The same goes for `status`, `phantom`, `pstat`, `pdebug` and `pdump` — a
 programmer's view of their own processes.
 
@@ -96,16 +93,13 @@ message 10167, *User n was not running, so there was nothing to log out*):
 LOGOUT reaped user 43 (pid 1799435, sduser) - process was gone.
 ```
 
-*Run on 24 October 2026 on Solo, in a sandbox, against a session killed from
-outside with `kill -9` while it held a record lock: `logout` on its number
-printed the line above, and afterwards `listu` did not list the user and
-`list.readu` did not show the lock.* The entry matters because **it holds a slot
+For a session killed from outside with `kill -9` while it held a record lock,
+`logout 43` prints the line above, and afterwards `listu` does not list the user
+and `list.readu` does not show the lock. The entry matters because **it holds a slot
 and an exclusive-access claim**: `NUMUSERS` counts it, and any verb that wants a
 file to itself — `build.index` is the usual one — is refused while it is there.
 So **the way to clear a dead session is `logout` *n*** — no `admin`, since every
-session on a Solo computer is `sduser`. (Earlier editions of this page said
-`logout` could not clear it and that `sd-solo -cleanup` was the way; the run
-above is why that was taken out.)
+session on a Solo computer is `sduser`.
 
 A session that is **alive and does not answer the signal** is the other case,
 and it keeps its entry with **`(logout pending)`** beside it; asking again
@@ -136,7 +130,7 @@ list.readu {user.no} {detail} {wait} {no.page} {lptr {n}}
 There are no active file, read or update locks held by any user
 ```
 
-That answer is about **every session**, not only yours. With locks held:
+That answer is about the **whole system**, not about you. With locks held:
 
 ```
 User File Path........................... Type Id..............................
@@ -153,6 +147,13 @@ User File Path........................... Type Id..............................
 | **`Path`** | wrapped over as many lines as it needs |
 | **`Type`** | `RU` update · `RL` read · `FX` exclusive file lock · `SX` shared file lock · `WAIT` a session waiting for one |
 | **`Id`** | the record id; blank for a file lock |
+
+**An id is text a program wrote, and it is shown safely** (since 28 October 2026). A program may lock a record
+whose id holds an escape sequence, and the listing, the deadlock report and `tool.sessions` would have sent that
+sequence to **your** terminal. Now a control character, `del`, a byte from 128 to 159 and a
+mark character in an id, a path or a user name are each shown as `?`. The same holds for `getlocks()` and
+`system(1083)` in a program. The locks themselves are not changed (`unlock` and `release` act on the real id),
+and `fileinfo(f, 1039)` still gives a program its own ids exactly.
 
 A file lock has no id:
 
@@ -396,10 +397,11 @@ cursor in plain sentences and shows the exact command its key would run.
 | Key | What it does |
 |---|---|
 | arrows, Page Up, Page Down, Home, End, a click | move in the list that has the focus |
-| Tab | change to the other list |
+| F6, Shift-F6 | change to the other list (and to the AI line, when the AI is on for the account) |
 | L (sessions) | `logout` the selected session; the user number is typed again to confirm. For a session whose process is gone the entry is cleared and its locks are released |
 | U (locks) | `unlock` the selected lock; the holder is not told |
 | I | `inhibit.login on` when logins are allowed, `off` when they are inhibited |
+| / | go to the next row of the list that has the focus that holds a text you type (a user number, a name, a record id; any case; round to the top) |
 | F5 | read again |
 | F1, ?, a click on the [?] | explain the page |
 | Ctrl-Q | leave |

@@ -9,17 +9,13 @@ have forgotten its arguments, it is here. If you want to know what it
 braces an optional part, and a vertical bar separates alternatives. SD
 folds case, so any of this may be typed in either case.
 
-> **This page is generated, and it is checked for completeness rather
-> than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **216** verbs, and
-> `tools/mktclsyntax.py` refuses to
-> write the page if any of them has no line. The shapes come from the
+> This page lists every verb SD ships (**216** of them). The shapes come from the
 > subject documents, where each verb is described in full.
 
-**The roster is the VOC, not an opinion.** It is computed by
-reading `newvoc` directly, so it cannot drift from what the account
-actually gets. **A verb your account does not have is not refused — the
-name is simply not recognised.** Solo has one account, and it has all
+**The list is the VOC, not an opinion.** It is taken from the
+vocabulary SD installs, so it says what the account actually gets.
+**A verb your account does not have is not refused — the
+name is simply not recognized.** Solo has one account, and it has all
 216 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
@@ -223,9 +219,9 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`tool.audit`** | **`tool.audit`**  —  the audit trail on one screen (administrator): read from its end a screen at a time, with filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record of **`$HOLD`**; it runs no command |
 | **`tool.backups`** | **`tool.backups`**  —  backups and restores on one screen (administrator): the saved directory, the archives in it with the manifest of each, who else is signed on, and **`backup.account`**, **`restore.account`** and **`set.backup.directory`** behind a box answered Run |
 | **`tool.bulk`** | **`tool.bulk`**  —  a bulk update of one data file of the account: choose the records (conditions, a saved list or every record), up to ten operations from a closed set, a dry run that writes nothing, apply under record locks after a box that asks the file's name typed, and undo of the last run |
-| **`tool.catalog`** | **`tool.catalog`**  —  the programs of the account on one screen: compiled or not, current or stale, and where each is cataloged; compile it, catalog it privately or locally, and take a catalog entry out, each through its own verb after a box that shows the command |
-| **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
-| **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the editor, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
+| **`tool.catalog`** | **`tool.catalog`**  —  the programs of the account on one screen: compiled or not, current or stale, and where each is cataloged (private, local, global); compile it, catalog it privately or locally, and take a catalog entry out, each through its own verb after a box that shows the command |
+| **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect, the backup directory and the operating system part of the settings report; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
+| **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the IDE, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
 | **`tool.files`** | **`tool.files`**  —  the files of the account on one screen: kind, records, modulus, size, indices, trigger; make, clear and delete a file, each through its own verb after a box that shows the command; analyze a file and list its indices and triggers by handing the terminal to the verb |
 | **`tool.gates`** | **`tool.gates`**  —  the six gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files, the AI, file transfer and scheduled jobs, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`**, **`set.ai gate`**, **`set.xfer.access`** or **`set.jobs.access`** after a box answered Run |
 | **`tool.jobs`** | **`tool.jobs`**  —  your scheduled jobs on one page (any session): each job's schedule, command, next and last run; N, C, D and R make, change, delete and start one through **`set.job`** after a box answered Run, N and C with the account password typed in the form |
@@ -236,7 +232,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`tool.sessions`** | **`tool.sessions`**  —  sessions, locks and logout on one screen (administrator): every session and every lock, read again every three seconds; each key runs one **`logout`**, **`unlock`** or **`inhibit.login`** command after a box answered Run |
 | **`tool.test`** | **`tool.test`**  —  the tests of the account on one screen: the test.* programs of its program files, run with run and judged by the last line N passed, M failed (pass, fail, no verdict; an abort is a fail); run one, all of those shown or the failed ones (after a box), read what a test printed, compile a test that has no object code through basic after a box that shows the command |
 | **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
-| **`tool.voc`** | **`tool.voc`**  —  the vocabulary of the account on one screen: every VOC entry with its type, what it points at, whether a pointer works and how it differs from the shipped VOC; edit an entry in the editor, delete one through **`delete`** after a box that asks its id typed |
+| **`tool.voc`** | **`tool.voc`**  —  the vocabulary of the account on one screen: every VOC entry with its type, what it points at, whether a pointer works and how it differs from the shipped VOC; edit an entry in the IDE, delete one through **`delete`** after a box that asks its id typed |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
 | **`update.accounts`** | **`update.accounts`** {**`all`**} |

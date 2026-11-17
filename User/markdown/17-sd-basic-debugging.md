@@ -415,10 +415,10 @@ them. `dumb` and `unknown` have no `cup` and stay line by line. Then:
 - below it is the **source**. Each row has a two-cell **gutter** — `>` marks the
   line about to run and `*` a line with a breakpoint (a breakpoint wins when the
   line about to run has one) — then the line number and the text. The line about
-  to run is highlighted from end to end. In the `paper`, `night` and `blue`
-  themes the text is colored as SD BASIC: comments, strings, constants and the
-  statements. In the plain `classic` theme, which the debugger uses when neither
-  you nor the site has chosen one, the source has no syntax color;
+  to run is highlighted from end to end. When the site's theme is `paper`, as
+  delivered (or `night` or `blue`), the text is colored as SD BASIC: comments, strings,
+  constants and the statements. In the plain `classic` theme, which the debugger
+  uses when the site names none, the source has no syntax color;
 - to the right of the source, from column 93, is the **Autos** pane: the
   variables the line about to run uses come first, in the order the line names
   them; then those of the line the debugger last stopped at, when it is a line of
@@ -479,8 +479,8 @@ screen is): when you let the program run, the debugger gives the terminal back
 and the program's output is on its own screen, and it is on the alternate
 screen again at the next stop. The colors are the screen library's: if the
 program asked for no theme, the debugger uses the theme you chose with Ctrl-T,
-else the site's theme (`SCREENTHEME` in `sd.conf`) while it is up, and the
-`classic` one when neither names one; and whatever the program asked for
+else the site's theme (`SCREENTHEME` in `sd.conf`, which the installer leaves
+at `paper`) while it is up, and the `classic` one when neither names one; and whatever the program asked for
 otherwise. When the debugger lets the program go, the program's theme is given
 back, whether or not the window was resized or `window` *n* was typed on the way.
 
@@ -501,6 +501,9 @@ terminal"* for any other program.
 To keep the line-by-line debugger on a terminal that would otherwise get the
 full screen, put the word `LINE.MODE` on a line of the VOC record
 `$debug.options` (the same record that holds `WINDOW` *n*).
+Nothing about this gives the debugger more reach than before: the AI line,
+for instance, which the full-screen debugger offers when the AI is switched on,
+is the same gated line it already was.
 
 **In a session that is not a terminal, on `dumb`, `unknown` or `null`, and in a
 window smaller than 140 by 43, the debugger is line by line.** Every command works, as the

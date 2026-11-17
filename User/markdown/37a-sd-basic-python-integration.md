@@ -1,7 +1,7 @@
 Title: Embedded Python
 Subtitle: The CPython interpreter built into SD, the dictionary, list and string objects it exposes, and the twenty-one cataloged functions that reach it from BASIC.
 
-SD Core for Linux embeds CPython so a BASIC program can run Python code and
+SD Core Solo for Linux embeds CPython so a BASIC program can run Python code and
 exchange data with it. Twenty-one cataloged routines carry this - counted
 alongside the rest of SD's global catalog in the User set's *SD Standard
 Subroutines* page, which does not repeat them; this page is where they are
@@ -25,20 +25,19 @@ twenty-one refuses an empty object, dictionary, list or string name before
 making the underlying call**, setting `status()` to 1 - checked directly in
 `sdsys/gpl.bp/py_*`, not assumed.
 
-**Starting Python and running code in it need the `os` switch**, which is off as
-delivered (the same grant as `os.execute`: Python runs arbitrary code in the SD
-process, so it asks the ACCOUNT, not the program - the `PY_*` wrappers are
-`$internal` and would pass for everyone). `$internal` itself controls who may
-*compile* a new internal-mode program (an administrator, at `$internal`'s own
-check); it is not re-checked when an already-catalogued routine like
-`PY_CREATEDICT` is *called*, so the switch is what stops it. Asking whether
-Python is running, and shutting it down, are not gated. The administrator turns
-the switch on with `set.os.access os on` (see *Operating system access* in the
-GettingStarted set).
+**Starting the interpreter and running code in it need the `os` switch**, which is off
+as delivered - the same one as `OS.EXECUTE`, because Python runs arbitrary code in
+your own process. The administrator turns it on with `set.os.access os on` (see
+*Operating system access* in the GettingStarted set). The question is put to the
+**account**, not to the routine: `$internal` controls who may *compile* a new
+internal-mode program, and a cataloged routine like `PY_CREATEDICT` is internal, but
+the interpreter itself refuses to start while the switch is off. `PY_INITIALIZE`
+then returns null with `status()` 3035 and prints nothing, so a program that needs
+Python should test for it. Asking whether Python is running, and shutting it down,
+are not gated.
 
-**The installer brings what this needs.** `installsdcore.sh` installs
-`python3-dev` (Debian/Ubuntu) or the equivalent `-devel` package on the other
-three supported distributions itself, and refuses to proceed if `python3` and
+**The installer brings what this needs.** `installsdsolo.sh` installs
+`python3-dev` itself (Debian and Ubuntu are the supported distributions), and refuses to proceed if `python3` and
 `python3-config` do not already resolve. Nothing is left for an administrator
 to install separately afterwards.
 
@@ -73,25 +72,14 @@ A Python `list`, likewise held by name.
 
 | Function | Returns |
 |---|---|
-| `PY_LISTCRTE(listname)` | Creates an empty list. Added 22 Sep 2026 - see below |
+| `PY_LISTCREATE(listname)` | Creates an empty list. `PY_LISTCRTE` is the same function under an older name; both work |
 | `PY_LISTCLR(listname)` | Empties it |
 | `PY_LISTAPPD(listname,objname)` | Appends the named Python object to the list |
 | `PY_LISTGETS(listname)` | Returns every item, tab-separated |
 
-**`PY_LISTCRTE` is the newest of the twenty-one.** The opcode
-(`SD_PyListCrte`, key 2220) was reserved alongside the other three list
-functions from the start, but nothing implemented or called it - a list
-could be appended to and read but never made. SD Core for Windows found the
-identical gap in its own verb-surface audit and fixed it the same day; this
-port had not independently found it. Fixed to `PY_CREATEDICT`'s own shape:
-`PyList_New()` against the interpreter's global dictionary, not a
-helper-process call.
-
-**The name differs from SD Core for Windows.** Windows calls the same
-function `PY_LISTCREATE`; this is the one name out of twenty-one that does
-not match between the two ports. Confirmed by direct comparison, 22 Sep
-2026 - not a typo on either side, just an unreconciled choice, left as
-found rather than renamed after the fact.
+A list has to be made with `PY_LISTCREATE` before anything is appended to it.
+It is shaped like `PY_CREATEDICT`: `PyList_New()` against the interpreter's
+global dictionary, and a name that is already taken is refused.
 
 ## Strings
 
@@ -113,7 +101,7 @@ namespace - rather than a type-specific handle.
 |---|---|
 | `PY_OBJLEN(objname)` | Its length, as Python's own `len()` would report. Returns `SD_INT_OVERFLW` (**-10302**) if the true length does not fit a 32-bit int |
 | `PY_OBJTYPE(objname)` | A numeric type code, **not a type name** - see the table below |
-| `PY_GETATTR(objname)` | Its value as a string - by way of `sdext()`'s `SD_PyGetAtt`, not `SDPYOBJ` like everything else on this page. See *What calls this, underneath*, below |
+| `PY_GETATTR(objname)` | Its value as a string |
 
 `PY_OBJTYPE` returns one of six codes, checked directly against a real call
 (`PY_LISTCRTE` followed by `PY_OBJTYPE` on the result returned `2`, matching
@@ -178,11 +166,10 @@ port's -12038 (`LstExsts`) does. Neither choice is wrong; they are simply
 different, confirmed by both sides checking their own source rather than
 assuming. Conversely, this port has no equivalent of Windows's
 -12040/-12041/-12042, because those describe a *helper process* failing to
-start or an *OS permission* being unclear or refused. The first does not apply
-here, there being no helper process. The second is the `os` switch above: a
-program that has not got it is refused by SD before Python is touched, and the
-`PY_` function gives back a non-zero status (its own refusal, not one of the
-codes in these tables).
+start or an *OS permission* being unclear or refused. There is no helper
+process here. The permission is the `os` switch, above: a program whose account
+has not got it is refused by SD before Python is touched, and the `PY_` function
+gives back a non-zero `status()` (3035), not one of the codes in these tables.
 
 | Code | Meaning |
 |---|---|
@@ -194,15 +181,3 @@ codes in these tables).
 **A program written against these codes and expecting to run on both ports
 should treat -12001 through -12034 as portable and everything from -12035 up
 as this port's own.**
-
-## What calls this, underneath
-
-`SDPYOBJ(arg1, arg2, objname, key)` is the entry point behind every function
-on this page except five: `PY_INITIALIZE`, `PY_FINALIZE`, `PY_RUNSTRING`,
-`PY_RUNFILE` and `PY_GETATTR` go through `sdext()` instead, sharing that
-entry point with the cryptographic primitives (*Encryption and the SDEXT
-interface* in the GettingStarted set). Both `SDPYOBJ` and `sdext` are
-internal-only C functions, reachable only from `$internal`-compiled code -
-see [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html) for
-what `$internal` requires and what happens when an ordinary program tries to
-call either directly.

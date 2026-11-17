@@ -44,6 +44,12 @@ a source record `ZZPROG` compiles to an object record `zzprog`. That is this
 port's naming, and it is worth knowing before you go looking for the object by
 the name you typed.
 
+**`basic ... no.catalog` compiles and catalogs nothing.** A `$catalog` line in
+the source or in a file it includes, or a `CATALOG` line in the `$BASIC.OPTIONS`
+record, makes the compile catalog the program as well; with `no.catalog` none
+of them is acted on, and the compile says so
+(`zzprog compiled; its catalog directive was not run (no.catalog)`).
+
 ## Running without cataloging
 
 ```
@@ -149,7 +155,7 @@ ZZPROG deleted from the private catalogue
 ### Removing a local entry and its object code: `decatalog`
 
 ```
-decatalog {file.name} name ...
+decatalog {file} name ...
 ```
 
 `delete.catalog` *name* `local` removes the VOC pointer that `catalog ... local`
@@ -206,13 +212,8 @@ and the flags the object carries (internal, debug, recursive, trusted, case
 sensitive, may be called by `sdcall`). A name that is cataloged nowhere is
 *cproc is not cataloged*. SD's objects carry no compiler version and no source
 pathname, so neither is shown. **The object files are read as directory file
-records, so you see only what your VOC, the shared global catalog and the
+records, so you see only what your VOC, the global catalog and the
 operating system access switch let you open.**
-
-The listings were produced by running them in a sandbox build of SD Core for
-Linux Solo, as the administrator. The report for a program found in more than
-one place, and the flags that `detail` adds, are read from the source and were
-not run.
 
 ## Formatting source
 
@@ -350,7 +351,7 @@ different there. The keys every full-screen page shares are in
 | Up · Down in a Run a command question | bring back the commands run from either Run a command in this session (twenty) |
 | Build, Run a command at the terminal | for a command that needs the terminal: **the screen is given to the command**, Return brings the IDE back with the tabs as they were. A command that aborts gives the IDE back too. A record the command changed is not read again by the tab that holds it |
 | Build, Run with arguments | asks for the words to put after the program's name, then compiles and runs it as Run does (`run bp prog words`); the program reads them with `SENTENCE()` |
-| Saving a record | when a subroutine `source.control` is cataloged, every save calls it before the write, as `ed` does: it can refuse the write or change the record |
+| Saving a record | when a subroutine `source.control` is cataloged, every save calls it before the write, as `sed` and `ed` do: it can refuse the write or change the record |
 | Alt-= · View, Character code | the code of the character at the cursor, its name when it is a control character, and its field, value and subvalue, on the status line |
 | View, Syntax color · View, Line numbers | switch the color and the line numbers off for every tab, and on again |
 | View, Mouse | stops the terminal reporting the mouse, and starts it again; while it is off a click does nothing and the terminal's own selection works. Every command has a key or a menu entry, so nothing needs the mouse |
@@ -457,7 +458,7 @@ the operating system access first and says a refusal in the form, which stays op
 | from | what is made, and what the tab does |
 |---|---|
 | New | an **empty** file, opened in a tab of its own |
-| Save as, the first save of an untitled buffer | the file, holding the tab's text. **The tab becomes the file**: the record it had is as it was on the disk and its lock is given back; the file is locked while the tab is open, as any file of the operating system is |
+| Save as, the first save of an untitled buffer | the file, holding the tab's text. **The tab becomes the file**: the record it had is as it was on the disk, its lock is given back and its recovery copy is dropped; the file is locked while the tab is open, as any file of the operating system is |
 | Write a copy, Export the selection | the file, holding the text (or the selection). No tab is made and no lock is kept |
 
 - **The file is made before anything else changes.** When it cannot be made, the tab, the record and its lock
@@ -473,7 +474,7 @@ the operating system access first and says a refusal in the form, which stays op
   is touched**; the text stays in the editor.
 - **A write that fails** (a full disk) says so in a box: the file was made and an empty or partly
   written one may be there. The text is still in the editor.
-- **The new file's mode is the one `openseq ... creating` gives** (the IDE has
+- **The new file's mode is 0666 less the session's umask**, the mode `openseq ... creating` gives (the IDE has
   no setting of its own). Its owner is the Linux user the session runs as.
 - **Nothing outside the account is reachable without operating system access.** Without it the IDE can make
   files inside the account's own directory only.

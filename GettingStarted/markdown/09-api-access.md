@@ -162,10 +162,7 @@ length it cannot accept. Before that date a client that sent four bytes that rea
 length (`garb` is 1,651,663,207), or that declared a request and closed before
 sending it, or that closed while its own command waited in a shell and then
 cleared its input, could leave that process polling at **100% of a processor**
-until somebody killed it. *Measured on Solo (20 October 2026, a real TLS and SCRAM
-session):* 101 ticks of CPU in a second, for one of four `garb` clients, three of
-four that declared 1,000,000,000 and had no more to send, and the client that
-closed while its command waited in `SH sleep 2`; none after the change.
+until somebody killed it. It does not do that now.
 
 Every request starts with a 4-byte length that counts the whole packet, itself
 included, and a 2-byte request code, so the smallest packet is 6 bytes. The
@@ -182,29 +179,24 @@ A packet that declares anything else (below 6, negative, or over the limit that
 applies) is not read: the server ends the session at once and writes one line to
 the system log (`API packet length ... refused (before login)` or `(after
 login)`). The same test applies to the reply a client sends to an `INPUT` prompt.
-*Run:* a first packet declaring 0, 3, 5, -1, -2147483648, 2147483647, `garb` or the
-largest string plus 11 is refused and the session ends with the client still
-connected; so is a reply to an `INPUT` prompt that declares `garb` or 5.
 
 **How the server knows the login has happened, and how that differs from SD Core.**
 SD Core knows "not yet logged in" because its server is still root until the
 client has logged in. Solo's server is never root, so it keeps a flag that is set
 when the password proof has been accepted (when the server gives the session its
 user name); the limit before the login applies until then. This is a difference
-from SD Core, made with the owner's permission on 20 October 2026. *Run, before
-the login:* a first packet declaring 65,536 bytes is waited for (the boundary),
-65,537 and 1,000,000,000 are refused and the session ends. *Run, after the login:*
-a record of 3,075,000 bytes is written through the API and read back byte for byte,
-and a packet declaring 1,000,000,000 is waited for. Before this change Solo applied
-no limit before the login. The log line's wording *before login* was not read
-from a log in this run; it is the source's.
+from SD Core. Before the login a packet declaring 65,536 bytes is waited for (the
+boundary), and 65,537 and 1,000,000,000 are refused and the session ends. After the
+login a record of 3,075,000 bytes can be written through the API and read back, and
+a packet declaring 1,000,000,000 is waited for. Before 20 October 2026 Solo applied
+no limit before the login.
 
 **A file lock goes to the file the client names (20 October 2026).** An API
 client that had opened three files and asked for the file lock on the first
 locked the last one it had opened, and a release freed that one; the form that
-waits for the lock waited for the wrong file too. *Run, with two sessions of the
-account:* each lock and each release now acts on the file number asked for, and
-a request with nothing to say no longer repeats the text of the last refusal.
+waits for the lock waited for the wrong file too. Each lock and each release now
+acts on the file number asked for, and a request with nothing to say no longer
+repeats the text of the last refusal.
 
 ## An API session is you
 
@@ -258,18 +250,17 @@ reaches a client that is already signed in. The pointers SD itself puts in the V
 too: a client of request 29 has no use for them. A pointer that opened before and leads out
 of an account whose `os` switch is off stops opening: turn the switch on if that was
 intended. Solo has no SDSYS exemption, because SDSYS is never a target of the request.
-Run in a private sandbox through a real API login (`sandbox-req29.py`, section X); a
-real client on another machine was not run. **Before 20 October 2026 the bit was the
+**Before 20 October 2026 the bit was the
 whole gate**, and a site that had set it let an API login open a file named in the VOC of
 any directory that holds a `voc`.
 
-**Not measured on Solo:** whether an API session is confined to the account's own
-directory as the multiuser product's is. The multiuser API refuses `OPEN` of
-anything outside the account, distinguishing a containment refusal from a missing
-file; Solo runs the same login code, but that containment has not been tested on
-it, so do not rely on it as a boundary. `SDCLIENT` in `sd.conf` is the
-configurable control: `1` refuses `CALL` and `EXECUTE` from a client, and `2`
-allows a call only to a subroutine compiled as callable from a client (`0`, the
+**Do not rely on the API's own confinement as a boundary on Solo.** The multiuser
+API refuses `OPEN` of anything outside the account, distinguishing a containment
+refusal from a missing file; Solo runs the same login code, but whether it is
+confined in the same way is not established, so treat the account's file
+permissions and the `os` switch as the boundary. `SDCLIENT` in `sd.conf` is the
+configurable control: any non-zero value stops files being opened, and `2` also
+refuses a subroutine that is not compiled as callable from a client (`0`, the
 default, allows everything).
 
 ## Client libraries

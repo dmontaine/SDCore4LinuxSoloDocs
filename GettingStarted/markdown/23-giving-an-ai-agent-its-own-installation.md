@@ -19,11 +19,12 @@ The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for 
 
 **Shape 1: the agent is a client of your installation, with both switches off.** It gets the account and nothing outside it: it cannot run a Linux command, read or write a file outside the account's directory, or change the VOC. It can read, change and delete everything the account holds, **including your production data**, so use it only where the agent may touch that data.
 
-1. **Check the switches are off.** Type `ADMIN`, then `set.os.access` with no argument: it says `Account sduser has SH no, OS.EXECUTE no`.
+1. **Check the switches are off.** Type `admin`, then `set.os.access` with no argument: it says `Account sduser has SH no, OS.EXECUTE no`.
 2. **Give it a way in that is not your Linux login:** a key of its own in Solo's own key file ([ssh access](08-ssh-access.html)), on port 4251, and the account password typed at the SD prompt; or the API on port 4249. Never your Linux password.
 3. **Give it the account password and nothing else**, never the administrator password. Change the account password when the work ends.
 4. **Prove the walls** before you trust them. As the agent, try what the guide says is refused: `sh`, `os.execute`, a path outside the account, `config`, a `copy` into the VOC, `catalog ... global`. Each must be refused in the words the guide quotes.
 5. **Keep the hand-over human.** The agent proposes; a person reads the program and puts it where it belongs.
+6. **Take it back:** delete the agent's line from the key file and change the account password.
 
 **Shape 2: the agent has a computer of its own.** Use it when the agent needs the shell or OS access, or must not see your account. The wall is the operating system, and the computer holds nothing you want to keep from the agent.
 
@@ -36,10 +37,11 @@ The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for 
 
 ## What this does not give you
 
-There are no scopes inside the account: the agent can read, change and delete everything in `sduser`, and with a switch on everything its Linux user can reach, which is why your data is somewhere else or behind shape 2. A switch turned on later takes the refusal away from then on. The audit trail names what the agent did, not what it saw. There is no MCP door yet (`sd-mcp` is planned and not built), and the project-scope `.mcp.json` in the source repository is a shape, not something to use: Solo's own ssh server runs `sd-solo` for every sign-in and discards the command the client asked for. And no setting protects you from a prompt that persuades the agent to ask *you* for more: the answer to a request for the administrator password, or for a switch, is yours, and the safe default is no.
+There are no scopes inside the account: the agent can read, change and delete everything in `sduser`, and with a switch on everything its Linux user can reach, which is why your data is somewhere else or behind shape 2. A switch turned on later takes the refusal away from then on. The audit trail names what the agent did, not what it saw. The MCP door ([The MCP door](25-the-mcp-door.html)) is another way in, off as delivered, run by an MCP client on this computer; this recipe does not use it, and the project-scope `.mcp.json` example in the source repository is the shape of a remote door that is not built, not something to use: Solo's own ssh server runs `sd-solo` for every sign-in and discards the command the client asked for. And no setting protects you from a prompt that persuades the agent to ask *you* for more: the answer to a request for the administrator password, or for a switch, is yours, and the safe default is no.
 
 ## See also
 
 [Operating system access](06b-operating-system-access.html) ·
 [Security](12-security.html) ·
+[The MCP door](25-the-mcp-door.html) ·
 and, in the User set, the page *SD and AI Agents*.

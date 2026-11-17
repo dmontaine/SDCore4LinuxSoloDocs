@@ -134,9 +134,7 @@ and the error number for a file that will not open.
 The dictionary of the VOC also has the items **`trigger`** and **`encryption`**,
 so `list voc with type = "F" and with trigger` lists the files that have a trigger
 function. SD has no file encryption, so `with encryption` selects nothing and
-`with no encryption` selects every file. (SD Core for Linux also has a
-`replication` word here; this product has no dictionary item for it yet, so
-leave it out.)
+`with no encryption` selects every file.
 
 ### count — count the records
 

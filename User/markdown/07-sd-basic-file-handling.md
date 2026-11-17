@@ -163,7 +163,8 @@ already committed to the file are looked at; an id this process took earlier is 
 *file* `next 1` starts them again. A file made by `copy` starts its own counter at 1, even when
 records with numeric ids were copied in; the skipping is what protects them. The counter is changed in
 the file header at once, so a power failure can leave it one behind the records; setting it with
-`configure.file … next` puts that right.
+`configure.file … next` puts that right. The client library
+has it as `SDWriteSeqKey` and `SDWriteuSeqKey` ([SD Client API](37-sd-client-api.html)).
 
 ### `fcontrol`: the counter, a test for an id, the minimum modulus
 
@@ -368,8 +369,11 @@ sequential.
 > present and `1` again after `clearfile`. To count records, `select` the file
 > and read `selectinfo(list, 3)`, or count in a `readnext` loop.
 
-`dir(pathname)` lists an operating-system directory as a dynamic array — name,
-size and modification time per entry.
+`dir(pathname)` lists an operating-system directory as a dynamic array - one field
+per entry, with the name, `F` or `D` and the size in bytes as its values. **An entry
+is `F` only when it is a plain file and `D` only when it is a directory** (a link is
+judged by what it leads to; since 30 October 2026): a socket, a device or a pipe is
+left out. A socket used to be listed as a file and a block device as a directory.
 
 ## Reaching another file's data
 

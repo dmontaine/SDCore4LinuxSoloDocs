@@ -336,6 +336,11 @@ weakens. The row, the preview and the proposals are the same.
 
 ## Not yet
 
+An AI line in the IDE, with proposals as edits, is built (see [Programs and the
+catalog](24-sd-tcl-programs-and-the-catalogue.html)), and so are the AI in [SED](27a-sd-tcl-sed.html),
+[CED](27b-sd-tcl-ced.html) and [the debugger](17-sd-basic-debugging.html). The AI line is also on
+every page of the toolkit (see [Asking the AI](29b-sd-tcl-asking-the-ai.html)).
+
 Programs the administrator assigns to the account, a menu builder (grouping your own
 programs into sub-menus) and a live line on your own tiles are planned and not
 built; today the page is the table above plus your own programs and, if

@@ -19,7 +19,8 @@ basic bp cs06.fizzbuzz
 run bp cs06.fizzbuzz
 ```
 
-`list examples.bp` names them all; `ct examples.bp cs10.recursion` shows one.
+`list examples.bp` names them all; `ct examples.bp cs10.recursion` shows one. There is no
+command to load or remove the programs: the installer puts them in and an upgrade refreshes them.
 
 ## A first course in programming
 

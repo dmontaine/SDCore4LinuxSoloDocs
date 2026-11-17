@@ -10,12 +10,9 @@ command, and `$voc.parser` once, when the session signs on.
 SD folds case, so a command may be typed in either case. Commands are shown
 here in lower case. In the tables, *italics* mark something you supply.
 
-> **The behavior on this page was run on SD Core for Linux**, in ordinary
-> sessions, with the names `zzpv`, `zzhello` and the like. SD Core Solo for Linux
-> has the same command processor (`$cproc`, read for this page: the lookup order,
-> the handler call and the sign-on read of `$voc.parser` are the same lines), but
-> **the examples were not run again on Solo**. What differs on Solo is who may write
-> the two records, and that is the last section.
+> The names `zzpv`, `zzhello` and the like are only examples. What differs on
+> Solo from the multi-user product is who may write the two records, and that is
+> the last section.
 
 ## Where a command is looked for
 

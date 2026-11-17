@@ -412,7 +412,7 @@ may hold `<tab>` for a tab and `^nnn` for the character whose three digit ASCII 
 
 | | |
 |---|---|
-| **`to`** *pathname* | an operating system file. It is a path, so the account's OS access gate applies (a file outside the account's own directory needs `os` on) and so do the edit gates |
+| **`to`** *pathname* | an operating system file. It is a path, so the account's OS access gate applies (a file outside the account's own directory needs `os` on) |
 | **`as`** *file id* | a **record** of a **directory file**: the file's name and the record's id |
 | **`no.query`** | replace what is there without asking |
 | **`appending`** | add to what is there |
@@ -503,8 +503,7 @@ other arithmetic on a field (it says so and stops), and `heading`, `footing`,
 The text of the DTD and of the schema is SD's own: the openQM manual shows the
 data but not them. A character in a field name that is not a letter, digit,
 underscore, dot or dash becomes an underscore, and the tags are in the case
-the file and the dictionary give them. (This section is the page of SD Core, carried
-to Solo on 21 October 2026 with the JSON and CSV ones; it was not on this page before.)
+the file and the dictionary give them.
 
 ## Looking for text inside records: `search` and `scan`
 
@@ -539,7 +538,7 @@ mark, as `list` shows them.
 | | |
 |---|---|
 | `for` | one or more strings in double quotes. A record is selected if it holds **any** of them |
-| `strings` *file* *record* | in place of `for`: the strings are the non-empty lines of a record of a file (*No search strings* if there are none, *Record id required after STRINGS file name* if the id is missing). Read from the source; not run |
+| `strings` *file* *record* | in place of `for`: the strings are the non-empty lines of a record of a file (*No search strings* if there are none, *Record id required after STRINGS file name* if the id is missing) |
 | `all.match` | select a record only if it holds **every** string |
 | `no.match` | select the records that hold **none** of them. `scan` shows no lines, since there are none to show |
 | `no.case` | ignore the case of the text and of the strings |
@@ -561,10 +560,7 @@ the first found. Use `clear.select` between them:
 clear.select
 ```
 
-A `scan` that finds nothing prints `0 record(s) selected to list 0`. The listings
-were produced by running them in a sandbox build of SD Core Solo for Linux, as the
-administrator; that `scan` shows no lines with `no.match` is read from the source
-(`search ... no.match` itself was run).
+A `scan` that finds nothing prints `0 record(s) selected to list 0`.
 
 ## A report as JSON
 

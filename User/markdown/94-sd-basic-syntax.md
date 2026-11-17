@@ -15,7 +15,7 @@ either case.
 
 **What is not here, and where it went.** Everything on this card is something
 an application may use. Names that an ordinary program **cannot** compile are
-on the *SD Basic - Restricted Commands* page (96): the
+on the [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html) page (96): the
 restricted statements, the internal-only functions, and the one name that is in
 the compiler's table with nothing behind it. **If you are looking for something
 and it is not here, that is where to look before concluding it does not
@@ -43,7 +43,7 @@ exist.**
 | **`append`** | clause of `openseq`, and of `edit` ***(clause word)*** |
 | **`arg`** | `arg(`*a*`)` |
 | **`arg.count`** | `arg.count()` |
-| **`arg.present`** | `arg.present(`*name*`)` |
+| **`arg.present`** | `arg.present(`*name*`)` — *name* is an argument of this subroutine or function; true if the caller passed it |
 | **`as`** | `ins` *value* `as` *c*`{`*path*`}` — a reserved word, ends the value of that form of `ins` ***(clause word)*** |
 | **`ascii`** | `ascii(`*a*`)` |
 | **`asin`** | `asin(`*a*`)` |
@@ -77,9 +77,9 @@ exist.**
 | **`case`** | `case` *condition*, inside `begin case` … `end case` |
 | **`casing`** | `casing on`   ·   `casing off`   ·   `casing` *expression* |
 | **`catalogued`** | `catalogued(`*a*`)` |
-| **`catch`** | `try` {*statement*} … `catch` *exception* {*qualifiers*} {, *exception* …} … {`catch` …} `end` |
+| **`catch`** | `try` {*statement*} … `catch` *exception* {*qualifiers*} {, *exception* …} … {`catch` …} `end` — see page 02 |
 | **`cats`** | `cats(`*a*, *b*`)` |
-| **`caught`** | `caught(`*exception* {, *modes*}`)` |
+| **`caught`** | `caught(`*exception* {, *modes*}`)` — see page 02 |
 | **`ccall`** | `ccall(`*a*, *b*`)` |
 | **`ceil`** | `ceil(`*a*`)` |
 | **`chain`** | `chain` *command* |
@@ -106,7 +106,7 @@ exist.**
 | **`compares`** | `compares(`*a*, *b* {, *justification*}`)` |
 | **`config`** | `config(`*a*`)` |
 | **`continue`** | `continue` — next iteration of the enclosing `loop` or `for` |
-| **`convert`** | `convert(`*from.characters*, *to.characters*, *string*`)`   ·   `convert` *from.characters* `to` *to.characters* `in` *variable* — under `$mode pick.convert` the function is written `convert(`*string*, *from.characters*, *to.characters*`)` |
+| **`convert`** | `convert` *chars* `to` *replacements* `in` *var*   ·   `convert(`*chars*, *replacements*, *string*`)` |
 | **`cos`** | `cos(`*a*`)` |
 | **`count`** | `count(`*a*, *b*`)` |
 | **`counts`** | `counts(`*a*, *b*`)` |
@@ -137,7 +137,7 @@ exist.**
 | **`deletelist`** | `deletelist` *name* `then` … `else` … |
 | **`deleteseq`** | `deleteseq` *path* {`on error` …} `then` … `else` … |
 | **`deleteu`** | `deleteu` *file.var*, *id* {`on error` …} |
-| **`delimiter`** | `for each` *var* `in` *string* {`delimiter` *d*} … `next` *var* ***(clause word)*** |
+| **`delimiter`** | `for each` *var* `in` *string* {`delimiter` *d*} … `next` *var*; also a clause of `readcsv`, `matreadcsv`, `writecsv` and `matwritecsv` ***(clause word)*** |
 | **`digest`** | `digest(`*string*, *is.file*, *mode*`)` — *mode* `MD5`, `SHA1`, `SHA256`, `SHA384` or `SHA512`; a file outside the account's own directory needs the `os` switch |
 | **`dim`** | `dim` *name*`(`*rows* {, *cols*}`)`, … |
 | **`dir`** | `dir(`*a*`)` |
@@ -174,7 +174,7 @@ exist.**
 
 | | |
 |---|---|
-| **`fcontrol`** | `fcontrol(`*file.var*, *action* {, *qualifier*}`)` — *action* `FC$SYNC` 1 (forced writes: qualifier 1 on, 0 off, -1 only asks; gives the earlier state), `FC$SET.SEQ.KEY` 2 and `FC$GET.SEQ.KEY` 3 (the counter of `write … creating.seqkey`), `FC$CRLF` 4 (line terminator mode of a directory or sequential file, qualifier 0 to 3, -1 only asks), 5 (field access, always 1), `FC$VALID.ID` 6, `FC$MINMOD` 7 |
+| **`fcontrol`** | `fcontrol(`*file.var*, *action* {, *qualifier*}`)` — *action* `FC$SYNC` 1 (forced writes: qualifier 1 on, 0 off, -1 only asks; gives the earlier state), `FC$SET.SEQ.KEY` 2 and `FC$GET.SEQ.KEY` 3 (the counter of `write … creating.seqkey`), `FC$CRLF` 4 (line terminator mode of a directory or sequential file, qualifier 0 to 3, -1 only asks), 5 (field access, always 1), `FC$VALID.ID` 6, `FC$MINMOD` 7 ([File Handling](07-sd-basic-file-handling.html)) |
 | **`field`** | `field(`*string*, *delimiter*, *occurrence* {, *count*}`)` |
 | **`fields`** | `fields(`*arr*, *delimiter*, *occurrence* {, *count*}`)` |
 | **`fieldstore`** | `fieldstore(`*a*, *b*, *c*, *d*, *e*`)` |
@@ -203,7 +203,7 @@ exist.**
 | | |
 |---|---|
 | **`ges`** | `ges(`*a*, *b*`)` |
-| **`get`** | `get` *var* `from` *object* |
+| **`get`** | `get` *var* {`,` *length*} {`setting` *count*} `from` *file.var* {`until` *terminator*} {`returning` *last*} {`waiting` *seconds*} {`then` … `else` …} ([Sequential Files](10-sd-basic-sequential-files.html)) · in a class module, `get` *name* … `end` declares a property ([Modern Program Structure](18-sd-basic-modern-program-structure.html)) |
 | **`get.messages`** | `get.messages()` |
 | **`get.port.params`** | `get.port.params(`*a*`)` |
 | **`getlist`** | `getlist` *name* {`to` *list.no*} `then` … `else` — ***the `then`/`else` is not optional*** |
@@ -317,7 +317,7 @@ exist.**
 | **`matreadu`** | `matreadu` *matrix* `from` *file.var*, *id* {`locked` …} `then` … `else` … |
 | **`matstr`** | `matstr(`*matrix*`)` |
 | **`matwrite`** | `matwrite` *matrix* `to` *file.var*, *id* {`on error` …} |
-| **`matwritecsv`** | `matwritecsv` *matrix* `to` *file.var* `then` … `else` … — ***no `encoding`, no `on error`*** |
+| **`matwritecsv`** | `matwritecsv` *matrix* `to` *file.var* {`delimiter` *d*} {`quote` *q*} {`escape` *e*} `then` … `else` … — ***no `encoding`, no `on error`*** |
 | **`matwriteu`** | `matwriteu` *matrix* `to` *file.var*, *id* {`on error` …} |
 | **`max`** | `max(`*a*, *b*`)` |
 | **`maximum`** | `maximum(`*a*`)` |
@@ -363,14 +363,14 @@ exist.**
 | **`oconv`** | `oconv(`*a*, *b*`)` |
 | **`oconvs`** | `oconvs(`*a*, *b*`)` |
 | **`on`** | `on` *n* `goto` *label*, … — ***clamps, it does not fall through*** |
-| **`open`** | `open` {*dict*`,`} *name* {`readonly`} {`non.transactional`} {`sync`} `to` *file.var* {`on error` …} `then` … `else` … — the three words come before `to`, in any order |
+| **`open`** | `open` {*dict*`,`} *name* {`readonly`} {`non.transactional`} {`sync`} `to` *file.var* {`on error` …} `then` … `else` … — the three words come before `to`, in any order; `sync` writes every write and delete of the file to disk |
 | **`open.socket`** | `open.socket(`*addr*, *port*, *flags* {, *context*}`)` |
 | **`openpath`** | `openpath` *path* {`readonly`} {`non.transactional`} {`sync`} `to` *file.var* {`on error` …} `then` … `else` … — the three words come before `to`, in any order |
 | **`openseq`** | `openseq` *path* `to` *file.var* {`append`} {`overwrite`} {`readonly`} `then` … `else` … — ***`then` = it existed, `else` = it was created*** |
 | **`opentemp`** | `opentemp` {*path*} {`non.transactional`} `to` *file.var* {`on error` …} `then` … `else` … — a path outside the account's own directory needs the `os` switch |
 | **`ors`** | `ors(`*a*, *b*`)` |
 | **`os.error`** | `os.error()` |
-| **`os.execute`** | `os.execute` *command* {`capturing` *var*} |
+| **`os.execute`** | `os.execute` *command* {`capturing` *var* or `silent`} |
 | **`osdelete`** | `osdelete` *path* — a path outside the account's own directory needs the `os` switch |
 | **`ospath`** | `ospath(`*path*, *key* {, *qualifier*}`)` — keys 0 to 18, see [Status and the Machine](16a-sd-basic-status-and-the-machine.html); an internal program's own `ospath()` has other numbers |
 | **`osread`** | `osread` *var* `from` *path* `then` … `else` … — a path outside the account's own directory needs the `os` switch |
@@ -443,7 +443,7 @@ exist.**
 | **`return`** | `return` {`to` *label*}   ·   `return(`*value*`)` from a function |
 | **`returning`** | clause of `execute` — take the command's error text ***(clause word)*** |
 | **`reuse`** | `reuse(`*a*`)` |
-| **`reusing`** | `reusing(`*name*`)` |
+| **`reusing`** | `reusing(`*name*`)` — *name* is an argument of this subroutine or function |
 | **`revremove`** | `revremove` *var* `from` *array* `setting` *code* |
 | **`rmvd`** | `rmvd(`*array*, *code*`)` |
 | **`rnd`** | `rnd(`*a*`)` |
@@ -461,16 +461,16 @@ exist.**
 | **`save.screen`** | `save.screen(`*a*, *b*, *c*, *d*`)` |
 | **`savelist`** | `savelist` *name* {`from` *list.no*} `then` … `else` — ***the `then`/`else` is not optional*** |
 | **`scmp`** | `scmp(`*a*, *b*`)` |
-| **`screen`** | `screen` *verb* {*values*} {*keyword* *values*} {`returning` *var*} {`then` … `else` …} |
+| **`screen`** | `screen` *verb* {*values*} {*keyword* *values*} {`returning` *var*} {`then` … `else` …} — see page 12a |
 | **`sddecrypt`** | `sddecrypt(`*a*, *b*, *c*`)` |
 | **`sdencrypt`** | `sdencrypt(`*a*, *b*, *c*`)` |
 | **`sdiv`** | `sdiv(`*a*, *b*`)` |
-| **`sdkey`** | `sdkey(`*passphrase*, *salt*`)` — a 44 character base64 key (argon2id); `status()` 10206 bad salt, 10207 bad passphrase |
+| **`sdkey`** | `sdkey(`*passphrase*, *salt*`)` — a 44 character base64 key (argon2id); `status()` 10206 bad salt, 10207 bad passphrase — see [SD Basic - Encrypting Data](06a-sd-basic-encryption.html) |
 | **`sdrandkey`** | `sdrandkey()` — a random 256 bit key, 44 characters |
-| **`sdsalt`** | `sdsalt()` — a fresh random salt for `sdkey()`; see [SD Basic - Encrypting Data](06a-sd-basic-encryption.html) |
+| **`sdsalt`** | `sdsalt()` — a fresh random salt for `sdkey()` |
 | **`seek`** | `seek` *file.var*, *offset* {, *relative.to*} `then` … `else` … |
 | **`select`** | `select` {*file.var*} {`to` *list.no*} |
-| **`select.socket`** | `select.socket(`*matrix*, *milliseconds*`)` |
+| **`select.socket`** | `select.socket(`*matrix*, *milliseconds*`)` — see [SD Basic - Sockets](15-sd-basic-sockets.html) |
 | **`selecte`** | `selecte` {`to` *var*} |
 | **`selectindex`** | `selectindex` *index* {, *value*} `from` *file.var* {`to` *list.no*} |
 | **`selectindexv`** | `selectindexv` *index* {, *value*} `from` *file.var* `to` *list.var* — list 10 is its scratch list |
@@ -481,7 +481,7 @@ exist.**
 | **`selectright`** | `selectright` *index* `from` *file.var* `setting` *var* `to` *list.no* — ***no `then`/`else`*** |
 | **`selectrightv`** | `selectrightv` *index* `from` *file.var* {`setting` *var*} `to` *list.var* — list 10 is its scratch list |
 | **`selectv`** | `selectv` {*file.var*} `to` *var* — read it back with `readnext … from` |
-| **`send`** | `send` *expression* {`:`} `to` *file.var* `then` … `else` … |
+| **`send`** | `send` *expression* {`:`} `to` *file.var* `then` … `else` … — without the colon a line is written (`writeseq`), with it the string as it stands (`writeblk`) |
 | **`sendmail`** | `sendmail` *to*, *from*, *subject*, *body* {, *attachments*} `then` … `else` … |
 | **`seq`** | `seq(`*a*`)` |
 | **`server.addr`** | `server.addr(`*a*`)` |
@@ -535,7 +535,7 @@ exist.**
 | **`sum`** | `sum(`*a*`)` |
 | **`summation`** | `summation(`*a*`)` |
 | **`swapcase`** | `swapcase(`*a*`)` |
-| **`sync`** | `open` {*dict*`,`} *name* `sync` `to` *file.var* …   ·   `openpath` *path* `sync` `to` *file.var* … — writes every write and delete of the file to disk ***(clause word)*** |
+| **`sync`** | clause of `open` and `openpath` — `open` *name* `to` *file.var* `sync` `else` … — every write is flushed before the statement returns (a hashed file only) ***(clause word)*** |
 | **`sysmsg`** | `sysmsg(`*number* {, *substitution*, …}`)` |
 | **`system`** | `system(`*a*`)` |
 
@@ -546,7 +546,7 @@ exist.**
 | **`tan`** | `tan(`*a*`)` |
 | **`terminfo`** | `terminfo(`*capability* {, *arg*, …}`)` |
 | **`then`** | clause of `if`, and of every statement that has an `else` ***(clause word)*** |
-| **`throw`** | `throw` *exception* {, *data*} |
+| **`throw`** | `throw` *exception* {, *data*} — see page 02 |
 | **`time`** | `time()` |
 | **`timedate`** | `timedate()` |
 | **`timeout`** | `timeout` *file.var*, *seconds* |
@@ -562,9 +562,9 @@ exist.**
 | **`trims`** | `trims(`*arr* {, *character* {, *option*}}`)` |
 | **`trimw`** | `trimw(`*a*`)` |
 | **`trimws`** | `trimws(`*array*`)` |
-| **`try`** | `try` {*statement*} … `catch` *exception* … `end` |
+| **`try`** | `try` {*statement*} … `catch` *exception* … `end` — see page 02 |
 | **`ttyget`** | `ttyget()` |
-| **`ttyset`** | `ttyset` *settings* |
+| **`ttyset`** | `ttyset` *settings* — the array `ttyget()` gave |
 
 ## U
 
@@ -593,15 +593,15 @@ exist.**
 | **`wake`** | `wake` *user.no* |
 | **`weofseq`** | `weofseq` *file.var* {`on error` …} |
 | **`while`** | clause of `loop`: `loop` … `while` *condition* … `repeat` |
-| **`write`** | `write` *var* `to` *file.var*, *id* {`on error` …} — ***inside a transaction the lock must already be held***   ·   `write` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} — a hashed file numbers the record itself |
+| **`write`** | `write` *var* `to` *file.var*, *id* {`on error` …} — ***inside a transaction the lock must already be held***  ·  `write` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} — a hashed file numbers the record itself |
 | **`write.socket`** | `write.socket(`*a*, *b*, *c*, *d*`)` |
 | **`writeblk`** | `writeblk` *var* `to` *file.var* {`on error` …} |
 | **`writecsv`** | `writecsv` *value*, … `to` *file.var* {`delimiter` *d*} {`quote` *q*} {`escape` *e*} `then` … `else` … |
 | **`writejson`** | `writejson` *collection* `to` *file.var* `then` … `else` … |
-| **`writelist`** | `writelist` *array* `to` *name* |
+| **`writelist`** | `writelist` *array* `to` *name* — `on` may stand for `to` |
 | **`writeseq`** | `writeseq` *var* `to` *file.var* {`on error` …} `then` … `else` … |
 | **`writeseqf`** | `writeseqf` *var* `to` *file.var* {`on error` …} `then` … `else` … |
-| **`writeu`** | `writeu` *var* `to` *file.var*, *id* {`on error` …}   ·   `writeu` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} |
+| **`writeu`** | `writeu` *var* `to` *file.var*, *id* {`on error` …}  ·  `writeu` *var* `to` *file.var* `creating.seqkey` *id.var* {`on error` …} |
 | **`writev`** | `writev` *var* `to` *file.var*, *id*, *field* {`on error` …} |
 | **`writevu`** | `writevu` *var* `to` *file.var*, *id*, *field* {`on error` …} |
 

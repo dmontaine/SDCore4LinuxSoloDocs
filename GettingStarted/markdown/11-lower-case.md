@@ -26,24 +26,16 @@ the `login` paragraph lookup, and `set.file`'s default `qfile` pointer.
 
 | | |
 |---|---|
-| Commands in the VOC | **`list`**, `count`, **`select`**, **`create.file`**, **`setptr`** … all 414 `newvoc` records and all 422 `voc_template` records — and that is how they appear in `list voc`, `listv` and `ct voc` |
+| Commands in the VOC | **`list`**, `count`, **`select`**, **`create.file`**, **`setptr`** … all 441 `newvoc` records and all 446 `voc_template` records — and that is how they appear in `list voc`, `listv` and `ct voc` |
 | BASIC source and include records | 215 `gpl.bp` records, 16 `syscom` includes — all of them |
 | System files on disk | `accounts`, `bp`, `bp.out`, `gpl.bp`, `messages`, `newvoc`, `pcode.out`, `syscom`, `voc`, `voc.dic`, `voc_template` and the rest — 0 of 15 directory names still upper case |
 | Account names on disk | `user_accounts/sduser`, `$cred/sduser` |
 | Files in a new account | created with lower-case names on disk |
 
 **This is a completed migration, not an additive fallback that leaves old
-spellings behind it** — every name in every ruled category is lower case,
-checked directly against the source tree (`gplbld/verify-nocase.py`, part of this
-project's own build checks), not merely claimed.
-
-## Global catalog names are the exception
-
-**The names of programs in the global catalog are upper case** — `$LOGIN`,
-`!set.password`, and on a managed computer the server's programs, cataloged as
-`*NAME` by `sync.global.catalog`. `catalog` upper-cases a global name, and the
-loader looks it up upper-cased, so a program that `CALL *zzgsub` finds the entry
-`*ZZGSUB`. You type them in either case; nothing you write changes.
+spellings behind it** — every name in every ruled category is lower case. That
+includes the names of programs in the global catalog: `catalog` stores a name in
+lower case, and the loader finds an entry whichever case you type.
 
 ## Record ids in your own data files are untouched, deliberately
 

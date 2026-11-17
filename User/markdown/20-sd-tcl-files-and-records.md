@@ -222,6 +222,8 @@ T1                       DYN        1        1   2           2        4096      
 no file names the report covers the files on an active select list (list 0) or,
 if there is none, **every file your VOC points at with an `F` entry**; `dict`
 asks about the dictionaries instead. The report is about 122 columns wide.
+openQM can also report on other accounts (`file.stat account.list`, `file.stat all`);
+SD does not.
 
 ### What one file is: `find.file`
 
@@ -239,8 +241,7 @@ File uses case insensitive record ids
 File has indices
 ```
 
-(The real listing gives the full path; it is left out here because it was a
-sandbox's.) The lines after the pathname appear only when they are true: case insensitive record ids, indices, a trigger,
+(The real listing gives the full path of the file.) The lines after the pathname appear only when they are true: case insensitive record ids, indices, a trigger,
 read only. A directory file is reported as one. A file that cannot be opened is
 not described; the reason is given instead (*NOSUCH is not defined in your
 VOC*, for a name the VOC does not have, and *Invalid file name* when there is no
@@ -441,10 +442,6 @@ catalog's directories (`gcat` and `global.bp.out`) and `solo.policy` are
 refused as they are for `ed` and `copy`: only a session signed in with the global
 password may change them.
 
-The listings in these two sections were produced by running them in a sandbox
-build of SD Core Solo for Linux, as the administrator; the refusal of the global
-catalog's directories is read from the source and was not run.
-
 ## Seeing what is actually in a record
 
 ```
@@ -526,7 +523,7 @@ Modes: PRE.WRITE, PRE.DELETE, POST.WRITE, POST.DELETE, READ, PRE.CLEAR, POST.CLE
 ```
 
 ```
-list.triggers {file.name ...} {lptr {n}}
+list.triggers {file ...} {lptr {n}}
 ```
 
 `set.trigger` with no option tells you about one file; `list.triggers` does it
@@ -544,8 +541,7 @@ t3                   p9                   PRE.WRITE, POST.WRITE
 ```
 
 With nothing to report the list is empty and the last line says `0 file(s) with
-a trigger function`. The listing was produced by running it in a sandbox build of
-SD Core Solo for Linux, as the administrator.
+a trigger function`.
 
 ### A trigger on a directory file
 

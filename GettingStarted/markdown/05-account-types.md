@@ -19,13 +19,13 @@ own account behind `admin`.
 
 | | Set | Asked | Unlocks |
 |---|---|---|---|
-| **Account password** | at installation, or at the first `sd-solo` on a computer installed from a control file; changed with `set.password` | by every session | the account |
+| **Account password** | at installation, or at the first `sd-solo` on a computer installed from a control file that gives a global password; changed with `set.password` | by every session | the account |
 | **Administrator password** | at installation; changed with `set.password admin` | by `admin` | the administrator commands, for the rest of the session |
-| **Global password** | at installation, managed mode only; changed with `set.password global` by the server | by `admin`, and by any session in place of the account password | the account **and** the administrator commands. It is the SD Core for Linux server's |
+| **Global password** | at installation, optional (left blank, there is none); changed with `set.password global` by the server | by `admin`, and by any session in place of the account password | the account **and** the administrator commands. It is the SD Core for Linux server's |
 
 **Every one needs at least 8 characters, with a lower-case letter, an
 upper-case letter, a digit and a symbol** — letters, digits and punctuation
-only. **The global password must differ from both of the others.** One account
+only. **The global password, when there is one, must differ from both of the others.** One account
 name carries both the account password and the global password, and the
 account password is tried first — so if they were the same, the server would
 land in an ordinary session.
@@ -94,7 +94,8 @@ is set again.
 
 ### The first password on a managed computer
 
-**A computer installed from a control file has no account password yet.** The
+**A computer installed from a control file that gives a global password has no account password yet.**
+(With no global password the installer asks for the account password, from a control file too.) The
 first `sd-solo` typed at that computer's keyboard asks you to choose one:
 
 ```

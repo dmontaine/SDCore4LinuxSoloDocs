@@ -357,7 +357,8 @@ the parent taking its own:
 | the lock the nested transaction took, `recordlocked()` after its `commit` | **still held**, released when the parent ends | released at once |
 
 The directive is *the program's*: it covers the program's own commits, not those
-of a subroutine compiled without it.
+of a subroutine compiled without it. A client session reaches the same thing with
+`SDTxn(4)` ([SD Client API](37-sd-client-api.html)).
 
 `set.trigger` attaches a program that runs on every write or delete. A trigger
 runs inside the caller's transaction, so it is bound by the same locking rule.

@@ -116,9 +116,9 @@ dumb                      linux                     ms-vt100                  nu
 36 terminal type(s)
 ```
 
-`lptr` sends the list to a print unit. The number was 36 in a sandbox built from
-the Solo source tree; the listing was produced by running the verb there, as the
-administrator.
+`lptr` sends the list to a print unit. The list is cut short here, and the count
+depends on the release. **A type that is not on it has no definition of its own**, and SD
+substitutes one for it.
 
 ### What a key does: `tool.keys`
 
@@ -399,7 +399,7 @@ nls default
 
 Three values control how a number is written: the currency symbol, the thousands
 separator and the decimal separator. **`nls` with nothing after it shows all
-three**, one to a line (measured on a Solo tree):
+three**, one to a line:
 
 ```
 Currency symbol     : '$'
@@ -505,9 +505,7 @@ block.term Hi 2
 
 With no text the verb answers *Text to print required*. `block.print` is the same
 program writing to the default printer; it is described with the printing verbs
-in [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html). The
-listing was produced by running the verb in a sandbox build of SD Core for Linux
-Solo, as the administrator.
+in [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html).
 
 ## Reading the documentation: `pdf`
 

@@ -19,8 +19,8 @@ ordinary Unix `lib*.so` convention (`-lsdcli` at link time). **They are not two
 copies to keep in sync by hand** — one build target produces both, so there is
 nothing to drift.
 
-**This release carries no 32-bit build.** SD Core for Windows ships a separate
-32-bit client for QM-heritage applications and a third-party tool that only runs
+**This port carries no 32-bit build.** SD Core for Windows ships a separate
+32-bit client for QM-heritage applications and a third-party tool (mvDeveloper) that only runs
 32-bit; neither concern applies here.
 
 ## Where it lands
@@ -68,4 +68,6 @@ without the whole server tree, is at <https://github.com/dmontaine/linuxsdclilib
 That copy is the multiuser product's and still has `SDConnectLocal`; against a Solo
 computer use `SDConnect`.
 
-**The C headers are shipped with the source tree.**
+**The C headers are shipped with the source tree**, and **a header for each of seven more languages is installed with SD**, in `~/SDCoreSolo/syscom`: `sdclient.bas` (Basic), `sdclient.pb` (PureBasic), `sdclient.module` (Gambas 3), `sdclilibbind.pas` (Free Pascal and Lazarus), `sdclient.py` (Python 3), `sdclient.cs` (C# and .NET) and `sdclient.php` (PHP, with FFI), beside `sdclilib.h`. All eight declare every function of the library; see *SD Client API* and *SD Client API: Language Bindings* in the **User** set.
+
+**They are for clients on any machine.** SD carries them so that whoever writes a client has them, including a Windows client of this Linux computer: it uses the same files with the Windows kit's C client library, `sdclilib.dll`, in place of `sdclilib.so` (the same functions, the same protocol and login).

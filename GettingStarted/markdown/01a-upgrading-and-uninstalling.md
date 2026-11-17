@@ -20,8 +20,8 @@ installed (one exception: an installation that used the old ways in for ssh gets
 changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html).
 
 **The shell and OS access question (from 20 October 2026).** Until this release
-the shell (`sh` and `!`) and OS access (`os.execute`, a file or directory outside
-the account, the embedded Python, `nano` and `micro`) were on for every
+the shell (`sh`) and OS access (`os.execute`, a file or directory outside
+the account, the embedded Python and `micro`) were on for every
 installation. **They are off unless you turn them on**, so an upgrade tells you so
 and asks, on a terminal, whether to turn on the shell and whether to turn on OS
 access. The default for each is no. **`--os-access none|sh|os|both`** answers it

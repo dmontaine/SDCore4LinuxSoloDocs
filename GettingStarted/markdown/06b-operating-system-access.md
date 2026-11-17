@@ -113,8 +113,6 @@ With both switches off:
 ```
 :sh echo hi
 sduser is not permitted to use the operating system shell
-:! echo hi
-sduser is not permitted to use the operating system shell
 ```
 
 A program's `OS.EXECUTE` is a run-time error, and a path outside the account is
@@ -143,16 +141,13 @@ need none of it.
 
 ```
 sh command
-! command
 ```
 
-With `sh` on, everything after the verb is handed to the shell as typed:
+With `sh` on, everything after the verb is the command. It runs in the account's own directory, at the account's own Linux permissions:
 
 ```
 :sh echo hello-from-the-shell
 hello-from-the-shell
-:! echo via-the-bang-form
-via-the-bang-form
 :sh pwd
 /home/you/SDCoreSolo/user_accounts/sduser
 ```

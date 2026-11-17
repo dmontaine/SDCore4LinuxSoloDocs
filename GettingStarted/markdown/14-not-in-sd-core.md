@@ -91,7 +91,9 @@ See [API access](09-api-access.html).
 
 **SD has never been able to open a virtual file system.** Nothing in the
 file-opening code ever recognized a `VFS:` pathname. What the language carried was
-the *outline* of one, and none of it could be reached.
+the *outline* of one, and none of it could be reached: a VOC F-pointer written
+as `VFS:something` was reported as a virtual file system, passed the name
+resolver, and then failed to open with an unrelated error.
 
 All of it has been removed, so the language no longer offers a feature it cannot
 perform. **These names are no longer defined, and a program mentioning one will no
