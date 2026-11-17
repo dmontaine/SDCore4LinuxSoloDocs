@@ -495,6 +495,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | Name | Change | What |
 |---|---|---|
 | `docs.install` | Added | the administrator copies a directory of PDF files in, for the `pdf` verb to show |
+| `examples.bp` | Added | the account has its own file of example programs, compiled: the TUI guide's five and 23 programs of a first course in programming; the installer puts it there and an upgrade refreshes the shipped ones; a program you add under another name is kept |
 | `list.voc.removed` | Added | administrator only: the VOC records SD no longer ships, with the release each went in and what to write instead; given the account, what the next `update.accounts` would do in it (changes nothing) |
 | `load.help` | Added | the administrator fills the file `context.help` with the text of the `[?]` help buttons; records the administrator added are kept |
 | `mcp.call` | Added | the work of every call of the MCP launcher `solo-mcp.py` - the gate, the checks of every word, the work and the audit line; not typed by a person |

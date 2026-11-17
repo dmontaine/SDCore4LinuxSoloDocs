@@ -194,6 +194,10 @@ screens shown were captured from SD Core for Linux, whose library is the same as
 Solo's, in a test account called `zzhd`: where a screen's top row ends `don@zzhd`,
 yours names your login and the account `sduser`.
 
+**All five are already in your account**, compiled, in the file `examples.bp`: `run
+examples.bp hello` runs the first. To change one, copy it to your own `bp` first (`copy from
+examples.bp to bp hello`); the User guide's *SD Example Programs* says why.
+
 | Page | Program | What it adds |
 |---|---|---|
 | [A Bare Page](02-a-bare-page.html) | `hello` | the frame, one pane, the keys `resize` and `guardquit`, a floor |
