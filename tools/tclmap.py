@@ -279,8 +279,43 @@ EXEMPT = {}
 
 # ------------------------------------------------------------------ evidence
 
+# A long page is kept to about 14,000 characters by splitting it into parts
+# (Nov 2026, page-length rule in README.md).  The map names the page that kept
+# the number; a verb is documented on it when ANY part of it is evidence, so
+# the map need not change each time a section moves from one part to the next.
+SPLITS = {
+    ('User', '17-sd-basic-debugging.md'): ['17a-sd-basic-debugging-full-screen-and-ai.md'],
+    ('User', '20-sd-tcl-files-and-records.md'): [
+        '20-sd-tcl-files-and-records-2-comparing-triggers-and-import.md'],
+    ('User', '21-sd-tcl-query-processor.md'): ['21a-sd-tcl-query-processor-headings-and-output.md'],
+    ('User', '24-sd-tcl-programs-and-the-catalogue.md'): [
+        '24a-sd-tcl-find-program-dictionaries-and-the-ide.md', '24b-sd-tcl-the-ide-keys.md',
+        '24c-sd-tcl-the-ide-other-files-and-options.md',
+        '24d-sd-tcl-the-ide-zoom-fields-and-dictionary-items.md',
+        '24e-sd-tcl-the-ide-ai-and-the-window.md'],
+    ('User', '29-sd-tcl-the-terminal-and-the-session.md'): [
+        '29-sd-tcl-the-terminal-and-the-session-2-timers-dates-and-logging.md'],
+    ('User', '29a-sd-tcl-the-home-screen.md'): [
+        '29a-sd-tcl-the-home-screen-2-my-menu-and-the-ai-line.md'],
+    ('User', '29c-sd-tcl-the-development-tools.md'): [
+        '29c1-sd-tcl-tool-dict.md', '29c2-sd-tcl-tool-query.md', '29c3-sd-tcl-tool-bulk.md',
+        '29c4-sd-tcl-tool-catalog-and-tool-test.md'],
+}
+
+
 def evidence(setname, filename):
-    """Names backticked on the page, plus names starting a line in a fence."""
+    """Names backticked on the page (and its split parts), plus names starting a line in a fence."""
+    parts = [filename] + SPLITS.get((setname, filename), [])
+    union = None
+    for part in parts:
+        one = evidence_one(setname, part)
+        if one is None:
+            return None
+        union = one if union is None else (union | one)
+    return union
+
+
+def evidence_one(setname, filename):
     path = os.path.join(HERE, setname, 'markdown', filename)
     if not os.path.exists(path):
         return None
