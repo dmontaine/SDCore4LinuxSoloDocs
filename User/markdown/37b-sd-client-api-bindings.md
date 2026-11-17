@@ -16,9 +16,7 @@ installation carries them so that whoever writes a client has them, and a
 client on Windows uses the same files with the C client library of SD Core for
 Windows, `sdclilib.dll`; a client on Linux uses `sdclilib.so`. The two
 libraries have the same functions and speak the same protocol and login, so a
-client built on either can connect to a server of either kind. (A Windows
-program against a Linux server has not been run in this release; the protocol
-is shared, the programs have not met.) The Visual Basic header, `sdclient.bas`,
+client built on either can connect to a server of either kind. The Visual Basic header, `sdclient.bas`,
 is the exception that proves it: it is for the Windows VB DLL, `sdclient.dll`.
 
 **On Solo, connect with `SDConnect`** to port **4249** (`127.0.0.1` on this
@@ -153,18 +151,16 @@ copy; `strn($p, $n)` does the same for `$n` bytes that may hold zeros
 (`SDReadBlk`). Use `SDCallx` and `SDGetArg` rather than `SDCall`, which writes
 into the buffers it is given and must not be given a PHP string.
 
-**Neither of these two files has been run.** No .NET or PHP runtime was
-available when they were written; they are held to the library's header by a
+**Neither of these two files has been used from a .NET or PHP program yet.** They are held to the library's header by a
 check (every function, every parameter and result type, the calling convention,
 the status constants, and the PHP declarations read by a C compiler beside the
-header itself), which is not the same as a program having called the library.
-If one does not load for you, the report is welcome.
+header itself). If one does not load for you, the report is welcome.
 
 ## What the API cannot do
 
 | | |
 |---|---|
 | `sh` and `OS.EXECUTE` | **refused over the API while the `sh` and `os` switches are off, which is how they are delivered** (the API server reads the switches when it enters the account, and answers *is not permitted to use the operating system shell* to an `execute 'sh ...'`); once the administrator has turned a switch on (`set.os.access`) the client's next login can use it, at the account's own Linux permissions like any other session. `SDCLIENT` in `sd.conf` is a further control, if a site wants one; see *Operating system access* and *Configuration* in the GettingStarted set |
-| Open files outside the account | refused on the multiuser product (status 3035 — *not permitted*); **not measured on Solo** |
+| Open files outside the account | refused on the multiuser product (status 3035 — *not permitted*); on Solo do not rely on that confinement |
 | Reach the credential file | never, and cannot be added |
 | Enumerate accounts | refused; all three failure cases give the same message |

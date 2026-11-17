@@ -46,7 +46,7 @@ your home directory and run as you. SD Core Solo for Windows is a separate
 product, built to behave the same way for the people who use it, and this is
 not a build of it.
 
-SD Core is free software under the GNU General Public License v3. `config gpl`
+SD Core Solo is free software under the GNU General Public License v3. `config gpl`
 displays the license and `config contrib` the list of contributors. Installing
 means cloning the source and building it — see the GettingStarted set.
 
@@ -151,7 +151,7 @@ are not in SD Core Solo for Linux:
 | `ENCRYPT.FIELD` verb | Removed; `sdencrypt()` and `sddecrypt()` in SDBasic, with `sdkey()` for the key, and the `XE` conversion are the supported route |
 | `update.record`, `modify` editors | Gone; use `sed`, `micro` or `ed` |
 | PROC language | Removed; use paragraphs instead |
-| `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core is English only (NLS, for currency and separators, is kept) |
+| `SET.LANGUAGE`, `LOAD.LANGUAGE` | Removed; SD Core Solo is English only (NLS, for currency and separators, is kept) |
 | Accounts other than `sduser` | Solo has one account. `create.account`, `grant` and the rest are gone |
 
 **Embedded Python is not on this list** — a real difference from SD Core

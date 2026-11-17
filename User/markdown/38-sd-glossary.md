@@ -154,7 +154,7 @@ TCL commands. Replaces the removed PROC language.
 
 **Phantom** — see Background process.
 
-**Programmer** — retired, 18 Sep 2026. Used to name the middle of three
+**Programmer** — retired. Used to name the middle of three
 account tiers. Every account now has the full development set (compile,
 catalog, edit, file creation, index management, bulk record editing,
 process introspection) that this tier used to grant — see *Accounts* in
@@ -163,7 +163,7 @@ the *Getting Started* set.
 ## Q
 
 **QMSYS** — what the system account is called in OpenQM. In SD it is
-`SDSYS`, and `sdsys` on disk. Nothing in SD Core answers to the name
+`SDSYS`, and `sdsys` on disk. Nothing in SD Core Solo answers to the name
 QMSYS; it is here so that a reader coming from OpenQM finds the entry.
 
 **Query processor** — the reporting language: `list`, `select`,
@@ -196,7 +196,7 @@ with substitution parameters.
 session runs as the invoking user's Linux identity (a real `setuid`
 for an API session, not a filtered credential).
 
-**Standard** — retired, 18 Sep 2026. Used to name the lowest of three
+**Standard** — retired. Used to name the lowest of three
 account tiers: enough to run an application and nothing that edited code
 or data in bulk. Every account gets the full VOC now — there is no
 reduced starting set to default to.

@@ -375,7 +375,10 @@ removed in 2.0-0.) `@system.return.code` is `0` on success and `-1` if the argum
 wrong.
 
 **`cname` on a file renames the VOC record too**, which is the point — the
-name you type and the name on disk stay together.
+name you type and the name on disk stay together. **The new name is stored in lower
+case.** A new name that already exists in any case, or that differs from the old name
+only in case, is refused (*xx is already defined in your VOC*), so no file ever has two
+spellings and the file's only VOC entry is never lost.
 
 ### Comparing two files: `compare.files`
 
@@ -545,7 +548,7 @@ a trigger function`.
 
 ### A trigger on a directory file
 
-A directory file can have a trigger function too (16 Oct 2026). `set.trigger` works on it as on a hashed file, and
+A directory file can have a trigger function too. `set.trigger` works on it as on a hashed file, and
 `list.triggers` lists it. The directory has no header to hold the trigger, so it is kept in a small text file named
 `%header%` in the directory itself, which SD makes when the trigger is set and removes when it is taken away:
 

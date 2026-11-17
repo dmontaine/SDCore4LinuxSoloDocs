@@ -16,7 +16,7 @@ not type `sd-solo -start` after every sign-in.
 session ends — unless linger is on.** With linger enabled, SD starts at boot
 and keeps running while you are signed out, which is what remote access
 (ssh or the API when nobody is at the keyboard) needs. **The installer turns it
-on by default** (since 9 November 2026; `--no-linger` or the control file's
+on by default** (`--no-linger` or the control file's
 `enable-linger=no` leaves it off). It is a persistent setting of your account;
 `sudo loginctl disable-linger $USER` turns it off. To turn it on later, as an
 administrator of the computer:

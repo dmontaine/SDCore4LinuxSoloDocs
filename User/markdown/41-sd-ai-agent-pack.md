@@ -24,7 +24,7 @@ The pack is not typed. Its lists are computed from SD itself: a verb is a VOC re
 
 ## What it does not do
 
-It does not make an agent right; it makes the commonest mistakes cheap to avoid. It has not been measured with a model (the plan has a benchmark of thirty tasks, run with and without the guide, and it is not built). It describes SD Core Solo for Linux at its stamp plus what has been carried into it from the full product's release in progress; items marked 2.0-0 may be missing from a released install. SD Core for Linux has its own pack, made from its own sources, and the two differ where the products do: `agent-pack/README.md` lists every difference and why.
+It does not make an agent right; it makes the commonest mistakes cheap to avoid. It describes SD Core Solo for Linux at its stamp plus what has been carried into it from the full product's release in progress; items marked 2.0-0 may be missing from a released install. SD Core for Linux has its own pack, made from its own sources, and the two differ where the products do: `agent-pack/README.md` lists every difference and why.
 
 ## See also
 

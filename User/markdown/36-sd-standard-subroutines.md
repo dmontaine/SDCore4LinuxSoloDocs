@@ -1,9 +1,8 @@
 Title: SD Standard Subroutines
 Subtitle: The cataloged names beginning with !, which of them an application may use, and how each is called.
 
-**This release ships 154 cataloged routines whose names begin with `!`** —
-counted from the `$catalog` lines of `gpl.bp` on a Solo tree on 24 October 2026.
-The figure grows as features are added, so read it as dated. Twenty-two are the
+**This release ships 180 cataloged routines whose names begin with `!`**.
+The figure grows as features are added, so read it as approximate. Twenty-two are the
 embedded Python interface (`!PY_CREATEDICT` and the rest — see
 [Embedded Python](37a-sd-basic-python-integration.html); this page does not
 repeat them) and forty-nine, all named `!SCREEN_...`, are the routines behind
@@ -113,9 +112,9 @@ with *value* null. If *index.col* is not zero the characters typed (up to ten)
 search that column, which must be sorted, for a shortcut to a row; zero turns
 that off. Up to thirteen rows show at a time. Two cases end the call with
 *value* null and no key pressed: a list so wide that its box would not fit in
-the terminal's width less four columns (tried with a 500-character row). An
+the terminal's width less four columns (a 500-character row, for example). An
 empty list ends it the same way after it has shown *"No items to display"* and
-waited for a key (read from the program, not run). **The box is not
+waited for a key. **The box is not
 erased afterwards:** a program that needs the screen under it back must redraw
 it.
 

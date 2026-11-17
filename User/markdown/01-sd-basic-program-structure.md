@@ -191,7 +191,6 @@ the include is an error only when the last has not got it either.
 
 ```
 dim name(rows {, columns})
-dimension name(rows {, columns})
 mat name = expression
 mat name = mat other.name
 ```

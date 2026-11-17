@@ -189,9 +189,9 @@ The `ai request` line is written by the SD kernel **before** the connection is m
 | `The AI did not answer: limit (...)` | one of the limits above is used up; wait, or raise it |
 | `The AI did not answer: net (...)` or `timeout` | the provider could not be reached; check the address, the certificate and the clock |
 
-## What has not been shown
+## Providers and models
 
-The helper, the verb and the page are tested against a stand-in provider on this machine, in a private copy of SD. They have **not been run against a real provider**: the request layouts follow each provider's published documentation, the one for OpenAI (`max_completion_tokens`) and Google's (its OpenAI-compatible address) have not been checked against a real key, and neither has any default model nor any provider's list of models. A real install and the real systemd user socket are a separate check.
+The request layouts follow each provider's published documentation. The default model of each provider and each provider's list of models are the provider's to change; if a default model is refused, name another with `set.ai model PROVIDER NAME`.
 
 ## See also
 

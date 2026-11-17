@@ -8,8 +8,7 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> **Every listing on this page was produced by running it**, on SD Core for
-> Linux, against a two-line program in an account's `bp` file.
+> **The listings on this page** use a two-line program in an account's `bp` file.
 
 ## Compiling
 
@@ -313,11 +312,11 @@ different there. The keys every full-screen page shares are in
 
 | part | what it is |
 |---|---|
-| menu bar | the top row; F10 or Esc opens it, and a click on a title opens that menu (since 19 October 2026; a click on the bar beside the titles does nothing). Its right end says *ide* and who you are, as the toolkit pages do |
+| menu bar | the top row; F10 or Esc opens it, and a click on a title opens that menu (a click on the bar beside the titles does nothing). Its right end says *ide* and who you are, as the toolkit pages do |
 | tree | the account's files on the left (**the entries whose names start with a dollar sign - `$acc`, `$hold`, `$map`, `$release` - are not listed**: they belong to SD itself). Return on a file lists its records (the first 2000, and a message says when there are more), and Return again closes the list. **A file that has a dictionary shows the dictionary as a node of its own under it**, read only when you open it, and its items are listed the same way. Return on a record opens it. A letter jumps to the next entry that starts with it. **With operating system access on (`set.os.access os on`; off as delivered) there is also an *Operating system files* node after the files**: Return on it lists `/`, Return on a directory lists its entries (directories first, then files, each in the order of the names; 1000 at most) and again closes it, and Return on a file opens it in a tab, as `path:/full/name` does. Names that hold a control character or a byte from 248 to 255 cannot be shown or put in a path; a message says how many entries were left out. A directory the operating system does not let the session read says so, with the operating system's error number. Without the access there is no node |
 | editor | on the right, a tab for each open record. **While it has the focus the character at the cursor is shown in the highlight style** (as well as the terminal's own cursor being put there), so the place shows on a terminal that draws its cursor poorly. **If a block flashes beside the text as you type** (seen in lxterminal and Xfce Terminal, not in GNOME Terminal or Terminator), set the terminal's cursor style to underline or I-beam in its preferences: the highlighted character and a block cursor on top of it are what some terminals draw badly. It is the text area `screen memo` uses, so its keys are `memo`'s: selection, cut, copy and paste, undo and redo, find, line numbers. Text is colored as SD BASIC, C, Python, JSON, shell or Markdown, chosen by the name of the file, then the record id, then the first line - so a script with no suffix that begins `#!/bin/sh` is shell - and then the languages a site added in `&sed.syntax&`. **A horizontal scroll bar runs along its bottom row** (`<` and `>` at the ends, a thumb as long as the visible part is of the longest line; none to speak of when every line fits); clicking an arrow scrolls 8 columns and clicking the track a page |
 | table | under the editor: the compiler's errors, or search results |
-| pane marks | **`[*]` or `[-]` in the top right corner of each pane that can have the keyboard** (since 19 October 2026): the files (on the frame above the tree), the editor (on the frame above it), the tab strip (at its right end) and the messages (at the right end of their bar). `[*]` is on the pane that has the keyboard, `[-]` on the others; F6 moves it round in that order |
+| pane marks | **`[*]` or `[-]` in the top right corner of each pane that can have the keyboard**: the files (on the frame above the tree), the editor (on the frame above it), the tab strip (at its right end) and the messages (at the right end of their bar). `[*]` is on the pane that has the keyboard, `[-]` on the others; F6 moves it round in that order |
 | status line | **the pane that has the focus** first, in brackets (`[Files]`, `[Tabs]`, `[Editor]`, `[Messages]`: F6 goes round them in that order, past the messages when there are none), then the record, the cursor's line and column, and a star when there are unsaved changes |
 
 | key | |
@@ -658,7 +657,7 @@ It is shown as it is, with the marks drawn as the characters they are, and the s
 file looks at the real records, and replace works on the real record, so neither matches a token;
 the item mark is not converted.
 
-**The AI in the IDE** (since 24 October 2026). When the AI is on (see
+**The AI in the IDE.** When the AI is on (see
 [Asking the AI](29b-sd-tcl-asking-the-ai.html)) the IDE has an **AI** menu before Help and an
 **`AI>`** row under the editor and the messages table (the table is one row shorter); without the AI
 neither is there and nothing else changes. F6 goes round the panes to the AI row (Shift-F6 the other

@@ -75,11 +75,9 @@ must survive a dialog with `screen text`, or `screen refresh` will not bring it
 back. Before `screen open` a dialog still works, but it leaves blanks where it
 was.
 
-**A form on a screen opened with `clear` writes only what has changed** (since
-19 October 2026). The terminal is then known to show the shadow, so when a form is
+**A form on a screen opened with `clear` writes only what has changed.** The terminal is then known to show the shadow, so when a form is
 drawn again, or one of its widgets is, the text that is already there in the same style
-is left out; choosing a record in the IDE wrote 6,635 characters to the terminal
-before and about 780 now. Two things follow. A form does not repair what the program
+is left out; choosing a record in the IDE writes about 780 characters to the terminal. Two things follow. A form does not repair what the program
 printed over it with `print` or `crt`, only `screen refresh` does; and a screen opened
 *without* `clear` is written in full, as before, because the terminal may show what the
 program printed there. `screen text`, `screen box` and the dialogs always write what
@@ -176,7 +174,7 @@ for a click on no widget when the program has asked for those): *x* is the colum
 click, and the menu whose title is over it opens instead of the first. A column with no
 title over it (the space to the right of the titles) opens nothing, and the statement
 takes `else`. A title is its label with a blank on each side, from column 0.
-A program compiled before 19 October 2026 that uses `screen menubar` must be compiled
+A program compiled by an earlier release that uses `screen menubar` must be compiled
 again.
 
 **Submenus.** A menu whose title begins with `>` is not on the bar: it is a submenu. An
@@ -535,7 +533,7 @@ Things to know:
 - A viewport is not a window of its own: it is drawn into the form, and a later widget
   placed over it is drawn over it (a scroll draws it again too).
 - Scrolling 200 by 60 of sheet (630 widgets) in a window of 138 by 40 takes about a tenth
-  of a second a step, measured. The cost is the widgets in the window.
+  of a second a step. The cost is the widgets in the window.
 
 ### Running a form
 
@@ -586,7 +584,7 @@ field 3 its data.
 | `resize` | the terminal's window changed size; the form has been drawn again at the new size | | the width, a value mark and the height |
 | `cancel` | Esc, or the form's cancel button | the button, if any | |
 | `timeout` | no key came in time | | |
-| `end` | the input ended, whether or not the statement has a `timeout` (before 19 October 2026 a wait with a timeout answered `timeout` instead, again and again) | | |
+| `end` | the input ended, whether or not the statement has a `timeout` | | |
 
 `then` is taken for `button`, `change`, `focus`, `key` and `resize`; `else` for `cancel`,
 `timeout` and `end`. Esc does **not** close the form here: the program decides. An

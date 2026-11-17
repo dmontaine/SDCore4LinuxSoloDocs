@@ -50,7 +50,13 @@ start, before anything is built.
 
 ## Keys (optional)
 
-**You do not need a key.** Add one if you would rather sign in without typing the Linux
+**You do not need a key, and as delivered there is none: ssh signs in by password only.**
+Solo's key file is empty until you put a key in it (the installer puts one in only when you
+give it `--ssh-key` or the answer file names one), and a key signs in only after you add it.
+**Adding a key is a deliberate act with a cost: it is a second way in that your Linux
+password does not control.** Whoever holds the matching private key signs in without the
+password, and changing the password does not take the key away; remove it with `key-remove`.
+Add one if you would rather sign in without typing the Linux
 password, or on a computer that cannot type it (the SD Core server's key, on a managed computer,
 is added this way too).
 
@@ -147,8 +153,8 @@ has turned the `sh` switch on (it is off as delivered) — see
 **The installer does not open port 22**, and Solo does not use it.
 
 **`open` lets anyone who can reach port 4251 try your Linux password.** Solo's ssh checks the password of
-the user who owns it (measured on the Ubuntu test computer: no lockout in that computer's own PAM setup,
-each wrong try cost one to three seconds, and systemd allows 64 connections at a time and none-per-address
+the user who owns it (the computer's own PAM setup may have no lockout,
+each wrong try costs one to three seconds, and systemd allows 64 connections at a time and none-per-address
 by default, `MaxConnections=64`, `MaxConnectionsPerSource=0`). **Solo therefore has a lockout of its own**
 (below). **Use `local`** unless something has to reach this computer from elsewhere; if you must `open`
 it, **restrict the firewall rule to the addresses that need it**, choose a strong Linux password, and
@@ -198,16 +204,12 @@ A connection from it is closed at once, before any password is asked, and the lo
 | **How** | systemd starts `tools/solo-sshguard.py` for each connection, which runs the `sshd` itself and reads its log; it reads the address from the connection, never from anything the client sends. Every line is in the journal: `journalctl --user -u 'sd-solo-ssh@*'` |
 
 **What it does not stop:** a guess spread over **many addresses** (each gets its three), and connections
-already open when the lock engages: by reading the guard's code (not measured), each of them is cut at its
+already open when the lock engages: each of them is cut at its
 next wrong password, so each gets one more guess. On a computer where everyone shares one address (behind one NAT), they share the lock.
-**Measured** with a fake `sshd` for the rules and with the real `sshd` end to end (the first two wrong
-passwords get the ordinary refusal, the fourth connection is refused, `locked` names the address and
-`unlock` lets it in again), **and on the installed Solo, through its own systemd unit** (2 October 2026,
-Ubuntu 26.10): three wrong passwords at the prompt ended with `Connection closed by 127.0.0.1 port 4251`
-instead of the usual refusal; the next connection was closed before the password prompt with
-`kex_exchange_identification: read: Connection reset by peer`; the journal named the address and the time the
-lock ends; `locked` listed it, `unlock` cleared it, and the address then reached the password stage again.
-**Not measured:** the owner's *correct* password through the guard.
+The first two wrong passwords get the ordinary refusal; the third ends the connection (`Connection closed by 127.0.0.1 port 4251`
+instead of the usual refusal) and the next connection is closed before the password prompt
+(`kex_exchange_identification: read: Connection reset by peer`). The journal names the address and the time the
+lock ends; `locked` lists it, `unlock` clears it, and the address then reaches the password stage again.
 
 ## What an ssh session is
 
@@ -223,45 +225,5 @@ This account has no password yet. Set it at this computer's keyboard first; unti
 
 **SD has to be running for the forced `sd-solo` to find it.** The ssh unit needs
 `sd-solo.service`, and with linger on it always runs. Without linger your systemd user manager, and SD
-with it, start when you first sign in — **that has not been measured for an ssh sign-in**: if a first
-connection is told *SD has not been started*, connect again, and enable linger (see
-[Running SD](03-running-sd.html)) if ssh is how you mostly reach this computer.
-
-## Measured, and not measured
-
-**Measured on one computer (Ubuntu 26.10, OpenSSH 10.5), 2 October 2026:**
-
-- a key login through the generated configuration reaches the forced command and a command the client sends is not run;
-  a key that is not in the file is refused; forwarding is refused, by the configuration and by `restrict`
-  each on its own, and a control with both removed lets it through; `StrictModes` refuses a key file at `0666`;
-- **the Linux password**: a private `sshd` run as the user, not root, with the same settings, checked a **wrong** password
-  through PAM's own helper and refused it (also through the real systemd unit), and **the owner's correct password was
-  accepted** and the forced command ran as him; the key exchange and cipher were agreed before the password was sent;
-- the systemd units start one `sshd` per connection and leave no failed units;
-- **a real `sd-solo` session over port 4251** on the installed Solo with a key: the password was asked, `WHO` answered
-  `sduser`, a stranger's key was refused, and port 4251 presented Solo's own host key while port 22 presented a
-  different one;
-- an upgrade from the previous release: the Solo key line moved to the new file with its backup, the units
-  came up, and removing the old block was done by hand.
-
-**Also measured, the same evening:** on the installed Solo, `ssh -p 4251 -o PubkeyAuthentication=no` with the
-owner's Linux password was accepted (`Accepted password`) through Solo's own systemd unit and landed in SD, which then
-asked for the SD account password.
-
-**Measured 3 October 2026 in two virtual machines, fresh installs:**
-
-- **Debian 13** (OpenSSH 10.0, no ssh server before): the default install put the ssh server in with `sudo`
-  (Debian then also runs its own on port 22) and Solo's on 4251, `local`; a correct Linux password through the
-  lockout guard was accepted and `WHO` answered `sduser`; after a restart with linger off, nothing ran until the
-  user signed in, and then the sign-in on 4251 worked; `--skip-packages` with no ssh server leaves ssh off, and
-  asking for it is refused before anything changes.
-- **Fedora 44 Server** (SELinux enforcing, firewalld on, OpenSSH 10.2): the sign-in **failed** with the computer's
-  own `sshd` rules ("A valid context ... could not be obtained") and **passed** with Solo's own rules, written by
-  the installer; a wrong password is still refused and counted by the guard.
-
-**Measured 4 October 2026, Fedora 44 Server VM:** with `--ssh open` the installer added TCP 4251 to firewalld
-(live and saved), and a connection from outside the VM reached Solo's ssh server; before this change it timed out.
-
-**Not measured:** `open` from another computer behind `ufw` (Ubuntu); Ubuntu and Fedora desktop (Workstation) installs;
-an `sshd` older than OpenSSH 10.0 under SELinux (the installer says it cannot help there);
-the installer's own `sudo` password prompts in the virtual machines (`sudo` there asked for no password).
+with it, start when you first sign in: if a first connection is told *SD has not been started*,
+connect again, and enable linger (see [Running SD](03-running-sd.html)) if ssh is how you mostly reach this computer.

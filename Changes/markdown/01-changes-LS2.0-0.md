@@ -40,7 +40,7 @@ second user; the rows below say what Solo has, and the section at the end says w
 | `intprec` and `sortmem` | Changed | were 13 and 1024; now **11** and **4096** (set the old values in `sd.conf` if you need them) |
 | Keys of the full-screen programs | Changed | F5 ran a program in the IDE, SED and the debugger; it now draws the screen again everywhere and **F9 runs**. Ctrl-T is the theme and Ctrl-K the keys on every page, so the keys that had them moved (the home screen's Terminal and Sign out, SED's kill line and toggle, the IDE's go to line and build): see [Tools and the home screen](#tools-and-the-home-screen) |
 | Linger | Changed | an unattended install left it off, so SD stopped when you signed out; now every install turns it on unless told `--no-linger` or `enable-linger=no`, and SD with its API and ssh stays running while nobody is signed in |
-| Message numbers | Changed | Solo's own messages 11040 to 11054 and 11060 to 11065 moved to 14974 to 14994, so a message means the same in both products; the ssh key request refuses with 14975, 14976 and 14977 |
+| Message numbers | Changed | Solo's own messages 11040 to 11054 and 11060 to 11065 moved to 14974 to 14994, so a message means the same in both products; sixteen of the administrator's backup, restore and configuration messages (from 14972 to 14994) now carry SD Core's numbers for the same texts (for example 14977 is 11013); the ssh key request refuses with 14975 and 14976 |
 | Removed features | Removed | words and modes that existed to imitate other products (so far 55 `option` words, 35 `$mode` words, and the second spellings and forms of statements, clauses, functions, conversions, TCL verbs and query keywords, each listed in [REMOVED](#removed)), and other things: see [REMOVED](#removed) |
 | `sed` keys | Changed | were Emacs keys with Ctrl-X sequences; now the keys most editors have (Ctrl-PageDown / Ctrl-PageUp, and Alt-PageDown / Alt-PageUp for a terminal that keeps the Ctrl keys for its own tabs, switch buffers) |
 | `sed`, `ide`, `!ced()` | Changed | were 120 by 36 or less; now need a window of at least **140 by 43**, and `ed` is the editor for a smaller one |
@@ -313,11 +313,11 @@ The kernel, `sd.conf`, and the numbered keys.
 | `deadlock=2` | Added | saves the lock tables when a deadlock is found <!--s 500--> |
 | `fileinfo()` | Added | the keys 1022 to 1040 as the openQM manual numbers them; `fl$seqtype`, `fl$locks`; 1021 now answers the user numbers <!--s 62 113 498 337--> |
 | `intprec` | Changed | default 11 <!--s 6--> |
-| lock table | Changed | the time each lock was taken and each wait began is noted; more than 65,535 locks in a file work; a program that filled the table can be logged out <!--s 487 344 532--> |
+| lock table | Changed | the time each lock was taken and each wait began is noted; a program that filled the table can be logged out <!--s 487 344 532--> |
 | `numlocks` | Changed | range checked, 1 to 32767 |
 | `phantoms=u,n` | Added | keeps user numbers for phantoms started with `user` <!--s 31 g296--> |
 | process dump | Changed | shows the length of each string, the variables of objects and the environment <!--s 22 125 569 439--> |
-| `pterm` keys | Added | `pterm erase`, `ctrl.filter`, `mark`: which key erases; control characters filtered; control keys that type the marks <!--s 155 253 254--> |
+| `pterm` keys | Added | `pterm erase`, `ctrl.filter`, `mark`, `query`: which key erases; control characters filtered; control keys that type the marks; shows what your keys send, in hex and in terminfo form <!--s 155 253 254--> |
 | `sd.conf` parameters | Added | `dhcache`, `lgnwait`, `maxrlock`, `pwdelay`, `userpool`: `sd.conf` parameters, each optional with the old fixed number as the default <!--s 90 46 313 106 551--> (Solo has one user: it accepts `lgnwait`, `pwdelay` and `userpool` and they do nothing) |
 | sessions on a dropped connection | Changed | a session whose terminal or ssh connection goes away while it is writing the error log or the audit trail no longer waits for itself for ever, which stopped every later login |
 | `sortmem` | Changed | default 4096 <!--s 535-->|
@@ -325,7 +325,7 @@ The kernel, `sd.conf`, and the numbered keys.
 | `-status` | Added | `sd -status` shows the version, start time and process counts <!--s 511--> |
 | `system()` keys | Added | 14, 19, 20, 21, 33, 35, 45, 1016, 1036, 1037, 1040, 1045, 1047, 1048, 1049, 1051, 1062, 1065, 1067, 1071, 1073, 1083, 1086, 1088 <!--s 65 66 114 192 225 244 206 294 307 308 326 421 433 586 587 g252 g253 g254 g255 g256 g260 g261 g265 g266 g267 g270 g271 g274 g276--> |
 | `system(1057)` | Changed | fixed: a phantom whose parent's user number was above the number of user table cells was told it had no parent |
-| terminfo | Changed | `eblink`, `eprot`, `edim`, `erev`, `ebold` capabilities; `xmc#1` in the two ADDS 4000 entries <!--s 47 545--> |
+| terminfo | Changed | `eblink`, `eprot`, `edim`, `erev`, `ebold` capabilities <!--s 47 545--> |
 | the call name | Changed | can be as long as 128 characters (the lower of 128 and `maxidlen`) <!--s 241-->|
 | the startup process | Changed | its `@tty` is `startup` <!--s 91--> |
 | time zone and `epoch()` | Added | `epoch()`, `mvdate()`, `mvtime()`, `mvdate.time()`, `mvepoch()`; `set.timezone` and `config timezone` <!--s 69 124 g126 g157 g158 g159 g160 g181 g310--> |
@@ -343,6 +343,7 @@ Commands and VOC verbs that every account has, and the command language.
 | `catalog` overwrite | Changed | pointing a local catalog entry at a different object file asks first <!--s 490--> |
 | `catalog` prefix | Added | a prefix separate from the call name; `$private.catalog` or `$private.catalogue` <!--s 210 93--> |
 | catalog name as a command | Changed | a program run by its catalog name takes `lptr`, `no.page` and the like |
+| `cname` | Changed | the new name of a renamed file is stored lower case; a name that exists in any case, or differs from the old one only in case, is refused |
 | command stack | Changed | `.c-` undoes a `.0`; the stack is kept in the account the user entered <!--s 296 396--> |
 | `command.logging` | Added | a log of every command this session runs, in the account directory, mode 0600 <!--s 444 g16--> |
 | `como` | Added | `append`, `in file`; `$como` ids pass the same name transform <!--s 8 361 9--> |
@@ -371,9 +372,11 @@ Commands and VOC verbs that every account has, and the command language.
 | `oscopy` | Added | copy an operating system file; `overwrite`, `append` <!--s 369 517--> |
 | `phantom` | Added | `no.msg`, `data`, `log`, `group` and `user` options; `!phlog` gives a phantom's log record; a phantom started while SD is suspended gives back its place; a grouped phantom whose parent has gone ends at once <!--s 87 137 364 483 31 385 280--> |
 | phantom and terminal lists | Added | `list.phantoms`, `list.term.types`: the phantoms and no one else; the terminal types <!--s 381 g49--> |
+| phantom that cannot start | Changed | writes the reason to the error log (`phantom: cannot start a phantom ...`) |
 | `private vocabulary` | Added | `$private.voc`: a file of commands searched after all other command sources <!--s 1--> |
 | `profiler` | Added | records what the programs of a session do and where <!--s g66 g203-->|
 | `redo` | Added | runs a command again and again, `times` and `every` <!--s 188--> |
+| `.s` (command stack) | Changed | a new saved sentence or paragraph takes a lower-case VOC name; an existing record keeps its name |
 | saved list verbs | Changed | `save.list`, `get.list`, `delete.list`: `keep`, `deleting`, `count.sup`, a default name, a name left out, `in file` <!--s 2 384 387 401 494--> |
 | `selectindex` | Added | the command form of the statement <!--s 119--> |
 | `setptr` | Changed | `form.feed`, `inform`, `eject`, `as ... in file`; the digits of `next` <!--s 51 59 70 139 448--> |
@@ -523,6 +526,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `set.tile` | Added | takes a home screen tile off the page or puts it back; `set.tile` alone lists what is off |
 | `set.tile` standard ids | Changed | the seven development tiles and `recent` are standard ids (there is no Switch account tile in Solo); the Back tile of a sub-menu cannot be turned off |
 | `set.viewer` | Added | allows one PDF reader for the `pdf` verb; none is allowed as delivered |
+| `settings.report` | Changed | `[mode]` says the credential register could not be read, instead of "not managed", when it cannot open it |
 | shell and OS access | Changed | until now every Solo account could run Linux commands and reach any file the Linux user could; both are off until the administrator turns them on |
 | `sync.global.catalog` | Changed | in managed mode it catalogs the SD Core server's programs under their plain names (`call name`; the `*` prefix is gone), takes a catalog entry with no `$ ! _` prefix for the server's, refuses a program whose name begins with `$ ! _ * -`, and sweeps away the `*name` entries an earlier release made; a program cataloged in the account under the same name is found first |
 | `tool.audit` | Added | after `admin`: full-screen page that reads the audit trail from its end, a screen at a time: filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record; it changes nothing else |
@@ -553,6 +557,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `ai` gate | Added | `set.ai gate on` and `off`: the account's `ai` gate; off as delivered |
 | `ai` in the editors | Added | the debugger, `sed` and `ced`: ask about what you are looking at; a preview of everything sent; proposed changes shown as diffs and never saved by the AI |
 | `ai` preview | Changed | shows the provider, the size of all that is sent and what is yours (the request, a record's lines, a selection, earlier questions); SD's own text (its instruction, the page's actions and description, documentation passages, the standing text) is sent and counted but not shown; a preview taller than the screen scrolls with PgUp and PgDn (the bottom border says which lines are shown), and Send and Cancel stay on the screen |
+| `ai` product name | Changed | the fixed sentence sent with a question names SD Core Solo for Linux |
 | `ai` proposal box | Changed | shows every line of a proposed change, command or request in full, not cut at the box edge; a proposed change that would take more than 30 rows to show is not offered |
 | `ai` row in the dictionary form | Added | the IDE's dictionary item form has an AI line: say what the item should be; the values the AI proposes are shown in full (Reject the default) and only those that pass the form's own checks go into the rows; nothing is written until the form is accepted and the IDE saves; an item of SD's own files is never sent |
 | `ai` row in the home screen | Added | type what you want, see what will be sent, accept one proposed tile or command |
@@ -562,6 +567,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `ai` verb | Added | asks an AI one question; shows exactly what will be sent and sends only on `y` or `yes` |
 | `sd-ai` helper | Added | a small helper, started by systemd for each request on your own user unit `sd-solo-ai.socket`, is the only part of SD that connects outward and the only part that reads a key; it runs as you, so another program of yours can reach it too |
 | `set.ai` | Added | the administrator chooses the provider, model and key from the prompt, and turns the `ai` gate on or off; `set.ai models` lists a provider's own model names, `set.ai model` says when the provider does not list the name; a provider's refusal shows its own words |
+| `set.ai key` | Added | the key typed at the prompt shows one `*` for each character and is never shown itself; if the helper's client fails, `set.ai` says the key was not set and writes no audit line, even when an earlier key is stored |
 | `set.ai limit` | Added | the administrator sets the limits of AI use: requests an hour (20), tokens a day (100000), seconds (30) and bytes each way (65536) for a request, and `max-tokens`, the length of an answer at the prompt and on every page (1024) |
 | `tool.ai` | Added | the administrator's AI choice page: Anthropic, OpenAI, Google, DeepSeek or custom, each named one with a default model, with the account's gate; S, one setup dialog: the key in a password field (handed to the helper through a file, so it passes through SD) and the model chosen from the provider's own list; C, the custom connection, is one form with its six fields in view, and a refusal names the field and keeps what was typed; DeepSeek starts on the model `deepseek-v4-flash` |
 
@@ -741,9 +747,11 @@ Fixes that close a way round a gate, and what the gates now ask.
 | `convert.data` output file | Changed | the output path is held to the VOC rule before anything is read: a path that leads into the account's VOC is refused without `admin` |
 | deleting a directory tree | Changed | fixed: `delete.file` of a directory file and the other deletes of a whole tree followed a symbolic link inside it and deleted what it pointed at; a link is now removed as a link and its target left alone |
 | delimited report to a pathname | Changed | `list ... csv to` and `delimiter to` a pathname, and `as` file id, are held to the VOC rule: a report cannot change the VOC without `admin` |
+| denied verbs | Changed | a verb whose VOC record runs a listed verb's program is denied whatever case the program name is written in |
 | internal programs | Changed | fixed: a program a user compiled and cataloged locally ran with internal privilege without `admin`; only the global catalog or an `admin` session keeps it |
 | named common | Changed | fixed: a program that ended while holding objects in named common freed them twice |
 | named common with a `$` or `_` name | Changed | the system's own common blocks: only an internal program may declare or join one; any other program stops with message 11598 |
+| `netdirs` | Added | `sd.conf`: folders, separated by semicolons, that the account may read and write by pathname while its `os` switch is off; no line as delivered, read when SD starts |
 | operating system paths | Changed | `dir()`, `select.dir`, `oscopy`, `!oscopy`, `!ioscopy`, `deleteseq` of a path, `opentemp`, `digest` of a file, `setptr ... as pathname`, `setpu`, the embedded Python, the `micro` editor and a VOC pointer out of the account each ask the account's `os` switch |
 | phantom debugger messages | Changed | `pdebug` and the phantom it debugs leave each other their messages in `.local/state/sd/pdebug` below the user's Linux home (a private directory, owner-only, found through the password database), not in `$ipc`, which any session could write; message 11948 when the store cannot be set up |
 | phantom start-up records | Changed | a phantom runs the command, `DATA` lines and log file name of its start-up records in `$ipc` only if the process that started it sealed them (HMAC-SHA256 under a secret given only to the new process, in its environment); a record that does not check is refused, audited as `phantom refused` and reported to the parent; the phantom debugger's conversation is not sealed |
@@ -768,12 +776,13 @@ Fixes that close a way round a gate, and what the gates now ask.
 | clean-up daemon restart | Added | `sdlnxd`, which clears down sessions whose process has gone, runs as its own user unit, `sd-solo-lnxd.service`, which starts it again two seconds after it fails (`kill -9`, a crash); a stop (`sd-solo -stop`, exit 0) is not a failure and is not restarted; systemd allows five starts of the unit in a minute, of any kind, and refuses the sixth until `reset-failed`; `sd-solo.service` runs `sd-solo -start -nodaemon` and wants it; a second daemon ends at once; an upgrade writes the new units over the old ones (`solo-service.sh daemon`) |
 | compiled kernel | Changed | built with optimization (`-O2`, with `-fwrapv` and `-fno-strict-aliasing`) where it had none: string and `locate` work about 3.4 times as fast, a BASIC loop 1.5 times, index builds, sorts and writes 1.15 to 1.2 times (measured in SD Core); `_FORTIFY_SOURCE=3` and `-fstack-protector-strong` end a session at a buffer overrun instead of letting it corrupt memory |
 | default terminal | Changed | 140 by 43 |
-| message numbers | Changed | Solo's own messages 11040 to 11054 are now 14974 to 14988, and 11060 to 11065 are 14989 to 14994, with their text unchanged, so that SD Core's numbers mean the same here; the ssh key request refuses with 14975, 14976 and 14977. The administrator and password messages (11002 to 11022, 11025 to 11037), the AI gate message (11606) and the `set.pins` messages (11930 to 11932) are now 14891 to 14928, in the same order and with their text unchanged: SD Core uses those numbers for other messages |
+| message numbers | Changed | Solo's own messages 11040 to 11054 are now 14974 to 14988, and 11060 to 11065 are 14989 to 14994, with their text unchanged, so that SD Core's numbers mean the same here; the ssh key request refuses with 14975 and 14976. The administrator and password messages (11002 to 11022, 11025 to 11037), the AI gate message (11606) and the `set.pins` messages (11930 to 11932) are now 14891 to 14928, in the same order and with their text unchanged: SD Core uses those numbers for other messages. Sixteen of the administrator's backup, restore and configuration messages (14972, 14973, 14977 to 14983, 14985, 14987, 14989 to 14992 and 14994) now carry SD Core's numbers for the same texts, with their wording unchanged (for example 14977 is now 11013, 14972 is 11932), so a number means the same text in both products |
 | print and index clear failures | Changed | a print command that fails is reported on the terminal, and an index whose clear could not shrink its file reports an error |
 | profiler and a refused `writev` | Changed | a `writev` or `writevu` that is refused is counted, as `write` and `delete` are |
 | `sd-solo -start` | Changed | a script that captures its output through a pipe (`x=$(sd-solo -start)`) gets it and goes on; the background daemon kept the pipe and the script waited until `sd-solo -stop`. A phantom and the STARTUP command give back a pipe the same way; a file or a terminal is kept |
 | `sd-solo -status` | Changed | fixed an overrun on a server that recorded no start time |
 | `sd-solo -stop` and `sd-solo -restart` | Changed | a session still attached ten seconds after the termination signal is ended with SIGKILL, and the stop says how many; before, it was left running with SD gone under it. A session idle at a terminal or on a pipe leaves by itself |
+| `sdtic` | Changed | with no SDSYS in `sd.conf`, the Solo folder is the system directory, so it runs without `-p` |
 | session whose SD was stopped | Changed | ends at once with a message in syslog and on its terminal, instead of spinning at full processor use for ever |
 | `sh` whose shell cannot be started | Changed | the command ends with status 127; a copy of the session used to carry on in the background |
 | sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
@@ -801,6 +810,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | home screen refused tile | Changed | a tile whose command is refused shows its message until a key is pressed, and the home screen no longer ends |
 | home screen small window | Changed | a session that starts in the home screen is signed out when the window is too small for it, even with the Terminal tile on (it used to be left at the prompt) |
 | home screen sub-menus | Added | a tile can open a second page of tiles with a Back tile, Esc and the path on the status line; eight deep; the delivered page declares none yet |
+| home screen tiles | Changed | a tile for a `tool.*` page whose command is not in the account's VOC is not shown |
 | home screen version | Added | the date line in the header ends with the product and its version: `SD Core Solo for Linux LS2.0-0` |
 | `ide` | Added | tree, tabs, compile errors table, find, run, catalog and debug; Ctrl-E zooms the editor to the whole screen, and Go > Edit in SED hands a record to `sed` |
 | `ide` autologout countdown | Added | with `autologout` set, the status line counts down the last 60 seconds before the session is signed out and says whether unsaved changes will be lost; any key stops it; it reads the inactivity clock `autologout` itself uses |

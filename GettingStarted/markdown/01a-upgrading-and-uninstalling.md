@@ -19,10 +19,9 @@ and it accepts no option that would change them: an upgrade keeps what is
 installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
 changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html).
 
-**The shell and OS access question (from 20 October 2026).** Until this release
-the shell (`sh`) and OS access (`os.execute`, a file or directory outside
+**The shell and OS access question.** The shell (`sh`) and OS access (`os.execute`, a file or directory outside
 the account, the embedded Python and `micro`) were on for every
-installation. **They are off unless you turn them on**, so an upgrade tells you so
+installation of an earlier release. **They are off unless you turn them on**, so an upgrade tells you so
 and asks, on a terminal, whether to turn on the shell and whether to turn on OS
 access. The default for each is no. **`--os-access none|sh|os|both`** answers it
 without a terminal; with `--yes` and no `--os-access`, or no terminal, the

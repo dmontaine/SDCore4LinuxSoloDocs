@@ -11,9 +11,7 @@ lower it, within a range the compiled limits set. Those are covered in full on
 [Configuration](16-configuration.html); this page gives the number in force and
 says which parameter controls it.
 
-> Every figure here was read from the sources that define it, or counted directly
-> from this tree's own shipped directories, not from documentation of another
-> product or port.
+> The figures are those of SD Core Solo for Linux itself.
 
 ## Data
 
@@ -38,7 +36,7 @@ that raising it would require major file-format changes.
 | | | |
 |---|---|---|
 | File types | **two** — directory and dynamic | compiled |
-| Group size for a dynamic file | **4 KB** by default (2 KB until 12 Nov 2026), maximum **8** | `GRPSIZE` |
+| Group size for a dynamic file | **4 KB** by default, maximum **8** | `GRPSIZE` |
 | Open files across all sessions | **80** | `NUMFILES` |
 | Maximum pathname length | **255** | compiled |
 | Sort keys in one query | **32** | compiled |
@@ -47,9 +45,9 @@ Group size is expressed in 1 KB units, so the compiled maximum of 8 is 8 KB.
 **The 255-character pathname limit includes your home directory**: a deep
 `--home` leaves less room for the paths SD builds inside it.
 
-**A sort that outgrows `SORTMEM` is written to work files, and an item or a key may be of any length SD can hold** (16 Oct 2026). The lengths in a work file were 16 bits, so an item or a key of 32 KB or more wrapped when a sort spilled to disk and the result was wrong; they are 32 bits now. The count of a sort that returned no data was also one short when the last record ended the file.
+**A sort that outgrows `SORTMEM` is written to work files, and an item or a key may be of any length SD can hold**. The lengths in a work file are 32 bits, so an item or a key of 32 KB or more is sorted correctly when a sort spills to disk.
 
-**A split of a dynamic file stops before it changes the file when the disk cannot take it** (16 Oct 2026). A dynamic file grows by splitting its groups. The split writes the new, empty group first and only then advances the file's modulus; it does nothing if that write cannot be made, or if the file system holds less than 1 MB, and writes a line to the log. Before, a full disk could leave the modulus advanced with no group behind it, and the records that hashed there could not be found. **A split that fails after the new group has begun to be used still cannot be undone**: it logs the failure and writes the file's header, and the file needs a file check (`sdfix`, described in [sdfix, the File Check Tool](20-sdfix.html)).
+**A split of a dynamic file stops before it changes the file when the disk cannot take it**. A dynamic file grows by splitting its groups. The split writes the new, empty group first and only then advances the file's modulus; it does nothing if that write cannot be made, or if the file system holds less than 1 MB, and writes a line to the log, so a full disk cannot leave the modulus advanced with no group behind it. **A split that fails after the new group has begun to be used still cannot be undone**: it logs the failure and writes the file's header, and the file needs a file check (`sdfix`, described in [sdfix, the File Check Tool](20-sdfix.html)).
 
 ## Sessions and locks
 
@@ -91,7 +89,7 @@ lists can be saved. `save.list` writes to a file and is limited only by space.
 |---|---|---|
 | Terminal definitions shipped | **25** source definitions | — |
 | Terminal names they compile to | **36** | — |
-| Default page size | **140 × 43** (it was 120 × 36 before 18 October 2026, and 140 × 42 until 2 November 2026) | — |
+| Default page size | **140 × 43** | — |
 | Minimum page size | 10 lines × 20 columns | compiled |
 | Default printer page | **80 × 66** | `LPTRWIDE`, `LPTRHIGH` |
 
@@ -111,7 +109,7 @@ it.
 
 **These are record counts, not verb counts** — a VOC record may be a verb, a
 keyword, a file pointer, a sentence or a paragraph, and only some are verbs.
-Counted directly from the shipped directories. A working account also holds the
+A working account also holds the
 records you and SD add (a fresh account counted 417 with `count voc`). The
 verb subset specifically is counted on the SD TCL syntax card in the User set.
 
@@ -119,14 +117,14 @@ verb subset specifically is counted on the SD TCL syntax card in the User set.
 
 | | |
 |---|---|
-| Parameters accepted in `sd.conf` | **57** |
+| Parameters accepted in `sd.conf` | **58** |
 | Parameters the `config` verb displays | **56** |
 | Parameters readable with `config()` | **55** |
 | Parameters settable for the current session | **23** |
 
 The verb displays `DEBUG` and `FDS` only when they are set, and `TIMEZONE`,
 which is not a file parameter. No parameter is accepted and ignored any more:
-on 27 October 2026 the eleven that were (`APILOGIN`, `CODEPAGE`, `CREATUSR`,
+the eleven that were (`APILOGIN`, `CODEPAGE`, `CREATUSR`,
 `EXCLREM`, `FIXUSERS`, `GDI`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and
 `TXCHAR`) were removed, and a line naming one now stops SD from starting;
 [Configuration](16-configuration.html) says how the installer takes them out of

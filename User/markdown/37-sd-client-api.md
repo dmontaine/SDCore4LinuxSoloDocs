@@ -66,8 +66,8 @@ that grabbed the port before SD started cannot pretend to be SD.
 
 **A session is confined to its own account** on the multiuser product: an API
 session can open everything inside its own account and the shipped SDSYS files
-every account needs, but cannot open, rename, delete or list anything else. **That
-confinement has not been measured on Solo**, so do not rely on it there — see
+every account needs, but cannot open, rename, delete or list anything else. **Do not rely
+on that confinement on Solo**: treat an API session as having the reach of the Solo user — see
 *API access* in the GettingStarted set.
 
 ### How big a request may be, and what the server does with one it cannot accept
@@ -79,7 +79,7 @@ Every request starts with a 4-byte length that counts the whole packet, itself i
 | before the client has logged in (the server has not yet entered the account; on Solo it is never running as `root`) | 6 to 65,536 bytes. The login messages are all under 4 KB |
 | after the login | 6 to 1,073,741,832 bytes: the largest SD string (1,073,741,822) plus the 10 bytes of header the client library allows for, the number `SD_MAX_PACKET_BYTES` in the library |
 
-A packet that declares anything else (below 6, negative, or over the limit) is not read: the server ends the session at once and writes one line to the system log (`API packet length ... refused (before login)` or `(after login)`). The same test applies to the reply a client sends to an `INPUT` prompt. A client that closes its connection, however early, also ends its session at once; *before 20 Oct 2026 about half of the clients that completed the TLS handshake and closed straight away, and every one that sent four bytes that read as a huge length, left the server process running at 100% of a processor until it was killed.*
+A packet that declares anything else (below 6, negative, or over the limit) is not read: the server ends the session at once and writes one line to the system log (`API packet length ... refused (before login)` or `(after login)`). The same test applies to the reply a client sends to an `INPUT` prompt. A client that closes its connection, however early, also ends its session at once, and so does one that sends four bytes that read as a huge length: neither leaves the server process running at 100% of a processor.
 
 ## Server status codes
 

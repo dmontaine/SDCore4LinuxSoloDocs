@@ -42,9 +42,8 @@ formlist array {to list}
 | `selectindex` | from an alternate key index — see [SD Basic - Alternate Key Indexes](09-sd-basic-alternate-key-indexes.html) |
 | `formlist` | builds a list from a dynamic array you already have |
 
-`selectv f` and `sselectv f` with no `to` are a compile error. (Until 27 October 2026
-`$mode selectv` made `to` optional and put the list in a default select list variable; the
-mode is gone.)
+`selectv f` and `sselectv f` with no `to` are a compile error. (There is no
+`$mode selectv` to make `to` optional.)
 
 The sort clauses of the sorted forms may come before or after `to`.
 **`right.aligned`** sorts numeric ids as numbers (1, 9, 10, 100) instead of as

@@ -15,8 +15,6 @@ client library as with any SD Core — see [Client distribution](10-client-distr
 and SD opens no port. **A computer that an SD Core for Linux server manages (one
 with a global password) needs the API `open`, because the server connects through
 it**; the installer warns you if you give it a global password and choose less.
-Until 6 October 2026 a managed computer's API was forced open and not asked.
-
 ## Signing in
 
 | | |
@@ -99,7 +97,7 @@ bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api local
 bash ~/SDCoreSolo/tools/solo-service.sh install ~/SDCoreSolo --api off
 ```
 
-Each of those was measured: `open` listens on `0.0.0.0`, `off` leaves nothing
+Each of those holds: `open` listens on `0.0.0.0`, `off` leaves nothing
 listening and the unit not active, `local` is `127.0.0.1` again. **An `open` API
 on a computer with a firewall still needs the firewall told**; that part is
 yours.
@@ -156,13 +154,11 @@ again, `F1` explains the page and `Ctrl-Q` leaves. Opening the page writes the a
 ## What a connection costs, and how big a request may be
 
 **Each API connection is one `sd-solo -n -q` process, running as your Linux user
-(never root), and it is there before anybody has logged in.** Since 20 October
-2026 it ends when the connection ends, and it refuses a request whose declared
-length it cannot accept. Before that date a client that sent four bytes that read as a huge
-length (`garb` is 1,651,663,207), or that declared a request and closed before
-sending it, or that closed while its own command waited in a shell and then
-cleared its input, could leave that process polling at **100% of a processor**
-until somebody killed it. It does not do that now.
+(never root), and it is there before anybody has logged in.** It ends when the connection ends, and it refuses a request whose declared
+length it cannot accept: a client that sends four bytes that read as a huge
+length (`garb` is 1,651,663,207), or that declares a request and closes before
+sending it, or that closes while its own command waits in a shell and then
+clears its input, does not leave the process polling at 100% of a processor.
 
 Every request starts with a 4-byte length that counts the whole packet, itself
 included, and a 2-byte request code, so the smallest packet is 6 bytes. The
@@ -188,15 +184,13 @@ user name); the limit before the login applies until then. This is a difference
 from SD Core. Before the login a packet declaring 65,536 bytes is waited for (the
 boundary), and 65,537 and 1,000,000,000 are refused and the session ends. After the
 login a record of 3,075,000 bytes can be written through the API and read back, and
-a packet declaring 1,000,000,000 is waited for. Before 20 October 2026 Solo applied
-no limit before the login.
+a packet declaring 1,000,000,000 is waited for. The limit applies before the login too.
 
-**A file lock goes to the file the client names (20 October 2026).** An API
-client that had opened three files and asked for the file lock on the first
-locked the last one it had opened, and a release freed that one; the form that
-waits for the lock waited for the wrong file too. Each lock and each release now
-acts on the file number asked for, and a request with nothing to say no longer
-repeats the text of the last refusal.
+**A file lock goes to the file the client names.** An API
+client that has opened three files and asks for the file lock on the first
+locks the first. Each lock and each release
+acts on the file number asked for, and a request with nothing to say does not
+repeat the text of the last refusal.
 
 ## An API session is you
 
@@ -234,9 +228,7 @@ one account a session may enter is its own); and when the account is
 account*, whatever the reason, as for request 3.
 
 **Where the file is.** The request asks the account's `os` switch
-(`set.os.access os on`) as `dir`, `openseq`, `openpath` and the OSCOPY verbs do
-(changed on 21 October 2026, carried from SD Core's change of 20 October; until
-then it was a documented limit of this page). A file the account's VOC names with an
+(`set.os.access os on`) as `dir`, `openseq`, `openpath` and the OSCOPY verbs do. A file the account's VOC names with an
 F-pointer must lead **inside the account's own directory**, with `..` and symbolic
 links resolved, unless the account has the `os` switch on: a pointer at an absolute
 path outside the account, a relative path that climbs out, a link to the outside, the
@@ -250,9 +242,8 @@ reaches a client that is already signed in. The pointers SD itself puts in the V
 too: a client of request 29 has no use for them. A pointer that opened before and leads out
 of an account whose `os` switch is off stops opening: turn the switch on if that was
 intended. Solo has no SDSYS exemption, because SDSYS is never a target of the request.
-**Before 20 October 2026 the bit was the
-whole gate**, and a site that had set it let an API login open a file named in the VOC of
-any directory that holds a `voc`.
+**The `NETFILES` bit alone is not the
+gate**: without the `os` switch a file named in the VOC of a directory outside the account is not opened.
 
 **Do not rely on the API's own confinement as a boundary on Solo.** The multiuser
 API refuses `OPEN` of anything outside the account, distinguishing a containment

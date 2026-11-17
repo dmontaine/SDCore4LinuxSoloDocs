@@ -65,8 +65,7 @@ SD could open a file held on another SD server by putting `server;file` in a VOC
 entry. **That is gone. A VOC entry containing a semicolon is now simply a file
 name that does not resolve.**
 
-`set.server`, `delete.server` and `list.servers` went with it, **and came back on 20
-October 2026 in a new form**: an SDNet **client** that reaches another SD server over its
+`set.server`, `delete.server` and `list.servers` went with it, **and came back in a new form**: an SDNet **client** that reaches another SD server over its
 API (TLS 1.3 and a SCRAM login), through a VOC pointer of type `N`, with the administrator
 defining each server (`set.server`, pinned to the hash of the server's public key), each
 person keeping their own login on it (`set.netlogin`, kept as values derived from the
@@ -83,7 +82,7 @@ behind**: bit 2 of it opens the request, and it is 0 as delivered, so the reques
 is refused. With the bit set, it still refuses unless the account's NET gate is
 on (`set.net.access on`, an administrator command, off as delivered), and it
 refuses under `SDCLIENT`, an account named by a path, another account, SDSYS and a
-suspended account, and (since 21 October 2026) a file the VOC reaches through a
+suspended account, and a file the VOC reaches through a
 pointer that leads out of the account, unless the account has the `os` switch on.
 See [API access](09-api-access.html).
 
@@ -119,7 +118,7 @@ your own export/import BASIC.
 
 ## Language and locale
 
-**SD Core is English only.** `set.language` and `load.language` do not exist.
+**SD Core Solo is English only.** `set.language` and `load.language` do not exist.
 `nls` is still there: it shows and sets the currency symbol and the thousands and
 decimal separators, which is all it ever did.
 

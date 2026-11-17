@@ -14,10 +14,8 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> **The listings on this page were produced by running them**, on SD Core for
-> Linux. The two exceptions are `phantom` and `pdebug`, and the reason
-> is on the page: neither can be driven down a pipe, so both are described from
-> their source rather than shown.
+> **`phantom` and `pdebug` cannot be driven down a pipe**, and the reason
+> is on the page: so they are described rather than shown in a listing.
 
 ## What is not on this page
 
@@ -134,6 +132,10 @@ never started.
 | *Phantom processes cannot be started within a transaction* | inside `begin transaction` |
 | *Failed to create phantom process* | the operating system would not create the process |
 
+A phantom has no terminal to tell you why it could not start. When the new process cannot
+run `sd-solo` at all (or its path is too long), the reason is written to the error log as a
+line that begins `phantom: cannot start a phantom`.
+
 > **A phantom cannot be started from a scripted session, and this is the one
 > to know.** When SD is fed commands down a pipe, the phantom child inherits
 > that pipe. The job then never completes — not even after the parent session
@@ -197,8 +199,8 @@ program's own text and is not cleared for it.
 holds in memory reaches it** — no `@`-variables, no unnamed common, no open
 files, no active select list. **The command string is the only thing passed**,
 through a record in SD's `$IPC` file. The session's option settings do not go
-with it: a phantom starts with every option off. (Until 27 October 2026
-`option inherit` passed them on; the option is gone.)
+with it: a phantom starts with every option off. (There is no `option inherit`
+to pass them on.)
 
 ## What phantoms have I started: `status`
 
@@ -301,7 +303,7 @@ it when the question it was written to answer has been answered.
 |---|---|
 | *User number required* | `pdump` with no number |
 | *Not logged in* | no session has that user number |
-| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set, the session has not typed `admin`, and the target session signed in under another login name |
+| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set, the session has not typed `admin`, and the target session signed in under another login name; every Solo session has the same one, so it does not arise |
 
 **It is an event, not a call.** `pdump` marks the target and returns; the target
 writes the file when it next looks at its event flags. A process that is wedged
@@ -330,8 +332,7 @@ store only when every directory from the home down is a real directory nobody el
 can write and the store is readable by you alone. `pdebug` says it cannot start
 (message 11948) when the store cannot be set up. The store survives a restart of SD,
 so `pdebug` clears its own user number's records when it starts, and a phantom
-ignores a start request whose `pdebug` has gone. (Until 9 November 2026 the messages
-were records of `$ipc`.)
+ignores a start request whose `pdebug` has gone.
 
 > **Do not send `pdebug` down a pipe.** It polls the keyboard while it waits,
 > and in a piped session the input stream is the script, so it consumes the
@@ -419,10 +420,9 @@ holds the files that user's programs open and the commands they execute
 **Every account has `status`, `phantom`, `pstat`, `pdebug`, `pdump`,
 `list.phantoms` and `profiler`** — there is no withheld set any more.
 
-**`pdump` still has a gate, and it is not about having the verb.** `pdump`
-*n* is yours to use on your own processes; against another account's
-process, it refuses unless the session is SDSYS's. `pstat` reports
-any session, with no such restriction.
+None of them needs `admin`. `pdump` *n* and `pstat` work on any session, since
+every session is the Solo user's: the `PDUMP` setting that refuses a dump of a
+process under another login name has nothing to refuse here.
 
 ## See also
 

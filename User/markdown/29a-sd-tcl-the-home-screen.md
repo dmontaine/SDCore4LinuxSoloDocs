@@ -66,6 +66,10 @@ behind a warning that gives both sizes until the window is big enough again.
 | **Files** · **Vocabulary** · **Dictionary** · **Queries** · **Bulk update** · **Programs** · **Tests** | the group *Develop*: each opens a development page (`tool.files`, `tool.voc`, `tool.dict`, `tool.query`, `tool.bulk`, `tool.catalog`, `tool.test`; see [The Development Tools](29c-sd-tcl-the-development-tools.html)) |
 | **Sign out** | asks `Sign out of SD?` and ends the session |
 
+**A tile for one of SD's own pages (a `tool.*` command) is shown only when that command is in
+your account's VOC**, so a tile never offers a command you cannot run; it appears once the
+command is there. A pinned tile is not asked.
+
 **A tile starts a command exactly as you would have typed it.** It adds no
 access: if the command needs a switch your account does not have, you get the same
 refusal you would at the prompt (`set.os.access`). A command that takes the screen

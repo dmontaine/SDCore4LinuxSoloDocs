@@ -5,8 +5,7 @@ Subtitle: Open a file that lives on another SD server and use it with READ, WRIT
 ordinary `OPEN` and then use it with the ordinary file statements. In SD Core Solo for Linux
 it is **delivered off, in four places**: the account has no NET gate, no server is defined,
 nobody has a login on one, and no VOC entry points at one. The administrator turns each on,
-deliberately, and each can be turned off again. **It has been run in private test
-sandboxes against a test server; it has not yet been run between two real machines.**
+deliberately, and each can be turned off again.
 
 Solo is a **client** of SDNet here, and it is also a **target**:
 
@@ -136,8 +135,7 @@ there, for this session, and `release` or a `close` or the end of the process gi
 or locks a file of a server defined `read` is refused with message 11501 (or sets `status()` under `on error`) and
 **nothing is sent**.
 
-**`recordlocked(f, id)` needs the same two things as a lock** (changed on 21 October 2026, carried from SD Core's rule of
-20 October): the server must be defined `write` here, and the login on the other machine must be allowed to ask. A
+**`recordlocked(f, id)` needs the same two things as a lock**: the server must be defined `write` here, and the login on the other machine must be allowed to ask. A
 `read` definition stops the program with message 11501 (`recordlocked is refused`) and nothing is sent; the function has no
 `on error` clause, so a refusal always stops the program. A SD Core server answers request 34, the one `recordlocked()`
 sends, only to a login that is in its write group; to any other it replies with an error, and the program stops with
@@ -220,14 +218,9 @@ Two `sd.conf` parameters, in seconds, 1 to 3600 (zero is refused): **`NETWAIT`**
 long to wait for a connection to a remote server, **`NETREPLY`** (30) how long to wait for each reply to a request. `config('NETWAIT')`
 and `config('NETREPLY')` read them.
 
-**A server that goes silent is given up on at those times, in every case we know of** (changed on 21 October 2026, carried
-from SD Core's change of 20 October). `NETWAIT` bounds the TCP connection and then the TLS handshake, each: a server that
-accepts the connection and never answers the hello is given up on after `NETWAIT`, not after the 15 seconds that were fixed
-before. `NETREPLY` bounds each read, including the first reply of the login after the handshake. Before this, a server that
-completed the TLS 1.3 handshake and then sent nothing, or only half of a TLS record, held the session far beyond `NETREPLY`
-(the server's session tickets, or the half record, ended the wait on the socket, and the read behind it then had no limit of
-its own); with `NETREPLY=3` the test server was waited for 5 seconds and 12 seconds in those two cases, and 3 seconds now.
-A reply that stops in the middle of its body is a lost connection, like a reply that never starts: message 11497 for a read,
+**A server that goes silent is given up on at those times, in every case we know of.** `NETWAIT` bounds the TCP connection and then the TLS handshake, each: a server that
+accepts the connection and never answers the hello is given up on after `NETWAIT`. `NETREPLY` bounds each read, including the first reply of the login after the handshake: a server that
+completes the TLS 1.3 handshake and then sends nothing, or only half of a TLS record, is waited for no longer than `NETREPLY`. A reply that stops in the middle of its body is a lost connection, like a reply that never starts: message 11497 for a read,
 11509 for a change (whose outcome is then unknown), and the connection is dropped. A server that answers late but inside
 `NETREPLY` is read as before. The limit is for each read, not for a whole reply: a server that sends one byte at a time and
 never stops is still waited for one read at a time.
@@ -253,9 +246,6 @@ No password, key, hash, record id or record is ever audited.
   `NETFILES` bit 2, as the Getting Started set explains.
 - **A remote file does not follow you across an account change**: the process's connections are dropped when the account
   is entered again (the NET gate is set), so a remote file variable from before is stale.
-- **Not confirmed on two real machines.** The paths above were measured in private sandboxes against a test server (the
-  channel binding of the login is the one thing the test server cannot compute); a real Solo or SD Core server on the
-  other end is the next measurement.
 
 ## See also
 

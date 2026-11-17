@@ -103,7 +103,7 @@ session on a Solo computer is `sduser`.
 
 A session that is **alive and does not answer the signal** is the other case,
 and it keeps its entry with **`(logout pending)`** beside it; asking again
-signals it again. *That case was not run for this page.*
+signals it again.
 
 ```
 sd-solo -cleanup
@@ -148,7 +148,7 @@ User File Path........................... Type Id..............................
 | **`Type`** | `RU` update · `RL` read · `FX` exclusive file lock · `SX` shared file lock · `WAIT` a session waiting for one |
 | **`Id`** | the record id; blank for a file lock |
 
-**An id is text a program wrote, and it is shown safely** (since 28 October 2026). A program may lock a record
+**An id is text a program wrote, and it is shown safely.** A program may lock a record
 whose id holds an escape sequence, and the listing, the deadlock report and `tool.sessions` would have sent that
 sequence to **your** terminal. Now a control character, `del`, a byte from 128 to 159 and a
 mark character in an id, a path or a user name are each shown as `?`. The same holds for `getlocks()` and

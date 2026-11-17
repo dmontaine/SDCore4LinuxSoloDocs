@@ -52,7 +52,7 @@ time and user:
 
 Every word before the first `=` is lower case, the event names included. What
 follows an `=` is data and keeps its case: the account name, a `reason=` text,
-and what a caller typed in `command=`. Lines written before 7 October 2026 are
+and what a caller typed in `command=`. Lines written by an earlier release are
 upper case (`LOGIN REFUSED`) and are not rewritten, so search a long-lived file
 without regard to case.
 
@@ -122,5 +122,5 @@ writes `tool start app=tool.audit`, and X writes the one export line; both are o
 **SD has no file-level access control of its own** on the keyboard and ssh paths:
 a session opens files as you, so Linux's permissions on your directory are the
 only boundary. On the API the multiuser product confines a session to the account
-it stands in; that has **not been measured on Solo** — see
+it stands in; **do not rely on that on Solo** — see
 [API access](09-api-access.html).

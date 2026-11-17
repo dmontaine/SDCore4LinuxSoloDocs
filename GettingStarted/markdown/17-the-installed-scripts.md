@@ -58,7 +58,7 @@ bash ~/SDCoreSolo/tools/solo-service.sh status
 | `daemon` | writes **only** the two daemon units, `sd-solo.service` and `sd-solo-lnxd.service`, and reloads systemd; it starts, stops and enables nothing. An upgrade runs it, because an upgrade keeps the units it finds. It refuses a pair that names another Solo tree. `--print` shows the two units and writes nothing. Ends `SOLO DAEMON UNITS WRITTEN` |
 | `remove` | stops SD and removes the units, `sd-solo-lnxd.service` first. Ends `SOLO SERVICE REMOVED` |
 | `status` | which unit files are present, whether the daemon and the API and ssh sockets are active, and whether linger is on |
-| `--enable-linger` | also runs `loginctl enable-linger`. The installer passes it unless it was told `--no-linger` or `enable-linger=no` (linger is on by default since 9 November 2026); run by hand, the script does it only when asked. Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
+| `--enable-linger` | also runs `loginctl enable-linger`. The installer passes it unless it was told `--no-linger` or `enable-linger=no` (linger is on by default); run by hand, the script does it only when asked. Without the flag, or if it is refused, the script prints the one `sudo` command to run and says `linger=no`; **it never runs `sudo` itself and never turns linger off**, since something else may rely on it |
 
 `sd-solo.service` is a one-shot that remains after exit
 (`Type=oneshot`, `RemainAfterExit=yes`): `sd-solo -start` forks a daemon that forks
@@ -96,9 +96,7 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh unlock     ~/SDCoreSolo [ADDRESS]
 | `locked` | lists the addresses locked out for three wrong passwords in ten minutes, with the time each lock ends. Ends `SOLO SSH GUARD LOCKED <n>` |
 | `unlock` | lets one address back in, or every address when none is named. Ends `SOLO SSH GUARD UNLOCKED <n>` |
 
-What each does is on [ssh access](08-ssh-access.html). **`match --remove` has been run once** (2 October 2026), by hand,
-after an upgrade.
-
+What each does is on [ssh access](08-ssh-access.html).
 ## `deletesdsolo.sh`
 
 ```sh

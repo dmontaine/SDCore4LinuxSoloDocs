@@ -55,7 +55,7 @@ password is never displayed, stored or logged.
 | `tool.sessions` | who is signed on, what is locked, and `logout`, `unlock` and `inhibit.login` on one screen — [Sessions and locks](06a-sessions-and-locks.html) |
 | `listu`, `logout all` | [Sessions and locks](06a-sessions-and-locks.html) |
 | `list.readu`, `list.locks`, `lock`, `clear.locks`, `unlock` | [Sessions and locks](06a-sessions-and-locks.html) |
-| anything on the deny list | managed mode only — [Managed mode](15-managed-mode.html) |
+| anything on the deny list | the list is set at installation (the control file's `deny-verbs=`, with or without managed mode) and changed only by a session signed in with the global password — [Managed mode](15-managed-mode.html) |
 
 **Refused without `admin`, with *The VOC can only be changed after admin*:**
 editing the VOC directly — `ed voc`, a program's `write` or `delete` to the
@@ -319,7 +319,10 @@ settings.report {directory}
 
 Writes, or shows, a **plain-text record** of the settings — `sd.conf`, the
 policy, the mode, the API and ssh, the service — to keep for reference. Nothing
-reads it back, and it never contains a password or a private key.
+reads it back, and it never contains a password or a private key. Its `[mode]` section says
+whether the computer is managed; when the register of passwords cannot be opened it says so
+(*unknown (the credential register could not be read, status N)*) rather than claiming
+*not managed*.
 
 ## The home screen's settings
 

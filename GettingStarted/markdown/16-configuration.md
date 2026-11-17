@@ -78,7 +78,7 @@ USRDIR    /home/you/SDCoreSolo/user_accounts
 YEARBASE  1930
 ```
 
-SD accepts **57** parameters (`APIPORT` and `NETDIRS` do not exist here — see *The API*, below). The verb prints all of them except `BACKUPDIR` and `SDSYS`, and `DEBUG` and `FDS` only when they are set.
+SD accepts **58** parameters (`APIPORT` does not exist here — see *The API*, below). The verb prints all of them except `BACKUPDIR` and `SDSYS`, and `DEBUG` and `FDS` only when they are set.
 
 **`config` pages its output** — press Return for more, or `Q`.
 
@@ -168,7 +168,7 @@ not start with it (the section *A name SD does not recognize stops it starting* 
 the rows where the file and SD disagree, and `S` only the parameters the file sets. The last column,
 `Change`, says `e` for a parameter the page can change (press `E`) and `by hand` for every other.
 
-`SDSYS` and `BACKUPDIR` cannot be read with the `config()` function (a name longer than sixteen characters, or one the function does not have); the page says `(not readable)` for what SD is running with and shows the file's value. `DEBUG` is not compared: the function reports it in another form than the file writes it.
+`SDSYS`, `BACKUPDIR` and `NETDIRS` cannot be read with the `config()` function (a name longer than sixteen characters, or one the function does not have); the page says `(not readable)` for what SD is running with and shows the file's value. `DEBUG` is not compared: the function reports it in another form than the file writes it.
 
 **B, the backup directory**: the directory saved with `set.backup.directory` and whether it is there;
 **R, the report**: the operating system part of `settings.report`, made when the view is opened and
@@ -228,7 +228,7 @@ something SD does; none is a door, a path, a command, a log or a security settin
 
 **The other parameters are not changed from SD**, and `set.config` refuses them by name (a name it does not
 know at all it refuses with a different sentence, because an unknown name in `sd.conf` stops SD from
-starting). They are the doors and what they allow (`NETFILES`, `SDCLIENT`), every
+starting). They are the doors and what they allow (`NETDIRS`, `NETFILES`, `SDCLIENT`), every
 path and command, the log, dump and diagnostic settings, the security throttle `PWDELAY`, the sizes
 and combinations that SD does not check or checks against each other, and the ones that change
 what existing programs compute. Change them by hand, as before. The page
@@ -249,6 +249,7 @@ shows the same sentence in its box:
 | `INTPREC` | Changes the results of arithmetic in programs that already exist. |
 | `MAXIDLEN` | Structural: the longest record id of the whole system, which reaches every file and program. |
 | `MUSTLOCK` | Makes a write fail unless the record is locked first, which can stop programs that exist. |
+| `NETDIRS` | A door: it widens what a session without the `os` switch may reach beyond the account's own directory. |
 | `NETFILES` | A door: bit 2 gates API request 29, a remote open of an account. |
 | `NUMFILES` | Sizes the open file table in shared memory; SD checks no range. |
 | `NUMUSERS` | Sizes the user table, which bounds who can sign on; SD checks no range. |
@@ -288,7 +289,7 @@ shows the same sentence in its box:
 |---|---|---|
 | `NUMUSERS` | 20 | Maximum concurrent sessions. Sizes the user table in shared memory |
 | `NUMFILES` | 80 | Maximum open files across all sessions |
-| `NUMLOCKS` | 100 | Maximum record locks across all sessions. Range 1 to 32767 (the lock table's cells are 16 bits; a value outside it stops SD starting, which it did not before the check of 16 Oct 2026, when 40000 wrapped) |
+| `NUMLOCKS` | 100 | Maximum record locks across all sessions. Range 1 to 32767 (the lock table's cells are 16 bits; a value outside it stops SD starting) |
 | `MAXCALL` | 10000 | Maximum subroutine call depth. Range 10 to 1000000 |
 | `CMDSTACK` | 99 | Depth of the command stack |
 | `USERPOOL` | 1023 | The highest user number handed out; user numbers rotate through 1 to this, 0 always takes the lowest free one |
@@ -304,7 +305,7 @@ shows the same sentence in its box:
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `GRPSIZE` | 4 | Default group size for a new dynamic file, in 1 KB units. Read by `create.file` and `configure.file` when no group size is given. **4 since 12 Nov 2026** (the shipped `sd.conf` said 2). A Solo that is already installed keeps the `sd.conf` it has, and so keeps 2 until you change it; a file keeps the size it was made with |
+| `GRPSIZE` | 4 | Default group size for a new dynamic file, in 1 KB units. Read by `create.file` and `configure.file` when no group size is given. **4 as shipped**. A Solo installed with an older release keeps the `sd.conf` it has, and so may keep 2 until you change it; a file keeps the size it was made with |
 | `MAXIDLEN` | 63 | Maximum record id length. 63 is also the lower bound |
 | `MUSTLOCK` | 0 | When 1, a `write` or `delete` requires the record to be locked first |
 | `DEADLOCK` | 0 | When 1, SD traps deadlocks |
@@ -323,6 +324,26 @@ shows the same sentence in its box:
 | `TEMPDIR` | unset | Temporary files. Falls back to the system default when unset |
 | `SORTWORK` | unset | Work files for a sort that does not fit in memory. Falls back to the system default when unset |
 | `TERMINFO` | empty | An additional terminfo directory. The shipped definitions are found without it |
+| `NETDIRS` | no line | Directories outside the account that a session without the `os` switch may still reach, separated by semicolons. See below |
+
+**`NETDIRS` is a door, and it is shut as delivered.** With the `os` switch off
+(`set.os.access`), a session opens no file by pathname outside the account's own
+directory. `NETDIRS=/srv/sales;/srv/shared` names directories it may reach all
+the same - a shared data directory, say - without turning the switch on, which
+would open the whole computer. Once you list a directory, every session with the
+switch off (a terminal, ssh, a phantom, the API) can read, change, create and
+delete files in it and below it by pathname, as far as your Linux permissions
+allow. `sh` and `os.execute` stay shut, and the VOC still changes only after
+`admin`.
+
+An entry is ignored, and named in the error log when SD starts, when it is not
+an absolute path, is not an existing directory, is `/`, or holds or lies inside
+the Solo folder itself. A name a program gives is resolved first, links and `..`
+included, and then compared: a link inside a listed directory that leads
+somewhere unlisted is refused, upper and lower case differ, and `/data/xkey` is
+not inside `/data/x`. At most 16 entries are taken, and a value longer than 191
+characters stops SD from starting. A change takes effect the next time SD is
+started.
 
 **A process dump carries the whole variable state of the session that wrote it**,
 so it may hold a password typed into a program. Solo's tree is private to you, and
@@ -349,9 +370,9 @@ one of the 14 parameters `set.config` changes: `XFER` is a door, and the limits 
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `SDCLIENT` | 0 | Restricts what an API session may do. Non-zero disables file access outright (no file can be opened, so no dictionary can be evaluated either) and refuses `SDIConv`, `SDOConv`, `SDIConvs` and `SDOConvs` a conversion code that reads a file (`T` with a file) or calls a program (`U`); any non-zero value also refuses `SDOpenSeq` and `SDExecute`; `2` additionally refuses any subroutine not compiled as callable from a client (a subroutine whose name begins with `$` must be so compiled at every setting, `0` included). Before 15 Oct 2026 the refusal at `2` was reported but the subroutine still ran |
+| `SDCLIENT` | 0 | Restricts what an API session may do. Non-zero disables file access outright (no file can be opened, so no dictionary can be evaluated either) and refuses `SDIConv`, `SDOConv`, `SDIConvs` and `SDOConvs` a conversion code that reads a file (`T` with a file) or calls a program (`U`); any non-zero value also refuses `SDOpenSeq` and `SDExecute`; `2` additionally refuses any subroutine not compiled as callable from a client (a subroutine whose name begins with `$` must be so compiled at every setting, `0` included) |
 
-**There is no `APIPORT` and no `NETDIRS` in `sd.conf`.** Whether SD listens for
+**There is no `APIPORT` in `sd.conf`.** Whether SD listens for
 the API at all, and on which port, is your systemd user unit
 `sd-solo-api.socket`, activated independently of any running `sd-solo` process; it is
 changed by running `tools/solo-service.sh install` again — see
@@ -433,12 +454,10 @@ of a file name went with `FILERULE`: write an F-pointer instead.
 (`NETFILES=2`) opens API request 29**, which opens an `account;file` file for a
 client that has signed in. It is 0 as delivered. With it set, the request is
 still refused unless the account's NET gate is on (`set.net.access on`), and
-under `SDCLIENT`; see [API access](09-api-access.html). Since 21 October 2026 a
+under `SDCLIENT`; see [API access](09-api-access.html). A
 pointer in the account's VOC that leads out of the account is refused too, unless
-the account has the `os` switch on. Before 20 October 2026 it
-was refused for nothing but the bit, so a site that had set `NETFILES=2` had
-let an API login open a file named in the VOC of any directory that holds a
-`voc`: take the setting out, or turn the NET gate on knowing what it allows.
+the account has the `os` switch on. Setting `NETFILES=2` is therefore not enough to
+open such a file: turn the NET gate on only knowing what it allows.
 
-There is no license parameter and no license verb. SD Core is GPL v3 and is not
+There is no license parameter and no license verb. SD Core Solo is GPL v3 and is not
 licensed per site or per user; `config gpl` displays the license text.

@@ -220,10 +220,7 @@ that counts, and [SD Basic - Restricted Commands](96-sd-basic-restricted-command
 carries the same names.
 
 **`errmsg` is not a statement at all.** It compiles to *"Unrecognized
-statement"* for everybody, as any word the compiler does not know does. It was
-removed from the compiler's statement table in July 2024. An earlier version of
-this page said the name was left behind in the table; only a comment beside the
-table still holds it.
+statement"* for everybody, as any word the compiler does not know does.
 
 **`sendmail`, `chgphant()` and `ccall()` compile for an ordinary account**, and
 each needs something outside SD before it can do anything: `sendmail` a mail

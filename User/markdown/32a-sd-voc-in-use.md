@@ -65,8 +65,7 @@ update.accounts
 ```
 
 Re-runs `LOGIN`'s `update.voc` paragraph, which copies any changed
-records from the system `NEWVOC` into the account's VOC. **Since 17 Aug
-2026 this is incremental** — it re-copies only the records whose stamp has
+records from the system `NEWVOC` into the account's VOC. **This is incremental** — it re-copies only the records whose stamp has
 changed, not the whole file. Every ordinary account gets the same `NEWVOC`
 now, so `update.accounts` is only ever bringing an existing account's copy
 up to date after a release changes something — there is no tier list left
@@ -102,7 +101,8 @@ Removes the record. **`.d` *name* at the command prompt asks first**;
 `.s` writes stack lines *s* to *e* into the VOC as *name* — a sentence
 when the range is one line, a paragraph when it is more. `.r` loads a
 sentence or paragraph from the VOC into the stack. **The record type
-follows from what you saved** rather than from anything you say.
+follows from what you saved** rather than from anything you say. A new name is stored in
+lower case; saving over an existing record keeps its name.
 
 ### Listing the VOC by type
 
@@ -158,8 +158,8 @@ entry actually contains without an editor.
 ## The VOC and the account
 
 The installer copies the account's VOC from `newvoc` in the system directory —
-**434 records**, counted directly on 14 Nov 2026. (SDSYS's own VOC, which nobody
-signs in to, is built from `voc_template` instead — **439 records**, the same verbs plus a few
+**441 records**. (SDSYS's own VOC, which nobody
+signs in to, is built from `voc_template` instead — **446 records**, the same verbs plus a few
 system file pointers.) `update.accounts`, which needs
 `admin`, and an upgrade, add to the account's VOC whatever a new release ships;
 neither takes anything away.
@@ -178,11 +178,9 @@ The VOC ids are stored in lower case — `list`, `create.file` and so on. This c
 SD tries a name as typed, then lower, then upper. What it changes is what
 SD prints back: `CT VOC LIST` answers `VOC list`.
 
-The file-pointer entries — `bp`, `bp.out`, `gpl.bp`, `gpl.bp.out` — moved
-to lower case on 19 Aug 2026. **The migration is complete, not partial**: an
-account's own `voc`, and the system directory's `newvoc`, `accounts`,
-`messages` and `syscom`, are all lower case on disk too, confirmed directly
-— there is nothing left in upper case to migrate. `qfile` was never a path
+The file-pointer entries — `bp`, `bp.out`, `gpl.bp`, `gpl.bp.out` — are in
+lower case. An account's own `voc`, and the system directory's `newvoc`, `accounts`,
+`messages` and `syscom`, are all lower case on disk too. `qfile` was never a path
 of its own; it is a VOC pointer to `@SDSYS/$ipc`, the session IPC area, and
 has no on-disk name to fold.
 
@@ -207,8 +205,7 @@ longer dispatched; the home screen (`home`, or `menu`) is the menu system.
 
 **`EDIT` runs.** It was once exactly the kind of VOC entry described
 above — present but undispatchable, its type field reading
-`Verb - Full screen editor` rather than `V`. That was reversed 26 Aug
-2026: it is a real `V` record now, a working full-screen editor. See [SD
+`Verb - Full screen editor` rather than `V`. It is a real `V` record now, a working full-screen editor. See [SD
 VOC - Structure and Usage](32-sd-voc-structure-and-usage.html#what-the-shipped-voc-holds).
 
 ## See also

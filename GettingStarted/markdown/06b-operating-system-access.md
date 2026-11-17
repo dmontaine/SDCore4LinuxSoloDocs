@@ -27,6 +27,12 @@ to ask for the password. Turning a switch on is therefore not a small thing:
 whoever signs in to SD, at the keyboard, over ssh or through the API, can do
 what your Linux user can do.
 
+**One narrower door for files only.** With the `os` switch off, an `sd.conf` line
+`NETDIRS=/srv/sales;/srv/shared` lets the account read and write files in the folders it
+names, and below them, by pathname, without turning the switch on. None is listed as
+delivered, and listing one is a loosening for every session of the account. See
+[Configuration](16-configuration.html).
+
 ## Looking and changing: `set.os.access`
 
 An administrator command (type `admin` first):
@@ -175,8 +181,7 @@ Error 2 executing operating system command
 turned into two by accident — a record id or a variable pasted into it — and it
 is applied the same way to everyone. A plain command with arguments is fine:
 `sh ls -la`, `sh grep -c error /var/log/messages`. **A bare `sh`, with nothing
-after it, starts an interactive shell** (the filter is for a typed command; until
-7 November 2026 it refused an empty one too); `exit` brings you back to the SD
+after it, starts an interactive shell** (the filter is for a typed command); `exit` brings you back to the SD
 prompt. It needs the `sh` switch like any other `sh`.
 
 ## `OS.EXECUTE` is not filtered

@@ -12,10 +12,10 @@ here in lower case, which is what this port uses on disk. In the tables,
 *italics* mark something you supply and **bold** marks a word typed as it
 stands; braces mark an optional part.
 
-> **The records on this page were read from a stock account VOC.** On Solo the
+> **The records on this page are those of a stock account VOC.** On Solo the
 > installer's account step copies the whole of the shipped `newvoc` into the
 > account's VOC, so the shapes are the same; **the counts below are Solo's own**,
-> taken from the shipped `newvoc`.
+> those of the shipped `newvoc`.
 
 ## The ten record types
 
@@ -36,21 +36,19 @@ load-bearing and the remaining thirty are not.**
 | `X` | text | miscellaneous data — not a command |
 | `D` | descriptor | a data descriptor, which is what dictionary records are |
 
-**`PQ` is a valid type and is refused.** PROC was removed from this port
-(23 Aug 2026). A record of type `PQ` is reported as *"PROC is not
+**`PQ` is a valid type and is refused.** PROC is not part of this port. A record of type `PQ` is reported as *"PROC is not
 supported"* rather than being dispatched, because the record itself is
 valid PROC and it is the interpreter that is gone.
 
 ### What the shipped VOC holds
 
-Counted directly from `newvoc` in the system directory — the VOC a new account
-starts with, 434 records, by each record's own field-1 type character (the type
-is the first character; a record whose field 1 reads `Verb to ...` is `V`).
-Counted on 14 Nov 2026:
+The VOC a new account starts with is `newvoc` in the system directory: 441
+records, counted by each record's own field-1 type character (the type is the
+first character; a record whose field 1 reads `Verb to ...` is `V`):
 
 | Type | Count |
 |---|---|
-| `V` | 205 |
+| `V` | 212 |
 | `K` | 218 |
 | `F` | 7 |
 | `PA` | 1 |
@@ -60,18 +58,18 @@ Counted on 14 Nov 2026:
 
 **The four keyword-verbs are among the 218 `K` records.** `break`, `count`,
 `display` and `off` are counted as keywords here and are also verbs, so Solo has
-205 + 4 = **209 verbs**, the number on the syntax card. No `R` record is shipped.
+212 + 4 = **216 verbs**, the number on the syntax card. No `R` record is shipped.
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
 SD Core for Linux L2.0-0* in the GettingStarted set. (SDSYS's own VOC,
-which nobody signs in to, is built from the larger `voc_template`: 439 records.)
+which nobody signs in to, is built from the larger `voc_template`: 446 records.)
 
 > **`edit` used to be exactly this kind of trap** — a record present in the
 > VOC whose old type field read `Verb - Full screen editor` rather than `V`,
 > so it looked callable and refused at dispatch with *"Full screen editor is
 > no longer supported."* **That is history, not current behavior**: `edit`
-> is a real `V` record now, reinstated 26 Aug 2026, and works. The lesson
+> is a real `V` record now, and works. The lesson
 > stands even though the example does not: **being in the VOC is not
 > evidence a command works** — check the type field, not just the name.
 
@@ -139,12 +137,12 @@ target, and the remaining fields carry options.
 
 | Field 2 | Field 3 | What it does |
 |---|---|---|
-| `CA` | *catalog name* | a cataloged program — 167 of the shipped verbs |
+| `CA` | *catalog name* | a cataloged program — 174 of the shipped verbs |
 | `IN` | *number* | internal verb *n*, handled by the command processor itself — 37 verbs |
 | `OS` | *text* | an operating-system command — `sh`, and nothing else |
 | `CS` | *path* | a locally cataloged function |
 
-The first three rows account for all 205 of Solo's `V` records. The
+The first three rows account for all 212 of Solo's `V` records. The
 remaining four verbs are the keyword records described above — `break`,
 `count`, `display` and `off` — where field 2 holds a keyword number rather than a
 dispatch type, and it is field 3 that marks the record as a verb.
@@ -187,7 +185,7 @@ a marginal verb.
 ```
 
 This is `sd.accounts`. Field 2 is the account name, field 3 is the file
-name in that account. `set.file` writes Q-pointers; see below. Since 16 Oct 2026 the
+name in that account. `set.file` writes Q-pointers; see below. The
 target of `set.file` may itself be a Q-pointer, which makes a chain (not recommended, but it opens): each link is
 followed under the same rules, so a chain cannot reach where its links alone could not.
 

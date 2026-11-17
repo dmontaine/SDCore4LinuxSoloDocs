@@ -11,8 +11,7 @@ is what a managed computer offers the server today.
 **A global password, and nothing else.** A computer is managed if, and only if,
 it has one. It is given when installing — at the installer's last password
 question (it can be left blank), or in the control file — and fixed until a new
-installation. The server signs in with it. (Until 6 October 2026 the installer
-asked "standalone or managed?" first; there is no such question now.)
+installation. The server signs in with it. (The installer does not ask "standalone or managed?".)
 
 **For the server to reach the computer, the API and ssh must be open to the
 network** — your choice, made at the same install, because they are your choice
@@ -183,7 +182,9 @@ deny.verbs 2: sh,copy
 **A command is denied under every name that runs it.** Some names that look
 different share one: `ED` and `EDIT` both run SD's line editor, so denying one
 denies both, and the answer says what else was taken (`deny.verbs also denies, as
-the same command: ...`). (Before 2.0-0, `!` was a second name of `SH` and was
+the same command: ...`). **The case a record spells its program in does not matter:** a
+verb whose VOC record runs the same program as a listed verb is denied too, however the
+program's name is written. (Before 2.0-0, `!` was a second name of `SH` and was
 denied with it; it was removed.) For example:
 
 ```

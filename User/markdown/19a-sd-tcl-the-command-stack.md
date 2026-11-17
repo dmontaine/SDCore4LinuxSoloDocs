@@ -35,7 +35,8 @@ anything else ends the chance, and `.c-` then has nothing to undo.
 `.s` and `.r` together are the whole workflow: type the lines, then save them
 under a name, then recall them later to edit. **`.s` writes a sentence when the
 range is one line and a paragraph when it is more**, so the record type follows
-from what you saved rather than from anything you say.
+from what you saved rather than from anything you say. **A new name is stored in lower
+case**, as every VOC name is; saving over a record that already exists keeps that record's name.
 
 `.x` *file* *id* is the one that reaches outside the VOC — the file name and the
 record id are each folded as typed, then lower, then upper.
