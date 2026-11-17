@@ -32,14 +32,16 @@ count voc
 ```
 
 ```
-417 record(s) counted
+448 record(s) counted
 ```
 
-**That number is particular to the account** — 417 is what a
-freshly installed Solo account counted. The `voc` of your account starts as the
-shipped set and local additions differ. **The other counts on this page are
-those of the multiuser SD Core for Linux's SDSYS account, whose VOC is larger**,
-so a query over the VOC gives a slightly smaller answer on Solo; the queries
+**That number is particular to the account** — 448 is what a new Solo
+account counted after its first sessions: the 441 records SD ships for an
+account, and the account's own entries (`bp`, `examples.bp` and their `.out`
+files, `$hold`, `$savedlists` and `$command.stack`). The `voc` of your account
+starts as the shipped set and local additions differ. **The other counts on
+this page are those of the multiuser SD Core for Linux's SDSYS account**, so a
+query over the VOC may give a different answer on Solo; the queries
 themselves, and what they show about the language, are unchanged.
 
 ## The verbs

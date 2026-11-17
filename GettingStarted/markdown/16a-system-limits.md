@@ -104,13 +104,14 @@ it.
 
 | | VOC records |
 |---|---|
-| Your account (`newvoc`) | **434** |
-| SDSYS (`voc_template`) | **439** |
+| Your account (`newvoc`) | **441** |
+| SDSYS (`voc_template`) | **446** |
 
 **These are record counts, not verb counts** — a VOC record may be a verb, a
 keyword, a file pointer, a sentence or a paragraph, and only some are verbs.
 A working account also holds the
-records you and SD add (a fresh account counted 417 with `count voc`). The
+records you and SD add (a new account counted 448 with `count voc` after its
+first sessions: the 441 shipped and the account's own files, such as `bp`). The
 verb subset specifically is counted on the SD TCL syntax card in the User set.
 
 ## Configuration

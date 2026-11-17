@@ -526,7 +526,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | `set.tile` | Added | takes a home screen tile off the page or puts it back; `set.tile` alone lists what is off |
 | `set.tile` standard ids | Changed | the seven development tiles and `recent` are standard ids (there is no Switch account tile in Solo); the Back tile of a sub-menu cannot be turned off |
 | `set.viewer` | Added | allows one PDF reader for the `pdf` verb; none is allowed as delivered |
-| `settings.report` | Changed | `[mode]` says the credential register could not be read, instead of "not managed", when it cannot open it |
+| `settings.report` | Changed | `[mode]` says "unknown", not "not managed", when the credential register cannot be opened or its global password record cannot be read |
 | shell and OS access | Changed | until now every Solo account could run Linux commands and reach any file the Linux user could; both are off until the administrator turns them on |
 | `sync.global.catalog` | Changed | in managed mode it catalogs the SD Core server's programs under their plain names (`call name`; the `*` prefix is gone), takes a catalog entry with no `$ ! _` prefix for the server's, refuses a program whose name begins with `$ ! _ * -`, and sweeps away the `*name` entries an earlier release made; a program cataloged in the account under the same name is found first |
 | `tool.audit` | Added | after `admin`: full-screen page that reads the audit trail from its end, a screen at a time: filters by time, event, account, user and text, go to a time, follow, the rotated files, and the lines shown saved to a record; it changes nothing else |
