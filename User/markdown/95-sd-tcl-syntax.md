@@ -11,7 +11,7 @@ folds case, so any of this may be typed in either case.
 
 > **This page is generated, and it is checked for completeness rather
 > than proof-read for it.** The roster is computed from SD's own VOC:
-> every verb record in `newvoc`, which is **212** verbs, and
+> every verb record in `newvoc`, which is **216** verbs, and
 > `tools/mktclsyntax.py` refuses to
 > write the page if any of them has no line. The shapes come from the
 > subject documents, where each verb is described in full.
@@ -20,7 +20,7 @@ folds case, so any of this may be typed in either case.
 reading `newvoc` directly, so it cannot drift from what the account
 actually gets. **A verb your account does not have is not refused — the
 name is simply not recognised.** Solo has one account, and it has all
-212 of them; whether a verb needs `admin` is in the GettingStarted set.
+216 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -166,6 +166,7 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`restore.account`** | **`restore.account`** *zipfile* {*account* \| **`all`**} {**`no.query`**}  ·  **`restore.account latest`** {*account* \| **`all`**} {**`no.query`**} |
 | **`restore.voc`** | **`restore.voc`** *account* *id*  ·  **`restore.voc`** *account* **`all`**  —  put back the newest saved copy of a record the VOC update removed; never overwrites |
 | **`run`** | **`run`** {*file*} *record* {*arguments*} |
+| **`run.job`** | **`run.job`** *name*  —  what a job's timer runs (the one-shot **`sd-solo "run.job`** *name***`"`**); refused anywhere else |
 | **`save.list`** | **`save.list`** *list* {**`from`** *list.no*} |
 | **`save.stack`** | **`save.stack`** {*name*} |
 | **`scan`** | **`scan`** {**`dict`**} *file* {*selection*} {*id* …} {**`all`**} {**`no.case`**} {**`all.match`** \| **`no.match`**} {**`strings`** *file* *record*} **`for`** *"text"* … |
@@ -182,6 +183,8 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
 | **`set.file`** | **`set.file`** *account* *file* *pointer* |
+| **`set.job`** | **`set.job`** \| **`set.job add`** *name* *schedule* *command* \| **`set.job change`** *name* *schedule* *command* \| **`set.job delete`** *name* \| **`set.job run`** *name*  —  your scheduled jobs (*schedule* is **`every`** 5\\|10\\|15\\|20\\|30 **`minutes`**, **`hourly`**, **`daily`** *hh:mm*, **`weekly`** *day* *hh:mm* or **`monthly`** *1-28* *hh:mm*; **`add`** and **`change`** ask for the account password); without a word, lists them |
+| **`set.jobs.access`** | **`set.jobs.access`** \| **`set.jobs.access on`** \| **`set.jobs.access off`**  —  whether SD's scheduled jobs may be made and run (administrator; off as delivered, and off refuses every job at its next run); without a word, says which |
 | **`set.mcp`** | **`set.mcp`** {**`on`** \| **`off`**}  ·  **`set.mcp write`** **`on`** \| **`off`**  —  whether an AI agent's MCP client may use the account through the MCP launcher, and whether it may also run a sentence (administrator; both off as delivered); without a word, says which |
 | **`set.mode`** | **`set.mode`** {**`dict`**} *file* {**`all`** \| **`from`** *listno* \| *id* …} {**`no.query`**} *mode* |
 | **`set.net.access`** | **`set.net.access`** \| **`set.net.access on`** \| **`set.net.access off`** |
@@ -224,7 +227,8 @@ name is simply not recognised.** Solo has one account, and it has all
 | **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
 | **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the editor, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
 | **`tool.files`** | **`tool.files`**  —  the files of the account on one screen: kind, records, modulus, size, indices, trigger; make, clear and delete a file, each through its own verb after a box that shows the command; analyze a file and list its indices and triggers by handing the terminal to the verb |
-| **`tool.gates`** | **`tool.gates`**  —  the five gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files, the AI and file transfer, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`**, **`set.ai gate`** or **`set.xfer.access`** after a box answered Run |
+| **`tool.gates`** | **`tool.gates`**  —  the six gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files, the AI, file transfer and scheduled jobs, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`**, **`set.ai gate`**, **`set.xfer.access`** or **`set.jobs.access`** after a box answered Run |
+| **`tool.jobs`** | **`tool.jobs`**  —  your scheduled jobs on one page (any session): each job's schedule, command, next and last run; N, C, D and R make, change, delete and start one through **`set.job`** after a box answered Run, N and C with the account password typed in the form |
 | **`tool.keys`** | **`tool.keys`** |
 | **`tool.menus`** | **`tool.menus`**  —  menu management (administrator): the home screen's tiles, where a session starts, whether the account may add its own programs |
 | **`tool.query`** | **`tool.query`** {*file*}  —  the query and report builder: choose a file, mark its columns (break and total), set conditions, sorts and options, read the list / sort / count / sum sentence they make, run it into a results box, and save the query in your file &queries& and load it again; every sentence is checked before it runs |

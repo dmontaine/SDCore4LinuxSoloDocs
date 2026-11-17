@@ -63,11 +63,12 @@ tool.gates
 ```
 
 **A full-screen page, in any session** (140 columns by 43 lines at least). It
-lists the five gates this account has - **Shell** (`sh`), **OS.EXECUTE** (`os`),
+lists the six gates this account has - **Shell** (`sh`), **OS.EXECUTE** (`os`),
 **Remote files** (`net`, [API access](09-api-access.html)), **AI**
-([The AI helper](24-the-ai-helper.html)) and **File transfer** (`xfer`, `set.xfer.access`;
-*Moving Files In and Out* in the User documentation, read each time
-it is used, so "this session" is what the register says now) - with, for each: whether it is ON or
+([The AI helper](24-the-ai-helper.html)), **File transfer** (`xfer`, `set.xfer.access`;
+*Moving Files In and Out* in the User documentation) and **Scheduled jobs** (`jobs`,
+`set.jobs.access`; [Scheduled jobs](04-scheduled-jobs.html)), the last two read each time
+they are used, so "this session" is what the register says now - with, for each: whether it is ON or
 off **for this session**, what the register holds (shown to the administrator
 only), how it is delivered (off, every one), whether it reaches beyond SD (every
 one does) and when a change reaches you. A box under the list explains the row

@@ -1,5 +1,73 @@
 Title: Scheduled jobs
-Subtitle: Running an SD command on a timer with cron or a systemd timer.
+Subtitle: Running an SD command on a timer: SD's own jobs (set.job), or cron and a timer of your own.
+
+There are two ways: **SD's own scheduled jobs**, which SD lists, starts and
+stops for you, and **a cron line or a systemd timer you write yourself**. Both
+run `sd-solo <command>` as you, signed in with the kept copy of your account
+password.
+
+## SD's own scheduled jobs
+
+**Off as delivered.** The administrator turns them on once:
+
+```
+:admin
+:set.jobs.access on
+```
+
+(or on the gates page, `tool.gates`, the row *Scheduled jobs*). While they are
+off, no job can be made or started, and every job is refused at its next run;
+`set.jobs.access off` stops them all that way. Their timers stay until you
+delete the jobs.
+
+**Make a job** with its name, its schedule and the command, as you would type
+the command at the prompt:
+
+```
+:set.job add nightly daily 02:30 my.report
+Password:
+Job nightly is scheduled: daily 02:30
+```
+
+**It asks for your account password, every time** you make or change a job,
+even in a session that has signed in; it cannot be done from a script or a
+one-shot command. So a job runs only a command that you, knowing the password,
+gave it.
+
+| Command | Does |
+|---|---|
+| `set.job` | lists your jobs, each with its schedule, its command, when it runs next and how its last run ended |
+| `set.job add` *name* *schedule* *command* | makes a job (refused if one of that name exists) |
+| `set.job change` *name* *schedule* *command* | changes one |
+| `set.job delete` *name* | stops and removes one |
+| `set.job run` *name* | starts one now, as its timer would |
+| `tool.jobs` | the same on a full-screen page: N, C, D and R; its form has a masked field for the password |
+
+*name* is 1 to 32 characters: a lower-case letter first, then lower-case
+letters, digits and dashes. *schedule* is one of `every 5 minutes` (or 10, 15,
+20, 30), `hourly`, `daily hh:mm`, `weekly mon hh:mm` (mon to sun), `monthly 1
+hh:mm` (day 1 to 28), in the computer's time. A run missed while the computer
+was off is not made up.
+
+**What a job is.** Two systemd user units of yours,
+`~/.config/systemd/user/sd-solo-job-<name>.timer` and `.service`. The service
+runs `sd-solo "run.job <name>"`, which signs in as every one-shot command does
+and runs the command the job was given; SD keeps the command, not the unit. A
+job's output goes to your journal (`journalctl --user -u sd-solo-job-<name>`),
+and the audit trail has a `run.job start` and a `run.job end` line for every
+run. Change a job with `set.job`, not by editing its units.
+
+**This is not a wall against you.** The definitions (`~/SDCoreSolo/$jobs`) and
+the units are yours, as the programs are: a job adds no way in that a one-shot
+`sd-solo` command does not already have. The password is asked so that a job
+is set deliberately, by its owner.
+
+**Uninstalling** removes the timers. When you keep your data, the job
+definitions are kept with it, and a new install that reloads the data gives
+the jobs their timers back. The register's switch is not kept: turn jobs on
+again with `set.jobs.access on`.
+
+## Cron or a timer of your own
 
 **A scheduled job is `sd-solo <command>`, run by cron or a systemd timer as you.**
 There is no permit list to fill in and no administrator rights to give it: a
