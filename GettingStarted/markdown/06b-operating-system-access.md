@@ -12,10 +12,10 @@ independent switches, with `set.os.access`.
 | Switch | What it lets the account do |
 |---|---|
 | **`sh`** | the `sh` verb |
-| **`os`** | `OS.EXECUTE`; `OPENSEQ`, `OPENPATH`, `DIR()`, `DELETESEQ`, `OPENTEMP`, `DIGEST` of a file and the file-system keys of `OSPATH()` on a path **outside the account's own directory**; a print unit's pathname (`SETPTR ... AS PATHNAME`, `SETPU`, a CSV report's `TO` pathname) and its `SPOOLER` command outside it; the embedded Python; the editor `micro`; and a VOC pointer to a file outside the account |
+| **`os`** | `OS.EXECUTE`; `OPENSEQ`, `OPENPATH`, `DIR()`, `DELETESEQ`, `OPENTEMP`, `DIGEST` of a file and the file-system keys of `OSPATH()` on a path **outside the account's own directory**; a print unit's pathname (`SETPTR ... AS PATHNAME`, `SETPU`, a CSV report's `TO` pathname) and its `SPOOLER` command outside it; the pathname of a socket trace log (`set.socket.mode` with `skt$info.trace`) outside it; the embedded Python; the editor `micro`; and a VOC pointer to a file outside the account |
 
-**Both are off as delivered, on a new install and on an upgrade unless you said
-yes when the installer asked.** The account's own directory is never asked
+**Both are off as delivered on a new install unless you said yes when the
+installer asked; an upgrade keeps the switches the installation has.** The account's own directory is never asked
 about: inside it everything works whatever the switches say. **The
 administrator needs no switch**: after `admin` the session passes both for as
 long as it lasts.
@@ -169,6 +169,22 @@ started with — under systemd that is the user manager's, which normally does n
 include `~/.local/bin`, so `sd-solo` itself is not found by name inside `sh` (use
 the full path).
 
+## SD refuses to nest
+
+A shell that SD starts, with `sh` or with `OS.EXECUTE`, is marked, and `sd-solo` checks the mark before it
+reads anything else, so every form of the command is refused inside it (`sd-solo -status` and `sd-solo --version`
+too) with "SD is already running in this session - type exit to return to it.":
+
+```
+:sh printenv SD_SESSION
+1
+```
+
+**That is worth knowing when writing a script for `sh` to run**: anything it starts inherits `SD_SESSION`,
+so a script that starts SD as part of its work is refused, wherever it is called from. It is a guard and
+not a boundary: the mark is a variable of the shell, and a person with a shell can remove it there. A shell
+you start yourself outside SD is not marked.
+
 ## One rule about the shape of the command, for everybody
 
 **The verb refuses a command that contains `;`, `|`, `&`, `$`, a backquote,
@@ -235,7 +251,8 @@ answer can be given on the command line, `--os-access none|sh|os|both`, or in a
 control file (`os-access=`); with no terminal, or with `--yes` and no answer,
 nothing is turned on, and both are off.
 
-**An upgrade does not ask**: it keeps the two switches as they are. A Solo from
+**An upgrade does not ask**: it keeps the two switches as they are (an explicit
+`--os-access sh|os|both` is still applied, and only ever turns a switch on). A Solo from
 before this release (LS1.1-3) had no switches, its shell and OS access always
 on; after the upgrade it has neither set, so **both are off** until you type
 ADMIN and then `set.os.access sh on` or `set.os.access os on`.

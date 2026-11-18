@@ -19,7 +19,7 @@ that is off as delivered.** The administrator turns a switch on with
 stands between a session and the computer beyond what Linux itself allows that
 user — see [Operating system access](06b-operating-system-access.html). The
 switches are the one wall SD keeps in front of that, per switch, and they are
-off until you say otherwise: at install, at upgrade (the installer asks), or
+off until you say otherwise: at install (the installer asks; an upgrade keeps them as they are), or
 later with `set.os.access`.
 
 **That applies to every kind of session**, ssh and the API included: they read the
@@ -140,9 +140,11 @@ writes `tool start app=tool.audit`, and X writes the one export line; both are o
 
 ## What is still not true
 
-**SD has no file-level access control of its own** on the keyboard and ssh paths:
-a session opens files as you, so Linux's permissions on your directory are the
-only boundary. The one place a path gate does exist is the account's `os` switch,
-which holds a session, the API's included, to the account it stands in while it is
-off, as delivered — see
+**SD's own access control to operating-system files is the account's `os`
+switch, and it is the only one.** While the switch is off, as delivered, SD holds
+every session — at the keyboard, over ssh and over the API alike — to the
+account's own directory when it opens an operating-system file by pathname (plus
+any directory the administrator listed in `NETDIRS`); with the switch on, a
+session is held only by Linux's permissions on your user. What a session may do
+inside the files SD itself opens is whatever Linux lets your user do — see
 [API access](09-api-access.html#a-session-is-held-to-its-own-account).

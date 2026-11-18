@@ -113,7 +113,7 @@ ER$VFS.CLASS     SYSCOM ERR.H
 ER$VFS.NGLBL     SYSCOM ERR.H
 ```
 
-`ftype` no longer returns `VFS` for a `VFS:` pathname.
+`ftype` no longer returns `VFS` for a `VFS:` pathname. **Error numbers 3038, 3039 and 3040 are retired and will not be given a new meaning.**
 
 **If one of your programs refers to any of these, it was testing for a state SD
 could not reach, and the test can be deleted.**
@@ -171,13 +171,20 @@ here.
 `bigstr_test`, `msgtest`, `pcl`, `pcl.grid`, `pcode_list`, `sdtest_v8`,
 `sd_encrypt`/`_b64`/`_ext`, `sd_ext`, `test.then.else`, `testsz`, `u0032`,
 `u50bb`, `vfs.cls`, `pref_t`, `sdTests` and `tilde_test` are no longer installed
-— developer-era test and demonstration programs with no product function, not
-something an application ever called. **`py_json`, `py_term`, `py_test` and
-`py_test2` were kept deliberately**, as the documented examples for embedded
-Python.
+into the SDSYS `bp` file — developer-era test and demonstration programs with no
+product function, not something an application ever called. **`py_json`,
+`py_term`, `py_test` and `py_test2` were kept deliberately**, as the documented
+examples for embedded Python, above.
 
 **`pcl` is unaffected as a printer feature** — the `pcl` keyword and the
-cataloged `pcl` routine are both still there.
+cataloged `pcl` routine in `gpl.bp` are both still there. What has gone is a
+second, older copy of the source sitting in `bp`.
+
+**SD ships only those four examples into the SDSYS `bp` file now.**
+Everything else in it is yours — and because of that, **`bp` and its compiled
+objects are preserved when you upgrade**, alongside your account and the rest of
+your own data. An upgrade replaces those four programs by name and touches
+nothing else in `bp`.
 
 ## Things that were never features, and are not coming
 
@@ -185,7 +192,10 @@ These are not removals. They are stated here because a reader coming from anothe
 MultiValue system will otherwise assume they exist.
 
 **`scp` and `sftp` do not work inbound over an ssh key that lands in `sd-solo`**, which
-is the accepted cost of that landing. See [ssh access](08-ssh-access.html).
+is the accepted cost of that landing. **Pull files rather than pushing them**, or use
+`receive` and `send`, which move plain-text files over the same login once the
+administrator has turned file transfer on (it is off as delivered). See [ssh
+access](08-ssh-access.html#the-cost-no-shell-no-scp-or-general-sftp).
 
 **The cleartext API login is gone**, and a client that still sends a password in
 clear is refused outright. So is `SDConnectLocal`, which sent none. See

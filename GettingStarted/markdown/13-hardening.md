@@ -156,6 +156,7 @@ phantom or a piped script.
 |---|---|
 | The unit | `sd-solo.service`, and with an API `sd-solo-api.socket` |
 | After an unclean shutdown | SD starts anyway, once the daemon's own liveness — not just the segment's presence — is checked. See [Running SD](03-running-sd.html) |
+| Nested sessions | SD will not start a second time inside itself — see [Running SD](03-running-sd.html) |
 | `sd-solo <command>` | uses the kept password, and any command may be given — see [Scheduled jobs](04-scheduled-jobs.html) |
 | End of piped input | ends the session — at the command prompt, at `PAUSE` and at the Ctrl-R search |
 

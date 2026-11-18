@@ -163,6 +163,16 @@ The record is the file `login.inhibit` in the SD system directory. **It is not t
 same thing as the hold that `backup.account` and `restore.account` take**, which
 keeps *everybody* out, the setter's new sessions included, while they run.
 
+## The paragraph every session runs first: `MASTER.LOGIN`
+
+A record named `MASTER.LOGIN` in the VOC of the SD system directory (`~/SDCoreSolo/voc`, not
+the account's own VOC), if it is a paragraph (its first line is `PA`), is run **once by every
+new session, before the account's own `LOGIN` paragraph**: an interactive session, a
+phantom and an API session. There is none as delivered, so nothing runs by
+default, and the account's own `LOGIN` paragraph is the ordinary place for what a session
+should do when it starts; a session shows what it is by `@tty`. It runs in the account,
+**under the account's own switches**: it can do no more there than the account can.
+
 ## What is locked: `list.readu`
 
 ```
@@ -238,51 +248,8 @@ will not end*), or the `tool.sessions` page's L key.
 **Take the user number to `pstat`.** *(Not responding)* means clear the session
 rather than wait for it.
 
-## Who took which lock, and where: `lock.tracer`
-
-`list.readu` shows what is locked *now*. When the question is who took a lock, in
-which program and on which line, or what locked what in the second before a
-hold-up, switch the tracer on, let the system run for a short while, and read the
-log. **Needs `admin`.**
-
-```
-lock.tracer on
-lock.tracer off
-lock.tracer {user n} {lptr {n}} {no.page}
-```
-
-While it is on, every lock any session takes or lets go is added, as one line, to
-the file **`locktrace` in the SD system directory**. `on` empties that file
-first, so a log is one switching-on's worth. The report lists the lines, oldest
-first, with the **date and time**, the **user number**, the **action**, the
-**program** that was running and the **line number** in it, the **file** and the
-**record id**. `user n` shows one session's lines; `lptr` prints them and
-`no.page` stops the pause at the end of a page. An ordinary session is told
-*lock tracing is for the administrator*.
-
-| action | means |
-|---|---|
-| `Get RU` | a record update lock taken |
-| `Get RL` | a shareable read lock taken |
-| `RL->RU` | a read lock raised to an update lock |
-| `RU->RL` | an update lock lowered to a read lock |
-| `Get FX` | a file lock taken |
-| `Rel RX` | a record lock let go |
-| `Rel FX` | a file lock let go |
-
-**It logs everything, SD's own locks included**: a sign-on takes `$ipc`, the
-command processor takes `$command.stack`, and reading the log reads a file. The
-volume is large and every lock costs a file write, so switch it on for a short
-time and off again.
-
-> **Only a lock that is granted is logged**: one that is refused, or has to wait,
-> is not, until the moment it is granted. A session that is killed has its locks
-> cleared by the cleanup, and that is not logged either, so a `Get RU` with no
-> `Rel RX` after it may be a lock the cleanup gave back.
-
 ## Continued in
 
-[Task Locks and the Sessions
-Screen](06a1-task-locks-and-forcing-a-lock-open.html) — task locks, forcing a
-lock open with unlock, the sessions and locks screen, and the paragraph every
-session runs first
+[Sessions and Locks: Lock Tracing, Task Locks and the Sessions
+Screen](06a1-task-locks-and-forcing-a-lock-open.html) — lock.tracer, task locks,
+unlock and tool.sessions.

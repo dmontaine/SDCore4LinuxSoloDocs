@@ -211,6 +211,20 @@ a container that is taken away without the machine.
 Unlocking a passphrase keyslot needs about 1 GiB of free memory, which is the
 `cryptsetup` default.
 
+### Checking a closed volume
+
+With the volume closed, the image should show no text of yours. Search it for a
+word you know is in a record, and for the record id and the account path; each
+count should be 0:
+
+```bash
+sudo grep -a -c "a text you wrote into a record" ~/sdsolo-volume.img
+sudo strings -a ~/sdsolo-volume.img | grep -c "a text you wrote into a record"
+```
+
+`file` describes the image as "LUKS encrypted file, ver 2". A search is
+evidence about the bytes that were searched, not a proof about every byte.
+
 ## What this does not cover
 
 - **A running machine.** Once the volume is unlocked, everything is plain text to

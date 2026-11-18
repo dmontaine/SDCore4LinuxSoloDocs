@@ -35,8 +35,9 @@ remembered — the SHA-256 of the whole certificate — in `~/.sdcore/known_serv
 `<host>:<port> <64 hex digits>`, per server. Any later connection to the same
 address and port that presents another certificate is **refused before a single
 byte of the login is sent**, with a message that names both fingerprints and the
-line to remove. A reinstalled computer has a new certificate: remove its line,
-connect again, and the new certificate is remembered. **A store the client cannot
+line to remove. A reinstalled computer has a new certificate: remove its line
+and connect again, and the new certificate is remembered. **Removing the line is
+the remedy**, and only if you know why the certificate changed. **A store the client cannot
 read or write refuses the connection** rather than connecting unchecked. This is
 done in the client library, so it applies to every program that uses `SDConnect`.
 **The very first connection is trusted**, as with ssh: someone in the middle at
@@ -183,12 +184,6 @@ from SD Core. A packet of exactly 65,536 bytes is accepted before the login and
 one byte more ends the session; after the login a record of any size SD can hold
 can be written and read back.
 
-**A file lock goes to the file the client names.** An API
-client that has opened three files and asks for the file lock on the first
-locks the first. Each lock and each release
-acts on the file number asked for, and a request with nothing to say does not
-repeat the text of the last refusal.
-
 ## A session is held to its own account
 
 | | |
@@ -275,10 +270,10 @@ gate**: without the `os` switch a file named in the VOC of a directory outside t
 | | |
 |---|---|
 | The shared library | `sdclilib.so`, in `~/SDCoreSolo/bin` |
-| Source | built as part of this release, or standalone at <https://github.com/dmontaine/linuxsdclilib> |
+| Source | built as part of SD Core Solo, or standalone at <https://github.com/dmontaine/linuxsdclilib> |
 
-**Use a client library from this release or later.** One that predates SCRAM is
-refused. See [Client distribution](10-client-distribution.html).
+**It must speak SCRAM.** A client library that sends the password in clear is
+refused by the server. See [Client distribution](10-client-distribution.html).
 
 **Programs using the `!sdclient` class** — SD BASIC reaching another SD over the
 API — speak the same login, from this release at both ends.

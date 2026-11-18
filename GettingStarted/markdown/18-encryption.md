@@ -31,7 +31,7 @@ where the passphrase lives before it writes the application.
 
 | Layer | What it is | Protects against | Does not protect against |
 |---|---|---|---|
-| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt, an encrypted home directory). SD is unchanged. It has a page of its own in this set ([Encrypting the data SD keeps on disk](18a-data-at-rest.html)) | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
+| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt, an encrypted home directory). SD is unchanged. It has a page of its own in this set ([Encrypting the data SD keeps on disk](18a-data-at-rest.html)) | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; root; a mounted volume |
 | The program | `sdkey()` and `sdencrypt()` in an application | a copy of the SD files, a backup, a person with file access but not the key | the program itself, its variables, anyone who holds the key |
 | The conversion | `XE` in a dictionary item, with the key held in a ring in the process | the same, and the field reads decrypted for a session that holds the key | the same, and root or a debugger on that process |
 
@@ -71,6 +71,13 @@ derives the key once per run.
 the passphrase is empty or over 65,536 bytes, **10204** a key of the wrong length
 (a passphrase passed straight in as the key is this), **10201** a wrong key or a
 damaged value.
+
+### A passphrase is not a key
+
+`sdencrypt('The quick brown fox', 'secretkey', 202)` returns nothing and sets
+`status()` to **10204**: a passphrase is not a key. The way to turn a passphrase
+into a key these functions accept is `sdkey()`, above; `sdext()`'s
+`SD_KEYFROMPW` is internal-only, so an ordinary program cannot call it.
 
 ## The XE conversion and the key ring
 
@@ -174,17 +181,17 @@ called them do not exist in Solo.
 
 ### What uses it
 
-The programs that call `sdext()` are the credential and login ones — `apisrvr`,
-`cred_set`, `cred_verify`, `sd_get_salt`, `sd_key_from_pw` and `sdclient` — the
-programs for scheduled jobs, phantoms and network logins (`tool_solojobs`,
-`phantom`, `ipc_seal`, `setnetlogin`, `netcred`), the two that
+Every shipped program that calls `sdext()` is an internal program, which runs
+only from the global catalog and cannot be compiled by an ordinary account. They
+are the credential and login programs (`apisrvr`, `cred_set`, `cred_verify`,
+`sd_get_salt`, `sd_key_from_pw` and `sdclient`), the programs for scheduled jobs,
+phantoms and network logins (`tool_solojobs`, `phantom`, `ipc_seal`,
+`setnetlogin`, `netcred`), the two that
 keep a recovery copy or a debugger store in a private folder (`edit_recovery`,
 `pdbg_store`), the embedded-Python interface (the `py_*` programs), and the three key ring
 subroutines `keyring_set`, `keyring_clear` and `keyring_list`. The last three are
 cataloged for general use as `!keyset`, `!keyclear` and `!keylist`, so an
-application reaches the ring without reaching `sdext()`. The others are not
-cataloged for general use as a way to reach the interface, so they are not an
-indirect route to it either.
+application reaches the ring without reaching `sdext()`.
 
 ## Two constants that are not SDEXT keys
 

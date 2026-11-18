@@ -137,9 +137,10 @@ what lets a script or a scheduled job use SD. See
    signs in as `sduser` with the account password, on port 4249, and needs a client library from this release, because the old
    cleartext login is gone. See [API access](09-api-access.html) and
    [Client distribution](10-client-distribution.html).
-3. **ssh straight into `sd-solo`**, if you gave the installer a public key: `ssh
-   <your Linux user>@localhost` lands at SD's password prompt. See
-   [ssh access](08-ssh-access.html).
+3. **ssh straight into `sd-solo`**, unless you installed with `--ssh off`: `ssh -p
+   4251 <your Linux user>@localhost` asks for your Linux password (or uses your
+   key) and then lands at SD's password prompt. Solo's ssh is its own, on port 4251,
+   and port 22 is not used. See [ssh access](08-ssh-access.html).
 4. **An upgrade.** `bash installsdsolo.sh --upgrade` — see
    [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 

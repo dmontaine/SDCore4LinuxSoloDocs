@@ -74,7 +74,7 @@ shows the same sentence in its box:
 | `INTPREC` | Changes the results of arithmetic in programs that already exist. |
 | `MAXIDLEN` | Structural: the longest record id of the whole system, which reaches every file and program. |
 | `MUSTLOCK` | Makes a write fail unless the record is locked first, which can stop programs that exist. |
-| `NETDIRS` | A door: it widens what a session without the `os` switch may reach beyond the account's own directory. |
+| `NETDIRS` | A door: it widens what a session without the `os` switch, and an API session, may reach beyond the account's own directory. |
 | `NETFILES` | A door: bit 2 gates API request 29, a remote open of an account. |
 | `NUMFILES` | Sizes the open file table in shared memory; SD checks no range. |
 | `NUMUSERS` | Sizes the user table, which bounds who can sign on; SD checks no range. |

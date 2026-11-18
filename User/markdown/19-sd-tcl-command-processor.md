@@ -96,8 +96,8 @@ Field 2 of a verb record says how to run it, and field 3 says what to run:
 
 | | | |
 |---|---|---|
-| `CA` | *name* | a cataloged program — 95 of the shipped verbs |
-| `IN` | *n* | internal verb *n*, handled by the command processor itself — 43 |
+| `CA` | *name* | a cataloged program |
+| `IN` | *n* | internal verb *n*, handled by the command processor itself |
 | `OS` | *text* | an operating-system command — `sh` |
 | `CS` | *path* | a locally cataloged function |
 
@@ -109,12 +109,11 @@ shipped verbs uses field 5 — **your account has the whole VOC, and what needs
 but the mechanism is there
 for a site that wants a verb guarded rather than absent.
 
-There are **40 internal verb numbers**, and the numbers are positional in the
+There are **41 internal verbs**, numbered, and the numbers are positional in the
 command processor's dispatch list. Several names share one: `off` and `quit` are
-both internal verb 1, and `clr` is internal verb 2. (`cs` for `clr`, and the
-run-together `cleardata`, `clearinput`, `clearprompts` and `clearselect` for
-`clear.data` and the rest, were second names for the same numbers and were
-removed in 2.0-0.)
+both internal verb 1, and `clr` is internal verb 2. The `clear.data`,
+`clear.input`, `clear.prompts` and `clear.select` verbs are internal verbs 19,
+25, 20 and 6.
 
 ## Sentences and paragraphs
 

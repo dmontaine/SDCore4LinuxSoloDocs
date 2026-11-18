@@ -19,7 +19,7 @@ ordinary Unix `lib*.so` convention (`-lsdcli` at link time). **They are not two
 copies to keep in sync by hand** — one build target produces both, so there is
 nothing to drift.
 
-**This port carries no 32-bit build.** SD Core for Windows ships a separate
+**SD Core Solo for Linux carries no 32-bit build.** SD Core for Windows ships a separate
 32-bit client for QM-heritage applications and a third-party tool (mvDeveloper) that only runs
 32-bit; neither concern applies here.
 
@@ -30,12 +30,11 @@ under `~/SDCoreSolo/bin`. There is no separate client-only package yet —
 building from source, or copying the `.so` from an installed tree, is how an
 application gets it today.
 
-## The library must match the release
+## The library must speak SCRAM
 
-**The cleartext API login is gone.** A client that still sends a password in
+**There is no cleartext API login.** A client that sends a password in
 clear is refused with *"Cleartext login is no longer supported; this server
-requires SCRAM authentication"*. Use a client library from this release or
-later.
+requires SCRAM authentication"*. Use the client library that comes with SD.
 
 ## Connecting
 

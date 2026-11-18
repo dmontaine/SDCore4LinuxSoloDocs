@@ -12,7 +12,7 @@ and `pdf/` folders beside it are generated.
 
 | Set | For | Contents |
 |---|---|---|
-| `GettingStarted/` | everyone | installing, upgrading and uninstalling SD Core Solo for Linux, running it, scheduled jobs, the one account and its passwords, the administrator commands, sessions and locks, operating system access, backup and restore, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, the three stand-alone file tools (`sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own, the AI helper, the MCP door, what differs from OpenQM, and moving programs over from other MultiValue databases. Solo has no separate Administrator set: the administrator's pages are here |
+| `GettingStarted/` | everyone | installing, upgrading and uninstalling SD Core Solo for Linux, running it, scheduled jobs, the one account and its passwords, the administrator commands, sessions and locks, operating system access, backup and restore, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, the three stand-alone file tools (`sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own, the AI helper, the MCP door, what differs from SD Core for Linux and from OpenQM, and moving programs over from other MultiValue databases. Solo has no separate Administrator set: the administrator's pages are here |
 | `User/` | programmers and users | SD BASIC by subject, SD TCL by subject, the VOC and dictionaries, files, standard subroutines, the client API, the terminal screen library, a tutorial with worked programs, SD and AI agents, the glossary and the generated syntax cards (`94` SD BASIC, `95` SD TCL, `96` the names an ordinary program may not compile) |
 | `TUIGuide/` | programmers | *SD Text User Interface - Programmer's Guide*: building a full-screen page of your own in SD BASIC with the public `!tk` routines and `tkpub.h` - the shape of a program, the window and its floor, the key table and menus, the finder, the confirm box, the form, the pick lists, the output pane, and how a page uses the `screen` statement with the routines - with five worked example programs and a reference of every routine. A document of its own, with its own page numbers and its own book |
 | `Changes/` | everyone upgrading | what was added, changed and removed in this version, by area |
@@ -77,6 +77,13 @@ the page names the two cards write in italics into links.
 `tools/checklinks.py`, `tools/docmap.py`, `tools/tclmap.py`, `tools/confmap.py`
 and `tools/verbcounts.py` check the links and that every SD BASIC name, TCL verb
 and `sd.conf` parameter is documented.
+
+The PowerShell programs in `tools/` (`mkpdf.ps1`, `mkbookpdf.ps1`, `release.ps1`,
+`sdtcl.ps1`, `sdprobe.ps1`, `sdprobe2.ps1`, `sdcompile.ps1`, `sddebug.ps1`) and
+`tools/scriptmap.py`, which checks the installed PowerShell scripts against their
+page, are the Windows documentation's tools. They are kept here so that the
+`tools` folder is the same in every SD documentation repository; nothing on Linux
+runs them.
 
 ## License
 

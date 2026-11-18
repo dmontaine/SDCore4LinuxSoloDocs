@@ -31,11 +31,13 @@ offered. If you changed the record while the AI was answering, its change no lon
 nothing is applied. The IDE has nowhere to run a command, so a command in the answer is ignored.
 Saving, compiling and running stay your own acts.
 
-The other keys: Ctrl-Q quits, Alt-G goes to a line, Ctrl-X, Ctrl-C and Ctrl-V cut, copy and
+The other keys follow [SED](27a-sd-tcl-sed.html) where the two do the same:
+Ctrl-Q quits, Alt-G goes to a line (in SED too), Ctrl-X, Ctrl-C and Ctrl-V cut, copy and
 paste, Ctrl-Z and Ctrl-Y undo and redo, Ctrl-F finds forward and Ctrl-B
 backward (Return on the question repeats the last text; **F3 finds the next one and
 Shift-F3 the one before**, as in other text areas) and Ctrl-R replaces a text through the record.
-**Ctrl-W closes the record**; Save as and Write a copy are in the File menu.
+**Ctrl-W is not SED's write-a-copy
+key here: it closes the record**; Save as and Write a copy are in the File menu.
 In the text area (the keys are those of `screen memo`; the [screen
 library](12a-sd-basic-the-screen-statement.html) page has the list) Ctrl-A selects
 everything, Ctrl-D duplicates the line, **Alt-K** cuts the whole line into the
@@ -45,8 +47,8 @@ Ctrl-E (the zoom), Ctrl-T (the theme) and Ctrl-K (the keys) on to the IDE.
 
 On a UTF-8 terminal (`LC_ALL`, `LC_CTYPE` or `LANG` says UTF-8) the frame, menus
 and scroll bars use line-drawing characters; elsewhere `+ - |`. The colors are
-your own theme if you chose one, else the site's (`SCREENTHEME` in `sd.conf`), as on the toolkit
-pages and in the debugger: paper when neither names one or the name is not
+your own theme if you chose one, else the site's (`SCREENTHEME` in `sd.conf`, paper as delivered), as on the toolkit
+pages, in SED and in the debugger: paper when neither names one or the name is not
 a theme, mono on a terminal with no color. Ctrl-T or View, Theme goes through blue, classic,
 mono, night and paper, skipping those the terminal cannot show, and **SD keeps the
 choice for you**: the IDE, every page, SED and the debugger start in it
@@ -64,7 +66,8 @@ one such as `/tmp` excepted): a home under a group-writable directory gets no co
 you save, close or quit normally. If the terminal closes, the connection drops or the IDE is aborted, the next
 time you open that record the IDE asks whether to **use the copy**, **delete it**, or **not open the record**
 (which keeps it); a text typed in an untitled buffer is offered in a new tab. The record itself is not changed
-until you save. Turning the recovery copy off does not delete copies that exist. `sed` keeps none.
+until you save. Turning the recovery copy off does not delete copies that exist. The IDE started as `sed` keeps
+its copies in the same way.
 
 **What it does not do:** it has no replace across records, no project files and no completion; it
 edits collection-file records only as JSON text or fields; and an operating-system file is a plain text file in one piece (no NUL, no byte from 248 to 255, 2 MB at
@@ -77,8 +80,9 @@ whole. **A window smaller than 140 by 43 when the IDE starts is refused**, in wo
 and nothing is drawn; `ed` is the editor for a small window. The window measured is
 the one on the screen, or the display `term w,h` gave if that is smaller. The last
 three rows are the IDE's foot, the same as the toolkit pages': the status line, a
-border and a row of function keys (the row is cut at the right edge of the window,
-the keys named first staying).
+border and a row of function keys (Esc menu, F1 help, Ctrl-S save and the build
+keys; the row is cut at the right edge of the window, the keys named first
+staying).
 
 **If the window is made smaller than that while the IDE runs, the IDE locks**,
 whatever the cursor is doing: a warning in reverse video fills the upper left
@@ -96,7 +100,7 @@ were doing: the editor's undo and redo steps, the selection,
 the text to find (F3), the cursor and the view, the messages table's row, the open
 nodes of the tree and a half-typed AI request. The parts of the screen are moved and
 sized where they are; if one of them cannot be moved, the IDE builds the screen again,
-keeping the text. Coming back from Run or Debug also builds the screen again.
+keeping the text. Coming back from Run, Debug or SED also builds the screen again.
 
 ## The two that are not like the others
 

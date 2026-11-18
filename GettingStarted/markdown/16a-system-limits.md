@@ -132,5 +132,5 @@ a line naming a name SD does not have (such as `APILOGIN`, `CODEPAGE`, `CREATUSR
 `EXCLREM`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`,
 `PORTMAP`, `RINGWAIT` or `TXCHAR`) stops SD from starting;
 [Configuration](16-configuration.html) says how the installer takes them out of
-a kept `sd.conf`. `NETFILES` is live: its bit 2 opens API request 29, behind the
-NET gate (see the same page).
+a kept `sd.conf`. `NETFILES` is not inert, because bit 2 gates API request 29, and
+[Configuration - The Parameters](16c-the-parameters.html) says so.

@@ -176,5 +176,5 @@ configure.file customers default
 
 **There is no `static` file type.** The two types are directory and dynamic.
 
-`delete.file` refuses `voc` and `$acc`, and the refusal no longer depends on
+`delete.file` refuses `voc` and `$acc`, and the refusal does not depend on
 the case you type them in.

@@ -81,7 +81,9 @@ were still there.
 This is a developer's debugging tool, and it can write anywhere in the file.
 **It is off unless the configuration file has `DEBUG` with bit 2 set** (`DEBUG=2`
 in the `[sd]` section). Without that, `sdfix -I` prints the usage text and does
-nothing.
+nothing. To use it without changing `~/SDCoreSolo/sd.conf`, copy that file, add the line to
+the copy, and point `SD_CONFIG` at the copy for that one run (the file is read when
+the program starts).
 
 The prompt shows the selected subfile (`0?`). Commands: `check`, `fix`
 (a check with `-F`'s unconditional repairs); `Gn` display group *n*, `ga` all

@@ -197,6 +197,8 @@ asterisk.
 | **`qc`** | quit, keeping nothing |
 | **`?`** | help |
 
+For a file `t3` that holds the records `a1` to `a5`:
+
 ```
 select t3
 show.list
@@ -248,8 +250,8 @@ account's `$savedlists` file and outlives it.
 | **`sort.list`** *name* {**from** *file*} | sort a saved list, in place |
 
 Both default to list 0, and `save.list` defaults the name to the list number.
-**`save.list`** takes **`keep`** to leave the active list as it was (it has always
-emptied it) and **`count.sup`** to leave out the count of records, and **`get.list`**
+**`save.list`** takes **`keep`** to leave the active list as it was (without it the
+list is emptied) and **`count.sup`** to leave out the count of records, and **`get.list`**
 takes **`deleting`** to delete the saved list once it is loaded and `count.sup`
 too. With the name left out, a list is called after its number: `save.list` saves
 list 0 as `0`, and `get.list 0` brings it back.

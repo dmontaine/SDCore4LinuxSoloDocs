@@ -53,7 +53,7 @@ keeps the passwords and the API and ssh settings as installed.
 
 ## What the installer checks when it finishes
 
-It signs in as `sduser` and runs `WHO`, and then confirms that **`sd-solo -internal`
+It signs in as `sduser` and runs `who`, and then confirms that **`sd-solo -internal`
 is closed**: the door the installer itself uses is a one-shot, opened only by a
 marker file the installer writes immediately before each of its own steps, and
 it is shut when the install ends. The last line of a good install is:

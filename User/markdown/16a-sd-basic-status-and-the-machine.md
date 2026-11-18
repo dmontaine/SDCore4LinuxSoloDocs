@@ -202,7 +202,9 @@ ospath(path, key {, qualifier})
 The names are in the `keys.h` header; 6 and 18 have none, so give those as numbers. Every key that
 looks at or changes the file system (all but 0, 1, 4, 8, 9, 10 and 18) asks the OS access switch
 first: an account without it is held to its own directory, and a refusal
-answers false with `status()` set to a permission error. An unknown key answers false with
+answers false with `status()` set to a permission error. Deleting or making a directory
+whose path runs through the VOC is refused as a change of the VOC is, unless the session is the
+administrator's or the OS switch is on. An unknown key answers false with
 `status()` 1. The qualifier is read and ignored. An internal program's own `ospath()`, with its
 different numbers, is unchanged.
 

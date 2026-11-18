@@ -172,11 +172,15 @@ of a file name went with `FILERULE`: write an F-pointer instead.
 `NETFILES` is a live parameter. A `server;file` VOC reference is refused whatever it holds, but **bit 2
 (`NETFILES=2`) opens API request 29**, which opens an `account;file` file for a
 client that has signed in. It is 0 as delivered. With it set, the request is
-still refused unless the account's NET gate is on (`set.net.access on`), and
+still refused unless the account's NET gate is on (`set.net.access on`, an administrator command, off as delivered), and
 under `SDCLIENT`; see [API access](09-api-access.html). A
 pointer in the account's VOC that leads out of the account is refused too, unless
 the account has the `os` switch on. Setting `NETFILES=2` is therefore not enough to
-open such a file: turn the NET gate on only knowing what it allows.
+open such a file: turn the NET gate on only knowing what it allows. When it opens
+the file, the connection's containment applies: only the account the session stands
+in, the shipped system files its VOC names and the directories named in `NETDIRS`.
+The SDNet **client** (`set.server`, `set.netlogin`, a VOC pointer of type `N`) does
+not read `NETFILES`; see the SDNet page of the User set.
 
 There is no license parameter and no license verb. SD Core Solo is GPL v3 and is not
 licensed per site or per user; `config gpl` displays the license text.

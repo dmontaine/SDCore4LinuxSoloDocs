@@ -5,7 +5,7 @@ Subtitle: sduser, the account password, the kept copy, and the administrator and
 
 **SD Core Solo for Linux has one SD account, and it is always called
 `sduser`** — on every computer, whatever your Linux user is called. The
-installer makes it, in `~/SDCoreSolo/user_accounts/sduser`. `WHO`, `@LOGNAME`
+installer makes it, in `~/SDCoreSolo/user_accounts/sduser`. `who`, `@LOGNAME`
 and the audit trail all say `sduser`, and so does the user name an API client
 signs in with.
 

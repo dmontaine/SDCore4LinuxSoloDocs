@@ -165,19 +165,13 @@ DOCUMENTS = {
  # The Administrator set is merged into GettingStarted; configuration is
  # page 16, kept to about 14,000 characters by parts 16b and 16c (PAGE_PARTS).
  'GettingStarted/markdown/16-configuration.md': """
-   CLEANUP CMDSTACK DEADLOCK DEBUG DHCACHE DUMPDIR ERRLOG FDS FLTDIFF FSYNC
+   BACKUPDIR CLEANUP CMDSTACK DEADLOCK DEBUG DHCACHE DUMPDIR ERRLOG FDS FLTDIFF FSYNC
    GRPDIR GRPSIZE INTPREC LGNWAIT LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN MAXRLOCK
    MUSTLOCK NETDIRS NETFILES NETREPLY NETWAIT NUMFILES NUMLOCKS NUMUSERS
    OBJECTS OBJMEM PDUMP PHANTOMS PWDELAY RECCACHE SAFEDIR SCREENTHEME SDCLIENT
    SDSYS SH SH1 SORTMEM SORTMRG SORTWORK SPOOLER STARTUP TEMPDIR TERMINFO
    USERPOOL USPLIT USRDIR XFER XFERFILE XFERIDLE XFERKIND XFERMAX XFERSLOT
    XFERWAIT YEARBASE
- """,
- # 03 Oct 26 SD Core Solo for Linux (LSOLO 30): BACKUPDIR is written by SET.BACKUP.DIRECTORY
- # (S.53), not by hand, and page 06 is where it is explained - saved directory, what it
- # means and how to take it out.  The check that the page names it is confmap's own.
- 'GettingStarted/markdown/06c-backup-and-restore.md': """
-   BACKUPDIR
  """,
 }
 

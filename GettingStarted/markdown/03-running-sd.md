@@ -99,10 +99,11 @@ state on every restart. A reboot always leaves a clean slate; the "segment
 present, daemon dead" case above is about a crash the computer did **not**
 restart from.
 
-**Only one SD can run on a computer.** The shared-memory name is machine-wide,
-so a second SD — Solo for another user, or the multiuser SD Core for Linux —
-would attach to the first one's segment. That is why the installer refuses to
-run beside the multiuser product.
+**Only one SD Core Solo can run on a computer.** The shared-memory name is
+machine-wide, so a second Solo, for another Linux user, would attach to the
+first one's segment. SD Core for Linux uses a different shared-memory name and
+different ports, so the two products can be installed and run on the same
+computer; the command names (`sd` and `sd-solo`) say which one you start.
 
 ## `sh` runs as you, when the shell switch is on
 

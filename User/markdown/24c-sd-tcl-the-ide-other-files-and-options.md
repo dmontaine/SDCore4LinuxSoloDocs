@@ -14,7 +14,7 @@ A record that is not there opens as a new `{}`. Compile, run, debug, catalog, Sa
 not apply to such a tab (the IDE says so); **Write a copy keeps its JSON text in a record of an ordinary
 file, and a text cannot be saved into a collection file under a new name** (New record makes a record of
 it). A record that is neither an object nor an array (a plain value) is refused, and the lock goes back.
-Find in the records skips collection files.
+The record is locked while the tab is open, as any record is. Find in the records skips collection files.
 
 **A record open in a tab is locked for as long as the tab is open.** If another session already holds it
 the tab opens **read-only** and the status line says which

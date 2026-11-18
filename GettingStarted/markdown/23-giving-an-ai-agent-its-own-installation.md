@@ -15,7 +15,7 @@ SD Core Solo for Linux has **one account**, `sduser`, and its two OS switches be
 
 ## Two shapes
 
-The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for Linux source repository, with a template for the project's `CLAUDE.md` and a Claude Code skill that carries the SD knowledge (see the page *SD and AI Agents* in the User set).
+The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for Linux source repository, with a template for the project's `CLAUDE.md` and a Claude Code skill that carries the SD knowledge (see the page *SD and AI Agents* in the User set). The installer puts only the guide and the knowledge pack of the installed version under `~/SDCoreSolo/agent-pack`; the recipe, the template and the skill are not installed with the product: take them from the source of the version you run.
 
 **Shape 1: the agent is a client of your installation, with both switches off.** It gets the account and nothing outside it: it cannot run a Linux command, read or write a file outside the account's directory, or change the VOC. It can read, change and delete everything the account holds, **including your production data**, so use it only where the agent may touch that data.
 

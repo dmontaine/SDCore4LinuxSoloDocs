@@ -74,7 +74,8 @@ the commands that are the SD Core for Linux server's — see
 [Managed mode](15-managed-mode.html).
 
 **`logout` on its own needs nothing** — it ends your own session, like `quit`
-— **and nor does `sd-solo -k`**, because it is a switch on the program, not a
+— **and nor does `logout` *n***, because every session on a Solo computer runs
+as `sduser`, **or `sd-solo -k`**, because it is a switch on the program, not a
 command in a session. **`sh` needs no `admin`, but it needs its switch**: it is
 refused (*is not permitted to use the operating system shell*) until the
 administrator has turned `sh` on with `set.os.access`; see

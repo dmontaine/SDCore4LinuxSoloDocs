@@ -10,7 +10,7 @@ reader who knows the multiuser product. The User set applies to both.
 
 | SD Core for Linux L2.0-0 | Solo |
 |---|---|
-| many accounts, one per person, made by SDSYS | **one account, `sduser`**, made by the installer. `WHO` and `@LOGNAME` say `sduser` on every computer, whatever the Linux user is called |
+| many accounts, one per person, made by SDSYS | **one account, `sduser`**, made by the installer. `who` and `@LOGNAME` say `sduser` on every computer, whatever the Linux user is called |
 | SDSYS, entered by logging in to Linux as the `sdsys` user | **SDSYS is never entered.** Nobody logs in to it; the administrator commands run from your own account after `admin` |
 | `logto` *account*, to switch accounts without logging out | **not in Solo**. There is one account, so there is nowhere to switch to. Typed anyway it answers *LOGTO is not in your VOC* |
 | `create.account`, `delete.account`, `modify.account`, `modify.password`, `tool.accounts` | **not in Solo** |

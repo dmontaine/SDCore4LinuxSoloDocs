@@ -172,7 +172,8 @@ the rows where the file and SD disagree, and `S` only the parameters the file se
 **B, the backup directory**: the directory saved with `set.backup.directory` and whether it is there;
 **R, the report**: the operating system part of `settings.report`, made when the view is opened and
 on F5. It holds no key and no password hash. `F5` reads the file, the backup directory and the report
-again; `E` changes the parameter under the cursor, or says why it cannot be changed here; `F1`
+again, and while the report is made the status line says "Reading the settings (a few seconds)...",
+and while `set.config` runs a change it says "Making the change (a few seconds)..."; `E` changes the parameter under the cursor, or says why it cannot be changed here; `F1`
 explains the page; `Ctrl-Q` leaves. Opening the page writes the audit line
 `tool start app=tool.config`; a change writes the line of [`set.config`](16b-changing-a-parameter-from-sd.html), and nothing else the
 page does is written.

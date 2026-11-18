@@ -66,7 +66,7 @@ themselves, and what they show about the language, are unchanged.
 `with` introduces a selection clause:
 
 ```
-count voc with dispatch # ""
+count voc with dispatch ne ""
 ```
 
 ```
@@ -85,7 +85,7 @@ spellings in a row return identical counts on the same data.
 | | |
 |---|---|
 | equal | `=` · `eq` |
-| not equal | `ne` · `not` |
+| not equal | `<>` · `ne` · `not` |
 | less than | `<` · `lt` |
 | less or equal | `<=` · `le` |
 | greater than | `>` · `gt` |

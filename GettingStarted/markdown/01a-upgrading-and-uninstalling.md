@@ -13,24 +13,26 @@ bash installsdsolo.sh --upgrade
 
 (`--home DIR` if you installed somewhere other than `~/SDCoreSolo`.) Without
 `--upgrade`, an installer meeting an installed tree stops and prints exactly
-this command. **It asks one question and accepts one option about it**, the shell
-and OS access (below). It asks no mode, no passwords and no API or ssh choices,
-and it accepts no option that would change them: an upgrade keeps what is
+this command. **It asks no mode, no passwords and no API or ssh choices,** and
+it accepts no option that would change them: an upgrade keeps what is
 installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
-changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html).
+changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html). The
+only options it takes are `--os-access` and `--viewer` (below), and the one
+question it may ask is about a PDF reader (see [Installing](01-installation.html)).
 
-**The shell and OS access question.** The shell (`sh`) and OS access (`os.execute`, a file or directory outside
-the account, the embedded Python and `micro`) were on for every
-installation of an earlier release. **They are off unless you turn them on**, so an upgrade tells you so
-and asks, on a terminal, whether to turn on the shell and whether to turn on OS
-access. The default for each is no. **`--os-access none|sh|os|both`** answers it
-without a terminal; with `--yes` and no `--os-access`, or no terminal, the
-installer asks nothing and **leaves both as they are, which is off** on an
-installation that never had them set. Either can be turned on or off later by the
-administrator, with `set.os.access` ([Operating system
-access](06b-operating-system-access.html)). A program of yours that runs the shell
-or `os.execute`, or opens a file outside the account, stops working after the
-upgrade until you do.
+**The shell and OS access are kept as they are.** The shell (`sh`) and OS access
+(`os.execute`, a file or directory outside the account, the embedded Python and
+`micro`) were on for every installation of an earlier release; **they are off
+unless an administrator turned them on**. An upgrade does not ask about them: it
+keeps the two switches the installation has, so it neither shuts what was opened
+nor opens what was shut, and says so. **`--os-access none|sh|os|both` is still
+applied on an upgrade, but only to turn a switch on**: `sh`, `os` or `both` turns
+that switch on, and `none` (or no option) changes nothing. It never turns one off.
+An installation from before the switches existed has neither set, so **both are
+off** after the upgrade until the administrator turns them on or off with
+`set.os.access` ([Operating system access](06b-operating-system-access.html)). A
+program of yours that runs the shell or `os.execute`, or opens a file outside the
+account, stops working after such an upgrade until then.
 
 **It downloads and builds the new release first**, before it touches your
 installation, so a failed download or build changes nothing. Then it stops SD

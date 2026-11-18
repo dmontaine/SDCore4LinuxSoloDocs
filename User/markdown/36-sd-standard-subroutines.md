@@ -9,11 +9,9 @@ repeat them) and forty-nine, all named `!SCREEN_...`, are the routines behind
 the `screen` statement (see
 [The Screen Statement](12a-sd-basic-the-screen-statement.html); they are not
 called directly and are not listed here). This page names the rest that a
-programmer is likely to meet. Solo has no need for several ones the multiuser
-product lists — `!CREATE_USER`, `!SET_PASSWD` and the other account-creation
-helpers went with the accounts — nor for the Windows-only `!ELEVATE`,
-`!PS_SCRIPT`, `!DELETE_USER`, `!OS_GROUP` and `!PROFILE_DIR`. They are in the
-global catalog, so your account reaches them without cataloging anything of
+programmer is likely to meet. Solo has no account-creation helpers such as
+`!CREATE_USER` and `!SET_PASSWD`: it has one account and makes none. They are in
+the global catalog, so your account reaches them without cataloging anything of
 its own.
 
 **Most exist to support SD itself and are not an interface for applications.**
@@ -159,13 +157,12 @@ that has not unlocked `admin`, and some change the state of the computer.
 | `!SOLO_STORE_PW` | keep the copy of the account password that lets `sd-solo <command>` sign in without typing |
 | `!PW_COMPLEX` | SD's password rule — 8 characters with a lower-case letter, an upper-case letter, a digit and a symbol |
 | `!VOC_GUARD` | the `admin` test for a direct change to the VOC, and the refusal of a write to `gcat`, `global.bp.out` and the deny list without the global password |
-| `!EUID_SET` `!EUID_RESTORE` | **do nothing on Solo** — the multiuser product's `setuid`/`setgid` calls |
 | `!IS_USER` `!IS_GROUP` `!IS_GRP_MEMBER` `!IS_SD_USER` | Linux account and group questions |
 | `!PEER_LOCAL` | whether a connection came from this machine |
 | `!SDCLIENT` | the server side of the client API |
 
-**There is no `!ELEVATE`, `!PS_SCRIPT`, `!DELETE_USER` or `!OS_GROUP` here**,
-and no `sd-elevate` to reach: SD never asks for `root`.
+**There is no routine here that makes a Linux user or asks for `root`**, and no
+`sd-elevate` to reach: SD never asks for `root`.
 
 ## What is not here
 
