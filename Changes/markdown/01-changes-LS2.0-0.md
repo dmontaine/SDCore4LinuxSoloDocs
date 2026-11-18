@@ -342,7 +342,7 @@ Commands and VOC verbs that every account has, and the command language.
 |---|---|---|
 | `autologout` | Changed | works in the full-screen programs (the screen library, `ide`, the home screen, the tool pages): idle time is counted across their short timed waits, and only a typed key (or the break key) starts the period again; a program that polls with very short timed `keyin`s and works between them counts as waiting |
 | `block.print`, `block.term` | Added | print text, or show it on the terminal, in letters seven rows high <!--s g11 g12--> |
-| `catalog ... global c` | Added | administrator only: puts the prefix `!`, `_` or `$` in front of every call name that has none of its own, so a whole select list can be cataloged globally |
+| `catalog ... global c` | Added | the form of SD Core's (the prefix `!`, `_` or `$` before every call name that has none of its own); on SD Core Solo `catalog ... global` is refused for every session, because only `sync.global.catalog` changes the global catalog |
 | `catalog ... local relative` | Added | stores the object file's path relative to the account <!--s 131--> |
 | `catalog` overwrite | Changed | pointing a local catalog entry at a different object file asks first <!--s 490--> |
 | `catalog` prefix | Added | a prefix separate from the call name; `$private.catalog` or `$private.catalogue` <!--s 210 93--> |
