@@ -230,7 +230,10 @@ DOCS = [
    encrypt.key
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
-   inhibit.login lock.tracer
+   inhibit.login
+ """),
+ ('GettingStarted', '06a1-task-locks-and-forcing-a-lock-open.md', """
+   lock.tracer
  """),
  ('GettingStarted', '06-administrator-commands.md', """
    list.voc.removed restore.voc
