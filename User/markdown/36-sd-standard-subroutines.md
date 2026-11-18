@@ -151,7 +151,7 @@ that has not unlocked `admin`, and some change the state of the computer.
 | | |
 |---|---|
 | `!ATVAR` `!SETVAR` | read and set the `@` variables |
-| `!GETPU` `!SETPU` | read and set one characteristic of a print unit: `call !getpu(key, unit, value, status)` and `call !setpu(key, unit, new.value, status)`, which are the `getpu()` function and the `setpu` statement wrapped as subroutines (the IDE uses `!SETPU` to set a print unit's banner and location). *key* is the print unit key (width 2, length 3, mode 1 and so on: see the keys in *SD Basic - Printing*); *unit* runs from -1 to 256, and any other number gives *status* 1007, "Bad print unit". They hold nothing per user. An application can use the statement and the function directly |
+| `!GETPU` `!SETPU` | read and set one characteristic of a print unit: `call !getpu(key, unit, value, status)` and `call !setpu(key, unit, new.value, status)`, which are the `getpu()` function and the `setpu` statement wrapped as subroutines (the IDE uses `!SETPU` to set a print unit's banner and location). *key* is the print unit key (width 2, length 3, mode 1 and so on: see the keys in [SD Basic - Printing](13-sd-basic-printing.html)); *unit* runs from -1 to 256, and any other number gives *status* 1007, "Bad print unit". They hold nothing per user. An application can use the statement and the function directly |
 | `!CRED_SET` `!CRED_VERIFY` | write and check a credential in the credential store |
 | `!SD_GET_SALT` `!SD_KEY_FROM_PW` | the key derivation behind that credential |
 | `!SOLO_STORE_PW` | keep the copy of the account password that lets `sd-solo <command>` sign in without typing |
