@@ -1,9 +1,9 @@
 Title: Lower case
-Subtitle: Commands, file names and record ids in SD's own files are lower case — and nothing you type has to change.
+Subtitle: Commands, file names, record ids and the account's name are lower case now — and nothing you type has to change.
 
 **Everything that can be lower case is lower case, completely — no name exists
-in two casings.** SD used to be inconsistent about it: BASIC source is free-form
-and usually written lower case, while file names and field names were forced up.
+in two casings.** BASIC source is free-form and usually written lower case;
+file names, field names and the account's name are lower case as well.
 
 **What you type does not change.** `LIST`, `list` and `List` all run the same
 verb, and so does every keyword — `with`, `by`, `no.page` and the rest.
@@ -39,26 +39,31 @@ lower case, and the loader finds an entry whichever case you type.
 
 ## Record ids in your own data files are untouched, deliberately
 
-**`ext4` is case sensitive — a real difference from NTFS, which is not.** On a
-Windows computer `SUE` and `sue` are already the same file, so lower-casing an
-application's own data cost nothing there. On Linux they are two different
-files, so forcing an application's own record ids to lower case would silently
-change its data. **This is ruled out of scope on purpose**: the lower-case
-migration covers SD's own system names — commands, VOC entries, source — never
-the records an application stores in its own files. What you put in your own data
-keeps whatever case you gave it.
+**`ext4` is case sensitive — a real difference from NTFS, which is not.**
+On a Windows machine `SUE` and `sue` are already the same file, so
+lower-casing an application's own data cost nothing there. On Linux they
+are two different files, so forcing an application's own record ids to
+lower case would silently change its data. **This is ruled out of scope on
+purpose**: the lower-case migration covers SD's own system names —
+commands, VOC entries, source, account ids — never the records an
+application stores in its own files. What you put in your own data keeps
+whatever case you gave it.
 
 Every file `create.file` makes treats record ids as case insensitive (there is
 no `no.case` or `case` word to give it): SD writes records preserving the
 casing given by whatever performs the write, and reads locate records
 regardless of casing.
 
-## One correction worth reading
+**An upgrade converts the files you already had**, and leaves what it cannot convert
+safely: a file with two ids that differ only by case, an indexed file, and a file under
+the SD system directory. What it did is printed as the upgrade goes. The mechanics are
+in [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 
-**`list` and `ct` used to disagree about the same name.** `list voc $hold`
-answered *"'$HOLD' not found"* on the very record `ct voc $hold` had just shown
-you. `list`, `sort`, `select` and the rest of the query language now use the same
-as-typed → lower → upper order as everything else.
+## One lookup order everywhere
+
+**`list` and `ct` find a name the same way.** `list voc $hold` finds the record
+`ct voc $hold` shows. `list`, `sort`, `select` and the rest of the query language use
+the same as-typed → lower → upper order as everything else.
 
 ## Two related refusals that no longer depend on case
 

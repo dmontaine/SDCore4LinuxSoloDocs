@@ -79,7 +79,7 @@ if len(roster) < 100:
 
 DOCS = [
  # nls is explained with getnls() and setnls, on the data-conversion page, where the
- # three keys it sets are the point.
+ # three keys it sets are the point (13 Oct 26: assigned, it was on the page already).
  ('User', '06-sd-basic-data-conversion.md', """
    nls
  """),
@@ -126,9 +126,6 @@ DOCS = [
  ('User', '27a-sd-tcl-sed.md', """
    sed
  """),
- ('User', '27b-sd-tcl-ced.md', """
-   ced
- """),
  ('User', '28-sd-tcl-printing-and-spooling.md', """
    printer setptr sp.view spool como report.style
  """),
@@ -139,16 +136,14 @@ DOCS = [
  ('User', '29a-sd-tcl-the-home-screen.md', """
    exit home menu my.menu
  """),
- # the ai verb, and the administrator's AI helper page
  ('User', '29b-sd-tcl-asking-the-ai.md', """
    ai
  """),
- ('GettingStarted', '24a-setting-up-the-ai-helper.md', """
-   set.ai tool.ai
+ ('User', '29c-sd-tcl-the-development-tools.md', """
+   tool.files tool.voc tool.dict tool.query tool.bulk tool.catalog tool.test
  """),
- # 11 Nov 26 S.211: the MCP door
- ('GettingStarted', '25-the-mcp-door.md', """
-   mcp.call set.mcp
+ ('User', '29e-sd-tcl-moving-files-in-and-out.md', """
+   receive send
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    pdebug pdump phantom pstat status
@@ -158,25 +153,16 @@ DOCS = [
  """),
  # 30 Sep 26 SD Core Solo for Linux (LSOLO 11): the Administrator set is merged
  # into GettingStarted, as in Solo for Windows.  The account and grant verbs are
- # not in Solo.  Each surviving verb is assigned
- # where the rewritten page explains it - including admin, set.password,
- # deny.verbs and sync.global.catalog, which Solo added.
+ # not in Solo.  Each surviving verb is assigned where the page that explains it
+ # is, in the order of SD Core's map: its accounts page, its maintenance page,
+ # and so on.  17 Nov 26 (four-version audit, page-length split): backup and
+ # restore moved to 06c.
  ('User', '19a-sd-tcl-the-command-stack.md', """
    umask
  """),
- ('GettingStarted', '04-scheduled-jobs.md', """
-   set.job set.jobs.access tool.jobs
- """),
  ('GettingStarted', '06-administrator-commands.md', """
-   run.job
+   clean.account config set.date set.start.default set.tile tool.menus update.accounts
  """),
- ('GettingStarted', '05-account-types.md', """
-   set.password
- """),
- ('GettingStarted', '06-administrator-commands.md', """
-   admin clean.account config set.date set.pins set.recovery set.start.default set.tile tool.menus update.accounts
- """),
- # 17 Nov 26 (four-version audit, page-length split): backup and restore moved to 06c
  ('GettingStarted', '06c-backup-and-restore.md', """
    backup.account restore.account set.backup.directory settings.report tool.backups
  """),
@@ -187,36 +173,35 @@ DOCS = [
    clear.locks list.locks lock tool.sessions unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
-   sh set.os.access tool.gates
+   sh
  """),
  ('GettingStarted', '06b1-showing-a-document-with-pdf.md', """
-   docs.install load.help set.viewer tool.viewers
+   docs.install load.help
  """),
- # 15 Nov 26, the Solo carry of SD Core's S.242: receive and send are explained on the User page for the transfer.  16 Nov 26 (found by Windows):
- # the switch set.xfer.access is on the administrator's commands page, which names it bare; the User page only ever writes "set.xfer.access on".
- ('User', '29e-sd-tcl-moving-files-in-and-out.md', """
-   receive send
+ ('GettingStarted', '24a-setting-up-the-ai-helper.md', """
+   set.ai tool.ai
  """),
- ('GettingStarted', '06-administrator-commands.md', """
-   set.xfer.access
+ ('GettingStarted', '08-ssh-access.md', """
+   remote.ssh tool.remote
  """),
- # 20 Oct 26 Solo carry 8: set.net.access (the NET gate of API request 29) is explained on the API page.
  ('GettingStarted', '09-api-access.md', """
-   set.net.access
- """),
- # 20 Oct 26 Solo carry 7: encrypt.key is explained with the key ring on the programmer's page for encryption.
- ('User', '06a-sd-basic-encryption.md', """
-   encrypt.key
+   remote.api
  """),
  # 20 Oct 26 Solo carry 9: the SDNet client's five verbs are explained on the programmer's page for files on another SD server.
  ('User', '42-sd-sdnet.md', """
    set.server delete.server list.servers set.netlogin delete.netlogin
  """),
- ('GettingStarted', '15-managed-mode.md', """
-   deny.verbs sync.global.catalog
+ ('GettingStarted', '12a-security-and-the-operating-system.md', """
+   tool.audit
  """),
- # The verbs that were on no page of this map, each given the page that explains it;
- # every one of them is named there.
+ ('GettingStarted', '04-scheduled-jobs.md', """
+   set.job tool.jobs
+ """),
+ ('GettingStarted', '16-configuration.md', """
+   tool.config
+ """),
+ # 16 Nov 26 - the verbs that were on no page of this map (tclmap said NO PAGE for 25), each given the page that explains it; every one of
+ # them was already named there.
  ('User', '20-sd-tcl-files-and-records.md', """
    file.stat find.file fstat.user profiler set.mode
  """),
@@ -229,6 +214,9 @@ DOCS = [
  ('User', '24-sd-tcl-programs-and-the-catalogue.md', """
    find.program ide
  """),
+ ('User', '27b-sd-tcl-ced.md', """
+   ced
+ """),
  ('User', '28-sd-tcl-printing-and-spooling.md', """
    block.print
  """),
@@ -238,29 +226,45 @@ DOCS = [
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
    list.phantoms
  """),
- ('User', '29c-sd-tcl-the-development-tools.md', """
-   tool.bulk tool.catalog tool.dict tool.files tool.query tool.test tool.voc
- """),
- ('GettingStarted', '06-administrator-commands.md', """
-   list.voc.removed restore.voc
+ ('User', '06a-sd-basic-encryption.md', """
+   encrypt.key
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
    inhibit.login lock.tracer
  """),
- ('GettingStarted', '08-ssh-access.md', """
-   remote.ssh tool.remote
- """),
- ('GettingStarted', '09-api-access.md', """
-   remote.api
- """),
- ('GettingStarted', '12a-security-and-the-operating-system.md', """
-   tool.audit
- """),
- ('GettingStarted', '16-configuration.md', """
-   tool.config
+ ('GettingStarted', '06-administrator-commands.md', """
+   list.voc.removed restore.voc
  """),
  ('GettingStarted', '16b-changing-a-parameter-from-sd.md', """
    set.config
+ """),
+ # What only Solo has.  admin, set.password, deny.verbs and sync.global.catalog
+ # are Solo's own; the gates, the viewer, the transfer switch, the NET switch,
+ # the jobs switch and the MCP door are carried from SD Core's set.
+ ('GettingStarted', '06-administrator-commands.md', """
+   admin run.job set.pins set.recovery set.xfer.access
+ """),
+ ('GettingStarted', '05-account-types.md', """
+   set.password
+ """),
+ ('GettingStarted', '06b-operating-system-access.md', """
+   set.os.access tool.gates
+ """),
+ ('GettingStarted', '06b1-showing-a-document-with-pdf.md', """
+   set.viewer tool.viewers
+ """),
+ ('GettingStarted', '09-api-access.md', """
+   set.net.access
+ """),
+ ('GettingStarted', '04-scheduled-jobs.md', """
+   set.jobs.access
+ """),
+ ('GettingStarted', '15-managed-mode.md', """
+   deny.verbs sync.global.catalog
+ """),
+ # 11 Nov 26 S.211: the MCP door
+ ('GettingStarted', '25-the-mcp-door.md', """
+   mcp.call set.mcp
  """),
 ]
 
@@ -280,6 +284,11 @@ EXEMPT = {}
 # the number; a verb is documented on it when ANY part of it is evidence, so
 # the map need not change each time a section moves from one part to the next.
 SPLITS = {
+    ('User', '07-sd-basic-file-handling.md'): ['07a-sd-basic-locking-and-asking-about-a-file.md'],
+    ('User', '12a-sd-basic-the-screen-statement.md'): [
+        '12b-sd-basic-the-screen-statement-forms.md',
+        '12c-sd-basic-the-screen-statement-widgets.md',
+        '12d-sd-basic-the-screen-statement-events-and-styles.md'],
     ('User', '17-sd-basic-debugging.md'): ['17a-sd-basic-debugging-full-screen-and-ai.md'],
     ('User', '20-sd-tcl-files-and-records.md'): [
         '20-sd-tcl-files-and-records-2-comparing-triggers-and-import.md'],

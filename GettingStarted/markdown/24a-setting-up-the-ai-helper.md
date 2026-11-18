@@ -85,7 +85,7 @@ What is kept:
 - plain English: printable ASCII characters and new lines, at most 4,000 characters;
 - nothing that names SD's own code or build (`gpl.bp`, `gplsrc` and the other names of the screen above). Such a text is refused when you save it, with the line `set.ai context refused name=...` in the audit trail. A text that names them all the same (written into the helper's file by hand) stops every request, with `ai refused why=context`, until it is put right.
 
-The text is sent to the provider with every request, before SD's own instruction, and counts towards `bytes-request`. It is not in the preview (the size shown there counts it) and the question is sent as typed. It is kept by the helper in `ai/context` in your Solo directory (mode 0600); the shipped default is `tools/ai-context`. An upgrade keeps yours.
+The text is sent to the provider with every request, before SD's own instruction, and counts toward `bytes-request`. It is not in the preview (the size shown there counts it) and the question is sent as typed. It is kept by the helper in `ai/context` in your Solo directory (mode 0600); the shipped default is `tools/ai-context`. An upgrade keeps yours.
 
 At the prompt the verb takes the text as one word of hexadecimal (`set.ai context 48656c6c6f`), which is how the page passes a text of several lines; `set.ai context -` goes back to the default.
 
@@ -134,7 +134,7 @@ The `ai request` line is written by the SD kernel **before** the connection is m
 | `The AI is not set up for anthropic: the administrator has not set its key (tool.ai or set.ai)` (or, for Custom, `model`) | the provider is chosen but its key (or Custom's model) is missing |
 | `The AI did not answer: refused (the provider refused the request (HTTP 400): ...)` | the provider's own words follow the status: often a model it does not have; choose one from its list with S |
 | `The AI did not answer: limit (...)` | one of the limits above is used up; wait, or raise it |
-| `The AI did not answer: net (...)` or `timeout` | the provider could not be reached; check the address, the certificate and the clock |
+| `The AI did not answer: net (...)` or `timeout` | the provider could not be reached; check the address, the certificate, the clock, and whether the machine needs a proxy to reach the internet (the helper uses none) |
 
 ## Providers and models
 

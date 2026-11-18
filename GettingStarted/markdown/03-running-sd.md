@@ -67,6 +67,14 @@ against a segment nothing is serving. Clearing it is `sd-solo -stop`'s job.
 > ps -u $USER -o pid,cmd | grep '[s]dlnxd'
 > ```
 
+**A session still attached ten seconds after the stop is ended.** `sd-solo -stop`
+and `sd-solo -restart` send every session the termination signal, wait up to ten
+seconds for them to leave, and end any process still attached to SD's shared
+memory with `SIGKILL`; they say how many they ended, for example `1
+process(es) still attached after ten seconds were ended with SIGKILL`. Only a
+process that is attached to SD's own segment is touched, and a session ended
+this way does not run its own logout.
+
 **The clean-up daemon is started again if it dies.** `sdlnxd` is the process that notices a
 session whose process has gone and clears it down. It runs as its own user unit,
 `sd-solo-lnxd.service`, and systemd starts it again two seconds after a failure (`kill -9`,
@@ -141,9 +149,11 @@ matches**, what happens depends on where the input comes from:
 account, `sduser`, and every session lands in it. `sd-solo -asdsys` is refused,
 saying that SDSYS is not entered in Solo.
 
-**`sd-solo -u` and `sd-solo -k` need no `admin`.** They are switches on the program,
+**`sd-solo -u`, `sd-solo -k` and `sd-solo -cleanup` need no `admin`.** They are switches on the program,
 outside any SD session, and like `-start` and `-stop` they are the business of
-the user who owns SD. Inside a session, the same jobs are `LISTU` and
+the user who owns SD, who is the only user: Solo has no `sdsys` user and no
+second user whose sessions they could show or remove. `-cleanup` clears the entries
+of sessions whose process has gone from the user table. Inside a session, the same jobs are `LISTU` and
 `LOGOUT`, which do need `admin` — see
 [Sessions and locks](06a-sessions-and-locks.html).
 

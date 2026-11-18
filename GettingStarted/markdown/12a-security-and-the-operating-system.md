@@ -27,6 +27,11 @@ same switches. With a switch on, anyone who has the account password — and, ov
 ssh, your key or your Linux password — can run Linux commands as you. That is why
 the account password matters, and why it should be one only you know.
 
+**A session with no terminal is refused for the editors regardless** — an API
+session or a piped script has nowhere to draw a full screen for an editor;
+see [API access](09-api-access.html) for what `sh`/`OS.EXECUTE` do over the
+API, which takes the same switches.
+
 **On a managed computer**, the SD Core for Linux server can put `sh` on the list
 of denied commands. **A program's `OS.EXECUTE` is not a
 command the list can hold**, so the list alone does not close the computer off
@@ -52,9 +57,9 @@ time and user:
 
 Every word before the first `=` is lower case, the event names included. What
 follows an `=` is data and keeps its case: the account name, a `reason=` text,
-and what a caller typed in `command=`. Lines written by an earlier release are
-upper case (`LOGIN REFUSED`) and are not rewritten, so search a long-lived file
-without regard to case.
+and what a caller typed in `command=`. A file written by an older version may hold
+upper case lines, which are not rewritten, so match without regard to case when you
+search a long-lived file.
 
 | Recorded | |
 |---|---|
@@ -66,6 +71,22 @@ without regard to case.
 
 **The refusals are the interesting half.** An `admin refused`, a `login refused`
 or an `api refused` is somebody trying something that did not work.
+
+**The audit trail has a second copy.** Every record SD writes to the audit file is
+also sent to the system journal, marked `sd-audit`, under the name `sd_Log`. The
+audit file is in your Solo folder and belongs to you, so a program you run could
+change it; the journal is kept by the system, your programs cannot rewrite it, and
+for each record it notes which user id and which process sent it, which the sender
+cannot choose. To read the copies:
+
+```
+journalctl -t sd_Log | grep sd-audit
+journalctl -t sd_Log -o verbose
+```
+
+The second form shows `_UID` and `_PID` for each record. A line in the audit file
+with no matching journal record is one to look at. If the journal cannot be
+reached, SD carries on and the file is still written.
 
 **Nothing is ever discarded.** When SD starts and the file is 1 MB or more, it is
 **renamed with the date and time and a new one started**. Removing the old ones

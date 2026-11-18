@@ -42,12 +42,14 @@ operating system, which is the way out when a save failed or the file was replac
   out of it is outside); with it, what the Linux user can reach. The IDE asks exactly what your own
   `openseq`, `readblk` and `writeblk` would be asked.
 - **It is written where it is.** Saving writes the new text over the file and cuts it to the new length: the
-  same inode, owner, mode and links. The IDE reads the file once
+  same inode, owner, mode and links (a file renamed over it would change all four). The IDE reads the file once
   more just before it writes and asks *has been changed by someone else, Overwrite it?* (Cancel is the default)
   when it is not what it read - or is no longer text. **A file that was removed, or replaced by another one
   renamed over it** (an editor or `git` may do that) is refused outright: the tab holds the old file, which
   nothing links to, so a write would only appear to work. The file is read back after the write and must be the
   bytes meant; if the write fails, a box says the file may be partly written and your text stays in the editor.
+  **A program you run from the IDE that does a bare `release` lets go of the file's lock**; the save still reads
+  the file again first.
 - **Bytes are not converted.** Lines end with LF, or with CR LF when *every* line does (then they stay CR LF); a
   CR anywhere else is an ordinary character shown as a reverse letter, and a tab is kept as a tab. Whether the
   last line had its line end is remembered: none is added to a file that had none. A file with a **NUL or a
@@ -55,9 +57,8 @@ operating system, which is the way out when a save failed or the file was replac
   refused with a message; a file with **bytes from 128 to 247** (another character set, or UTF-8) is edited
   like any other, as a record is.
 - **The file is locked while the tab is open**, as a record is: a second session that tries to open it is told
-  it is in use, and closing the tab (or any other way out) gives the lock back. **A program you run from the
-  IDE that does a bare `release` lets go of the file's lock**; the save still reads the file again first. A tab
-  for a file you may not write opens read-only and says so.
+  it is in use, and closing the tab (or any other way out) gives the lock back. A tab for a file you may not
+  write (permissions) opens read-only and says so.
 - **No recovery copy is kept** for such a tab, whatever the setting of `set.recovery`: the copy would be kept
   in your home, and the file may be anywhere.
 
@@ -78,7 +79,8 @@ the operating system access first and says a refusal in the form, which stays op
   or by a file someone else made a moment ago is refused (*was not made: a file with that name is there already*);
   open it to change it. An existing **empty** plain file is filled. A name that is a directory,
   device, pipe or socket says it is not a plain file. **A name another session holds locked** is
-  refused in a box and **nothing is made**.
+  refused in a box and **nothing is made** (the file is made only once its lock is
+  held).
 - **The directory it goes in must be there**; the IDE never makes one. A missing directory, or a directory the
   operating system does not let this session make a file in, is refused with the error number.
 - **Text with a NUL or a byte from 248 to 255, or more than 2 MB (2,097,152 bytes), is refused before any file
@@ -86,9 +88,11 @@ the operating system access first and says a refusal in the form, which stays op
 - **A write that fails** (a full disk) says so in a box: the file was made and an empty or partly
   written one may be there. The text is still in the editor.
 - **The new file's mode is 0666 less the session's umask**, the mode `openseq ... creating` gives (the IDE has
-  no setting of its own). Its owner is the Linux user the session runs as.
-- **Nothing outside the account is reachable without operating system access.** Without it the IDE can make
-  files inside the account's own directory only.
+  no setting of its own); SD sets the umask to 077 when a session starts, so the mode is 0600 unless the session
+  has changed it with `umask`. Its owner is the Linux user the session runs as.
+- **Nothing outside the account is reachable without the account's operating system access.** The file is made
+  as `openseq ... creating` makes it, so the operating system access switch applies as for a program of your
+  own. Without the access the IDE can make files inside the account's own directory only.
 
 **A record that holds characters outside ASCII (bytes 128 to 247) can be edited**: SD stores those bytes and
 gives them back unchanged. The editor works a byte at a time, so a UTF-8 character takes more than one cell, and

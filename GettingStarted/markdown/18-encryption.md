@@ -31,14 +31,13 @@ where the passphrase lives before it writes the application.
 
 | Layer | What it is | Protects against | Does not protect against |
 |---|---|---|---|
-| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt, an encrypted home directory). SD is unchanged | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
+| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt, an encrypted home directory). SD is unchanged. It has a page of its own in this set ([Encrypting the data SD keeps on disk](18a-data-at-rest.html)) | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
 | The program | `sdkey()` and `sdencrypt()` in an application | a copy of the SD files, a backup, a person with file access but not the key | the program itself, its variables, anyone who holds the key |
 | The conversion | `XE` in a dictionary item, with the key held in a ring in the process | the same, and the field reads decrypted for a session that holds the key | the same, and root or a debugger on that process |
 
 None of them hides the record id, the other fields, which values are empty or how
 long a value is. The second and third are the application's; the first is the
-machine's. How to put SD's folder on an encrypted disk is on
-[Encrypting the data SD keeps on disk](18a-data-at-rest.html).
+machine's.
 
 ## What was removed
 
@@ -128,15 +127,13 @@ rtnval = sdext(arg, isargmv, key)
 `arg` holds several values rather than one.
 
 **It cannot be called from an application.** `sdext` is in the compiler's internal
-function table, so an ordinary account does not merely get refused — it gets a
-misleading error. An unknown function is read as a matrix reference, so the
-complaint is about a `dim` statement the program does not contain, reported at the
-last line rather than at the call. That behavior is covered by *SD Basic - Restricted
-Commands* in the User set.
-
-`$internal` needs both halves: the compiler tests for internal mode **and** for the
-administrator flag. Internal mode alone is not safe, because internal
-programs are the only ones that may set the administrator flag. On Solo the door that
+function table, so an ordinary account does not merely get refused. It
+gets a misleading error: an unknown function is read as a matrix reference, so
+the complaint is about a `dim` statement the program does not contain, reported
+at the last line rather than at the call. That behavior is covered by
+*SD Basic - Restricted Commands* in the User set. `$internal` needs both halves: the compiler tests for internal mode **and**
+for the administrator flag. Internal mode alone is not enough, because only an
+internal program may set the administrator flag. On Solo the door that
 setup steps use, `sd-solo -internal`, admits a session only on a one-shot marker file
 the installer writes — see [Security](12-security.html#the-installers-own-door).
 
@@ -159,7 +156,7 @@ character about one time in nine. The argument buffers are zeroed when a call en
 | `SD_RANDBYTES` | 107 | count | Random bytes |
 | `SD_XORBYTES` | 108 | two equal-length values | Their exclusive-or |
 | `SD_CTEQUAL` | 109 | two values | `1` or `0`, compared in constant time |
-| `SD_TLS_CBIND` | 110 | none | The TLS channel binding the API login carries, base64, or empty when the session is not TLS |
+| `SD_TLS_CBIND` | 110 | none | This session's TLS channel binding, as the `c=` value its SCRAM login must carry; empty when the session is not TLS |
 | `SD_FILE_PRIVATE` | 111 | path, `FILE` or `DIR` | `1` when the path is the kind of object a credential may be trusted in, else `0`; every failure answers `0` |
 | `SD_USER_HOME` | 112 | path relative to the caller's home (empty for the home itself) | The absolute path when the home and that directory can be trusted, else empty |
 | `SD_KEYRING` | 120 | `set` name key · `clear` name · `list` | The key ring of the XE conversion: the key id, the number removed, or one field per key. Reached only through `!keyset`, `!keyclear` and `!keylist` |

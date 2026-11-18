@@ -2,16 +2,15 @@ Title: sdconv, the Byte Order Convertor
 Subtitle: A tool for turning compiled program files between big-endian and little-endian form: what it converts in this build, what it refuses, and why you will rarely need it.
 
 `sdconv` was written to move SD files between computers that store numbers in
-opposite byte orders. SD Core Solo for Linux runs on little-endian machines
-(x86-64), and so does SD Core for Windows, so a conversion between the two is
-never needed. Whether a converted file would run on a big-endian machine is not
-something this page can say.
+opposite byte orders. SD Core Solo for Linux runs on little-endian machines (x86-64),
+and so does SD Core for Windows, so a conversion between the two is never needed.
+Whether a converted file would run on a big-endian machine is not something this
+page can say.
 
 > **Read this first: `sdconv` does not convert hashed files.** Given one it says
 > so, changes nothing and exits 1. It converts **compiled program files** only,
-> and only the header of each. This SD cannot open a big-endian hashed file, so
-> a converted file would be of no use here. Linux and Windows are both
-> little-endian.
+> and only the header of each. This SD cannot open a big-endian hashed file, so a
+> converted file would be of no use here.
 
 
 
@@ -125,18 +124,12 @@ zzcust is a hashed file: sdconv converts compiled programs only, nothing was cha
 rc=1
 ```
 
-`%0` and `%1` are byte for byte as before, with `-B`, with `-L` and with no
-option. The source has a routine, `process_file`, that would convert the header,
-the data groups and the index nodes with a "partly converted" marker for a run
-that stops part way. It was commented out of `convert_file` in a compiler-warning
-clean-up, nothing records a decision to do that, and it has faults of its own
-(an endless loop on an unknown block type, a 64-bit field cut to 32 bits, two
-buffer overflows, no open-file check and no backup), so it is not used.
+`%0` and `%1` are left byte for byte, with `-B`, with `-L` and with no
+option: the tool converts neither the header, the data groups nor the index nodes
+of a hashed file.
 
 **A hashed file taken to a machine of the other byte order cannot be converted by
-this tool, and this SD could not open it if it were.** The change-log entry that
-once said a conversion of a file "carries the sequential counter over; sdconv
-reverses it" was wrong and has been removed.
+this tool, and this SD could not open it if it were.**
 
 ## What it will not do
 

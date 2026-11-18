@@ -87,7 +87,7 @@ hand.
 
 > **A task lock held by a killed session is not given back by `sd-solo -cleanup`.**
 > It stays held, by a user number nothing is behind, until SD itself is
-> restarted — a defect. If a job
+> restarted. If a job
 > guarded by a task lock will not start again after a crash, that is the first
 > thing to suspect, and clearing it needs `admin` and `unlock tasklock`.
 

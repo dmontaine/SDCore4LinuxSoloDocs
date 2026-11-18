@@ -1,8 +1,8 @@
 Title: Sessions and Locks
 Subtitle: Seeing who is signed in, ending a session that will not end itself, and inspecting or forcing the locks a session holds.
 
-These are the verbs for looking at SD as a whole and intervening in it:
-**which sessions are running, what they are holding, and how to take either
+These are the verbs for looking at the machine as a whole and intervening in it:
+**whose sessions are running, what they are holding, and how to take either
 away.** Most need `admin` first; the table at the end says which.
 
 SD folds case, so a command may be typed in either case. Commands are shown here
@@ -14,22 +14,19 @@ marks a word typed as it stands; braces mark an optional part.
 ## Two things are not on this page, on purpose
 
 **A programmer needs to understand locks without being able to force one**, so
-user documentation keeps the part of the subject that is theirs: what a task lock is against a
-database lock, and `release`, which gives back locks your own session holds and needs no privilege at all.
-The same goes for `status`, `phantom`, `pstat`, `pdebug` and `pdump` — a
-programmer's view of their own processes.
+the *user* documentation keeps the part of the subject that is theirs: what a
+task lock is against a database lock, and `release`, which gives back locks your
+own session holds and needs no privilege at all. The same goes for `status`,
+`phantom`, `pstat`, `pdebug` and `pdump` — a programmer's view of their own
+processes.
+
+**This page is the other half**: the verbs that see and act across the machine.
 
 ## Who is signed in: `listu`
 
 ```
 listu {detail} {no.page} {lptr {n}}
 ```
-
-`detail` adds a line above the report: the interactive users, the API sessions,
-the phantoms that count as licensed, the other phantoms, and the most users
-there have been at once since SD started. `system(1056)` gives the same five
-numbers. **SD has no license count**, so the third number is whatever the system
-marks as chargeable.
 
 ```
 :listu
@@ -48,10 +45,27 @@ marks as chargeable.
 | **`Origin`** | where the session came from |
 | **`Username`** | always `sduser` on a Solo computer |
 
+```
+listu detail {no.page} {lptr {n}}
+```
+
+`detail` adds a line above the report: the interactive users, the API sessions,
+the phantoms that count as licensed, the other phantoms, and the most users
+there have been at once since SD started. `system(1056)` gives the same five
+numbers. **SD has no license count**, so the third number is whatever the system
+marks as chargeable.
+
 **`Origin` is blank for a local session and that is not a fault.** It reports
 an address or a device name, and a console or piped session has neither. It
 reads `Phantom` for a phantom and an IP address for a network client — the API,
 or ssh.
+
+`SDNet` is also among the values it can print, and you will not normally see
+it. The mark behind it is set in only one place, the API server's request 29,
+"open an SDNet file", which is refused unless `NETFILES` has bit 2 set (see
+*Configuration*). The SDNet client, where a program opens a file on another SD
+server through an `N` pointer, does not use request 29, so a session that comes
+from it shows an address like any other API session.
 
 **`(logout pending)`** after the name means somebody has asked that session to
 end and it has not gone. See below.
@@ -116,8 +130,38 @@ if that does not take them.
 **Confirm the session is actually dead before clearing it.** `pstat` *n*
 answers *(Not responding)* for a session with nothing behind it — it asks the
 process and waits about four seconds — and that is the difference between a dead
-entry and a busy one. (`logout` itself only clears an entry whose process is not
-there; it signals a live one.)
+entry and a busy one. `pstat` is a programmer verb and is documented in the user
+set. (`logout` itself only clears an entry whose process is not there; it
+signals a live one.)
+
+## Keeping new sessions out while you work: `inhibit.login`
+
+```
+inhibit.login on        no new session until it is switched off
+inhibit.login off       allow them again
+inhibit.login           say which it is, and who set it
+```
+
+For maintenance that needs the system quiet. **Needs `admin`.** A person or program
+that tries to sign in while it is on — at the keyboard, over ssh or through the
+API — is refused with *SD is not accepting new sessions: logins have been
+inhibited by* name *(inhibit.login). Try again later.* **Sessions already running
+are not touched**, and neither are the phantoms the session that set it starts.
+The refusals, and `inhibit.login on` and `off` themselves, are on the audit trail.
+
+**On Solo the session that set it is the only one that can switch it off, and
+nobody new gets in, you included.** On the multiuser SD Core the administrator's
+own new session is let in; on Solo the administrator is a state of a session (you
+type `admin` after signing on), so at the door no new session is one. That cannot
+lock you out: **if the session that set it ends or is killed, the inhibit is ignored
+from then on** — the record names a user number *and* a process id, and a process
+that is not there holds nothing — and the next `inhibit.login on` replaces it.
+`inhibit.login on` while another live session holds it is refused (*Logins are
+already inhibited by* name*. Switch it off first (inhibit.login off)*).
+
+The record is the file `login.inhibit` in the SD system directory. **It is not the
+same thing as the hold that `backup.account` and `restore.account` take**, which
+keeps *everybody* out, the setter's new sessions included, while they run.
 
 ## What is locked: `list.readu`
 
@@ -235,33 +279,6 @@ time and off again.
 > is not, until the moment it is granted. A session that is killed has its locks
 > cleared by the cleanup, and that is not logged either, so a `Get RU` with no
 > `Rel RX` after it may be a lock the cleanup gave back.
-
-## Keeping new sessions out while you work: `inhibit.login`
-
-```
-inhibit.login on        no new session until it is switched off
-inhibit.login off       allow them again
-inhibit.login           say which it is, and who set it
-```
-
-For maintenance that needs the system quiet. **Needs `admin`.** A person or program
-that tries to sign in while it is on — at the keyboard, over ssh or through the
-API — is refused with *SD is not accepting new sessions: logins have been
-inhibited by* name *(inhibit.login). Try again later.* **Sessions already running
-are not touched**, and neither are the phantoms the session that set it starts.
-The refusals, and `inhibit.login on` and `off` themselves, are on the audit trail.
-
-**On Solo the session that set it is the only one that can switch it off, and
-nobody new gets in, you included.** On the multiuser SD Core the administrator's
-own new session is let in; on Solo the administrator is a state of a session (you
-type `admin` after signing on), so at the door no new session is one. That cannot
-lock you out: **if the session that set it ends or is killed, the inhibit is ignored
-from then on** — the record names a user number *and* a process id, and a process
-that is not there holds nothing — and the next `inhibit.login on` replaces it.
-
-The record is the file `login.inhibit` in the SD system directory. **It is not the
-same thing as the hold that `backup.account` and `restore.account` take**, which
-keeps *everybody* out, the setter's new sessions included, while they run.
 
 ## Continued in
 

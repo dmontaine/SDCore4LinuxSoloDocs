@@ -15,6 +15,12 @@ so and, where it can, prints the one command to run.
 *Italics* mark something you supply, **bold** a word typed as it stands, and
 braces an optional part.
 
+## What is here and what is not
+
+**The scripts on this page ship.** Nothing else from the source tree's `gplbld`
+directory is installed. If you find a script named in the source and cannot
+find it on an installed machine, that is why.
+
 ## Exit codes
 
 | | |
@@ -107,15 +113,6 @@ Removes SD — see [Upgrading and uninstalling](01a-upgrading-and-uninstalling.h
 `--keep-data` leaves your data, `sd.conf`, the passwords, the audit trail, the TLS and ssh keys, the
 AI settings, the SDNet logins, where sessions start and any `newvoc.mods` in `<home>` for a new install to
 offer back. Ends `SOLO DELETE COMPLETE <home>`.
-
-## What is here and what is not
-
-**Everything else in the project's `gplbld` directory — the verifiers, the probes,
-the build and test cycle — is development tooling and is deliberately not
-installed.** If you have read about `assert-current.py`, a `verify-solo-*` script
-or `ptyrun.py` and cannot find it on an installed computer, that is why: they
-compare an install against the source tree it was built from, or run a test
-against a scratch tree, and some start a daemon of their own.
 
 ## Continued in
 

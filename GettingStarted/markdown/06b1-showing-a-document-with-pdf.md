@@ -74,8 +74,14 @@ carry no slash. F1, `?` or a click on a `[?]` explains each box.
 
 ### Where the documents come from: `docs.install`
 
-The PDFs are generated from the documentation and are not part of the source tree, so
-they reach the `pdf` directory by the administrator:
+The PDFs are generated from the documentation and are not part of the source tree.
+**A release package carries them**, in a folder `pdf` beside `installsdsolo.sh` (one PDF
+for each chapter of the User and Getting Started documents, the documents the help pages
+name), and **the installer puts them in the `pdf` directory by running `docs.install` on
+that folder**. It checks each document afterwards and, when one did not arrive, says how
+many did and prints the command to run. An installer run without a package (a clone, or
+the script downloaded alone) finds no folder and says so. At any other time, or for
+documents of your own, the administrator runs:
 
 ```
 docs.install /path/to/the/pdf/files
@@ -88,11 +94,26 @@ begins with `%PDF-`; anything else is skipped and named. A document already ther
 replaced; the copies are mode 0644. `pdf` alone lists what is installed. `docs.install` is
 an administrator command (`admin` first).
 
+**The changes document comes with the installer.** A release package holds, beside
+`installsdsolo.sh`, the document that lists what changed in the release as
+`sd-core-solo-for-linux-<version>-changes.pdf`, `.html` and `.md`. The installer copies
+each of those three into the same `pdf` directory (mode 644), so the PDF opens with `pdf`
+and the HTML and Markdown copies are there beside it. A file is copied only if it is a
+regular file (not a link) with a plain lower case name of the same shape; a file of that
+kind whose name has a capital or another character is left, with a note that says so. An
+installer that was not run from a package, such as one downloaded alone, finds nothing and
+says so; the install goes on.
+
 ### The context help: `load.help`
+
+```
+load.help
+```
 
 The `[?]` button on the administrator's pages shows help kept in the file `context.help`
 of the SD system directory, one record to a setting. The installer fills it from the text
-under `helptext` there; `load.help` does the same by hand, after that text changes. **It
+under `helptext` there; `load.help` does the same by hand, after that text changes, and is
+an administrator command (`admin` first). **It
 replaces the shipped records and keeps any you added** under another id (the count says
 how many). Reading the help is not gated: the text is the product's own documentation of
 its screens.

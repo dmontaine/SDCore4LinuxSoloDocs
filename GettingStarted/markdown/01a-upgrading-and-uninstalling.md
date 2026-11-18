@@ -88,7 +88,7 @@ forced-command line in your `~/.ssh/authorized_keys`, and optionally a block in
   once it is.
 
 Port 4251 takes your **Linux account name and password**, as the old block did, and
-a key if you have one in Solo's key file; SD then asks the account password.
+a key in Solo's key file as an alternative; SD then asks the account password.
 
 **Then it brings your account up to the release.** Replacing files is not
 enough on its own: your account's VOC was built by the release that installed
@@ -102,10 +102,30 @@ it. So an upgrade also, for you:
 - deletes the files of the system directory that this release stopped shipping, and
   takes the `sd.conf` parameters SD no longer has out of your kept `sd.conf` (SD would
   refuse to start on one);
+- converts your account's files to case-insensitive record ids (below);
 - recompiles SD's own dictionaries;
 - catalogs the server's programs in `global.bp.out` again, on a managed
   computer (`sync.global.catalog`), because the global catalog is one of the
   files replaced.
+
+**Your files are converted to case-insensitive record ids for you.** Every file
+`create.file` makes treats ids as one whatever the case (see
+[Lower case](11-lower-case.html)), and an upgrade keeps your existing files, which
+were built case sensitive. After the account's VOC is brought up to the release, the
+upgrade reads each file the account's VOC names first, **and converts it only if no
+two of its ids differ only by case**, so a conversion cannot lose a record. It also
+makes the account's private catalog names lower case. What it did is printed as the
+upgrade goes. A file is **left exactly as it was** and named when:
+
+- it holds two ids that differ only by case (rename or delete one of each pair, then
+  run `configure.file` *name* `no.case` on it);
+- it has alternate key indexes (convert it by hand with `configure.file`);
+- it lies under the SD system directory, which the upgrade makes new itself
+  (convert one yourself with `configure.file` *name* `no.case` if you need to);
+- it could not be read or rebuilt.
+
+A walk that did not finish prints a warning and the upgrade goes on; what was not
+converted keeps working, and ids are still found typed in any case.
 
 The installer records where it came from: `~/SDCoreSolo/.sdcore-install` gains
 an `upgraded-from` line naming the old commit. The last line of a good upgrade

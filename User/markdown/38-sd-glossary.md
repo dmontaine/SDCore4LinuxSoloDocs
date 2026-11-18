@@ -217,8 +217,8 @@ prompt and dispatches it.
 **Terminfo** — the terminal capability database. Defines what
 sequences a terminal sends for keys and what sequences to use for
 screen control. SD ships 25 definitions compiling to 36 terminal
-names. The terminfo compiler (`sdtic`) is built alongside the server
-and is left in the installation's `bin` directory. See [SD
+names. The terminfo compiler (`sdtic`) is installed with SD, in its
+`bin` directory. See [SD
 Terminfo](39-sd-terminfo.html).
 
 **Transaction** — a group of file updates that succeed or fail together.

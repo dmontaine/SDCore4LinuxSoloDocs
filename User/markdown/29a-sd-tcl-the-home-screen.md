@@ -37,7 +37,7 @@ behind a warning that gives both sizes until the window is big enough again.
  File  Go  View  AI  Help                                                       home  don@sduser
 
    don @ sduser                                                                      -> Sign out
-   Thursday 22 Oct 2026  -  18:52
+   Thursday 22 Oct 2026  -  18:52  -  SD Core Solo for Linux LS2.0-0
 
    My tools
      [=]                  </>
@@ -66,10 +66,6 @@ behind a warning that gives both sizes until the window is big enough again.
 | **Files** · **Vocabulary** · **Dictionary** · **Queries** · **Bulk update** · **Programs** · **Tests** | the group *Develop*: each opens a development page (`tool.files`, `tool.voc`, `tool.dict`, `tool.query`, `tool.bulk`, `tool.catalog`, `tool.test`; see [The Development Tools](29c-sd-tcl-the-development-tools.html)) |
 | **Sign out** | asks `Sign out of SD?` and ends the session |
 
-**A tile for one of SD's own pages (a `tool.*` command) is shown only when that command is in
-your account's VOC**, so a tile never offers a command you cannot run; it appears once the
-command is there. A pinned tile is not asked.
-
 **A tile starts a command exactly as you would have typed it.** It adds no
 access: if the command needs a switch your account does not have, you get the same
 refusal you would at the prompt (`set.os.access`). A command that takes the screen
@@ -88,6 +84,7 @@ tiles stand above it. Type `admin`, then `home`, to see it.
 | | **Bypass programs** (readers for pdf) | `tool.viewers` |
 | *People and access* | **Sessions and locks** (who is on) | `tool.sessions` |
 | | **Gates** (who may do what) | `tool.gates` |
+| | **Scheduled jobs** (what runs when) | `tool.jobs` |
 | *Data, network and AI* | **Backups** (save and restore) | `tool.backups` |
 | | **Remote servers** (doors and files) | `tool.remote` |
 | | **AI** (model and key) | `tool.ai` |
@@ -95,10 +92,15 @@ tiles stand above it. Type `admin`, then `home`, to see it.
 (SD Core, the multi-user product, also has a *Switch account* tile and pages for its
 accounts; Solo has one account, so it has none.)
 
-**The page scrolls.** It is laid out at its full height and only the rows that fit are
-drawn, with a scroll bar in the last column when there is more than fits, so the
-number of tiles can pass the height of the screen. The header (your name, the date
-and time, and Sign out) stays where it is.
+**A tile for one of SD's own pages (a `tool.` verb) is left off when that verb is
+not in your account's VOC**, so choosing a tile never ends in an unknown-verb error; when
+the verb arrives (an update of the account's VOC) the tile appears. A pinned program's
+tile, the Editor and IDE tiles are not hidden by this.
+
+**The page scrolls.** It is laid out at its full height and only the rows that fit
+are drawn, with a scroll bar in the last column when there is more than fits, so
+the number of tiles can pass the height of the screen. The header (your name, the
+date and time, the product and its version, and Sign out) stays where it is.
 
 ## Keys and the mouse
 
@@ -167,8 +169,14 @@ screen) asks first and then ends the session as `quit` does.
 
 **Menu is the delivered start**: a session on a terminal opens the home screen, and
 the command prompt is what is left when it returns. The administrator can change it
-with **`set.start.default menu`** or **`set.start.default terminal`** (after `admin`;
-without a word the verb says what it is now). It is read when you sign on. **After an
+(after `admin`) with:
+
+```
+set.start.default
+set.start.default menu | terminal
+```
+
+Without a word the verb says what it is now. It is read when you sign on. **After an
 upgrade, if you want the old start (the command prompt), type `admin` and then
 `set.start.default terminal`.** Starting in the menu confines nobody: the Terminal tile
 is there unless it is turned off (below).

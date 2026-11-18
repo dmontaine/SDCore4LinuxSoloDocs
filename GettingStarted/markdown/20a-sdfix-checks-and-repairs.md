@@ -72,7 +72,7 @@ were still there.
   check is clean.
 * If a record that is in the wrong group also exists in its right group, the
   program prints *Record 'id' not moved as a correctly hashed version also
-  exists*. **This case was not provoked here**, and the code that follows the
+  exists*, and the code that follows the
   message does not skip the record. Compare record counts after a run that
   prints it.
 
@@ -107,6 +107,8 @@ shows the window at that decimal address; `rebuild n` dump and rebuild group *n*
   read as hex digits, as written.
 * `h` shows `Next seq id`, the counter used by `write ... creating.seqkey`, and
   warns if it is negative.
+* **If its input ends or fails, interactive mode ends**: `End of input` when
+  it ended, `Input error [n]` when reading failed.
 
 ## What it will not do
 

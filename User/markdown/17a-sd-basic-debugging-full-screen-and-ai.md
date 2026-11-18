@@ -53,8 +53,7 @@ them. `dumb` and `unknown` have no `cup` and stay line by line. Then:
 - **The keys every page has**: **F9 runs**, **F5** and
   **Ctrl-L** draw the screen again, **Ctrl-T** takes the next color theme and keeps it for
   you, **Ctrl-K** lists the keys. On the command line, delete to the end of the line and swap
-  two characters, which were Ctrl-K and Ctrl-T, are **Alt-K** and **Alt-T** (or Esc, then K or T).
-  See [Using the Full-Screen Pages](29d-sd-tcl-using-the-full-screen-pages.html).
+  two characters are **Alt-K** and **Alt-T** (or Esc, then K or T).
 
 **The full-screen display is laid out for 140 columns by 43 lines or more**
 (a bigger window is used whole, and the extra width goes to the source). **On a
@@ -81,7 +80,7 @@ screen is): when you let the program run, the debugger gives the terminal back
 and the program's output is on its own screen, and it is on the alternate
 screen again at the next stop. The colors are the screen library's: if the
 program asked for no theme, the debugger uses the theme you chose with Ctrl-T,
-else the site's theme (`SCREENTHEME` in `sd.conf`, which ships set
+else the site's theme (`SCREENTHEME` in `sd.conf`, which the installer sets
 to `paper`) while it is up, and the `classic` one when neither names one; and whatever the program asked for
 otherwise. When the debugger lets the program go, the program's theme is given
 back, whether or not the window was resized or `window` *n* was typed on the way.
@@ -127,6 +126,19 @@ of all that will be sent first** (SD's own instruction is sent but not shown), w
 screen is drawn again after it. Nothing in your program or the debugger is changed, and a command in
 the answer is ignored. Line mode and a phantom do not have it.
 
+## Who has it
+
+Read out of an account's own VOC:
+
+| VOC entry | record | |
+|---|---|---|
+| `debug` | a `V` verb, `IN`, internal command 29 | run a program in debug mode |
+| `debugging` | a `K` keyword, 53 | the compiler keyword |
+| `pdebug` | a `V` verb, `CA $PDEBUG` | the phantom debugger |
+
+**Every account has `debug` and `pdebug`.** `debugging` is a keyword rather
+than a verb, and every account has it.
+
 ## A process dump from inside the program: `pdump`
 
 ```
@@ -142,20 +154,6 @@ with the value of any name that looks like a secret (a key, a token, a password)
 
 Use it to take a picture of a program's state at one point without stopping it. **The dump
 holds the program's data**, so remove it when you have read it.
-
-## Who has it
-
-Read out of an account's own VOC:
-
-| VOC entry | record | |
-|---|---|---|
-| `debug` | a `V` verb, `IN`, internal command 29 | run a program in debug mode |
-| `debugging` | a `K` keyword, 53 | the compiler keyword |
-| `pdebug` | a `V` verb, `CA $PDEBUG` | the phantom debugger |
-
-**Every account has `debug` and `pdebug`** — there is no longer a tier that
-would withhold them. `debugging` is a keyword rather than a verb, and always
-was available regardless.
 
 ## What is not here
 

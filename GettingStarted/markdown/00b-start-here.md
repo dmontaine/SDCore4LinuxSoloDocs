@@ -55,9 +55,12 @@ this product was made from** — what it does differently in this release is in
 
 ## The pages
 
-**Read them in numerical order the first time; after that they stand alone.**
+**The pages are numbered.** Read them in numerical order the first time; after
+that they stand alone.
+
 **A number with a letter after it continues the page before it**, split so
-that no page runs longer than a reader will scroll.
+that no page runs longer than a reader will scroll: `01a` continues `01`, and
+so on.
 
 | | | |
 |---|---|---|

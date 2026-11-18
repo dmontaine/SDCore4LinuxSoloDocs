@@ -56,9 +56,7 @@ hangs up during the wait is recorded as well.
 
 **Known issue: `TLS read failed`.** A refused login made through the C client
 library can report `TLS read failed` instead of *Invalid username or password*.
-The login is refused either way and nothing else is affected. It has been seen
-only on test computers running under VirtualBox (Fedora and Debian guests), and
-not on Windows.
+The login is refused either way and nothing else is affected.
 
 **The only account an API session may enter is `sduser`.** Asking for SDSYS, or
 any other name, is answered *User not allowed in requested account* — the same
@@ -213,7 +211,8 @@ An entry that is not an absolute path, not an existing directory, the root of th
 file system, or that holds or lies inside the Solo folder (where the account, the
 passwords and the account register are) is ignored and named in the error log when
 SD starts. SD reads the line when it starts, so a change takes effect at the next
-start. See [The parameters](16c-the-parameters.html).
+start. See [The parameters](16c-the-parameters.html). `config('NETDIRS')` does not
+read it: read the file. A server session may reach `global.bp.out`.
 `SDCLIENT` in `sd.conf` is the further control: any non-zero value stops files being
 opened by an API session, and `2` also refuses a subroutine that is not compiled as
 callable from a client (`0`, the default, allows everything).

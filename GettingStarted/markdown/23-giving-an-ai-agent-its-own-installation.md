@@ -11,7 +11,7 @@ SD Core Solo for Linux has **one account**, `sduser`, and its two OS switches be
 
 ## The two OS switches
 
-**The shell and OS access are two switches, `sh` and `os`, both off as delivered** ([Operating system access](06b-operating-system-access.html)). With them off, `sh`, `os.execute`, the embedded Python and a path outside the account are refused to a session that has not typed `admin`. **Switched on, they run with the rights of the Linux user, and then they are not a wall**: what an agent's installation can reach is what its Linux user can reach. The switches are the administrator's to turn on or off (`set.os.access`), and the installer asks about them once.
+**The shell and OS access are two switches, `sh` and `os`, both off as delivered** ([Operating system access](06b-operating-system-access.html)). With them off, `sh`, `os.execute`, the embedded Python, the editors that run outside SD and a path outside the account are refused to a session that has not typed `admin`. **Switched on, they run with the rights of the Linux user, and then they are not a wall**: what an agent's installation can reach is what its Linux user can reach. The switches are the administrator's to turn on or off (`set.os.access`), and the installer asks about them once.
 
 ## Two shapes
 
@@ -19,10 +19,10 @@ The full recipe is `agent-pack/recipe/agent-account.md` in the SD Core Solo for 
 
 **Shape 1: the agent is a client of your installation, with both switches off.** It gets the account and nothing outside it: it cannot run a Linux command, read or write a file outside the account's directory, or change the VOC. It can read, change and delete everything the account holds, **including your production data**, so use it only where the agent may touch that data.
 
-1. **Check the switches are off.** Type `admin`, then `set.os.access` with no argument: it says `Account sduser has SH no, OS.EXECUTE no`.
-2. **Give it a way in that is not your Linux login:** a key of its own in Solo's own key file ([ssh access](08-ssh-access.html)), on port 4251, and the account password typed at the SD prompt; or the API on port 4249. Never your Linux password.
-3. **Give it the account password and nothing else**, never the administrator password. Change the account password when the work ends.
-4. **Prove the walls** before you trust them. As the agent, try what the guide says is refused: `sh`, `os.execute`, a path outside the account, `config`, a `copy` into the VOC, `catalog ... global`. Each must be refused in the words the guide quotes.
+1. **Check the switches are off.** Type `admin`, then `set.os.access` with no argument: it says `Account sduser has SH no, OS.EXECUTE no`. If it does not, `set.os.access sh off` and `set.os.access os off` put it right, and the next sign-in sees it.
+2. **Give it a way in that is not your Linux login.** Over ssh, give it a key, never your Linux password: add the agent's public key as one line of Solo's own key file, `~/SDCoreSolo/sshd/authorized_keys` ([ssh access](08-ssh-access.html)); it signs in on port 4251 with the key and types the account password at the SD prompt, and the sign-in runs `sd-solo`, never a shell. Or the API on port 4249 ([API access](09-api-access.html)), which takes the account password. The agent runs on another computer, as a client.
+3. **Give it the account password and nothing else**, never the administrator password, the global password or your Linux password. Change the account password when the work ends (`set.password`).
+4. **Prove the walls** before you trust them. As the agent, try what the guide says is refused: `sh`, `os.execute`, a path outside the account, `config`, a `copy` into the VOC, `catalog ... global`. Each must be refused in the words the guide quotes. If one succeeds, a switch is on that you did not mean to turn on.
 5. **Keep the hand-over human.** The agent proposes; a person reads the program and puts it where it belongs.
 6. **Take it back:** delete the agent's line from the key file and change the account password.
 

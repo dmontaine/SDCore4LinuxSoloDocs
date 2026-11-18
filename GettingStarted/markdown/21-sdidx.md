@@ -99,19 +99,20 @@ each index file really belongs to this data file (it compares a creation stamp i
 both headers, and says *Index subfile n does not appear to belong to the data
 file* or *Incorrect magic number* if not); refuses with *`akpath` already exists*
 if the target is there; creates the target directory, **and any missing parents**
-(`a/b/c` is made from nothing); **copies** each index file to the new
+(`a/b/c` was made from nothing); **copies** each index file to the new
 place; writes the new path into the data header; **then deletes the old index
 files.** If it stops before the header is written, the copy at the target is
 left behind and the file is as before.
 
-* **If the target directory cannot be made, it says so and changes nothing.** It
-  prints `Cannot create directory` *akpath*`:` and the reason on standard output,
-  and ends with status 1. The reason is the operating system's (for a parent you
-  cannot write: *Permission denied*), or *a file of that name exists* when a
-  component of the path is a file. *akpath* in the message is the whole path as you
-  typed it, not the component that failed, and the indexes and the header are
-  where they were. (An ordinary user meets the first on a parent with mode 555
-  and the second on a path through a regular file.)
+**If the target directory cannot be made, it says so and changes nothing.** It
+prints `Cannot create directory` *akpath*`:` and the reason on standard output,
+and ends with status 1. The reason is the operating system's (for a parent you
+cannot write: *Permission denied*), or *a file of that name exists* when a
+component of the path is a file. *akpath* in the message is the whole path as you
+typed it, not the component that failed, and the indexes and the header are
+where they were. (An ordinary user meets the first on a parent with
+mode 555 and the second on a path through a regular file.)
+
 * **With no `akpath`, it moves the indexes back** into the data file's own
   directory and clears the path in the header.
 * **Only the index files are deleted from the old place**. It removes the
@@ -161,14 +162,11 @@ the indexes back you create them and build them again with `create.index` and
   `Delete the index files in path (Y/N)?` and, on `y`, deletes **the index files
   the header lists** and then the directory if that leaves it empty. Anything
   else in the directory stays, and the program says so (the same rule as `-m`).
-  It used to delete the directory and everything in it.
 * **Answering `n` stops the program**: it prints `Indices not deleted`,
   exits 1, and changes nothing: the header is as it was and `-q` still names the
-  directory. It used to print "All indices deleted" and clear the header,
-  leaving the index files on the disk referred to by nothing.
+  directory.
 * **If standard input ends at the question, it is taken as `n`**: the
-  program prints `End of input` and `Indices not deleted` and exits 1. It used to
-  answer with whatever was left in memory, or loop for ever.
+  program prints `End of input` and `Indices not deleted` and exits 1.
 * With indexes in the data file's own directory there is no question. It deletes
   the files and clears the map. If a file cannot be deleted it says so, clears
   the map anyway (the indexes are gone from the file's point of view), and

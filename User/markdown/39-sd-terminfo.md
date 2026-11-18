@@ -201,9 +201,11 @@ your own, and compile them with `sdtic` as described below. The start functions 
 
 ## Compiling a definition
 
-**`sdtic` is built alongside the server during installation and is left in
-the installation's `bin` directory**, `~/SDCoreSolo/bin/sdtic` on a standard
-install.
+**`sdtic` is built alongside the server during installation** — it is
+what compiles `terminfo.src` at install time — **and is left in the
+installation's `bin` directory** (`~/SDCoreSolo/bin/sdtic` on a standard
+install, with `terminfo.src` beside it in `~/SDCoreSolo`). Nothing needs
+building to compile a custom definition after the fact.
 
 ```
 sdtic {options} src...

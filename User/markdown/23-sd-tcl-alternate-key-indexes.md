@@ -104,12 +104,13 @@ Run `build.index` before anything else has the file open.
 ### When an index should be built again
 
 `build.index` throws the index away and makes it again from the records, so it is
-also the repair for an index that no longer says what the file says. Do it for a
-**large index from which many records were deleted** before this release
+also the repair for an index that no longer says what the file says. Do it for an
+index that was built on LS1.1-3 (it followed an upper-case copy of the record id)
+and for a **large index from which many records were deleted** before this release
 (three levels, some tens of thousands of different values): deleting the last
 value of a block could take a whole branch out of the index, so a lookup missed
 records that were still in the file and values of deleted records stayed listed.
-The data was never touched. `rebuild.all.indices` does it for every file of the
+The data was never touched. `rebuild.all.indices` does it for every file of an
 account. An index that gives the right answers needs nothing.
 
 ## Asking what a file has
@@ -269,11 +270,11 @@ not kept up as records are written, and the query processor does not use it. It 
 a large load, or a batch run that would change most of the records, where keeping
 three indexes live costs far more than building them afterwards. **`build.index`
 builds it again and switches it on.** Until then its data are out of date, and
-`list.index` shows it with `N` in the `En` column. A query on the field still answers,
-from the records. `selectindex` reads whatever the index holds, enabled or not, so on
-a disabled index it may be wrong. Without an index name `disable.index` asks for one
-(*Index name:*); a name that is not there is *Unrecognized index name (NOSUCH)* and a
-file that is not there is *File not found*.
+`list.index` shows it with `N` in the `En` column. A query on the field still
+answers, from the records. `selectindex` reads the index as it is, so on a disabled
+index it may be out of date. Without an index name `disable.index` answers
+*Index name:* and does nothing; a name that is not there is *Unrecognized index name
+(NOSUCH)* and a file that is not there is *File not found*.
 
 **Like `delete.index` it needs the file to itself.** Another session that had the file
 open would go on using, and keeping up, an index this one had switched off.

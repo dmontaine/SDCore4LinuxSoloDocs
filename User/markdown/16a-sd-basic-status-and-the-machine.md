@@ -56,14 +56,15 @@ sddecrypt(data, key, encoding)
 
 Three arguments. The encoding is `201` for hex or `202` for base64.
 
-**A passphrase is not a key, but a program can make one.**
+**A passphrase is not a key, but an ordinary program can make one.**
 `sdencrypt('The quick brown fox', 'secretkey', 202)` returns **nothing** and
-sets `status()` to **10204**, a key length error: the key has to be an encoded
-256-bit key. `sdkey(passphrase, salt)` makes one from a passphrase and a salt
-that `sdsalt()` made, and `sdrandkey()` makes a random one. **SD does not keep the
-key: a lost passphrase is lost data.** The three functions, the `XE` conversion
-that shows an encrypted field decrypted, the key ring and the `encrypt.key` verb
-are on [SD Basic - Encrypting Data](06a-sd-basic-encryption.html).
+sets `status()` to **10204**, a key length error. The key has to
+be an encoded 256-bit key. Make it with `sdkey(passphrase, salt)`, where the salt
+comes from `sdsalt()` and is kept with the data, or take a random one from
+`sdrandkey()`; both are in every account. **SD does not keep the key: a lost
+passphrase is lost data.** The three functions, the `XE` conversion that shows
+an encrypted field decrypted, the key ring and the `encrypt.key` verb are on
+[SD Basic - Encrypting Data](06a-sd-basic-encryption.html), with the worked example.
 
 ## UMASK()
 

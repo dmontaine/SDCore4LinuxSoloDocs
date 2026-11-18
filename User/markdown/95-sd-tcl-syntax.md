@@ -52,7 +52,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`command.logging`** | **`command.logging`** {**`on`** \| **`off`**} |
 | **`como`** | **`como on`** {*record*} \| **`off`** \| **`pause`** \| **`resume`** |
 | **`compare.files`** | **`compare.files`** {**`dict`**} *file1* {**`dict`**} *file2* {**`detail`**} |
-| **`compile.dict`** | **`compile.dict`** *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`compile.dict data`** *file* {*i-type* …}  ·  **`compile.dict local`**  ·  **`compile.dict all`** |
+| **`compile.dict`** | **`compile.dict`** {**`dict`** \| **`data`**} *file* {*i-type* …} {**`no.query`**} {**`no.page`**}  ·  **`compile.dict local`**  ·  **`compile.dict all`** |
 | **`config`** | **`config`** {**`lptr`** \| **`gpl`** \| **`contrib`** \| *param* *value*} |
 | **`configure.file`** | **`configure.file`** {**`dict`**} *voc.name* {*parameters*} \| **`default`**  ·  **`configure.file`** *voc.name* **`next`** *n* \| **`query`** |
 | **`convert.data`** | **`convert.data`** *from.pathname* *to.pathname* {**`from`** *format*} {**`as`** *format*} {**`header`**} {**`no.query`**} |
@@ -175,7 +175,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`set`** | **`set`** *name* *value* |
 | **`set.ai`** | **`set.ai`**  ·  **`set.ai gate`** **`on`** \| **`off`**  ·  **`set.ai provider`** *name* \| **`none`**  ·  **`set.ai model`** *provider* *name* \| **`-`**  ·  **`set.ai models`** *provider*  ·  **`set.ai key`** *provider* {**`clear`** \| **`handover`**}  ·  **`set.ai custom`** *name* *url* *format* *auth* *version* *maxparam* \| **`clear`**  ·  **`set.ai ca`** *path* \| **`-`**  ·  **`set.ai limit`** *name* *number*  ·  **`set.ai context`** *hex* \| **`-`**  —  whether the AI may be used, and its provider, model, key, limits and standing text (administrator); the key is typed at the helper's own prompt, or in tool.ai's setup dialog, which hands it over |
 | **`set.backup.directory`** | **`set.backup.directory`** {*directory*} |
-| **`set.config`** | **`set.config`** *parameter* *value*  —  changes one of 14 tuning parameters of this SD's **`sd.conf`** (administrator); *value* is a whole number inside the range SD enforces |
+| **`set.config`** | **`set.config`** *parameter* *value*  —  changes one of 14 tuning parameters of **`sd.conf`** (administrator); *value* is a whole number inside the range SD enforces |
 | **`set.date`** | **`set.date`** *date* |
 | **`set.exit.status`** | **`set.exit.status`** *n* |
 | **`set.file`** | **`set.file`** *account* *file* *pointer* |
@@ -189,7 +189,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`set.password`** | **`set.password`** \| **`set.password admin`** \| **`set.password global`** |
 | **`set.pins`** | **`set.pins`** {**`on`** \| **`off`**}  —  whether the account may add its own programs to its home screen (administrator; off as delivered); without a word, says which |
 | **`set.recovery`** | **`set.recovery`** {**`on`** \| **`off`**}  —  whether the IDE keeps a recovery copy of unsaved text (administrator; off as delivered); without a word, says which |
-| **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a,b,c*} {**`no.query`**} |
+| **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a*`,`*b*`,`…} {**`no.query`**} |
 | **`set.start.default`** | **`set.start.default`** {**`menu`** \| **`terminal`**}  —  where a session starts (the home screen is the delivered start); without a word, says what it is |
 | **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
 | **`set.trigger`** | **`set.trigger`** *file* *name* {*modes*} |
@@ -220,7 +220,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`tool.backups`** | **`tool.backups`**  —  backups and restores on one screen (administrator): the saved directory, the archives in it with the manifest of each, who else is signed on, and **`backup.account`**, **`restore.account`** and **`set.backup.directory`** behind a box answered Run |
 | **`tool.bulk`** | **`tool.bulk`**  —  a bulk update of one data file of the account: choose the records (conditions, a saved list or every record), up to ten operations from a closed set, a dry run that writes nothing, apply under record locks after a box that asks the file's name typed, and undo of the last run |
 | **`tool.catalog`** | **`tool.catalog`**  —  the programs of the account on one screen: compiled or not, current or stale, and where each is cataloged (private, local, global); compile it, catalog it privately or locally, and take a catalog entry out, each through its own verb after a box that shows the command |
-| **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of this SD's **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect, the backup directory and the operating system part of the settings report; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
+| **`tool.config`** | **`tool.config`**  —  the configuration on one screen (administrator): every parameter of **`sd.conf`** with what SD is running with, what the file says, the default and when a change takes effect, the backup directory and the operating system part of the settings report; **`E`** changes one of 14 tuning parameters through **`set.config`** behind a box answered Run, and shows why and the line to add by hand for every other |
 | **`tool.dict`** | **`tool.dict`** {*file*}  —  the dictionary of a file on one screen: its items by type with their heading, format, conversion and expression, described in words; make an item (after a box), edit one in the IDE, delete or compile one through its verb, try one on a record; and the file's indices (make, build, delete, list) |
 | **`tool.files`** | **`tool.files`**  —  the files of the account on one screen: kind, records, modulus, size, indices, trigger; make, clear and delete a file, each through its own verb after a box that shows the command; analyze a file and list its indices and triggers by handing the terminal to the verb |
 | **`tool.gates`** | **`tool.gates`**  —  the six gates on one page (any session; the administrator's Enter changes a gate): shell, OS.EXECUTE, remote files, the AI, file transfer and scheduled jobs, each ON or off for this session and in the register, run through **`set.os.access`**, **`set.net.access`**, **`set.ai gate`**, **`set.xfer.access`** or **`set.jobs.access`** after a box answered Run |

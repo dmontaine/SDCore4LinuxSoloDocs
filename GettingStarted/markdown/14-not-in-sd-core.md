@@ -35,15 +35,21 @@ for Windows too, for the same reasons.**
 | `modify` — the full-screen record editor from OpenQM | **`sed`** or **`micro`** |
 | `nano` — the second external editor (removed in 2.0-0) | **`micro`**, **`sed`** or **`ed`** |
 
-**SD's own full-screen editor is `sed`**, which needs no switch. **`micro`** opens the
-record in that program and, because it runs outside SD, needs the `os` switch
-(off as delivered; the administrator turns it on with `set.os.access os on`) — see
-[Development and file commands](07-programmer-commands.html#editors), which also
-says what it is good for and what it cannot do. **Unlike SD Core for Windows,
-`edit` is not a full-screen editor here — it aliases `ed`, the line editor, because there
-is no Linux program to alias it to the way Microsoft Edit serves that role
-there.** The three removed programs above are gone as *programs*; the capability
-is not.
+**`sed` has a menu bar that shows the key of every action.** It runs inside SD,
+so it needs no operating-system permission, and it needs a window of 140 columns
+by 43 lines. With it came `ced`, a full-screen editor for a record that is a data
+collection, and `ide`, a workbench for programs and files.
+
+**SD Core's own full-screen editing is `sed` and `micro`**, which open the
+record in each program by name — see
+[Development and file commands](07-programmer-commands.html#editors), which also says
+what they are good for and what they cannot do. **`edit` is not one of them: it
+aliases `ed`, the line editor.** The removed programs above are gone as
+*programs*; the capability is not.
+
+**`micro` is gated by the `os` switch** (off as delivered; the administrator turns it
+on with `set.os.access os on`) and is refused over the API regardless (a
+session with no terminal has nowhere to draw a full screen).
 
 `modify` is not in SD Core at all.
 
@@ -127,8 +133,7 @@ decimal separators, which is all it ever did.
 
 ## Embedded Python — kept
 
-**Unlike SD Core for Windows, which dropped it and only later brought back a
-narrower, process-isolated form, this port never removed embedded Python.** It
+**Embedded Python is part of SD Core Solo for Linux.** It
 links directly against the interpreter, and there is no separate helper process to
 talk to over a pipe. **The installer needs the Python development headers to build
 it.**

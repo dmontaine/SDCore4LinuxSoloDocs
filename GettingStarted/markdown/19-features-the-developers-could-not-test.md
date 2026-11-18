@@ -1,9 +1,10 @@
-Title: Known limits
+Title: Known Limits
 Subtitle: Parts of SD Core Solo for Linux whose behavior depends on your environment, and what to check before an application relies on them.
 
 Nothing on this page is known to be broken. Each entry is a place where what
-happens depends on conditions SD cannot establish for itself: the load on your
-computer, the network between two computers, the program you run beside SD.
+happens depends on conditions SD cannot establish for itself: the load on
+your machine, the network between two servers, the program you run beside
+SD.
 Treat the page as a list of things to try on your own system before an
 application depends on them.
 
@@ -19,9 +20,9 @@ application depends on them.
 ### Solo's own ssh port, `sudo` and linger
 
 **What to expect.** Solo's ssh listener (port 4251) is run for your own user by
-two systemd user units, one `sshd` for each connection. A key in Solo's key file
-reaches the forced command and a command of the client's own is not run; a key
-that is not in the file is refused, and so is a wrong Linux password; forwarding
+two systemd user units, one `sshd` for each connection. Your Linux password, or a
+key in Solo's key file, reaches the forced command and a command of the client's own
+is not run; a key that is not in the file is refused, and so is a wrong Linux password; forwarding
 is refused. Three wrong passwords from one address in ten minutes lock that
 address for ten minutes. A guess spread over many addresses is not stopped. With
 `linger` on, which is the default, your user manager and SD stay up after your
@@ -67,8 +68,8 @@ before any login byte is sent; the remedy in its message works. See
 [Managed mode](15-managed-mode.html).
 
 **Check before relying on it.** The address a client connects from, the route
-between two computers and the SD Core for Linux server itself are conditions of
-your own site. Have a second computer sign in with the global password, ask for
+between two machines and the SD Core for Linux server itself are conditions of
+your own site. Have a second machine sign in with the global password, ask for
 its key to be installed, and then connect over ssh with that key; reinstall the
 managed computer and confirm the client is refused until its pin is removed.
 
@@ -93,14 +94,13 @@ that you start yourself outside SD is not marked.
 exercises it all the time.
 
 **Check before relying on it.** If an application will have many sessions waiting
-for the same lock, try that load on your own computer first and watch how long
+for the same lock, try that load on your own machine first and watch how long
 the waiters wait.
 
 ### A lock held by a terminal session and wanted by an API connection
 
-**What to expect.** Two local sessions compete correctly: record, update and
-file locks are reported against the right holder, a waiting read is released when
-the holder lets go, and a task lock refuses a second taker.
+**What to expect.** Two local sessions compete correctly, and the API's own
+session-confinement gate is described in [API access](09-api-access.html).
 
 **Check before relying on it.** If an application mixes terminal sessions and API
 clients on the same records, try an API client and a terminal session competing
@@ -112,6 +112,43 @@ for one record.
 `unlock` releases it however many times you locked it: the test is "unowned or
 mine", and `unlock` clears the slot outright. A program that takes the same lock
 twice and expects to hold it after one `unlock` will be wrong.
+
+## Scheduled jobs
+
+### An administrator's scheduled job
+
+**What to expect.** The units are written and the run is recognized as
+[Scheduled jobs](04-scheduled-jobs.html) describes; the next and last run that
+`set.job` and `tool.jobs` show are read from `systemctl --user show`.
+
+**Check before relying on it.** Make a job that runs every five minutes, let it
+run once, and read its lines in the audit trail and
+`journalctl --user -u sd-solo-job-`*name*; then delete it.
+
+## SDNet: remote files between SD servers
+
+### Anything between two machines
+
+**What to expect.** The route works between a client and a server: a TLS 1.3
+handshake, the pinned key, the SCRAM login from the stored keys, and reads,
+writes, locks and deletes through a VOC pointer of type `N`. `NETWAIT` and `NETREPLY` bound
+how long a call waits for a server that never answers or goes silent after its
+acknowledgement.
+
+**Check before relying on it.** A firewall in between, a name that has to be
+resolved, real network latency, a connection that a router drops, and the key
+hash carried from one screen to the other are conditions of your own network.
+Set up the server and a client on two machines and try each of them, including
+a server that hangs, before depending on remote files in production.
+
+### `MUSTLOCK` on a remote file
+
+**What to expect.** With `MUSTLOCK=1` a write to a file needs the record lock
+to be held first, and a remote file follows the same rule.
+
+**Check before relying on it.** `MUSTLOCK` applies to every session, so set it
+on a scratch installation first, with a write to a remote file with and without
+the lock held.
 
 ## Application data
 
@@ -138,11 +175,23 @@ language, but SD makes no promise about sockets opened with them.
 **Check before relying on it.** Use TCP. If you need a datagram socket, try a
 datagram to a listener and back first.
 
+## The MCP door
+
+### An agent's MCP client through the door
+
+**What to expect.** The launcher `solo-mcp.py` speaks MCP on its standard input
+and output, and the rules inside `set.mcp` and `mcp.call` decide what a call may
+do. See [The MCP door](25-the-mcp-door.html).
+
+**Check before relying on it.** Turn the door on with `set.mcp on`, add the
+launcher to your own MCP client, call each tool once, then `set.mcp off` and see
+the next call refused. The audit trail shows each call and each refusal.
+
 ## SD BASIC statements that depend on something outside SD
 
 | | needs |
 |---|---|
-| `sendmail` | a mail relay configured on the computer |
+| `sendmail` | a mail relay configured on the machine |
 | `chgphant()` | a phantom process to change |
 | `ccall()` | a C function registered into the executable |
 

@@ -46,6 +46,11 @@ copy it and fill it in. **A commented sample is never taken as an answer.**
 **The file holds passwords in clear text.** Keep the stick safe, and do not
 leave the file on a computer after installing.
 
+**It is read only for a new installation**, kept data included. **Passwords it
+gives replace the ones kept data holds**; without them a reload keeps the kept
+passwords. An upgrade takes no control file: `--upgrade` refuses one, because it
+keeps the passwords and the API and ssh settings as installed.
+
 ## What the installer checks when it finishes
 
 It signs in as `sduser` and runs `WHO`, and then confirms that **`sd-solo -internal`

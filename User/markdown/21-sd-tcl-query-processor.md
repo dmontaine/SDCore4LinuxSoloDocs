@@ -98,8 +98,8 @@ spellings in a row return identical counts on the same data.
 
 All three spellings of *not equal* returned **331** on the same query, and
 `<` and `lt` both returned **381**. (The words `before`, `after`, `equal`,
-`greater`, `less`, `matches`, `matching`, `not.matching` and `spoken` were removed in 2.0-0:
-in a query they are taken as record ids.)
+`greater`, `less`, `matches`, `matching`, `not.matching` and `spoken` are not
+operators: in a query they are taken as record ids.)
 
 ### Joining clauses
 
@@ -197,6 +197,57 @@ own, which compares a word with a list of words; the two are not connected.
 | **`no`** *field* | records where the field is null |
 | **`unique`** | one record per distinct value |
 | **`no.case`** | compare without regard to case |
+
+## Looking for text inside records: `search` and `scan`
+
+```
+search {dict} file {selection} {ids} {all} {no.case} {all.match | no.match} for "text" {"text" ...} {display}
+scan   {dict} file {selection} {ids} {all} {no.case} {all.match | no.match} for "text" {"text" ...}
+search {dict} file ... strings file record
+```
+
+`search` selects the records that **contain** a text string, as select list 0, and
+says how many:
+
+```
+search stock for "Boston"
+```
+
+```
+1 record(s) selected to list 0
+```
+
+**`scan` is `search ... display`**: for each record it selects it prints the record
+id, then every line (field) of the record that holds a string, with the line number.
+The value, subvalue and text marks inside a line are shown as `]`, `\` and `[`.
+
+```
+scan stock for "Albany"
+```
+
+```
+1001
+0003: Albany
+1 record(s) selected to list 0
+```
+
+| word | meaning |
+|---|---|
+| **`for`** *"text"* ... | the strings to look for, one or more quoted strings; up to 100 are used. With no `for` or `strings` it asks for strings until you answer with a blank line |
+| **`strings`** *file* *record* | take the strings from a record, each field one string, a null field ignored; it adds to any given with `for`. A file or record that is not there is reported and nothing is searched |
+| **`all`** | look at the record **id** as well as the record |
+| **`no.case`** | ignore case |
+| **`all.match`** | select a record only if it holds **every** string; the default is any one of them |
+| **`no.match`** | select the records that hold **none** of them (and show no lines) |
+| **`display`** | the `scan` listing, for `search` |
+
+A selection clause (`with ...`) and record ids narrow what is searched, as they
+do for `list`. **An active select list is searched instead of the whole file**, so
+two `scan`s one after the other, the second without a `select` between, search
+only what the first found. A record of a data collection file is searched as its
+JSON text.
+
+With `all.match`, `scan` still shows the lines that hold *any* one of the strings.
 
 ## Sorting
 

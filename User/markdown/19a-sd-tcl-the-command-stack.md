@@ -135,49 +135,6 @@ entered on a Solo computer: the administrator commands are in your own account
 behind `admin`. Typed anyway, `logto` answers like any word that is not a
 verb, *LOGTO is not in your VOC*.
 
-## Logging every command: `command.logging`
-
-```
-command.logging {on | off}
-```
-
-`on` starts a log of every command this session runs; `off` stops it. With
-neither word the verb says whether logging is on and, if it is, where the log is:
-
-```
-Command logging is off
-```
-
-```
-Command logging is on: <account directory>/clog.19.log
-```
-
-(*account directory* stands for the path of your account's directory; the 19 is the
-user number of that session.) **The log is named
-`clog.`*user number*`.log` and is kept in the account directory.** SD does not put it in a shared temporary directory, because
-another user could make a file of that name first. It belongs to you and nobody
-else can read it (mode 0600); each session adds to it and nothing empties it.
-
-Each line has five fields separated by tabs: the time as a number of seconds
-since 1 Jan 1970, the user number, the login name, where the command came from,
-and the command:
-
-```
-1792566633	19	sduser	User	WHO
-```
-
-| Origin | The command came from |
-|---|---|
-| `User` | the prompt |
-| `Cmd` | the command line `sd` was started with |
-| `PA` | a line of a paragraph |
-| `Exec` | `execute`, `chain` or a menu |
-
-The `on` that starts the log is not in it; every command after it is, and the
-`off` that ends it is the last line. A word after `on` or `off`, or any word but
-those two, is refused with *Unexpected token*, and if the log cannot be made
-(*The command log could not be started*) nothing is logged.
-
 ## What is not here
 
 **There is no online help and `help` is not a verb.** The command processor
@@ -187,11 +144,11 @@ it**, in any account type, so the name is not even recognized. The F1 key at the
 command prompt reaches the same empty routine and therefore does nothing. **This
 documentation is the help system.**
 
-**Unlike SD Core for Windows, `umask` is a real, typeable verb here** —
-internal verb 35, with a VOC record (`newvoc/umask`) in every account, kept
-deliberately because it is a real, live mechanism on this port: it sets the
-permissions of the files SD and its shell commands create. `umask()` from SD
-BASIC works too.
+**`umask` is a real, typeable verb** —
+internal verb 35, with a VOC record (`newvoc/umask`) in every account. It is a
+live mechanism: it sets the permissions of the files SD and its shell commands create. See
+*Security* in the GettingStarted set for what it
+does (`umask 077`). `umask()` from SD BASIC works too.
 
 **PROC is removed.** So is `update.record`. A `PQ`-type VOC record
 is **refused by name** rather than being reported as a bad dispatch code,
@@ -205,7 +162,7 @@ Everything on this page is in your account, and none of it needs `admin`:
 
 | | |
 |---|---|
-| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `command.logging` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
+| **all of them** | `abort` `alias` `clear.abort` `clear.stack` `display` `get.stack` `go` `if` `list.vars` `off` `option` `pause` `quit` `report.src` `save.stack` `set` `set.exit.status` `stop` `who` `who.am.i` |
 
 **The `OS` verb is not documented here.** `sh` reaches the Linux
 shell with your own permissions, once the `sh` switch is on (it is off as

@@ -55,11 +55,11 @@ create.file customers
 ed customers 1001
 ```
 
-**`ed`** is the **line** editor, and it needs nothing installed — **`edit`** is
-an alias for it. For a full screen, **`sed`** is SD's own editor, and
+**`ed`** is the **line** editor, and it needs nothing installed —
+**`edit`** is an alias for it, not for a full-screen editor. For a full screen, **`sed`** is SD's own editor, with drop-down menus,
 **`micro`** opens the record in `micro` — see
-[Development and file commands](07-programmer-commands.html#editors). The old full-screen
-editors `update.record` and `modify` are gone; see
+[Development and file commands](07-programmer-commands.html#editors). The old
+full-screen editors `update.record` and `modify` are gone; see
 [Not in SD Core](14-not-in-sd-core.html).
 
 In **`ed`**: `i` to insert, type your lines, a full stop on its own line to stop

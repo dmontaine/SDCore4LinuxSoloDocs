@@ -125,7 +125,9 @@ a definition that is not there.
 ### The page is 140 × 43, not 80 × 24
 
 **SD's default terminal size is 140 columns by 43 lines.** **A terminal narrower than that makes wide reports
-look wrapped or truncated**, which reads as a formatting bug and is not one.
+look wrapped or truncated**, which reads as a formatting bug and is not one. SD's own
+full-screen programs (`sed`, `ced`, `ide`, the home screen) want at least 140 columns by
+43 lines and refuse a smaller window.
 
 `term` reports the size in force, above the `Device` line:
 
@@ -155,7 +157,7 @@ phantom or a piped script.
 | The unit | `sd-solo.service`, and with an API `sd-solo-api.socket` |
 | After an unclean shutdown | SD starts anyway, once the daemon's own liveness — not just the segment's presence — is checked. See [Running SD](03-running-sd.html) |
 | `sd-solo <command>` | uses the kept password, and any command may be given — see [Scheduled jobs](04-scheduled-jobs.html) |
-| End of piped input | ends the session — at the command prompt, at `PAUSE` and at the Ctrl-R search. It used to spin at full CPU |
+| End of piped input | ends the session — at the command prompt, at `PAUSE` and at the Ctrl-R search |
 
 ## Setting no password
 

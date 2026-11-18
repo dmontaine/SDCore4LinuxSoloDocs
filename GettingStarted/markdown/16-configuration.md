@@ -34,21 +34,20 @@ ERRLOG=50
 Lines beginning `#` are comments. The shipped file is heavily commented and those
 comments record why each value was chosen. Read them before changing anything.
 **An upgrade keeps your `sd.conf`**: the installer puts a kept file back and takes
-out only the parameters SD no longer has — see
-[Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
+out only the parameters SD no longer has.
 
 ### A name SD does not recognize stops it starting
 
 An unrecognized parameter is not ignored. The parser abandons the file with
 `Unrecognized configuration parameter`, and SD does not start.
 
-**The parameters SD no longer has are removed from a kept `sd.conf` for you.**
-In 2.0-0 thirteen names went, because they did nothing or imitated another
-product: `APILOGIN`, `CODEPAGE`, `CREATUSR`, `EXCLREM`, `FILERULE`, `FIXUSERS`,
-`GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and `TXCHAR`. A line
-naming one would now stop SD, so an upgrade, and a new install that reloads a kept
-`sd.conf`, take each such line out first and say which. A configuration file you
-copy in by hand from an older installation needs the same done to it.
+That is why a name SD does not have has to be taken out of the file. These
+thirteen names are not parameters of SD: `APILOGIN`, `CODEPAGE`, `CREATUSR`,
+`EXCLREM`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`,
+`PORTMAP`, `RINGWAIT` and `TXCHAR`. The installer removes those lines from a
+`sd.conf` it keeps (an upgrade, or a reinstall that keeps the configuration), and
+says which it removed. A file copied in by hand from an older installation must have
+them taken out before SD will start.
 
 Range failures behave the same way. `GRPSIZE`, `INTPREC`, `LPTRHIGH`, `LPTRWIDE`,
 `MAXCALL`, `RECCACHE`, `SORTMRG` and `MAXIDLEN` are bounds-checked once the file
@@ -66,22 +65,19 @@ Virtual Machine Version Number LS2.0-0
 CLEANUP   300 seconds
 CMDSTACK  99
 DEADLOCK  0
-DHCACHE   10
 DUMPDIR   
 ERRLOG    50 kb
-FLTDIFF   0.00000000002910
-FSYNC     0
-GRPDIR    /home/you/SDCoreSolo/group_accounts
-GRPSIZE   4
-INTPREC   11
 ...
-USRDIR    /home/you/SDCoreSolo/user_accounts
 YEARBASE  1930
 ```
 
-SD accepts **58** parameters (`APIPORT` does not exist here — see *The API* in [Configuration - The Parameters](16c-the-parameters.html#the-api)). The verb prints all of them except `BACKUPDIR`, `NETDIRS` and `SDSYS`, and `DEBUG`, `FDS` and `PHANTOMS` only when they are set.
+SD accepts **58** parameters (`APIPORT` does not exist here — see *The API* in [Configuration - The Parameters](16c-the-parameters.html#the-api)). The verb prints all of them except
+`BACKUPDIR`, `NETDIRS` and `SDSYS`, and `DEBUG`, `FDS` and `PHANTOMS` only when they are set.
 
-`NETDIRS` is the one to know about. It decides what a session held to its account by the `os` switch, the API's included, may reach outside its own account (see [The parameters](16c-the-parameters.html)). The verb will not tell you what it is set to, and `config('NETDIRS')` does not read it. Read it from the file.
+`NETDIRS` is the one to know about. It decides what a session held to its account
+by the `os` switch, the API's included, may reach outside its own account (see
+[The parameters](16c-the-parameters.html)).
+The verb will not tell you what it is set to, and `config('NETDIRS')` does not read it. Read it from the file.
 
 **`config` pages its output** — press Return for more, or `Q`.
 
@@ -91,8 +87,8 @@ The `config()` function reads one parameter from a program:
 group.size = config('GRPSIZE')
 ```
 
-**55 parameters are readable this way.** The three that are not are `BACKUPDIR`,
-`NETDIRS` and `SDSYS`. A name of more than sixteen characters is not found (the function answers
+**55 of the 58 parameters are readable this way.** The three that are not are `BACKUPDIR`,
+`NETDIRS` and `SDSYS`; `TIMEZONE`, which is not a file parameter, can be read as well. A name of more than sixteen characters is not found (the function answers
 an empty string and `status()` is not 0); no parameter name is that long, so that
 only shows up if you pass something which is not a parameter.
 
@@ -106,7 +102,7 @@ Editing `sd.conf` and restarting SD is the durable route, and for most parameter
 it is the only one. Fourteen tuning parameters can also be changed from SD itself, with
 `set.config` or the `E` key of `tool.config` (see [Changing a Parameter from SD](16b-changing-a-parameter-from-sd.html)).
 
-**Some parameters can also be changed for the current session** (after `admin`):
+**29 settings can also be changed for the current session** (after `admin`):
 
 ```
 config sortmem 8192
@@ -116,11 +112,11 @@ That writes to the session's own copy of the settings, taken from shared memory
 when the session started. It does not reach `sd.conf`, it does not affect any
 other session, and it is gone when the session ends.
 
-The parameters that can be changed this way are `DUMPDIR`,
-`FLTDIFF`, `FSYNC`, `GRPSIZE`, `INTPREC`, `LPTRHIGH`,
-`LPTRWIDE`, `MAXCALL`, `MUSTLOCK`, `OBJECTS`, `OBJMEM`, `RECCACHE`,
-`SAFEDIR`, `SDCLIENT`, `SH`, `SH1`, `SORTMEM`, `SORTMRG`, `SORTWORK`, `SPOOLER`,
-`TEMPDIR`, `TERMINFO` and `YEARBASE`.
+The 29 are `DHCACHE`, `DUMPDIR`, `FLTDIFF`, `FSYNC`, `GRPSIZE`, `INTPREC`,
+`LPTRHIGH`, `LPTRWIDE`, `MAXCALL`, `MAXRLOCK`, `MUSTLOCK`, `NETREPLY`, `NETWAIT`,
+`OBJECTS`, `OBJMEM`, `PWDELAY`, `RECCACHE`, `SAFEDIR`, `SDCLIENT`, `SH`, `SH1`,
+`SORTMEM`, `SORTMRG`, `SORTWORK`, `SPOOLER`, `TEMPDIR`, `TERMINFO`, `TIMEZONE` and
+`YEARBASE`.
 
 Everything else takes effect only when SD is next started (`sd-solo -stop`, then
 `sd-solo -start`). That includes every limit which sizes the shared memory segment.

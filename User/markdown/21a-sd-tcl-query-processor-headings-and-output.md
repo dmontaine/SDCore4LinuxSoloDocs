@@ -220,63 +220,6 @@ data but not them. A character in a field name that is not a letter, digit,
 underscore, dot or dash becomes an underscore, and the tags are in the case
 the file and the dictionary give them.
 
-## Looking for text inside records: `search` and `scan`
-
-```
-search {dict} file {selection} for "text" {"text" ...} {all.match | no.match} {no.case} {all}
-scan   {dict} file {selection} for "text" {"text" ...} {all.match | no.match} {no.case} {all}
-search {dict} file {selection} strings file record ...
-```
-
-`search` looks inside the records for text. It builds a select list of the
-records that hold it and says how many it selected. `scan` does the same and
-**also prints, for each record that was selected, its id and then every line
-that holds one of the strings**, with the line number:
-
-```
-scan BP for "sortadd"
-```
-
-```
-p3
-0007:       sortadd s, 'k', 'd'
-0008:       sortadd s2, mat m
-p1
-0034:       sortadd x, 'k', 'd'
-2 record(s) selected to list 0
-```
-
-`search ... display` is `scan` under the other spelling. Marks inside a line
-are shown as `]` for a value mark, `\` for a subvalue mark and `[` for a text
-mark, as `list` shows them.
-
-| | |
-|---|---|
-| `for` | one or more strings in double quotes. A record is selected if it holds **any** of them |
-| `strings` *file* *record* | in place of `for`: the strings are the non-empty lines of a record of a file (*No search strings* if there are none, *Record id required after STRINGS file name* if the id is missing) |
-| `all.match` | select a record only if it holds **every** string |
-| `no.match` | select the records that hold **none** of them. `scan` shows no lines, since there are none to show |
-| `no.case` | ignore the case of the text and of the strings |
-| `all` | look at the record id as well as the record |
-| *selection* | a `with` clause or a list of ids narrows the records looked at |
-
-Up to 100 strings are used. With neither `for` nor `strings`, `search` asks for strings until
-you answer with a blank line; with `strings`, a null field of the record is ignored, the strings
-add to any given with `for`, and a file or record that is not there is reported and nothing is
-searched. With `all.match`, `scan` still shows the lines that hold *any* one of the strings. A
-record of a data collection file is searched as its JSON text.
-
-**A search works on the records of the active select list if there is one, and
-on the whole file if there is not.** The list that `search` or `scan` leaves is
-list 0, so a second `scan` straight after the first looks only at the records
-the first found. Use `clear.select` between them:
-
-```
-clear.select
-```
-
-A `scan` that finds nothing prints `0 record(s) selected to list 0`.
-
 ## A report as JSON
 
 ```

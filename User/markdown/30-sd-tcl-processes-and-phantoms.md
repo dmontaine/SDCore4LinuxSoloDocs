@@ -14,9 +14,6 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> `phantom` and `pdebug` are described rather than shown, for a reason
-> that is on the page: neither can be driven down a pipe.
-
 ## What is not on this page
 
 **Seeing the sessions, and ending them, are administrator verbs.** `listu`
@@ -144,8 +141,7 @@ a phantom - the path of`.
 > has exited — and the only way out is to kill the process, which leaves an
 > entry in the user table that needs `sd-solo -cleanup` to clear.
 > **`phantom` is for a person at a prompt, or for a program, and not for a
-> piped script.** The listings above are quoted from the verb's own message
-> texts for that reason.
+> piped script.**
 
 **A phantom is not a scheduled job.** It runs once, now. Recurring work is
 a cron job or systemd timer that starts SD, and that is a different
@@ -238,32 +234,29 @@ User  Started            Command
 not `listu` — a phantom somebody else started does not appear. The register it
 reads is keyed by the parent's user number.
 
-## Which phantoms are running: `list.phantoms`
+## Every phantom that is running: `list.phantoms`
 
 ```
 list.phantoms
 list.phantoms user name
 ```
 
-`listu` limited to the phantom processes, with their user number, process id,
-user name, login time and account:
+Lists the phantoms, **and no other session**: a header, then a line for each
+with its user number, its operating system process id, the login name it runs
+as, the time it started and the account it is in (the phantom starts in its
+parent's account). `user` *name* shows only that user's (the name is case
+sensitive). **The account is shown for the administrator and for your own
+phantoms, and left blank for anyone else's**, as `listu` does. **openQM's
+`pool` word is refused** (*SD has no pools of phantom processes*), and `user`
+without a name is *User name required after USER*.
 
 ```
   User  Pid          Username                          Login time    Account
     26  87576        sduser                            21 Oct 00:11  sduser
 ```
 
-`user` *username* shows the phantoms of one user name (the name is case
-sensitive; one nobody has gives the heading and no rows). **As in `listu` the
-account is shown for the administrator and for your own phantoms, and left blank
-for anyone else's.** `list.phantoms pool` is refused (*SD has no pools of phantom
-processes*), `user` with no name is *User name required after USER*, and any
-other word is *Unexpected token*.
-
-**A phantom is listed only once it has signed on.** `phantom` reports the user
-number it has given the new process at once, and a `list.phantoms` typed in the
-same second showed the heading and nothing under it; the row was there a moment
-later.
+A phantom is listed only once it has signed on: `phantom` reports the user number it has given the new
+process at once, and a `list.phantoms` typed in the same second may show the heading and nothing under it.
 
 ## Telling a phantom what to do: `child()` and `signal()`
 
@@ -352,8 +345,7 @@ ignores a start request whose `pdebug` has gone.
 > **Do not send `pdebug` down a pipe.** It polls the keyboard while it waits,
 > and in a piped session the input stream is the script, so it consumes the
 > commands that have not run yet. Together with the phantom it starts, that is
-> two ways for one verb to hang a scripted session. **It is described here from
-> source for exactly that reason.**
+> two ways for one verb to hang a scripted session.
 
 The debugger itself — the commands it takes once it is attached — is in
 [SD Basic - Debugging](17-sd-basic-debugging.html).
@@ -404,13 +396,6 @@ With exactly one profile it opens that one without asking, and
 `profiler display user 28` names one. There are four levels, and you go down by
 typing the number of a line and up with `b`; `q` leaves:
 
-| Level | Shows |
-|---|---|
-| 1 | the types of event, with a count of each |
-| 2 | what the events of that type were on: a file, a subroutine, a command |
-| 3 | the programs that did them |
-| 4 | the lines of the program, with the count at each |
-
 ```
 Event types
    1         29  READ
@@ -421,6 +406,13 @@ READ events, by name
    2         14  T3
 Line number to open, B to go back, Q to quit:?
 ```
+
+| Level | Shows |
+|---|---|
+| 1 | the types of event, with a count of each |
+| 2 | what the events of that type were on: a file, a subroutine, a command |
+| 3 | the programs that did them |
+| 4 | the lines of the program, with the count at each |
 
 A program with no line table (an I-type) has none to show at level 4 (*No line
 numbers were recorded for this program*), and a profile that filled up says how

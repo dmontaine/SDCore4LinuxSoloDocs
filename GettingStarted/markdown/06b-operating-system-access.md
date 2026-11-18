@@ -1,8 +1,8 @@
 Title: Operating System Access
 Subtitle: The two switches, sh and os, that decide whether SD can reach the operating system: off as delivered, turned on by the administrator.
 
-`sh` runs a Linux command from the SD prompt (the shorter name `!` was removed in
-2.0-0). `OS.EXECUTE` is the way from a program, and a program can also
+`sh` runs a Linux command from the SD prompt. (The `!` form, a shorter name for
+the same verb, does not exist: write `sh command`.) `OS.EXECUTE` is the way from a program, and a program can also
 reach the operating system by naming a file or directory outside the account.
 **All of it is off as delivered**, and the administrator turns it on, in two
 independent switches, with `set.os.access`.
@@ -155,9 +155,12 @@ With `sh` on, everything after the verb is the command. It runs in the account's
 ```
 :sh echo hello-from-the-shell
 hello-from-the-shell
-:sh pwd
-/home/you/SDCoreSolo/user_accounts/sduser
 ```
+
+**A bare `sh`, with nothing after it, starts an interactive shell** (the
+filter below is for a typed command, and a bare `sh` is not refused by it). `exit` brings you back to the SD prompt. It
+needs the `sh` switch like any other `sh`: an account without it is
+refused first, with "<name> is not permitted to use the operating system shell".
 
 **The shell is `bash -c`.** The command starts in the account's directory,
 `~/SDCoreSolo/user_accounts/sduser`, and runs to completion with its output
@@ -166,24 +169,26 @@ started with — under systemd that is the user manager's, which normally does n
 include `~/.local/bin`, so `sd-solo` itself is not found by name inside `sh` (use
 the full path).
 
-## A filter on the command, not on you
+## One rule about the shape of the command, for everybody
 
-**`sh` refuses a command that contains a shell metacharacter or a line
-break** — `;` `|` `&` `$` `` ` `` `<` `>`:
+**The verb refuses a command that contains `;`, `|`, `&`, `$`, a backquote,
+`<`, `>` or a newline**, before anything runs:
 
 ```
 :sh echo alpha-beta | grep alpha
 Error 2 executing operating system command
-:sh echo hi; ls /somewhere
+:sh echo gamma > zzsh.txt
 Error 2 executing operating system command
 ```
 
-**That is a sanitizer, not a permission.** It stops a one-line command being
-turned into two by accident — a record id or a variable pasted into it — and it
-is applied the same way to everyone. A plain command with arguments is fine:
-`sh ls -la`, `sh grep -c error /var/log/messages`. **A bare `sh`, with nothing
-after it, starts an interactive shell** (the filter is for a typed command); `exit` brings you back to the SD
-prompt. It needs the `sh` switch like any other `sh`.
+That is a sanitizer on what a one-line command may look like — a safety
+measure against an accidental injection, not a permission — and it applies
+to everyone, the administrator included. **No pipe, no redirection, no chaining and no variable
+expansion is available from the prompt.** What an account that has the switch can do about that is
+the obvious thing: write the work into a script file and run the script
+(`sh ./nightly`). The script's own contents are not filtered. This is why
+turning `sh` on is a decision to give a person a shell on the computer, not a
+decision to give them a restricted one.
 
 ## `OS.EXECUTE` is not filtered
 

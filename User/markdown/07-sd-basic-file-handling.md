@@ -137,6 +137,18 @@ absent.
 
 `clearfile file.variable` empties the file but leaves it in place.
 
+### Files an account may not change: the VOC
+
+The **VOC** (a file called `voc`) can be changed by a program only after `admin`
+(the administrator password); Solo has no `voc-on`, `bp-on` or `dict-on`, so there
+is `admin` or there is not. Without it `write`, `writev`, `delete` and `clearfile`
+on the VOC change nothing and stop the program with an error: `clearfile` with
+*The VOC can only be changed after admin (the administrator password)*, and
+`write`, `writev` and `delete`, with an `on error` clause, take that clause and
+leave `status()` set. Reading is never refused, and neither is a file of any
+other name, a dictionary and a program file included. A VOC reached by a pathname is held to the same rule (see
+[SD Basic - Sequential Files](10-sd-basic-sequential-files.html)).
+
 ### Letting the file number its records: `creating.seqkey`
 
 ```
@@ -164,7 +176,10 @@ already committed to the file are looked at; an id this process took earlier is 
 records with numeric ids were copied in; the skipping is what protects them. The counter is changed in
 the file header at once, so a power failure can leave it one behind the records; setting it with
 `configure.file … next` puts that right. The client library
-has it as `SDWriteSeqKey` and `SDWriteuSeqKey` ([SD Client API](37-sd-client-api.html)).
+has it as `SDWriteSeqKey` and `SDWriteuSeqKey` ([SD Client API: Select Lists to Error Handling](37-sd-client-api-2-select-lists-and-the-rest.html)).
+On a file reached through an `N` pointer to another SD server the write goes to that
+server, which decides whether to allow it
+([SDNet - Administering a Remote File](42a-sd-sdnet-administration.html)).
 
 ### `fcontrol`: the counter, a test for an id, the minimum modulus
 

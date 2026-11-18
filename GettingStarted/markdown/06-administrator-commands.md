@@ -45,6 +45,9 @@ password is never displayed, stored or logged.
 | `update.accounts` | refresh the account's VOC |
 | `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
+| `remote.ssh`, `remote.api`, `tool.remote` | whether Solo's ssh server and the API are off, local or open — [ssh access](08-ssh-access.html), [API access](09-api-access.html) |
+| `backup.account`, `restore.account`, `set.backup.directory`, `tool.backups`, `settings.report` | [Backing up and restoring the account](06c-backup-and-restore.html) |
+| `set.recovery` | the IDE's recovery copy of text you have not saved |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
 | `set.server`, `delete.server`, `list.servers` | the servers SDNet may reach — the SDNet page of the User set |
 | `set.xfer.access` | show, or turn on and off, file transfer over Solo's ssh (`receive` and `send`, with `XFER=1` in `sd.conf`); off as delivered — [Security](12-security.html), and for the person *Moving Files In and Out* in the User documentation |
@@ -207,7 +210,7 @@ tool.menus
 ```
 
 **The delivered start is the home screen.** A session on a terminal opens it (tiles for the
-editor, the IDE, the record editor, a terminal, the keyboard test, and Sign out), and the
+editor, the IDE, a terminal, the keyboard test, and Sign out, and the development tiles), and the
 command prompt is what is left when it returns. `set.start.default terminal` makes the prompt
 the start, `set.start.default menu` the home screen again, and without a word the verb says
 what it is now. It is read when a session starts. A piped session, a window under 140 by 43,
@@ -216,11 +219,13 @@ old start, type `admin` and then `set.start.default terminal`.** Starting in the
 nobody: the Terminal tile is there unless you turn it off.
 
 **`set.tile sduser tile off`** takes a tile off the page, and `on` puts it back (every tile is on as
-delivered; the ids are `editor`, `ide`, `ced`, `terminal`, `keys` and `signout`). `set.tile`
+delivered; the ids are `editor`, `ide`, `terminal`, `keys` and `signout`, the seven development
+tiles `files`, `voc`, `dict`, `query`, `bulk`, `catalog` and `test`, and `recent`, which is not a
+tile but the Recent group). `set.tile`
 alone says what is off. **Sign out cannot be turned off.** With **Terminal** off and a start in
 the home screen, the account is never given the prompt: when the screen ends it signs the
-person out. That is a wall only for the prompt the screen gives; the editor, IDE and record
-editor tiles run the account's own programs, so keep the account to the screen by turning those
+person out. That is a wall only for the prompt the screen gives; the editor and IDE
+tiles run the account's own programs, so keep the account to the screen by turning those
 off as well, and a shell still needs `set.os.access sh on`.
 
 **`set.pins on`** lets the account add programs of its own to its home screen (a group *My

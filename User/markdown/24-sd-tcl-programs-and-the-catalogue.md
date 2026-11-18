@@ -105,9 +105,9 @@ the name of a VOC verb.
 refused with *"The global catalog holds the SD Core server's programs from
 global.bp.out and is changed only by sync.global.catalog"*. **The same refusal
 applies to an implicit global catalog** — one chosen by a `!`, `_` or `$`
-prefix on the call name rather than by the `global` keyword (the `*` and `-`
-prefixes were removed in 2.0-0) — so the prefix is not a way round it. On a managed computer the global catalog is the SD Core
-for Linux server's, and only it can change it — see *Managed mode* in the
+prefix on the call name rather than by the `global` keyword — so the prefix is
+not a way round it. On a managed computer the global catalog is the SD Core for
+Linux server's, and only it can change it — see *Managed mode* in the
 GettingStarted set. Catalog your own programs `private` or `local`.
 
 Private and local cataloging need none of this and work in a programmer's own
@@ -164,14 +164,13 @@ zzdocprog added to local catalog
 zzdocprog deleted from the local catalog
 ```
 
-When more than one word follows `decatalog`, the first is taken as a file name
-and is accepted and ignored, because the entry already holds the object's
-pathname; each of the others is a program name. A name that is not in the local
-catalog is said so (*zzdocprog is not in the local catalog*) and the rest are
-still done; an object file that cannot be deleted is reported as *Cannot delete
-the object code* and the entry is gone all the same; no name at all is *Catalog
-name required*. `decatalog` works on **local** entries only — a private or
-global catalog entry is removed with `delete.catalog`.
+Several names may be given. A name that is not in the local catalog is said so
+(*zzdocprog is not in the local catalog*) and the rest are still done; an object
+file that cannot be deleted is reported as *Cannot delete the object code* and
+the entry is gone all the same. A file name in front of the program name is
+accepted and ignored, because the entry already holds the object's pathname.
+`decatalog` works on **local** entries only — a private or global catalog entry
+is removed with `delete.catalog`.
 
 > **`map` also takes a `file` option**, which writes the map to a file instead
 > of the screen. **It asks before overwriting** — *"File xx will be cleared and

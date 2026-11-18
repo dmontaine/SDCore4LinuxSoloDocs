@@ -47,10 +47,8 @@ of this page. The full-screen editors need nothing extra.
 
 ### Editors
 
-**`edit` is not a full-screen editor here** — a real difference from SD Core for
-Windows, where it opens Microsoft Edit. There is no Linux equivalent to alias it
-to, so `edit` runs the **line** editor, `ed`, instead. There are two full-screen
-editors. **`sed` is SD's own**: a program written in SD BASIC that runs inside SD,
+**`edit` is not a full-screen editor** — it runs the **line** editor, `ed`.
+There are two general full-screen editors. **`sed` is SD's own**: a program written in SD BASIC that runs inside SD,
 so it needs no installing and no operating-system permission (its menus, keys and
 syntax color are described in *The SED Screen Editor*, in the User documentation).
 The other is the program `micro`, which the SD installer installs as an ordinary
@@ -85,6 +83,11 @@ copies SD's syntax file into your `~/.config/micro/syntax` the first time it is
 used. **It applies to a `bp` record and to nothing else.** SD names the working
 copy so the editor can recognize the language — a record edited out of any other
 file is treated as plain text, which is correct for a VOC entry or a data record.
+
+> **The word lists are generated from the compiler.** They come out of
+> the compiler's own tables of statements, reserved words and intrinsic
+> functions, so the highlighting follows the language. **If a name you
+> expect is not colored, that is worth reporting.**
 
 **`ed` is unaffected and is still there.**
 
@@ -160,9 +163,6 @@ than reading it through a pipe.
 
 **If an editor misbehaves over ssh and not at the console, that is worth
 reporting** with the terminal you connected from.
-
-**A session with no terminal is refused**: an API session or a piped script has
-nowhere to draw a full screen.
 
 The removed full-screen editors are a different matter: `update.record` and
 `modify` are gone and are not coming back. See

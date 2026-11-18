@@ -195,100 +195,16 @@ The limit is the `NUMFILES` configuration parameter. **The peak is what matters
 when you are sizing it** — the current figure moves constantly and tells you
 almost nothing.
 
-### A line for every file: `file.stat`
-
-```
-file.stat {dict} {file ...} {lptr {n}} {no.page}
-```
-
-One line for each file: its type, how big it is, how many records it holds, and
-a column of `Y` and `N` for the things a file can have.
-
-```
-File name                Typ  Cur Mod  Min Mod Grp  Record Cnt     Primary    Overflow  Total Size AK TR ST NC NR EN RP JN
-T3                       DYN        1        1   2           5        4096        2048        6144  Y  N  N  Y  N  N  N  N
-T1                       DYN        1        1   2           2        4096        2048        6144  N  N  N  Y  N  N  N  N
-```
-
-| Column | |
-|---|---|
-| `Typ` | `DYN` a dynamic hashed file, `DIR` a directory file, `COL` a collection file |
-| `Cur Mod` · `Min Mod` · `Grp` | the current and the minimum modulus, and the group size |
-| `Record Cnt` | the number of records |
-| `Primary` · `Overflow` · `Total Size` | bytes in the primary subfile, in the overflow subfile, and both |
-| `AK` `TR` `ST` `NC` `NR` | `Y` if the file has indices, a trigger, statistics collecting (`fstat`), case insensitive record ids, and `no.resize` |
-| `EN` `RP` `JN` | encryption, replication and journalling. **Always `N`**: the columns are kept so the report keeps its layout, and none of the three is a property a file has in this system |
-
-**A directory file shows its type and its record count and nothing else.** With
-no file names the report covers the files on an active select list (list 0) or,
-if there is none, **every file your VOC points at with an `F` entry**; `dict`
-asks about the dictionaries instead. The report is about 122 columns wide.
-openQM can also report on other accounts (`file.stat account.list`, `file.stat all`);
-SD does not.
-
-### What one file is: `find.file`
-
 ```
 find.file {dict} file
 ```
 
-Opens the file the way any program would and says what it is. It is for the
-file that is not behaving as you expect.
-
-```
-Dynamic hashed file, group size 2, modulus 1
-Pathname: <the full path of the file>
-File uses case insensitive record ids
-File has indices
-```
-
-(The real listing gives the full path of the file.) The lines after the pathname appear only when they are true: case insensitive record ids, indices, a trigger,
-read only. A directory file is reported as one. A file that cannot be opened is
-not described; the reason is given instead (*NOSUCH is not defined in your
-VOC*, for a name the VOC does not have, and *Invalid file name* when there is no
-name at all). **Because it opens the file as a program would, it can reach only
-what your VOC and the operating system access switch allow.**
-
-### File activity by session: `fstat.user`
-
-```
-fstat.user {top} {user n} {lptr {unit}} {no.page}
-```
-
-How many records each session has read, written and deleted since it started.
-These are the counts `fstat global` keeps for the whole system, kept for each
-session as well. The sessions come in user number order; **`top` puts the busiest
-first** (reads + writes + deletes), which shows where a slow system is busy.
-
-```
- User Name.......................Reads..........Writes.........Deletes
-    7 sduser                      1143               0               2
-```
-
-`user` *n* shows every count of one session:
-
-```
-File activity for user 10
-
-Opens                                  2
-Reads                                 68
-Writes                                 1
-Deletes                                4
-Clears                                 0
-Selects                                0
-Index reads                            0
-Index writes                           0
-Index deletes                          0
-Splits                                 0
-Merges                                 0
-
-Counted since 21 Oct 00:07
-```
-
-**An administrator sees every session; anyone else sees the sessions of their
-own login name.** A number that is not a session of yours, or not logged in,
-gives *No file activity to show for user 99: not logged in, or not a session of
-yours*. The report is shown once, not repeated; run it again for another look.
+A summary of one file, opened the way any program would open it: its type
+(*Dynamic hashed file, group size 1, modulus 3*, or *Directory file*), its
+pathname, and a line for each of these that is true of it — *File uses case
+insensitive record ids*, *File has indices*, *File has trigger* name, *File is
+read only*. A name that is not in the VOC, or a file that will not open, is said
+so. Unlike `analyze.file` it does not walk the file.
 
 ## Permission bits of records: `set.mode`
 
@@ -379,9 +295,23 @@ wrong.
 name you type and the name on disk stay together. **The new name is stored in lower
 case**, in the VOC and as the file's directory, whatever case you typed: `cname old to NEW`
 leaves the file as `new`. A new name that is already in the VOC in any case, or that differs
-from the old name only in case, is refused with "... is already defined in your VOC", so no
-file ever has two spellings and the file's only VOC entry is never lost. A file that already
-has an upper-case name is not renamed by this.
+from the old name only in case, is refused with "... is already defined in your VOC".
+A file that already has an upper-case name is not renamed by this.
+
+## Seeing what is actually in a record
+
+```
+ct {dict} file.name {record.name... | *} {options}
+dump {dict} file.name {record.name... | *} {options}
+```
+
+Both are the same program. `ct` is a field-by-field listing; `dump` reports the
+same data in binary. Options: `hex` for hexadecimal, `binary` for a full-width
+report that is not field-based, `no.query` to skip the prompt when a select list
+is in use, and `lptr` {*n*} to send it to a print unit.
+
+**Every account has both `ct` and `dump`** — they run the same code, reached
+by two separate VOC records rather than one.
 
 ## Continued in
 

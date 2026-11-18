@@ -22,14 +22,14 @@ says which parameter controls it.
 | Fields per record | limited only by record size | — |
 | Values per field, subvalues per value | limited only by record size | — |
 
-The record size limit is just under 1 GB rather than 2 GB. It is the maximum size
-of any single string SD will build, so it applies to a record, to a concatenation,
-and to anything a program assembles in memory.
+The record size limit is just under 1 GB rather than 2 GB. It is the maximum
+size of any single string SD will build, so it applies to a record, to a
+concatenation, and to anything a program assembles in memory.
 
-**A record id may be longer than 63 characters only if `MAXIDLEN` is raised**, and
-the range starts at 63 rather than 0 — a lower value is refused at start-up rather
-than accepted. The ceiling of 255 is compiled; raising it would require major
-file-format changes.
+**A record id may be longer than 63 characters only if `MAXIDLEN` is raised**,
+and the range starts at 63 rather than 0 — a lower value is refused at start-up
+rather than accepted. The ceiling of 255 is compiled, because raising it
+would require major file-format changes.
 
 ## Files
 
@@ -39,6 +39,7 @@ file-format changes.
 | Group size for a dynamic file | **4 KB** by default, maximum **8** | `GRPSIZE` |
 | Open files across all sessions | **80** | `NUMFILES` |
 | Maximum pathname length | **255** | compiled |
+| Path of a program named to `RUN` | **255** characters | compiled |
 | Sort keys in one query | **32** | compiled |
 
 Group size is expressed in 1 KB units, so the compiled maximum of 8 is 8 KB.
@@ -119,15 +120,17 @@ verb subset specifically is counted on the SD TCL syntax card in the User set.
 | | |
 |---|---|
 | Parameters accepted in `sd.conf` | **58** |
-| Parameters the `config` verb displays | **56** |
+| Parameters the `config` verb displays | **55** |
 | Parameters readable with `config()` | **55** |
-| Parameters settable for the current session | **23** |
+| Parameters settable for the current session | **29** |
 
-The verb displays `DEBUG`, `FDS` and `PHANTOMS` only when they are set, and `TIMEZONE`,
-which is not a file parameter. No parameter is accepted and ignored: the thirteen
-that once were (`APILOGIN`, `CODEPAGE`, `CREATUSR`, `EXCLREM`, `FILERULE`,
-`FIXUSERS`, `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and
-`TXCHAR`) no longer exist, and a line naming one stops SD from starting;
+The three parameters the verb does not display and `config()` cannot read are
+`BACKUPDIR`, `NETDIRS` and `SDSYS`. The verb displays `DEBUG`, `FDS` and `PHANTOMS` only
+when they are set, and `TIMEZONE`, which is not a file parameter; `config()` reads it
+and a session can set it, and it is counted among the 29. No parameter is accepted and ignored:
+a line naming a name SD does not have (such as `APILOGIN`, `CODEPAGE`, `CREATUSR`,
+`EXCLREM`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`,
+`PORTMAP`, `RINGWAIT` or `TXCHAR`) stops SD from starting;
 [Configuration](16-configuration.html) says how the installer takes them out of
 a kept `sd.conf`. `NETFILES` is live: its bit 2 opens API request 29, behind the
 NET gate (see the same page).
