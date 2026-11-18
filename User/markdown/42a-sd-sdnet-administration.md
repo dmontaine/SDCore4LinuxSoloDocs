@@ -68,10 +68,12 @@ and `config('NETREPLY')` read them.
 
 **A server that goes silent is given up on at those times.** `NETWAIT` bounds the TCP connection and then the TLS handshake, each: a server that
 accepts the connection and never answers the hello is given up on after `NETWAIT`. `NETREPLY` bounds each read, including the first reply of the login after the handshake: a server that
-completes the TLS 1.3 handshake and then sends nothing, or only half of a TLS record, is waited for no longer than `NETREPLY`. A reply that stops in the middle of its body is a lost connection, like a reply that never starts: message 11497 for a read,
+completes the TLS 1.3 handshake and then sends nothing, or only half of a TLS record, is waited for no longer than `NETREPLY`. A TLS 1.3 server sends its session tickets after the handshake, and a server or a link can stop in the middle of a TLS record; neither uses up the wait or lets the read run on without a limit. A reply that stops in the middle of its body is a lost connection, like a reply that never starts: message 11497 for a read,
 11509 for a change (whose outcome is then unknown), and the connection is dropped. A server that answers late but inside
 `NETREPLY` is read as before. The limit is for each read, not for a whole reply: a server that sends one byte at a time and
 never stops is still waited for one read at a time.
+
+`open.socket` takes the same number as its fourth argument (seconds to wait for the connection, zero for no limit of SD's own); every SDNet caller passes `NETWAIT`.
 
 ## What is audited
 

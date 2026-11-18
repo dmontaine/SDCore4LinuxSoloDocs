@@ -65,6 +65,7 @@ Virtual Machine Version Number LS2.0-0
 CLEANUP   300 seconds
 CMDSTACK  99
 DEADLOCK  0
+DHCACHE   10
 DUMPDIR   
 ERRLOG    50 kb
 ...
@@ -72,7 +73,7 @@ YEARBASE  1930
 ```
 
 SD accepts **58** parameters (`APIPORT` does not exist here — see *The API* in [Configuration - The Parameters](16c-the-parameters.html#the-api)). The verb prints all of them except
-`BACKUPDIR`, `NETDIRS` and `SDSYS`, and `DEBUG`, `FDS` and `PHANTOMS` only when they are set.
+`BACKUPDIR`, `NETDIRS` and `SDSYS`, and `DEBUG`, `FDS` and `PHANTOMS` only when they are set; it also prints `TIMEZONE`, which is not a file parameter.
 
 `NETDIRS` is the one to know about. It decides what a session held to its account
 by the `os` switch, the API's included, may reach outside its own account (see
@@ -170,7 +171,7 @@ the rows where the file and SD disagree, and `S` only the parameters the file se
 `SDSYS`, `BACKUPDIR` and `NETDIRS` cannot be read with the `config()` function (a name longer than sixteen characters, or one the function does not have); the page says `(not readable)` for what SD is running with and shows the file's value. `DEBUG` is not compared: the function reports it in another form than the file writes it.
 
 **B, the backup directory**: the directory saved with `set.backup.directory` and whether it is there;
-**R, the report**: the operating system part of `settings.report`, made when the view is opened and
+**R, the report**: the operating system part of `settings.report` (the configuration file and the install-time policy, the mode, the API and ssh, and the service), made when the view is opened and
 on F5. It holds no key and no password hash. `F5` reads the file, the backup directory and the report
 again, and while the report is made the status line says "Reading the settings (a few seconds)...",
 and while `set.config` runs a change it says "Making the change (a few seconds)..."; `E` changes the parameter under the cursor, or says why it cannot be changed here; `F1`

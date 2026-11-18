@@ -17,13 +17,16 @@ lock.tracer {user n} {lptr {n}} {no.page}
 ```
 
 While it is on, every lock any session takes or lets go is added, as one line, to
-the file **`locktrace` in the SD system directory**. `on` empties that file
-first, so a log is one switching-on's worth. The report lists the lines, oldest
-first, with the **date and time**, the **user number**, the **action**, the
-**program** that was running and the **line number** in it, the **file** and the
-**record id**. `user n` shows one session's lines; `lptr` prints them and
-`no.page` stops the pause at the end of a page. An ordinary session is told
-*lock tracing is for the administrator*.
+the file **`locktrace` in the system directory**. `on` empties that file
+first, so a log is one switching-on's worth. The file is made with mode 0620.
+A link left in the file's place is refused, and the tracer will not start on it.
+An ordinary session is told *lock tracing is for the administrator*.
+
+The report lists the lines, oldest first, with the **date and time**, the **user
+number**, the **action**, the **program** that was running and the **line number**
+in it, the **file** (cut from the left when it is long) and the **record id**.
+`user n` shows one session's lines. `lptr` prints them, `no.page` stops the pause
+at the end of a page.
 
 | action | means |
 |---|---|
@@ -35,15 +38,18 @@ first, with the **date and time**, the **user number**, the **action**, the
 | `Rel RX` | a record lock let go |
 | `Rel FX` | a file lock let go |
 
-**It logs everything, SD's own locks included**: a sign-on takes `$ipc`, the
-command processor takes `$command.stack`, and reading the log reads a file. The
-volume is large and every lock costs a file write, so switch it on for a short
-time and off again.
+**It logs everything, SD's own locks included**: a login takes `$ipc`, the command processor
+takes `$command.stack`, and reading the log reads a file. Ask `lock.tracer user n` for one session,
+or look for the file you care about. The volume is large and every lock costs a file write, so switch
+it on for a short time and off again.
 
-> **Only a lock that is granted is logged**: one that is refused, or has to wait,
-> is not, until the moment it is granted. A session that is killed has its locks
-> cleared by the cleanup, and that is not logged either, so a `Get RU` with no
-> `Rel RX` after it may be a lock the cleanup gave back.
+> **Only a lock that is granted is logged**: one that is refused, or has to wait, is not, until the
+> moment it is granted. **A session that is killed or lost** has its locks cleared by the cleanup, and
+> that is not logged either, so a `Get RU` with no `Rel RX` after it may be a lock the cleanup gave back.
+> A program that ends normally lets its locks go through the log, on the line of its `end`. The log is
+> lines of value-mark-delimited fields (epoch time, user, pathname, record id, action number, the
+> program's object, offset in it in hexadecimal, line), for a program of your own to analyze. openQM's
+> report needs a terminal 132 wide; this one is 120.
 
 ## Task locks: `list.locks`, `lock`, `clear.locks`
 
@@ -62,11 +68,11 @@ clear.locks {n}
 No task locks reserved by any user
 ```
 
-and with lock 5 held by user 29, `*` marking your own session:
+and with lock 5 held by user 16, `*` marking your own session:
 
 ```
 :list.locks
- 0:       1:       2:       3:       4:       5: 29*   6:       7:
+ 0:       1:       2:       3:       4:       5: 16*   6:       7:
  8:       9:      10:      11:      12:      13:      14:      15:
 16:      17:      18:      19:      20:      21:      22:      23:
 ```
@@ -166,7 +172,10 @@ tool.sessions
 refused before it reads anything. It needs a window of 140 columns by 43 lines. The top list
 is every session — user number, Linux process, when it signed on, its kind (user, phantom,
 API or SDNet), the login user (always `sduser` here), the account it is in, where it came
-from, and whether it is yours (a star) or a logout is pending. The lower list is every lock —
+from, and whether it is yours (a star) or a logout is pending. **Ctrl-O opens an output
+pane** (six rows, between the row box and the foot) that keeps the commands the page ran,
+with what each answered, newest first; Ctrl-PgUp and Ctrl-PgDn scroll it and Esc puts it
+away. It is kept in memory for this run of the page only. The lower list is every lock —
 the user, the file number and path, the type (`FX` and `SX` lock a whole file, `RU` is read
 and update, `RL` is read, `WAIT` is a session waiting for a lock), the record id, since when,
 and whether a session with that user number is still signed on. Under the sessions the page

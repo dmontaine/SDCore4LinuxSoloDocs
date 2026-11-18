@@ -81,10 +81,11 @@ sd_Log[115214]: API connection over TCP from 203.0.113.4 port 51322 (SD login re
 ```
 
 **Nothing is refused on the strength of it.** This records who connected; it does
-not decide who may. The API's own checks — the SCRAM login — are what decide.
+not decide who may. The API's own checks are unchanged.
 
 **A connection forwarded over ssh shows the tunnel's own endpoint, not the person
-at the far end**, because the tunnel genuinely does terminate on this computer.
+at the far end**: the tunnel genuinely does terminate on this computer, so the line
+cannot name a remote person.
 
 ## Line endings
 

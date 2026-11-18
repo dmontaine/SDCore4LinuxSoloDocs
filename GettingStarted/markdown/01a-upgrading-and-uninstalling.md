@@ -105,7 +105,7 @@ it. So an upgrade also, for you:
   takes the `sd.conf` parameters SD no longer has out of your kept `sd.conf` (SD would
   refuse to start on one);
 - converts your account's files to case-insensitive record ids (below);
-- recompiles SD's own dictionaries;
+- merges and recompiles SD's own dictionaries;
 - catalogs the server's programs in `global.bp.out` again, on a managed
   computer (`sync.global.catalog`), because the global catalog is one of the
   files replaced.
@@ -236,7 +236,8 @@ copies itself to a temporary file and runs from there.
 
 Moving the account is a backup on one computer, a copy of one file, and a restore on the other.
 There is no verb that does it in one go; the two verbs are described under
-[Administrator commands](06-administrator-commands.html).
+[Administrator commands](06-administrator-commands.html) and in
+[Backing up and restoring the account](06c-backup-and-restore.html).
 
 1. On the old computer, after `admin`: `backup.account`. It writes one zip file to the saved
    backup directory and says its name.

@@ -31,13 +31,12 @@ offered. If you changed the record while the AI was answering, its change no lon
 nothing is applied. The IDE has nowhere to run a command, so a command in the answer is ignored.
 Saving, compiling and running stay your own acts.
 
-The other keys follow [SED](27a-sd-tcl-sed.html) where the two do the same:
-Ctrl-Q quits, Alt-G goes to a line (in SED too), Ctrl-X, Ctrl-C and Ctrl-V cut, copy and
+The other keys: Ctrl-Q quits, Alt-G goes to a line, Ctrl-X, Ctrl-C and Ctrl-V cut, copy and
 paste, Ctrl-Z and Ctrl-Y undo and redo, Ctrl-F finds forward and Ctrl-B
 backward (Return on the question repeats the last text; **F3 finds the next one and
 Shift-F3 the one before**, as in other text areas) and Ctrl-R replaces a text through the record.
-**Ctrl-W is not SED's write-a-copy
-key here: it closes the record**; Save as and Write a copy are in the File menu.
+**Ctrl-W closes the record**; Save as and Write a copy are in the File menu. The same keys work in
+[SED](27a-sd-tcl-sed.html), which is this editor started by itself.
 In the text area (the keys are those of `screen memo`; the [screen
 library](12a-sd-basic-the-screen-statement.html) page has the list) Ctrl-A selects
 everything, Ctrl-D duplicates the line, **Alt-K** cuts the whole line into the
@@ -48,10 +47,10 @@ Ctrl-E (the zoom), Ctrl-T (the theme) and Ctrl-K (the keys) on to the IDE.
 On a UTF-8 terminal (`LC_ALL`, `LC_CTYPE` or `LANG` says UTF-8) the frame, menus
 and scroll bars use line-drawing characters; elsewhere `+ - |`. The colors are
 your own theme if you chose one, else the site's (`SCREENTHEME` in `sd.conf`, paper as delivered), as on the toolkit
-pages, in SED and in the debugger: paper when neither names one or the name is not
+pages and in the debugger: paper when neither names one or the name is not
 a theme, mono on a terminal with no color. Ctrl-T or View, Theme goes through blue, classic,
 mono, night and paper, skipping those the terminal cannot show, and **SD keeps the
-choice for you**: the IDE, every page, SED and the debugger start in it
+choice for you**: the IDE (also when started as `sed`), every page and the debugger start in it
 from then on, in this account and in later sessions.
 
 **A recovery copy of text you have not saved**, **if the administrator has turned it on**
@@ -100,7 +99,7 @@ were doing: the editor's undo and redo steps, the selection,
 the text to find (F3), the cursor and the view, the messages table's row, the open
 nodes of the tree and a half-typed AI request. The parts of the screen are moved and
 sized where they are; if one of them cannot be moved, the IDE builds the screen again,
-keeping the text. Coming back from Run, Debug or SED also builds the screen again.
+keeping the text. Coming back from Run or Debug also builds the screen again.
 
 ## The two that are not like the others
 

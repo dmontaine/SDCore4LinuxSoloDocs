@@ -8,7 +8,9 @@ the removed features themselves.**
 Everything here was in OpenQM, in ScarletDME, or in upstream `sdb64`, or in the
 multiuser SD Core for Linux this release was made from, and is not in SD Core for
 Linux Solo. **Most of the removals before Solo were made independently on SD Core
-for Windows too, for the same reasons.**
+for Windows too, for the same reasons.** What the multiuser SD Core for Linux has
+and Solo does not — accounts, groups, `SDSYS`, the root helper — is described on
+[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html).
 
 > **If you had a use for any of these, say so.** Several were removed on the
 > reasoning that nothing needed them. That reasoning is worth testing against real
@@ -26,6 +28,9 @@ for Windows too, for the same reasons.**
 | `ssh`/`api`/`both`/`none` route keywords, `sh-on`/`sh-off`/`os-on`/`os-off` | gone earlier, with the `os.users` permit list they set |
 | the account tiers (Standard, Programmer, Administrator) | gone earlier: one VOC for everybody |
 | Group accounts, suspending an account | there is nobody to suspend |
+
+The rest of what Solo leaves out, adds and does differently is on
+[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html).
 
 ## Editors
 
@@ -53,8 +58,7 @@ session with no terminal has nowhere to draw a full screen).
 
 `modify` is not in SD Core at all.
 
-> **`ed`** was never affected by any full-screen keyboard fault — it reads whole
-> lines and goes through the command-line editor.
+> **`ed`** reads whole lines and goes through the command-line editor.
 
 ## The PROC language
 
@@ -121,9 +125,10 @@ could not reach, and the test can be deleted.**
 ## Tape and restore
 
 The `TAPE`/`RESTORE` subsystem is gone, along with the assumption of a tape-backed
-sequential medium it was built around. Back up and restore SD data the ordinary
-Linux way — at the file level, with the daemon stopped (`sd-solo -stop`), or through
-your own export/import BASIC.
+sequential medium it was built around. Back up and restore SD data with
+`backup.account` and `restore.account` — see
+[Backing up and restoring the account](06c-backup-and-restore.html) — at the file
+level, with SD stopped (`sd-solo -stop`), or through your own export/import BASIC.
 
 ## Language and locale
 
@@ -166,7 +171,7 @@ Encrypting Data* in the User set.
 from SD Core for Windows, where it was removed as inert. It is a live mechanism
 here.
 
-## SDSYS test and legacy programs
+## Eighteen SDSYS test and legacy programs
 
 `bigstr_test`, `msgtest`, `pcl`, `pcl.grid`, `pcode_list`, `sdtest_v8`,
 `sd_encrypt`/`_b64`/`_ext`, `sd_ext`, `test.then.else`, `testsz`, `u0032`,

@@ -171,7 +171,8 @@ After `admin`. **`list.voc.removed`** lists the records SD no longer ships, with
 to type instead; given the account, it says what the next `update.accounts` would do
 there, and changes nothing. **`restore.voc`** puts back the newest saved copy of a
 removed record (or of all of them), never over a record the account holds, and audits
-what it puts back.
+what it puts back. The next `update.accounts` removes it again, because the list has the
+last word, so give a record you want to keep a name SD does not ship.
 
 If the VOC cannot be written (its file permissions refuse the write), the update
 says so for the account and leaves it as it was, instead of stopping with an error.

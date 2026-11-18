@@ -80,7 +80,13 @@ least 140 columns by 43 lines (the debugger and the home screen use the same fra
 
 **Both highlight SD BASIC.** `micro`'s highlighting is per-user: the `micro` verb
 copies SD's syntax file into your `~/.config/micro/syntax` the first time it is
-used. **It applies to a `bp` record and to nothing else.** SD names the working
+used:
+
+| | |
+|---|---|
+| **`micro`** | statements, reserved words, intrinsic functions, `@variables`, `$directives`, labels, strings, numbers and comments |
+
+**It applies to a `bp` record and to nothing else.** SD names the working
 copy so the editor can recognize the language — a record edited out of any other
 file is treated as plain text, which is correct for a VOC entry or a data record.
 

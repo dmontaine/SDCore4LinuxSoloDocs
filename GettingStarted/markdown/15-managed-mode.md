@@ -59,10 +59,10 @@ keyboard, the global password is the only one accepted.
 address and the name `sduser` — not the Linux user name that ssh needs. So after
 it signs in over the API, it asks this computer to install the server's public
 key, and the computer answers with its Linux user name, its host name, the key's
-fingerprint, the fingerprint of Solo's own ssh server's host key and the port to
+fingerprint, `ADDED` or `PRESENT`, the fingerprint of Solo's own ssh server's host key and the port to
 connect to (4251). From then on the
 server reaches this computer over ssh with that key and the global password. The
-same request lists and removes the server's keys. **It is API request 72** (it was
+same request lists (`LIST`) and removes (`REMOVE`, answered `REMOVED` or `ABSENT`) the server's keys. **It is API request 72** (it was
 49 before LS2.0-0; 49 now asks the server's revision, as in SD Core), so a program of
 your own that sends 49 to install a key must send 72.
 
@@ -73,8 +73,10 @@ your own that sends 49 to install a key must send 72.
   same kind of key line as the one you add yourself, in Solo's own key file,
   `~/SDCoreSolo/sshd/authorized_keys`: see [ssh access](08-ssh-access.html).
 - **At most four server keys are kept.** A fifth is refused (*The ssh key request
-  was refused: four Solo ssh keys are already installed*). **Your own ssh keys are
-  never listed, counted or touched.**
+  was refused: four Solo ssh keys are already installed*). A refusal says why in one of
+  five ways: the request is unknown, the key or fingerprint is not valid, four keys are
+  already installed, ssh is not set up on this Solo, or it could not be carried out.
+  **Your own ssh keys are never listed, counted or touched.**
 - **Every use is in the audit trail**, with the key's fingerprint and the address
   it came from, never the key itself.
 - **It does nothing on a computer with no global password.**
