@@ -127,7 +127,7 @@ may hold `<tab>` for a tab and `^nnn` for the character whose three digit ASCII 
 
 | | |
 |---|---|
-| **`to`** *pathname* | an operating system file. It is a path, so the account's OS access gate applies (a file outside the account's own directory needs `os` on) |
+| **`to`** *pathname* | an operating system file. It is a path, so the account's OS access switch applies (a file outside the account's own directory needs `os` on) |
 | **`as`** *file id* | a **record** of a **directory file**: the file's name and the record's id |
 | **`no.query`** | replace what is there without asking |
 | **`appending`** | add to what is there |
