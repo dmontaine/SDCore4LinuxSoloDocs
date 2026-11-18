@@ -183,12 +183,10 @@ called them do not exist in Solo.
 
 Every shipped program that calls `sdext()` is an internal program, which runs
 only from the global catalog and cannot be compiled by an ordinary account. They
-are the credential and login programs (`apisrvr`, `cred_set`, `cred_verify`,
-`login`, `sd_get_salt`, `sd_key_from_pw`, `sdclient` and `solo_store_pw`, which
-keeps and reads back the account password for `sd-solo <command>`), the programs
-for scheduled jobs, phantoms, the remote door and network logins (`solojob`,
-`tool_solojobs`, `phantom`, `ipc_seal`, `remotedoor`, `setnetlogin`, `netcred`),
-the two that
+are the credential programs (`apisrvr`, `cred_set`, `cred_verify`,
+`sd_get_salt`, `sd_key_from_pw` and `sdclient`), the programs for phantoms,
+network logins and the scheduled jobs page (`phantom`, `ipc_seal`, `setnetlogin`,
+`netcred`, `tool_solojobs`), the two that
 keep a recovery copy or a debugger store in a private folder (`edit_recovery`,
 `pdbg_store`), the embedded-Python interface (the `py_*` programs), and the three key ring
 subroutines `keyring_set`, `keyring_clear` and `keyring_list`. The last three are

@@ -164,7 +164,7 @@ Encrypting Data* in the User set.
 
 | Gone | Notes |
 |---|---|
-| `CREATUSR` | removed in 2.0-0 with twelve other parameters; an upgrade takes the line out of a kept `sd.conf` |
+| `CREATUSR` | `config` no longer lists it; `config('CREATUSR')` returns nothing. The parameter itself no longer exists, and a `CREATUSR` line in `sd.conf` stops SD from starting (the installer takes it out of a kept file) |
 | `APPEND.SD.PATH` | never existed on Linux: the installer links `sd-solo` into `~/.local/bin` |
 
 **`umask` is kept, deliberately, and is not on this list** — a real difference

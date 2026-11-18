@@ -142,6 +142,10 @@ by hand is replaced; edit `sd.conf` (kept) or your account (kept), not SD's own
 files. A tree that was not installed by `installsdsolo.sh` (it has no
 `.sdcore-install` record) is refused rather than guessed at.
 
+**What changed since the previous release**, and what an upgrade might break,
+is in the *Changes* document that comes with the release: every addition,
+change and removal, listed by section.
+
 ## Uninstalling
 
 **`deletesdsolo.sh` is in the installed directory, `~/SDCoreSolo/tools`, and in
