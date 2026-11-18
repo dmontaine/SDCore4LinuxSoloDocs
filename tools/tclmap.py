@@ -170,7 +170,7 @@ DOCS = [
    list.readu listu logout
  """),
  ('GettingStarted', '06a1-task-locks-and-forcing-a-lock-open.md', """
-   clear.locks list.locks lock tool.sessions unlock
+   clear.locks list.locks lock lock.tracer tool.sessions unlock
  """),
  ('GettingStarted', '06b-operating-system-access.md', """
    sh
@@ -231,9 +231,6 @@ DOCS = [
  """),
  ('GettingStarted', '06a-sessions-and-locks.md', """
    inhibit.login
- """),
- ('GettingStarted', '06a1-task-locks-and-forcing-a-lock-open.md', """
-   lock.tracer
  """),
  ('GettingStarted', '06-administrator-commands.md', """
    list.voc.removed restore.voc

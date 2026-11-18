@@ -45,7 +45,7 @@ so it needs no operating-system permission, and it needs a window of 140 columns
 by 43 lines. With it came `ced`, a full-screen editor for a record that is a data
 collection, and `ide`, a workbench for programs and files.
 
-**SD Core's own full-screen editing is `sed` and `micro`**, which open the
+**SD Core Solo's own full-screen editing is `sed` and `micro`**, which open the
 record in each program by name — see
 [Development and file commands](07-programmer-commands.html#editors), which also says
 what they are good for and what they cannot do. **`edit` is not one of them: it
@@ -56,7 +56,7 @@ aliases `ed`, the line editor.** The removed programs above are gone as
 on with `set.os.access os on`) and is refused over the API regardless (a
 session with no terminal has nowhere to draw a full screen).
 
-`modify` is not in SD Core at all.
+`modify` is not in SD Core Solo at all.
 
 > **`ed`** reads whole lines and goes through the command-line editor.
 
