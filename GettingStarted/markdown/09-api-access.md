@@ -28,7 +28,7 @@ any form; the server sets a challenge only someone who knows the password can
 answer, and then proves itself back, so a program that grabbed the port before
 SD started cannot collect passwords by pretending to be SD.
 
-**The client library pins the server's certificate (LS1.1-2).** The first
+**The client library pins the server's certificate.** The first
 connection from a client to an address and port is trusted, and its certificate is
 remembered — the SHA-256 of the whole certificate — in `~/.sdcore/known_servers`
 (or the file named by the environment variable `SD_KNOWN_SERVERS`), one line,
@@ -156,7 +156,7 @@ again, `F1` explains the page and `Ctrl-Q` leaves. Opening the page writes the a
 **Each API connection is one `sd-solo -n -q` process, running as your Linux user
 (never root), and it is there before anybody has logged in.** It ends when the connection ends, and it refuses a request whose declared
 length it cannot accept: a client that sends four bytes that read as a huge
-length (`garb` is 1,651,663,207), or that declares a request and closes before
+length, or that declares a request and closes before
 sending it, or that closes while its own command waits in a shell and then
 clears its input, does not leave the process polling at 100% of a processor.
 
@@ -181,16 +181,42 @@ SD Core knows "not yet logged in" because its server is still root until the
 client has logged in. Solo's server is never root, so it keeps a flag that is set
 when the password proof has been accepted (when the server gives the session its
 user name); the limit before the login applies until then. This is a difference
-from SD Core. Before the login a packet declaring 65,536 bytes is waited for (the
-boundary), and 65,537 and 1,000,000,000 are refused and the session ends. After the
-login a record of 3,075,000 bytes can be written through the API and read back, and
-a packet declaring 1,000,000,000 is waited for. The limit applies before the login too.
+from SD Core. A packet of exactly 65,536 bytes is accepted before the login and
+one byte more ends the session; after the login a record of any size SD can hold
+can be written and read back.
 
 **A file lock goes to the file the client names.** An API
 client that has opened three files and asks for the file lock on the first
 locks the first. Each lock and each release
 acts on the file number asked for, and a request with nothing to say does not
 repeat the text of the last refusal.
+
+## A session is held to its own account
+
+| | |
+|---|---|
+| **Allowed** | everything inside its own account, and the shipped system files every account needs — messages, `syscom`, the dictionaries — which the account's VOC names. Ordinary programs are unaffected |
+| **Not allowed** | opening, renaming, deleting or listing a file by a pathname outside the account |
+
+**This is the account's `os` switch, the same one a session at the keyboard is held by.**
+While it is off, as delivered, a refused `OPEN` takes the `ELSE` branch and
+`STATUS()` is 3035, which means *not permitted* rather than *not found*: 3035 is a
+containment refusal, not a missing file. A client that opens a sequential file by a
+pathname outside the account is told *the name is not a file this account may open*. Once the
+administrator has turned the `os` switch on (`set.os.access os on`) the session has no
+such limit, which is why the switch is the thing to weigh — see
+[Operating system access](06b-operating-system-access.html).
+
+**If your data lives outside the account**, name the directory in the `NETDIRS`
+setting in `sd.conf`, separating several with a semicolon. It is empty as delivered.
+An entry that is not an absolute path, not an existing directory, the root of the
+file system, or that holds or lies inside the Solo folder (where the account, the
+passwords and the account register are) is ignored and named in the error log when
+SD starts. SD reads the line when it starts, so a change takes effect at the next
+start. See [The parameters](16c-the-parameters.html).
+`SDCLIENT` in `sd.conf` is the further control: any non-zero value stops files being
+opened by an API session, and `2` also refuses a subroutine that is not compiled as
+callable from a client (`0`, the default, allows everything).
 
 ## An API session is you
 
@@ -244,15 +270,6 @@ of an account whose `os` switch is off stops opening: turn the switch on if that
 intended. Solo has no SDSYS exemption, because SDSYS is never a target of the request.
 **The `NETFILES` bit alone is not the
 gate**: without the `os` switch a file named in the VOC of a directory outside the account is not opened.
-
-**Do not rely on the API's own confinement as a boundary on Solo.** The multiuser
-API refuses `OPEN` of anything outside the account, distinguishing a containment
-refusal from a missing file; Solo runs the same login code, but whether it is
-confined in the same way is not established, so treat the account's file
-permissions and the `os` switch as the boundary. `SDCLIENT` in `sd.conf` is the
-configurable control: any non-zero value stops files being opened, and `2` also
-refuses a subroutine that is not compiled as callable from a client (`0`, the
-default, allows everything).
 
 ## Client libraries
 

@@ -95,7 +95,9 @@ as `VFS:something` was reported as a virtual file system, passed the name
 resolver, and then failed to open with an unrelated error.
 
 All of it has been removed, so the language no longer offers a feature it cannot
-perform. **These names are no longer defined, and a program mentioning one will no
+perform.
+
+**These names are no longer defined, and a program mentioning one will no
 longer compile:**
 
 ```
@@ -105,9 +107,10 @@ ER$VFS.CLASS     SYSCOM ERR.H
 ER$VFS.NGLBL     SYSCOM ERR.H
 ```
 
-`ftype` no longer returns `VFS` for a `VFS:` pathname. **If one of your programs
-refers to any of these, it was testing for a state SD could not reach, and the
-test can be deleted.**
+`ftype` no longer returns `VFS` for a `VFS:` pathname.
+
+**If one of your programs refers to any of these, it was testing for a state SD
+could not reach, and the test can be deleted.**
 
 ## Tape and restore
 
@@ -144,7 +147,7 @@ same grant as `OS.EXECUTE`; see
 place.** What replaces it is the application's own: `sdencrypt()` and `sddecrypt()`
 with a key that `sdkey()` makes from a passphrase, and the `XE` conversion, which
 shows an encrypted field decrypted to a session that holds the key. SD does not
-keep the key. See *Encryption and the SDEXT interface* in this set and *SD Basic -
+keep the key. See [Encryption and the SDEXT interface](18-encryption.html) in this set and *SD Basic -
 Encrypting Data* in the User set.
 
 ## Configuration items

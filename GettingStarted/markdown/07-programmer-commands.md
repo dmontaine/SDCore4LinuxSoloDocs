@@ -25,9 +25,11 @@ of this page. The full-screen editors need nothing extra.
 | **`generate`** | generate source |
 | **`phantom`** | start a background process |
 
-> **Nobody catalogs globally.** `catalog ... global`, and `delete.catalog` of a
-> global entry, are refused whoever asks and whether or not `admin` is unlocked.
-> On a managed computer the global catalog is the SD Core for Linux server's
+> **Nobody catalogs globally.** `catalog ... global`, a name beginning `!`,
+> `_` or `$`, and `delete.catalog` of a global entry, are refused whoever asks and
+> whether or not `admin` is unlocked: *The global catalog holds the SD Core
+> server's programs from global.bp.out and is changed only by
+> sync.global.catalog*. On a managed computer the global catalog is the SD Core for Linux server's
 > — see [Managed mode](15-managed-mode.html). Private and local cataloging
 > work as they always did: catalog your own programs with `catalog ... local`.
 
@@ -38,6 +40,8 @@ of this page. The full-screen editors need nothing extra.
 | **`ed`** | the line editor. Needs nothing installed. `edit` is an alias for it |
 | **`sed`** | a **full-screen** editor that runs inside SD, with drop-down menus and color for SD BASIC and five other languages |
 | **`micro`** | a **full-screen** editor — opens the record in `micro` |
+| **`ced`** | a full-screen editor for a record that is a **data collection** (JSON), one level at a time with the type of every element shown |
+| **`ide`** | a full-screen workbench: the files and records, the program and its compile messages on one screen |
 | **`debug`** | the BASIC debugger |
 | **`pstat`** · **`pdebug`** · **`pdump`** · **`dump`** | process introspection |
 
@@ -50,7 +54,7 @@ editors. **`sed` is SD's own**: a program written in SD BASIC that runs inside S
 so it needs no installing and no operating-system permission (its menus, keys and
 syntax color are described in *The SED Screen Editor*, in the User documentation).
 The other is the program `micro`, which the SD installer installs as an ordinary
-package (the `nano` verb was removed in 2.0-0):
+package:
 
 ```
 sed   bp myprog
@@ -71,6 +75,10 @@ operating-system path outside the account's own directory). See
 [Operating system access](06b-operating-system-access.html).
 
 **Both are terminal editors**, so they work over ssh as well as at the console.
+
+**`sed`, `ced` and `ide` run inside SD** and draw the screen themselves, so they need no
+operating-system permission and no editor installed; they need a terminal window of at
+least 140 columns by 43 lines (the debugger and the home screen use the same frame).
 
 **Both highlight SD BASIC.** `micro`'s highlighting is per-user: the `micro` verb
 copies SD's syntax file into your `~/.config/micro/syntax` the first time it is
@@ -148,15 +156,16 @@ Linux permissions.**
 
 **A terminal editor is the point of an ssh session.** An ssh session reaches SD
 through a terminal like any other, and SD hands the editor that terminal rather
-than reading it through a pipe. **If an editor misbehaves over ssh and not at
-the keyboard, that is worth reporting** with the terminal you connected from.
+than reading it through a pipe.
+
+**If an editor misbehaves over ssh and not at the console, that is worth
+reporting** with the terminal you connected from.
 
 **A session with no terminal is refused**: an API session or a piped script has
 nowhere to draw a full screen.
 
 The removed full-screen editors are a different matter: `update.record` and
-`modify` are gone and are not coming back. (`sed` was removed once and has
-returned, above.) See
+`modify` are gone and are not coming back. See
 [Not in SD Core](14-not-in-sd-core.html).
 
 ## Files
@@ -170,6 +179,8 @@ returned, above.) See
 | **`hsm`** | hashed-file statistics monitoring |
 | **`set.trigger`** | attach a trigger |
 | **`compile.dict`** | compile the I-types of a dictionary |
+
+`create.file` writes the file's entry into the VOC for you; that side effect needs no `admin`.
 
 ## Indexes
 

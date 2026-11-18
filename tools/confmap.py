@@ -161,24 +161,17 @@ DOCUMENTS = {
  # accepts: whether SD listens for the API is systemd's socket unit, not a
  # start-up config value.  NETDIRS IS one since 17 Nov 26 (the four-version
  # audit: directories outside the account that a session with the os switch
- # off may reach; empty as delivered) and is on 16c with the other paths.
- # 30 Sep 26 SD Core Solo for Linux (LSOLO 11): the Administrator set is merged
- # into GettingStarted; configuration is page 16.
+ # off may reach; empty as delivered).
+ # The Administrator set is merged into GettingStarted; configuration is
+ # page 16, kept to about 14,000 characters by parts 16b and 16c (PAGE_PARTS).
  'GettingStarted/markdown/16-configuration.md': """
    CLEANUP CMDSTACK DEADLOCK DEBUG DHCACHE DUMPDIR ERRLOG FDS FLTDIFF FSYNC
-   GRPDIR GRPSIZE INTPREC LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN
-   MUSTLOCK NUMUSERS OBJECTS OBJMEM
-   RECCACHE SAFEDIR SCREENTHEME SDCLIENT SDSYS SH SH1
-   SORTMEM SORTMRG SORTWORK SPOOLER TEMPDIR TERMINFO
-   USRDIR YEARBASE
- """,
- # 17 Nov 26 (four-version audit, page-length split): 16 became 16, 16b and 16c
- 'GettingStarted/markdown/16b-changing-a-parameter-from-sd.md': """
-   LGNWAIT MAXRLOCK
- """,
- 'GettingStarted/markdown/16c-the-parameters.md': """
-   NETDIRS NETFILES NETREPLY NETWAIT NUMFILES NUMLOCKS PDUMP PHANTOMS PWDELAY STARTUP
-   USERPOOL USPLIT XFER XFERFILE XFERIDLE XFERKIND XFERMAX XFERSLOT XFERWAIT
+   GRPDIR GRPSIZE INTPREC LGNWAIT LPTRHIGH LPTRWIDE MAXCALL MAXIDLEN MAXRLOCK
+   MUSTLOCK NETDIRS NETFILES NETREPLY NETWAIT NUMFILES NUMLOCKS NUMUSERS
+   OBJECTS OBJMEM PDUMP PHANTOMS PWDELAY RECCACHE SAFEDIR SCREENTHEME SDCLIENT
+   SDSYS SH SH1 SORTMEM SORTMRG SORTWORK SPOOLER STARTUP TEMPDIR TERMINFO
+   USERPOOL USPLIT USRDIR XFER XFERFILE XFERIDLE XFERKIND XFERMAX XFERSLOT
+   XFERWAIT YEARBASE
  """,
  # 03 Oct 26 SD Core Solo for Linux (LSOLO 30): BACKUPDIR is written by SET.BACKUP.DIRECTORY
  # (S.53), not by hand, and page 06 is where it is explained - saved directory, what it
@@ -213,11 +206,22 @@ for name in roster:
 # Same rule as tclmap: the name backticked, or opening a line inside a fenced
 # block, or in the first column of a table row.  Prose alone is not evidence.
 
+PAGE_PARTS = {
+    'GettingStarted/markdown/16-configuration.md': [
+        'GettingStarted/markdown/16b-changing-a-parameter-from-sd.md',
+        'GettingStarted/markdown/16c-the-parameters.md'],
+}
+
+
 def evidences(path, name):
     full = os.path.join(HERE, path)
     if not os.path.isfile(full):
         return False
     text = io.open(full, encoding='utf-8').read()
+    # The page is kept to about 14,000 characters by splitting it into parts
+    # (Nov 2026); a parameter is documented when any part of it is evidence.
+    for extra in PAGE_PARTS.get(path, []):
+        text += '\n' + io.open(os.path.join(HERE, extra), encoding='utf-8').read()
     if re.search(r'`%s`' % re.escape(name), text):
         return True
     if re.search(r'^\|\s*%s\s*\|' % re.escape(name), text, re.M):

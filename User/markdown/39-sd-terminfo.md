@@ -16,8 +16,8 @@ term
 ```
 
 ```
-Page width: 120
-Page depth: 36
+Page width: 140
+Page depth: 43
 Device    : linux
 ```
 
@@ -50,7 +50,7 @@ A name that is not installed is refused and your current type is kept:
 
 ```
 :term vt320
-Unrecognised terminal name
+Unrecognized terminal name
 ```
 
 There is no `vt320` definition; `vt220` or `xterm` does the same job.
@@ -79,8 +79,8 @@ The terminfo entries that name a width and a depth say 140 and 43; the
 
 SD's default is **140 columns by 43 lines**, not 80 × 24. A console window
 narrower than that makes wide reports look wrapped or truncated — which
-reads as a formatting bug and is not one. `term 120,36` gives a
-120 by 36 window for a session that wants it.
+reads as a formatting bug and is not one. `term 120,36` sets a smaller
+size for a session that wants it.
 
 The default is only a default. `term w,h` takes any width from 20 to
 32767 and any depth from 10 to 32767, larger or smaller than 140 × 43,
@@ -197,7 +197,7 @@ Think before you give an entry an `erev` of its own: it ends reverse video and n
 
 `terminfo.src` is replaced by an upgrade, so keep the additions in a separate file of
 your own, and compile them with `sdtic` as described below. The start functions `@(-5)` and
-`@(-13)` were not changed.
+`@(-13)` are not changed.
 
 ## Compiling a definition
 

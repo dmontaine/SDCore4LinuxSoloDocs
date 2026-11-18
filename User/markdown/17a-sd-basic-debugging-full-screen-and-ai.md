@@ -50,7 +50,7 @@ them. `dumb` and `unknown` have no `cup` and stay line by line. Then:
   name to narrow the list, Enter to do it, Esc to close it. **Abort has no key on this screen**:
   it is on the Run menu and in the F2 list. In line mode (a terminal too small or with no
   cursor addressing), which has no menu bar, F2 still aborts.
-- **The keys every page has**: **F9 runs** (it was F5), **F5** and
+- **The keys every page has**: **F9 runs**, **F5** and
   **Ctrl-L** draw the screen again, **Ctrl-T** takes the next color theme and keeps it for
   you, **Ctrl-K** lists the keys. On the command line, delete to the end of the line and swap
   two characters, which were Ctrl-K and Ctrl-T, are **Alt-K** and **Alt-T** (or Esc, then K or T).
@@ -81,8 +81,8 @@ screen is): when you let the program run, the debugger gives the terminal back
 and the program's output is on its own screen, and it is on the alternate
 screen again at the next stop. The colors are the screen library's: if the
 program asked for no theme, the debugger uses the theme you chose with Ctrl-T,
-else the site's theme (`SCREENTHEME` in `sd.conf`, which the installer leaves
-at `paper`) while it is up, and the `classic` one when neither names one; and whatever the program asked for
+else the site's theme (`SCREENTHEME` in `sd.conf`, which ships set
+to `paper`) while it is up, and the `classic` one when neither names one; and whatever the program asked for
 otherwise. When the debugger lets the program go, the program's theme is given
 back, whether or not the window was resized or `window` *n* was typed on the way.
 
@@ -115,7 +115,7 @@ be fed down a pipe.
 
 `@tty` reads empty in a piped session, and the debugger works there anyway.
 
-(SD does not support AccuTerm.)
+(The full-screen display does not use AccuTerm, which SD does not support.)
 
 ## Asking the AI
 
@@ -159,8 +159,8 @@ was available regardless.
 
 ## What is not here
 
-**`trace` is gone.** It is not in the compiler. In an
-ordinary account it is *"Unrecognized statement"*.
+**`trace` does not exist.** In an ordinary account it is
+*"Unrecognized statement"*.
 
 **The programmatic debug statements are restricted.** `debug.on`,
 `debug.off`, `debug.set`, `breakpoint` and `watch` are internal-only, and all

@@ -1,130 +1,83 @@
-# SD Core Solo for Linux — documentation
+# SD Core Solo for Linux - documentation
 
-Documentation for **SD Core Solo for Linux LS2.0-0**, a personal SD Core for one
-Linux user. The source is in a separate repository, `SDCore4LinuxSolo`; nothing
-here is needed to build SD, and nothing there is needed to build these pages.
+The documentation of **SD Core Solo for Linux**, a personal SD Core for one Linux
+user, written in Markdown. The server source is in the separate
+`SDCore4LinuxSolo` repository; nothing here is needed to build SD, and nothing
+there is needed to build these pages.
 
-**Written 30 Sep 2026 from `SDCore4LinuxDocs` (the multiuser SD Core for Linux
-L1.1-1) and `SDCore4WindowsSoloDocs`, and checked against a staged Solo tree.**
-The GettingStarted set is a full rewrite; the User set (SD BASIC, TCL, the VOC)
-is the multiuser one with the account, path and gate statements corrected for
-Solo and its syntax cards regenerated from the Solo VOC and compiler. Where a
-page says something was *not measured* on Solo, that is the record: the list is
-GettingStarted `19`.
+## What is here
 
-**This repository does not have the server repository's no-binaries rule**, and
-it does not track the rendered pages anyway — see *Generated* below.
+Four sets of documents, each in a `markdown/` folder (the source); the `html/`
+and `pdf/` folders beside it are generated.
 
-## Layout
+| Set | For | Contents |
+|---|---|---|
+| `GettingStarted/` | everyone | installing, upgrading and uninstalling SD Core Solo for Linux, running it, scheduled jobs, the one account and its passwords, the administrator commands, sessions and locks, operating system access, backup and restore, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, the three stand-alone file tools (`sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own, the AI helper, the MCP door, and moving programs over from other MultiValue databases. Solo has no separate Administrator set: the administrator's pages are here |
+| `User/` | programmers and users | SD BASIC by subject, SD TCL by subject, the VOC and dictionaries, files, standard subroutines, the client API, the terminal screen library, a tutorial with worked programs, SD and AI agents, the glossary and the generated syntax cards (`94` SD BASIC, `95` SD TCL, `96` the names an ordinary program may not compile) |
+| `TUIGuide/` | programmers | *SD Text User Interface - Programmer's Guide*: building a full-screen page of your own in SD BASIC with the public `!tk` routines and `tkpub.h` - the shape of a program, the window and its floor, the key table and menus, the finder, the confirm box, the form, the pick lists, the output pane, and how a page uses the `screen` statement with the routines - with five worked example programs and a reference of every routine. A document of its own, with its own page numbers and its own book |
+| `Changes/` | everyone upgrading | what was added, changed and removed in this version, by area |
 
-Three document sets, each with the same three folders:
+The sets do not link to each other, because each is handed out on its own. Where
+a page in another set is worth naming, it is named in words.
 
-| | |
-|---|---|
-| `GettingStarted/` | **45 pages** — installing, upgrading and uninstalling SD Core Solo for Linux, running it, the one account and its three passwords, the administrator commands, sessions and locks, operating system access, ssh and the API, security, managed mode, configuration, limits, the installed scripts, encryption, what nobody has tested, the three stand-alone file tools (`20`-`22`: `sdfix`, `sdidx`, `sdconv`), giving an AI agent an installation of its own (`23`), the AI helper (`24`), the MCP door (`25`) and migrating from another MultiValue database (`26`-`26b`). `01b` is *Differences from SD Core for Linux L2.0-0*. The multiuser product's Administrator set is merged in here |
-| `User/` | **two references.** `01`-`18` SD BASIC by subject, where `18` is Modern Program Structure. `19`-`31` SD TCL by subject. `32`-`34` VOC and dictionaries. `35`-`40` file system, standard subroutines, client API, glossary, terminfo, and a tutorial with worked programs, `37a` embedded Python, and `41` SD and AI agents (the guide, the knowledge pack and the skill). **The generated cards live at the end, `94` onwards**, so more can be added without renumbering anything: `94` SD BASIC (491 names an application may use), `95` SD TCL (181 verbs), `96` the 72 names an ordinary program may not compile |
-| `TUIGuide/` | **12 pages** — *SD Text User Interface - Programmer's Guide*: building a full-screen page of your own in SD BASIC with the public `!tk` routines and `tkpub.h` - the shape of a program, the window and its floor, the key table and menus, the finder, the confirm box, the form, the pick lists, the output pane, and how a page uses the `screen` statement with the routines - with five worked example programs and a reference of every routine. Made from SD Core for Linux's guide (the library is the same); a document of its own, with its own page numbers and its own book |
+### Page numbers
 
-Inside each: `markdown/` is the source, `html/` and `pdf/` are generated.
+A number with a letter after it is the second half of a long page (`06` and
+`06a`); pages are kept to about 14,000 characters so a reader moves between
+pages rather than scrolling through one. `00a` is the copyright and license
+page, which comes first in every set; `00b` is the introduction. The syntax
+cards sit at the end (`94` onwards) so they can grow without renumbering
+anything.
 
-### A number with a letter after it is the second half of a long page
+The copyright and license block appears in full once per set, on `00a`; every
+other page carries a one-line footer with the product, version, copyright and
+license name.
 
-**No page runs longer than about 14,000 characters of Markdown** (owner, 5 Sep
-2026). **The first half keeps the number and the second takes a letter** — `06`
-and `06a`. Every link and every map entry written to `06` still lands on `06`.
-`06-` sorts before `06a-` and both before `07-`, so directory order is reading
-order. The one exception is `94`, the SD BASIC syntax card: a lookup table read
-with Ctrl-F, kept whole.
+## Reading the pages
 
-**`00a` and `00b` are order, not halves.** `00a-copyright-and-licence` and
-`00b-start-here` (`00b-sd-introduction` in the User set) put the licence page
-first: `00-` would sort before `00a-` and open a set with the introduction.
+`start-docs.sh` serves the pages on `http://localhost:8123/` and opens
+`index.html` in a browser:
 
-### The copyright and the licence appear once per set
+```sh
+sh start-docs.sh
+```
 
-The licence block comes off every page and is stated once per set, on `00a`; every
-page carries a footer tag line with the product, version, copyright and licence
-name. **The words are generated by `mkdoc.py`**: a page asks for the block with a
-`<!--LICENCE-BLOCK-->` marker in its Markdown. `add_nav.py` refuses a set that has
-anything other than exactly one page carrying it, or whose licence page is not
-first, and `mkbook.py` refuses a book whose first document is not the licence page.
+## Building the HTML
 
-**Sets never link to each other.** Each set is handed out on its own, so a link
-from one to another would be a 404 for whoever was given only the first. Where a
-page in the other set is worth naming, **name it in words**. `checklinks.py`
-checks every link that does exist.
-
-## Building
+```sh
+pip install markdown
+python3 tools/mkdoc.py --in GettingStarted/markdown --out GettingStarted/html
+```
 
 Every step is a plain Python script; the only dependency is **python-markdown**
-(`pip install markdown`, or your distribution's `python3-markdown`).
+(`python3-markdown` in a distribution's packages). Run `mkdoc.py` once for each
+set, with that set's `markdown` and `html` folders.
 
-```
-python3 tools/mkdoc.py --in GettingStarted/markdown --out GettingStarted/html
-python3 tools/mkdoc.py --in User/markdown --out User/html
-python3 tools/add_nav.py
-python3 tools/checklinks.py GettingStarted/markdown GettingStarted/html
-python3 tools/checklinks.py User/markdown User/html
-```
+`tools/mkdoc.py` renders each Markdown page to one self-contained HTML file (the
+style is embedded, so a page can be copied anywhere). `tools/add_nav.py` adds the
+previous/next links and checks that each set has its license page first, and
+`tools/mkbook.py` joins a set into one book (`tools/mkbookpdf.py` and
+`tools/mkpdf.sh` make a PDF). The generated pages are not tracked; the Markdown
+is the source.
 
-`start-docs.sh` serves the rendered tree at `http://localhost:8123`.
-`tools/mkpdf.sh` renders a PDF with headless Chrome or Chromium, and
-`tools/mkbook.py` / `mkbookpdf.py` bind a set into one document. `tools/rebuild_html.py`
-is an older renderer kept for reference; use `mkdoc.py`.
+The syntax cards are generated from SD itself and are not edited by hand:
 
-## Regenerating the syntax cards
-
-**The cards are generated, not edited.** From the repository root, with the Solo
-source tree at `SDCore4LinuxSolo`:
-
-```
+```sh
 SD64=/path/to/SDCore4LinuxSolo/sdb_ai/sd64
-python3 tools/mksyntax.py    $SD64/sdsys/gpl.bp/bcomp User/markdown/94-sd-basic-syntax.md User/markdown/96-sd-basic-restricted-commands.md
-python3 tools/mktclsyntax.py $SD64/sdsys               User/markdown/95-sd-tcl-syntax.md
+python3 tools/mksyntax.py $SD64/sdsys/gpl.bp/bcomp User/markdown/94-sd-basic-syntax.md User/markdown/96-sd-basic-restricted-commands.md
+python3 tools/mktclsyntax.py $SD64/sdsys User/markdown/95-sd-tcl-syntax.md
+python3 tools/linkup.py User/markdown
 ```
 
-`mksyntax.py` reads the compiler's own tables and **refuses to write the pages if
-any name accepted by the compiler has no line** — 563 of 563 (the 529 the compiler
-accepts and the 37 internal-only functions, less the 3 in both), split 491/72 between
-`94` and `96`. Everything a count cannot express lives in `tools/syntax-shapes.txt`,
-one `NAME = syntax` per line. **Run `tools/linkup.py User/markdown` after it**:
-the two pages name each other and the sets' pages in italics, and `linkup.py` turns
-those into links. (`mksyntax.py` refused from 18 Oct to 21 Oct 2026, with 102 names
-that Solo's compiler carried from SD Core and no line for them; the lines are SD
-Core's, held against Solo's own compiler and source.) `mktclsyntax.py` computes its
-roster from `newvoc` (181 verbs) and refuses if a verb has no line in
-`tools/tcl-syntax-shapes.txt` or a line names something that is not a verb.
+`mksyntax.py` and `mktclsyntax.py` refuse to write a card if a name the compiler
+accepts, or a verb the VOC holds, has no line in `tools/syntax-shapes.txt` or
+`tools/tcl-syntax-shapes.txt`, one `NAME = syntax` per line. `linkup.py` turns
+the page names the two cards write in italics into links.
 
-## Checking a set
+`tools/checklinks.py`, `tools/docmap.py`, `tools/tclmap.py`, `tools/confmap.py`
+and `tools/verbcounts.py` check the links and that every SD BASIC name, TCL verb
+and `sd.conf` parameter is documented.
 
-```
-python3 tools/docmap.py   $SD64/sdsys/gpl.bp/bcomp   # every compiler name is on exactly one User page
-python3 tools/tclmap.py   $SD64/sdsys/newvoc         # every TCL verb is on exactly one page, evidenced
-python3 tools/confmap.py  $SD64                      # every sd.conf parameter is documented once
-python3 tools/verbcounts.py $SD64/sdsys/newvoc       # every verb count in prose against the VOC
-python3 tools/linkup.py   User/markdown              # *SD Basic - X* becomes a link only for pages that exist
-```
+## License
 
-| | |
-|---|---|
-| `docmap.py` | assigns every name the SD BASIC compiler accepts to exactly one document. **414 of 529, and it exits 1.** The 115 left are the names Solo's compiler carried from SD Core (LSOLO 52, 18 Oct 2026) and the older ones of the 2.0-0 work: each has a line on the card `94`, and **no User page of this set describes them yet** (data collections and JSON, the `screen` statement, `try` / `catch`, the new string, array, date and number functions, and the small statements and clauses). The tool prints the list; a page written for a group is added to its table |
-| `tclmap.py` | the same for the TCL verbs, across both sets — **and it checks the page actually documents the verb**, not merely that the name occurs. **181 of 181** |
-| `confmap.py` | the same for the parameters `config.c` accepts, and it reports which of them anything still reads. It exits 1 and lists 12 parameters with no page (`DHCACHE` `INVCASE` `LGNWAIT` `MAXRLOCK` `NETWAIT` `NETREPLY` `PWDELAY` `SCREENTHEME` `USERPOOL` `USPLIT` `CLEANUP` `PHANTOMS`), not touched on 21 Oct 2026 |
-| `verbcounts.py` | every verb count written in prose, against the counts computed from the VOC (181) |
-| `linkup.py`, `checklinks.py` | turn a named page into a link only if it exists; check every link in the rendered pages, anchors included |
-
-`scriptmap.py`, `sdcompile.ps1` and the other `.ps1` files are the Windows
-repository's and are kept only so that the two repositories' `tools/` stay
-comparable; **nothing in them has been run for Solo.**
-
-## Generated, not tracked
-
-`*.html`, `*.pdf` and `*.zip` are ignored. The deliverables are built from the
-Markdown at release time, so tracking a rendered copy would only add a way for the
-two to disagree.
-
-## A new clone
-
-A commit needs a name and an e-mail address. Set them per repository with
-`git config user.name` and `git config user.email`; this machine has no global
-identity.
+See `GettingStarted/markdown/00a-copyright-and-licence.md`.

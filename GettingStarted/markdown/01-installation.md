@@ -84,20 +84,28 @@ Asked in this order, each typed twice, shown as stars:
 |---|---|
 | **Account password** | the password every SD session asks for — at the keyboard, over ssh and through the API |
 | **Administrator password** | unlocks the administrator commands, with `admin` |
-| **Global password** | **optional — leave it blank if no SD Core server manages this computer.** If an SD Core for Linux server does manage it, this is the password the server signs in with, and it also unlocks the administrator commands |
+| **Global password** | **optional — leave it blank if no SD Core server manages this computer.** The SD Core for Linux server signs in with it, and it also unlocks the administrator commands |
+
+**A computer is managed if and only if it has a global password.** Leave it
+blank and no SD Core server manages the computer: it is a database for this
+computer alone, and there is nothing else to choose. Enter one and the computer
+is managed by an SD Core for Linux server — see [Managed mode](15-managed-mode.html).
+
+**Whether the computer has a global password cannot be changed later except by
+a new installation**: no command creates or removes one, and only a session the
+server signs in with can change it (`set.password global`). To add one to a
+computer that has none, install again as described under *Changing any of it
+afterwards* on [Installing many computers](01c-installing-many-computers.html).
+An upgrade never adds, changes or removes it. The installer's "Ready to install"
+summary says *global pw: none - no SD Core server manages this computer*, or *set*.
 
 **Every password needs at least 8 characters, with a lower-case letter, an
 upper-case letter, a digit and a symbol** — letters, digits and punctuation
 only, no spaces. A password that breaks the rule is asked for again, up to
-three times (the global one can still be left blank). The global password must
-differ from both of the others; otherwise the server, signing in with the same
-name, would land in an ordinary session. See [The account and its
+three times (the global one can still be left blank). The global password, when
+there is one, must differ from both of the others; otherwise the server, signing
+in with the same name, would land in an ordinary session. See [The account and its
 passwords](05-account-types.html).
-
-**Whether the computer has a global password cannot be changed later except by
-a new installation**: no command creates or removes one, and only a session the
-server signs in with can change it. The installer's "Ready to install" summary
-says *global pw: none - no SD Core server manages this computer*, or *set*.
 
 ### 2. The API and ssh
 
@@ -112,7 +120,7 @@ Allow ssh access from other computers? opens TCP port 4251 (y/N)
 | | |
 |---|---|
 | **API** | **no** (the default): the API is **off**, with no listener at all. **y**: it listens for other computers on port 4249 (fixed). `--api off`, `--api local` (this computer only) or `--api open` on the command line answers it without asking; afterwards `remote.api` changes it |
-| **ssh straight into sd-solo** | **no** (the default): on for **this computer only**, as in SD Core Solo for Windows, and the ssh server package is installed with `sudo` if the computer does not have it. **y**: reachable from other computers, on Solo's own port 4251 (fixed). `--ssh off` turns it off and declines the package, and with no ssh server program and `--skip-packages` it is off and not asked; afterwards `remote.ssh` changes it. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if ssh is on, the installer asks for a public key file and adds it to Solo's own key file, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
+| **ssh straight into sd-solo** | **no** (the default): on for **this computer only**, and the ssh server package is installed with `sudo` if the computer does not have it. **y**: reachable from other computers, on Solo's own port 4251 (fixed). `--ssh off` turns it off and declines the package, and with no ssh server program and `--skip-packages` it is off and not asked; afterwards `remote.ssh` changes it. You sign in with your Linux account name and password, and SD then asks the account password; a key is an optional extra: if ssh is on, the installer asks for a public key file and adds it to Solo's own key file, and `--ssh-key FILE` turns it on. See [ssh access](08-ssh-access.html) |
 | **Linger** | `loginctl enable-linger`, so SD keeps running, and reachable over the API and ssh, when nobody is signed in at the computer. **On by default**, for an unattended install too; on a terminal the installer asks, with yes as the answer Enter gives. `--no-linger`, or `enable-linger=no` in the control file, leaves it off, and then SD stops when your last session ends. Linger keeps SD and the ports you opened running while you are signed out; it is a persistent setting of your account, which `loginctl disable-linger` turns off later |
 
 **A computer that an SD Core server manages needs both `open`**: the server has to

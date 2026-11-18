@@ -33,7 +33,8 @@ ERRLOG=50
 
 Lines beginning `#` are comments. The shipped file is heavily commented and those
 comments record why each value was chosen. Read them before changing anything.
-**An upgrade keeps your `sd.conf`** — see
+**An upgrade keeps your `sd.conf`**: the installer puts a kept file back and takes
+out only the parameters SD no longer has — see
 [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html).
 
 ### A name SD does not recognize stops it starting
@@ -78,7 +79,9 @@ USRDIR    /home/you/SDCoreSolo/user_accounts
 YEARBASE  1930
 ```
 
-SD accepts **58** parameters (`APIPORT` does not exist here — see *The API* in [Configuration - The Parameters](16c-the-parameters.html#the-api)). The verb prints all of them except `BACKUPDIR` and `SDSYS`, and `DEBUG` and `FDS` only when they are set.
+SD accepts **58** parameters (`APIPORT` does not exist here — see *The API* in [Configuration - The Parameters](16c-the-parameters.html#the-api)). The verb prints all of them except `BACKUPDIR`, `NETDIRS` and `SDSYS`, and `DEBUG`, `FDS` and `PHANTOMS` only when they are set.
+
+`NETDIRS` is the one to know about. It decides what a session held to its account by the `os` switch, the API's included, may reach outside its own account (see [The parameters](16c-the-parameters.html)). The verb will not tell you what it is set to, and `config('NETDIRS')` does not read it. Read it from the file.
 
 **`config` pages its output** — press Return for more, or `Q`.
 
@@ -88,8 +91,8 @@ The `config()` function reads one parameter from a program:
 group.size = config('GRPSIZE')
 ```
 
-**55 parameters are readable this way.** The two that are not are `BACKUPDIR` and
-`SDSYS`. A name of more than sixteen characters is not found (the function answers
+**55 parameters are readable this way.** The three that are not are `BACKUPDIR`,
+`NETDIRS` and `SDSYS`. A name of more than sixteen characters is not found (the function answers
 an empty string and `status()` is not 0); no parameter name is that long, so that
 only shows up if you pass something which is not a parameter.
 

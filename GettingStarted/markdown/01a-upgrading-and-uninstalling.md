@@ -1,5 +1,5 @@
 Title: Upgrading and uninstalling
-Subtitle: Installing a new release over an existing one, and taking SD off the computer.
+Subtitle: Replacing an existing installation, and taking SD off the machine.
 
 This page continues [Installing](01-installation.html).
 
@@ -157,7 +157,7 @@ files itself if `solo-service.sh remove` is refused, and, if any file whose name
 files **before it removes the installation directory or your data**. Run it again from a
 login session, or with `XDG_RUNTIME_DIR` set, or remove those files yourself.
 
-**SD's own files, the deny list and the programs an SD Core server catalogued
+**SD's own files, the deny list and the programs an SD Core server cataloged
 (`global.bp.out`) are always removed**; a server puts the last two back. What
 `--keep-data` leaves is your data, your configuration and what goes with them, not an
 installation, plus a small stamp, `.sdcore-kept`, that says which release made the

@@ -10,15 +10,15 @@ call !ced(collection)
 A **data collection** is SD's name for a structured value: a set of named
 elements, or an array of numbered ones, each of which is a string, a number, a
 boolean (`true` or `false`), a null, or another collection or array. It is the
-same shape as JSON and converts to and from JSON text. `ced` edits one, a level
+same shape as JSON and converts to and from JSON text. The editor edits one, a level
 at a time, and shows the **type** of every element, which a text editor on the
 JSON cannot.
 
-`ced` edits a record of a collection file, or the JSON text held in a record of
-an ordinary file. `!ced()` edits a collection held in a BASIC variable. The
-[IDE](24-sd-tcl-programs-and-the-catalogue.html)'s **F12** (Go, *Edit as fields*), which is
-also in `sed`, edits the record in the open tab (see *Data mode*, below). All three use
-the same screen. Like [sed](27a-sd-tcl-sed.html), it runs inside SD and needs no
+The editor is reached three ways: **`ced`** {**`dict`**} *file* {*id* ...} at the command
+prompt edits the records named, one after another (**`*`** for every record; with no ids, the
+active select list, and without one it asks for ids); `!ced()` edits a collection held in a BASIC
+variable; and the [IDE](24d-sd-tcl-the-ide-zoom-fields-and-dictionary-items.html)'s **F12** (Go, *Edit as
+fields*), which is also in `sed`, edits the record in the open tab (below). Like [sed](27a-sd-tcl-sed.html), the editor runs inside SD and needs no
 operating-system permission; it needs a terminal, and in a phantom it returns
 at once without editing anything.
 
@@ -63,7 +63,8 @@ nothing past the edge, and draws everything again when the window is made bigger
 While the selected row is **off the screen** CED does not take keys: a warning in
 reverse video fills the upper left, every key is thrown away, it goes by itself
 when the window is big enough, and **Ctrl-Q, then y** leaves CED with nothing
-kept; the record is unlocked.
+kept; the record is unlocked. [SED](27a-sd-tcl-sed.html) describes the lock in
+full.
 
 ## The keys
 
@@ -82,10 +83,10 @@ kept; the record is unlocked.
 | **`Ctrl-S`** | save, and carry on |
 | **`Q`** | leave, at the top level only |
 | **`Ctrl-Q`** | leave from any level |
+| **F1** or **`?`** | list the keys |
 | **`Ctrl-K`** | the keys of this screen, in a box (as on every full-screen page) |
 | **`Ctrl-T`** | the next theme, kept for you (as on every full-screen page) |
 | **F5** or **`Ctrl-L`** | draw the screen again |
-| **F1** or **`?`** | list the keys |
 
 **Leaving with changes asks whether to save**, with *Yes*, *No* and *Cancel*.
 `Q` leaves, at the top level only, and `Ctrl-Q` from any level. With several ids,
@@ -106,7 +107,7 @@ terminal hangs up), it leaves without saving.
 
 ## Data mode: a record of fields, values and subvalues
 
-CED has a second use, started by the [IDE](24-sd-tcl-programs-and-the-catalogue.html)'s **F12**
+CED has a second use, started by the [IDE](24d-sd-tcl-the-ide-zoom-fields-and-dictionary-items.html)'s **F12**
 (Go, *Edit as fields*). The thing edited is an ordinary multivalue **record** shown as an array of its fields:
 a field is a text, or - if it holds value marks or subvalue marks - a list of its values; a
 value is a text, or a list of its subvalues; a subvalue is always a text. The top level is
@@ -128,7 +129,7 @@ The keys are the ones above, with these differences:
   **In the IDE** the editor is a pane of the tab: there Ctrl-S is the IDE's own
   save, **Alt-T** is the change of type, **Ctrl-C / Ctrl-X / Ctrl-V** are copy, cut and paste, **F12**
   shows the text again, and a change is in the tab's text as soon as it is made. The AI
-  works there through the IDE's AI entry and Tools menu and not through F2 (see [the IDE](24-sd-tcl-programs-and-the-catalogue.html)).
+  works there through the IDE's AI entry and Tools menu and not through F2 (see [the IDE](24e-sd-tcl-the-ide-ai-and-the-window.html)).
 - Rename (F3) does nothing: an array has no names.
 
 Text is shown exactly as stored: a text mark or an item mark inside a text is part of the text

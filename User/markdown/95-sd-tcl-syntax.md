@@ -37,7 +37,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`break`** | **`break on`** \| **`off`** \| **`on user`** *n* |
 | **`build.index`** | **`build.index`** *file* *field* … \| **`all`** |
 | **`catalog`** | **`catalog`** {*file* {*call.name*}} {*program*} {**`local`** \| **`global`** \| **`pcode`**} {**`no.xref`**} |
-| **`ced`** | **`ced`** {**`dict`**} *file* {*id* …}  ·  **`ced`** {**`dict`**} *file* **`*`** |
+| **`ced`** | **`ced`** {**`dict`**} *file* {*id* … \| **`*`**} |
 | **`clean.account`** | **`clean.account`** |
 | **`clear.abort`** | **`clear.abort`** |
 | **`clear.data`** | **`clear.data`** |
@@ -232,7 +232,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`tool.sessions`** | **`tool.sessions`**  —  sessions, locks and logout on one screen (administrator): every session and every lock, read again every three seconds; each key runs one **`logout`**, **`unlock`** or **`inhibit.login`** command after a box answered Run |
 | **`tool.test`** | **`tool.test`**  —  the tests of the account on one screen: the test.* programs of its program files, run with run and judged by the last line N passed, M failed (pass, fail, no verdict; an abort is a fail); run one, all of those shown or the failed ones (after a box), read what a test printed, compile a test that has no object code through basic after a box that shows the command |
 | **`tool.viewers`** | **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine |
-| **`tool.voc`** | **`tool.voc`**  —  the vocabulary of the account on one screen: every VOC entry with its type, what it points at, whether a pointer works and how it differs from the shipped VOC; edit an entry in the IDE, delete one through **`delete`** after a box that asks its id typed |
+| **`tool.voc`** | **`tool.voc`**  —  the vocabulary of the account on one screen: every VOC entry with its type, what it points at, whether a pointer works and how it differs from the shipped VOC; edit an entry in the IDE, delete one through `delete` after a box that asks its id typed |
 | **`umask`** | **`umask`** {*mask*} |
 | **`unlock`** | **`unlock file`** *n* {**`user`** *n*} *id* … \| **`all`** \| **`filelock`**  ·  **`unlock tasklock`** *n* … |
 | **`update.accounts`** | **`update.accounts`** {**`all`**} |

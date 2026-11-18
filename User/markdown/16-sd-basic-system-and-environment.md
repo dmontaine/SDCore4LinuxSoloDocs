@@ -214,12 +214,12 @@ does not exist, and a caller cannot tell the two apart:
 
 **Keep every `config()` name to eight characters and upper case.**
 
-Neither call aborts the caller: a name that is too long comes back empty with
-a status, the same as a name that does not exist.
-
 `config('TIMEZONE')` is the zone the epoch functions convert in (see
 [SD Basic - Data Conversion](06-sd-basic-data-conversion.html)); `config('USPLIT')`
 is `1` when the administrator has turned on the split of user numbers.
+
+Neither call aborts the caller: a name that is too long comes back empty with
+a status, the same as a name that does not exist.
 
 ## SYSMSG()
 

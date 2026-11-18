@@ -31,13 +31,14 @@ where the passphrase lives before it writes the application.
 
 | Layer | What it is | Protects against | Does not protect against |
 |---|---|---|---|
-| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt). SD is unchanged and this set has no page for it | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
+| The disk | encryption of the volume the SD directory is on, by the operating system (LUKS, fscrypt, an encrypted home directory). SD is unchanged | a stolen or discarded disk; a backup copied off the machine | anyone logged in to the running system; a mounted volume |
 | The program | `sdkey()` and `sdencrypt()` in an application | a copy of the SD files, a backup, a person with file access but not the key | the program itself, its variables, anyone who holds the key |
 | The conversion | `XE` in a dictionary item, with the key held in a ring in the process | the same, and the field reads decrypted for a session that holds the key | the same, and root or a debugger on that process |
 
 None of them hides the record id, the other fields, which values are empty or how
 long a value is. The second and third are the application's; the first is the
-machine's.
+machine's. How to put SD's folder on an encrypted disk is on
+[Encrypting the data SD keeps on disk](18a-data-at-rest.html).
 
 ## What was removed
 
@@ -130,16 +131,18 @@ rtnval = sdext(arg, isargmv, key)
 function table, so an ordinary account does not merely get refused — it gets a
 misleading error. An unknown function is read as a matrix reference, so the
 complaint is about a `dim` statement the program does not contain, reported at the
-last line rather than at the call. That behavior is covered by the restricted
-commands card in the User set.
+last line rather than at the call. That behavior is covered by *SD Basic - Restricted
+Commands* in the User set.
 
 `$internal` needs both halves: the compiler tests for internal mode **and** for the
-administrator flag. Internal mode alone was not safe on its own, because internal
-programs are the only ones that may set the administrator flag.
+administrator flag. Internal mode alone is not safe, because internal
+programs are the only ones that may set the administrator flag. On Solo the door that
+setup steps use, `sd-solo -internal`, admits a session only on a one-shot marker file
+the installer writes — see [Security](12-security.html#the-installers-own-door).
 
 ### The keys
 
-Twelve are implemented. Every binary value is base64, because the interface
+Every binary value is base64, because the interface
 carries NUL-terminated strings and a raw 32-byte digest would contain a mark
 character about one time in nine. The argument buffers are zeroed when a call ends.
 
@@ -156,7 +159,9 @@ character about one time in nine. The argument buffers are zeroed when a call en
 | `SD_RANDBYTES` | 107 | count | Random bytes |
 | `SD_XORBYTES` | 108 | two equal-length values | Their exclusive-or |
 | `SD_CTEQUAL` | 109 | two values | `1` or `0`, compared in constant time |
-| `SD_TLS_CBIND` | 110 | none | This session's TLS channel binding, as the `c=` value its SCRAM login must carry; empty when the session is not TLS |
+| `SD_TLS_CBIND` | 110 | none | The TLS channel binding the API login carries, base64, or empty when the session is not TLS |
+| `SD_FILE_PRIVATE` | 111 | path, `FILE` or `DIR` | `1` when the path is the kind of object a credential may be trusted in, else `0`; every failure answers `0` |
+| `SD_USER_HOME` | 112 | path relative to the caller's home (empty for the home itself) | The absolute path when the home and that directory can be trusted, else empty |
 | `SD_KEYRING` | 120 | `set` name key · `clear` name · `list` | The key ring of the XE conversion: the key id, the number removed, or one field per key. Reached only through `!keyset`, `!keyclear` and `!keylist` |
 
 `SD_CTEQUAL` reports a malformed argument as an error rather than as `0`, because
@@ -168,13 +173,16 @@ to admit a login must still treat the error as a refusal.
 uses them to change the process's effective user and group, to drop from root
 after a privileged step. Solo has no root and no other user to become, so
 `sdext_eguid.c` answers success and changes nothing. The two BASIC programs that
-called them, `euid_set` and `euid_restore`, were removed in LS1.1-3.
+called them do not exist in Solo.
 
 ### What uses it
 
 The programs that call `sdext()` are the credential and login ones — `apisrvr`,
 `cred_set`, `cred_verify`, `sd_get_salt`, `sd_key_from_pw` and `sdclient` — the
-embedded-Python interface (the `py_*` programs), and the three key ring
+programs for scheduled jobs, phantoms and network logins (`tool_solojobs`,
+`phantom`, `ipc_seal`, `setnetlogin`, `netcred`), the two that
+keep a recovery copy or a debugger store in a private folder (`edit_recovery`,
+`pdbg_store`), the embedded-Python interface (the `py_*` programs), and the three key ring
 subroutines `keyring_set`, `keyring_clear` and `keyring_list`. The last three are
 cataloged for general use as `!keyset`, `!keyclear` and `!keylist`, so an
 application reaches the ring without reaching `sdext()`. The others are not
@@ -185,5 +193,5 @@ indirect route to it either.
 
 `SD_ENCODEHX` (201) and `SD_ENCODE64` (202) are defined alongside the SDEXT keys
 and are easily mistaken for them. They are not keys and `sdext()` does not
-implement them — passing either as a key returns a key error. They are the third
+implement them: passing either as a key returns a key error. They are the third
 argument to `sdencrypt()` and `sddecrypt()`.

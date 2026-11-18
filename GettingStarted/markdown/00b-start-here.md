@@ -64,7 +64,7 @@ that no page runs longer than a reader will scroll.
 | **00** | Start here | this page — what the set is and what it leaves out |
 | **00a** | [Copyright and license](00a-copyright-and-licence.html) | The copyright and the license for this set, in full and in one place |
 | **01** | [Installing](01-installation.html) | What the installer asks, what it puts where, and the control file for installing many computers |
-| **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the computer |
+| **01a** | [Upgrading and uninstalling](01a-upgrading-and-uninstalling.html) | Installing a new release over an existing one, and taking SD off the machine |
 | **01b** | [Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html) | What Solo leaves out, adds and does differently |
 | **01c** | [Installing many computers](01c-installing-many-computers.html) | The control file, what the installer checks when it finishes, the editors and the mouse, and changing any of it afterwards |
 | **02** | **[Your first thirty minutes](02-first-run.html)** | **Start here if you just want it working** |
@@ -94,7 +94,8 @@ that no page runs longer than a reader will scroll.
 | **17** | [The installed scripts](17-the-installed-scripts.html) | The scripts in the installed directory |
 | **17a** | [The scripts SD runs itself](17a-scripts-sd-runs-itself.html) | The ones the installer and SD call, which nobody types |
 | **18** | [Encryption and the SDEXT interface](18-encryption.html) | What encryption SD has, and the interface behind it |
-| **19** | [Features the developers could not test](19-features-the-developers-could-not-test.html) | What nobody has watched work |
+| **18a** | [Encrypting the data SD keeps on disk](18a-data-at-rest.html) | Putting `~/SDCoreSolo` on an encrypted disk, and what that does and does not protect |
+| **19** | [Known limits](19-features-the-developers-could-not-test.html) | What depends on your own environment, and what to check before relying on it |
 | **20** | [sdfix, the file check tool](20-sdfix.html) | Checking a hashed file's structure on disk, and recovering space |
 | **20a** | [sdfix: what it checks and repairs](20a-sdfix-checks-and-repairs.html) | Every error a check reports, and what `-F` or `-Q` does about it |
 | **21** | [sdidx, the index relocation tool](21-sdidx.html) | Where a file's indexes are kept, and moving or deleting them |

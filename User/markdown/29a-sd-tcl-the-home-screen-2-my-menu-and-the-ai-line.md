@@ -83,7 +83,7 @@ sub-menu are kept by the Recent group like any other.
 On the *Menu management* and *Bypass programs* pages every setting has a **`[?]`** at the
 end of its row; F1, `?` or a click opens a box that says what it means, with a
 *Documentation* button that shows the guide page in the PDF reader (`pdf`, below). The
-text is the file `context.help` of the account.
+text is the file `context.help` of the system directory.
 
 ```
 pdf
@@ -149,7 +149,7 @@ weakens. The row, the preview and the proposals are the same.
 ## Not yet
 
 An AI line in the IDE, with proposals as edits, is built (see [Programs and the
-catalog](24-sd-tcl-programs-and-the-catalogue.html)), and so are the AI in [SED](27a-sd-tcl-sed.html),
+catalog](24e-sd-tcl-the-ide-ai-and-the-window.html)), and so are the AI in [SED](27a-sd-tcl-sed.html),
 [CED](27b-sd-tcl-ced.html) and [the debugger](17-sd-basic-debugging.html). The AI line is also on
 every page of the toolkit (see [Asking the AI](29b-sd-tcl-asking-the-ai.html)).
 

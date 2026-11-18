@@ -121,6 +121,7 @@ writes `tool start app=tool.audit`, and X writes the one export line; both are o
 
 **SD has no file-level access control of its own** on the keyboard and ssh paths:
 a session opens files as you, so Linux's permissions on your directory are the
-only boundary. On the API the multiuser product confines a session to the account
-it stands in; **do not rely on that on Solo** — see
-[API access](09-api-access.html).
+only boundary. The one place a path gate does exist is the account's `os` switch,
+which holds a session, the API's included, to the account it stands in while it is
+off, as delivered — see
+[API access](09-api-access.html#a-session-is-held-to-its-own-account).

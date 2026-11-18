@@ -26,7 +26,8 @@ sdidx -q ~/SDCoreSolo/user_accounts/sduser/orders  # where are its indexes?
   indexes. Neither can be undone.
 * **Give full paths, for the data file and for the index directory.** The data
   path is resolved for you. A relative index path given to `-m` or `-p` is
-  made absolute from the current directory before it is used and stored. Other `..` and symbolic-link
+  made absolute from the current directory before it is used and stored (SD's own
+  current directory is somewhere else, so a relative path would not be found). Other `..` and symbolic-link
   parts are kept as typed. A path longer than 255 characters, which the file
   header cannot hold, is refused (`Path is too long (the limit is 255
   characters)`, status 1).
@@ -34,7 +35,7 @@ sdidx -q ~/SDCoreSolo/user_accounts/sduser/orders  # where are its indexes?
   open within the running SD: see below. **It refuses nothing if SD is not
   running**, because it has nothing to ask.
 * **Check the result with `-q` after `-m` or `-p`.** If `-m` or `-d` cannot
-  delete an old index file it says so and exits 1; it no longer says "moved" or
+  delete an old index file it says so and exits 1; it does not say "moved" or
   "deleted" over a file that is still there.
 
 ## Where it is and who can run it
@@ -109,7 +110,8 @@ left behind and the file is as before.
   cannot write: *Permission denied*), or *a file of that name exists* when a
   component of the path is a file. *akpath* in the message is the whole path as you
   typed it, not the component that failed, and the indexes and the header are
-  where they were.
+  where they were. (An ordinary user meets the first on a parent with mode 555
+  and the second on a path through a regular file.)
 * **With no `akpath`, it moves the indexes back** into the data file's own
   directory and clears the path in the header.
 * **Only the index files are deleted from the old place**. It removes the
@@ -137,7 +139,7 @@ is out of date.
   subfile 2 [2]*.
 * **On success it says what `-q` would now say**: `Index directory is
   /tmp/sdi_demo/byhand`, or `Indices are not relocated` when `akpath` is omitted.
-  It used to print nothing. A failure to write the header is now reported and
+  A failure to write the header is reported and
   exits 1. SD's own account restore does not read this line: it checks the
   status and then runs `-q` itself.
 * Omit `akpath` to say "the indexes are in the data file's directory".

@@ -37,9 +37,9 @@ reached from other computers. See [The account and its passwords](05-account-typ
 | | |
 |---|---|
 | Every session | asks the account password |
-| Administrator commands | refused until `admin`. The eight that had no check of their own — `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` — are gated too. See [Administrator commands](06-administrator-commands.html) |
+| Administrator commands | refused until `admin`. The eight that had no check of their own — `config`, `listu`, `list.locks`, `list.readu`, `lock`, `clear.locks`, `set.date`, `clean.account` — are gated too. See [Administrator commands](06-administrator-commands.html) |
 | The VOC | direct edits need `admin`; the global catalog is changed by nobody in a session |
-| The shell and OS access | refused until the administrator turns the `sh` or `os` switch on with `set.os.access`: off on a new install unless you answered yes when the installer asked, and kept as they were on an upgrade (off on one from LS1.1-3) — see [Operating system access](06b-operating-system-access.html) |
+| The shell and OS access | refused until the administrator turns the `sh` or `os` switch on with `set.os.access`: off on a new install unless you answered yes when the installer asked, and kept as they were on an upgrade — see [Operating system access](06b-operating-system-access.html) |
 | `NETDIRS` | a door in `sd.conf`, **no line as delivered**: folders outside the account, separated by semicolons, that a session with the `os` switch off may still read and write by pathname. Listing one is a loosening for every session of the account, on every route — see [Configuration](16-configuration.html) |
 | The NET gate | API request 29 (open an `account;file` file for a client) is refused until the administrator sets `NETFILES=2` in `sd.conf` and turns the gate on with `set.net.access on`: both off as delivered; and a VOC pointer that leads out of the account is refused unless the account has the `os` switch on — see [API access](09-api-access.html) |
 | File transfer | an sftp program on another computer can put text files into the account's file `xfer.in` and take them from `xfer.out`, over Solo's ssh (port 4251). **Off twice as delivered**: `XFER=1` in `sd.conf` (read when Solo starts) and `set.xfer.access on`. Opening it means a program that knows your Linux password can bring files into the account while you wait in `receive`; it sees only that one folder, only plain text, within the size limits (`XFERFILE`, `XFERSLOT`) and only while the transfer is open. **The SD account password is not asked of the sftp connection** (it has no terminal to give it): what stands in for it is that nothing moves unless your own session, which did give it, is waiting in `receive` or `send` at that moment — see *Moving Files In and Out* in the User documentation |
@@ -68,7 +68,7 @@ the passwords protect SD sessions, not the files under them.
 
 **`sd-solo -internal` is how the installer runs SD's setup steps**, and it is admitted
 only by a one-shot marker file the installer writes immediately before each step
-and SD consumes — the audit trail shows *INTERNAL SESSION ADMITTED* with the name
+and SD consumes — the audit trail shows *internal session admitted* with the name
 of the writer. A marker older than ten minutes is refused, and consumed. It is
 not a way into a running system: the installer checks, when it finishes, that a
 plain `sd-solo -internal` is refused. **SDSYS, SD's own system account, is never
@@ -83,11 +83,11 @@ it**: the user of the computer owns the files and can change them from outside
 SD. What managed mode protects is what happens *inside* SD. See
 [Managed mode](15-managed-mode.html).
 
-**The server can also put an ssh key on the computer (LS1.1-2).** Only a session
+**The server can also put an ssh key on the computer.** Only a session
 signed in with the global password may, at most four keys are kept, each can start
 `sd-solo` and nothing else, and every use is audited. That is the global password
 reaching one step further — into Solo's own ssh key file — so **whoever
-holds the global password can now also reach this computer over ssh as `sduser`**.
+holds the global password can also reach this computer over ssh as `sduser`**.
 It could already run the administrator commands. **On the client side, the library
 pins the computer's TLS certificate on first use**, which stops someone posing as
 the computer from collecting a login proof to crack offline; the first connection
@@ -101,9 +101,13 @@ it can neither compile nor run anything else and cannot interrupt out to a TCL
 prompt. Neither is a setting; both are done by hand.
 
 **Turn the API off** if you do not use it — it is off unless it was chosen at
-install, with or without a global password; see [API access](09-api-access.html). **Do not give the ssh key
-line to anything you would not give the account password to** — see
-[ssh access](08-ssh-access.html).
+install, with or without a global password; see [API access](09-api-access.html). **Restrict ssh to this
+computer** (`remote.ssh local`) if other computers do not need it, or **leave it off**
+(`remote.ssh off`) — see [ssh access](08-ssh-access.html). When Solo's ssh server is on it
+runs on port 4251, your Linux account name and password land you in SD. Anyone who can reach the port can try
+passwords for your Linux account, so keep it limited to this computer unless you need it
+open. **Do not give the ssh key line to anything you would not give the account password
+to** — see [ssh access](08-ssh-access.html).
 
 **Enable full-disk encryption and a screen lock**, as you would for any computer
 that holds data you care about: everything above assumes the computer itself is

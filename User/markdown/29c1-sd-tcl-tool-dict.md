@@ -42,8 +42,8 @@ and whether it has been compiled, and the record as it is stored.
 | key | does |
 |---|---|
 | Up, Down, PgUp, PgDn, Home, End | move the cursor |
-| **N** | make an item: asks the id, then hands the terminal to the [IDE](24-sd-tcl-programs-and-the-catalogue.html) on a new item, shown as the dictionary form |
-| **E** | edit the item in the [IDE](24-sd-tcl-programs-and-the-catalogue.html) (`ide dict file item`): the terminal is handed to the IDE, and leaving it brings the page back at the same item |
+| **N** | make an item: asks the id, then hands the terminal to the [IDE](24a-sd-tcl-find-program-dictionaries-and-the-ide.html) on a new item, shown as the dictionary form |
+| **E** | edit the item in the [IDE](24a-sd-tcl-find-program-dictionaries-and-the-ide.html) (`ide dict file item`): the terminal is handed to the IDE, and leaving it brings the page back at the same item |
 | **D** | delete the item (`delete dict file item`) after a box, with the item's id typed |
 | **C** | compile an I item (`compile.dict file item`) after a box |
 | **T** | try the item on a record of the file: asks the record's id and shows the value the query processor would compute for it, and the same value as a query prints it |
@@ -58,7 +58,7 @@ and whether it has been compiled, and the record as it is stored.
 **Making an item.** N asks for the id (letters a-z, digits, dot, dash and underscore, starting with a letter or a
 digit; capitals are put in lower case; an id that already exists in any case is refused). A wrong id is refused with
 the reason and the question is asked again; Esc leaves the question and nothing is written. Then the terminal is
-handed to the [IDE](24-sd-tcl-programs-and-the-catalogue.html) on a **new** item, which it shows as the
+handed to the [IDE](24a-sd-tcl-find-program-dictionaries-and-the-ide.html) on a **new** item, which it shows as the
 dictionary form (described with the IDE): the Type first, then the rows that type needs (a data item has its
 field number, conversion, column heading, length and justification, single or multivalued and association; an
 indirect item starts with its expression), each checked as you leave it. **Accept** writes the record and

@@ -80,7 +80,7 @@ list customers
 count customers
 ```
 
-**Commands are lower case now.** Typing `LIST` still works — SD converts it.
+**Commands are lower case now**, and so are the VOC records behind them. Typing `LIST` still works — SD converts it.
 See [Lower case](11-lower-case.html).
 
 **THIS IS THE POINT AT WHICH MOST THINGS SHOULD FEEL LIKE OpenQM.** If

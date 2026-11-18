@@ -192,7 +192,10 @@ file*: a hashed file has no line terminators); a mode outside 0 to 3 gives the m
 `status()` to 1, changing nothing. Any action number SD does not know stops the program with *the action is not one SD knows*.
 `FC$SYNC` works on a hashed file only (`status()` is 3005 on any other). The qualifier may be left out where the action does not use it. The
 internal programs' own function is called `fcontrol.int` and is not available to
-ordinary programs.
+ordinary programs. On a file reached through an `N` pointer to another SD
+server the call goes to that server: the test for an id (action 6) needs only
+read access there, and every other action needs what that server asks for, as
+the server decides ([SDNet - Administering a Remote File](42a-sd-sdnet-administration.html)).
 
 ### Line terminators: `fcontrol` `FC$CRLF` and the letters `L C B X`
 

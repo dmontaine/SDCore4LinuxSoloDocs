@@ -25,8 +25,8 @@ moves a program or a session away from it, on purpose.
 as UniVerse's does, and so on. **There is no switch that makes SD behave like D3, mvBase,
 UniData, jBASE or any other product as a whole.** `option d3`, `option mvbase`,
 `$mode d3` and `$mode mvbase` are refused, and so is `option pick`, which switched
-nine words on together and is gone. SD has no shortcut that
-sets several words together.
+nine words on together and does not exist. SD has no shortcut that
+sets several words together: `option sdbasic.warnings` is gone with the three words it set.
 
 **A word SD does not have is refused, not skipped.** `option` says *Option name not
 recognized* and `$mode` stops the compile with *Unrecognized mode name*. A `login`

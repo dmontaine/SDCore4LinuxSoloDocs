@@ -101,8 +101,10 @@ Removes the record. **`.d` *name* at the command prompt asks first**;
 `.s` writes stack lines *s* to *e* into the VOC as *name* — a sentence
 when the range is one line, a paragraph when it is more. `.r` loads a
 sentence or paragraph from the VOC into the stack. **The record type
-follows from what you saved** rather than from anything you say. A new name is stored in
-lower case; saving over an existing record keeps its name.
+follows from what you saved** rather than from anything you say. **A new record is saved
+under the name in lower case**, however you typed it. A name already in the VOC is found
+in any case and you are asked "Overwrite VOC record ...?" as before; if you say yes the
+record keeps the name it has.
 
 ### Listing the VOC by type
 
@@ -131,10 +133,11 @@ dynamic hashed file (followed by `I` for alternate key indices, `S` for
 statistics and `T` for a trigger function), `Dir` for a directory file, `Err`
 and the error number for a file that will not open.
 
-The dictionary of the VOC also has the items **`trigger`** and **`encryption`**,
-so `list voc with type = "F" and with trigger` lists the files that have a trigger
-function. SD has no file encryption, so `with encryption` selects nothing and
-`with no encryption` selects every file.
+The dictionary of the VOC also has the items **`trigger`**, **`encryption`**
+and **`replication`**, so `list voc with type = "F" and with trigger` lists the
+files that have a trigger function. SD has neither encryption nor replication,
+so `with encryption` and `with replication` select nothing, and `with no encryption`
+and `with no replication` select every file.
 
 ### count — count the records
 
@@ -166,9 +169,9 @@ neither takes anything away.
 
 **Administration is in the verb, not in the VOC.** Your account has `config`,
 `set.date`, `clean.account`, `list.readu`, `list.locks`, `lock`, `unlock`,
-`listu`, `update.accounts` and the rest — and each one refuses with *Command
+`listu`, `update.accounts`, `remote.ssh`, `remote.api` and the rest — and each one refuses with *Command
 requires administrator privileges* until `admin`. There is no `create.account`,
-`delete.account`, `modify.account`, `remote.ssh` or `remote.api` anywhere: an
+`delete.account` or `modify.account` anywhere: an
 unknown name is simply not recognized. See *Administrator commands* in the
 GettingStarted set.
 
@@ -203,9 +206,8 @@ wrote.
 **The `M` (menu) record type is removed.** A VOC record of that type is no
 longer dispatched; the home screen (`home`, or `menu`) is the menu system.
 
-**`EDIT` runs.** It was once exactly the kind of VOC entry described
-above — present but undispatchable, its type field reading
-`Verb - Full screen editor` rather than `V`. It is a real `V` record now, a working full-screen editor. See [SD
+**`EDIT` runs.** It is a real `V` record, the line editor `ed` under another name (it is
+not a full-screen editor), not an undispatchable entry of the kind described above. See [SD
 VOC - Structure and Usage](32-sd-voc-structure-and-usage.html#what-the-shipped-voc-holds).
 
 ## See also

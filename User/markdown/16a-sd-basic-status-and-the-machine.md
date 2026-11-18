@@ -207,16 +207,14 @@ different numbers, is unchanged.
 
 **And some statements are restricted the same way.** These 34 are
 *"Unrecognized statement"* to a program that is not compiled `$internal` by an
-administrator (each was compiled once in a plain program to check):
+administrator:
 `add`, `akclear`, `akdelete`, `akenable`, `akread`, `akrelease`, `akwrite`,
 `callv`, `configure.file`, `create.ak`, `delete.ak`, `delete.common`,
 `keyboard.input`, `modify`, `quit`, `release.lock`, `remove.token`,
 `reset.modes`, `rewind`, `run`, `set.modes`, `set.status`, `set.trigger`,
 `set.unassigned`, `sortinit`, `unload.object`, `varset`, `writepkt`, `como`,
 and the whole debugging family — `debug.on`, `debug.off`, `debug.set`,
-`breakpoint` and `watch`. An earlier version of this list gave 13 of them and
-left out `set.status`; it is the compiler's own `restricted.statements` list
-that counts, and [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html)
+`breakpoint` and `watch`. [SD Basic - Restricted Commands](96-sd-basic-restricted-commands.html)
 carries the same names.
 
 **`errmsg` is not a statement at all.** It compiles to *"Unrecognized

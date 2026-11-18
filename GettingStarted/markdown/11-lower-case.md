@@ -26,9 +26,9 @@ the `login` paragraph lookup, and `set.file`'s default `qfile` pointer.
 
 | | |
 |---|---|
-| Commands in the VOC | **`list`**, `count`, **`select`**, **`create.file`**, **`setptr`** … all 441 `newvoc` records and all 446 `voc_template` records — and that is how they appear in `list voc`, `listv` and `ct voc` |
-| BASIC source and include records | 215 `gpl.bp` records, 16 `syscom` includes — all of them |
-| System files on disk | `accounts`, `bp`, `bp.out`, `gpl.bp`, `messages`, `newvoc`, `pcode.out`, `syscom`, `voc`, `voc.dic`, `voc_template` and the rest — 0 of 15 directory names still upper case |
+| Commands in the VOC | **`list`**, `count`, **`select`**, **`create.file`**, **`setptr`** … and that is how they appear in `list voc`, `listv` and `ct voc` |
+| BASIC source and include records | the `gpl.bp` programs and the `syscom` includes — all of them |
+| System files on disk | `accounts`, `bp`, `bp.out`, `gpl.bp`, `messages`, `newvoc`, `pcode.out`, `syscom`, `voc`, `voc.dic`, `voc_template` and the rest |
 | Account names on disk | `user_accounts/sduser`, `$cred/sduser` |
 | Files in a new account | created with lower-case names on disk |
 

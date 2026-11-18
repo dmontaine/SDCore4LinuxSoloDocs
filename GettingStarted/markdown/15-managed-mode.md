@@ -53,7 +53,7 @@ See [The account and its passwords](05-account-types.html).
 user has chosen an account password.** Until the user does, at that computer's
 keyboard, the global password is the only one accepted.
 
-## The server's ssh key (LS1.1-2)
+## The server's ssh key
 
 **The server installs its own ssh key.** The server knows only this computer's
 address and the name `sduser` — not the Linux user name that ssh needs. So after
@@ -92,7 +92,8 @@ again. The very first connection is trusted. See [API access](09-api-access.html
 
 **The global catalog of a managed computer holds the server's programs.** The
 user can run them — `CALL name` — and cannot add, replace or remove any, with or
-without `admin`.
+without `admin`. A program of the same name in the account's own catalog is
+found first.
 
 | | |
 |---|---|
@@ -113,10 +114,9 @@ sync global catalog done 1 cataloged 0 removed 0 refused
 
 A session with no administrator rights can then `CALL myprog(x)`. **A program
 cataloged in the account under the same name is found first**, as for any
-`CALL`. (Before 2.0-0 the server's programs were cataloged as `*name` and called
-as `CALL *name`; the `*` prefix is gone, and the first `sync.global.catalog` of
-this release removes the old `*` entries and catalogs the programs again under
-their plain names.)
+`CALL`. The server's programs have plain names and no prefix: a left-over
+`*name` entry from an older release is removed by the first `sync.global.catalog`,
+which catalogs the programs again under their plain names.
 
 **To remove one**, delete it from `global.bp.out` and run `sync.global.catalog`
 again; the `myprog` entry goes:
@@ -148,7 +148,7 @@ is kept.
 | | |
 |---|---|
 | *The global catalog can only be changed by the SD Core server* | `sync.global.catalog`, or writing `global.bp.out`, `gcat` or the deny list, from a session that did not sign in with the global password — `admin` included |
-| *The global catalog holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog* | `CATALOG ... GLOBAL`, a `CATALOG` name beginning `*`, `!`, `_` or `$`, or `DELETE.CATALOG` of a global entry — from any session |
+| *The global catalog holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog* | `catalog ... global`, a `catalog` name beginning `!`, `_` or `$`, or `delete.catalog` of a global entry — from any session |
 
 **A user's own program cannot write to them either.** A BASIC program that
 opens `global.bp.out` and `WRITE`s to it is refused by SD itself, with `STATUS()`
@@ -180,12 +180,11 @@ deny.verbs 2: sh,copy
 ```
 
 **A command is denied under every name that runs it.** Some names that look
-different share one: `ED` and `EDIT` both run SD's line editor, so denying one
+different share one: `ed` and `edit` both run SD's line editor, so denying one
 denies both, and the answer says what else was taken (`deny.verbs also denies, as
 the same command: ...`). **The case a record spells its program in does not matter:** a
 verb whose VOC record runs the same program as a listed verb is denied too, however the
-program's name is written. (Before 2.0-0, `!` was a second name of `SH` and was
-denied with it; it was removed.) For example:
+program's name is written. For example:
 
 ```
 :deny.verbs add sh
@@ -195,8 +194,8 @@ deny.verbs 1: sh
 | | |
 |---|---|
 | **Who may use it** | a server session only. Anyone else, `admin` included, is told *The denied verbs can only be listed or changed by the SD Core server* |
-| **Never denied** | `admin`, `OFF`, `QUIT` and `LO` — a list naming one says it is dropped |
-| **Set at installation** | the control file's `deny-verbs=` line (or `--deny-verbs` to the stage script), on a new installation only. **On a computer with no global password no session can change the list afterwards** — only the server can — so it is fixed until a new installation |
+| **Never denied** | `admin`, `off`, `quit` and `lo` — a list naming one says it is dropped |
+| **Set at installation** | the control file's `deny-verbs=` line, on a new installation only. **On a computer with no global password no session can change the list afterwards** — only the server can — so it is fixed until a new installation |
 | **Kept by an upgrade** | yes — it lives in `~/SDCoreSolo/solo.policy` |
 
 **It only adds.** It cannot lift the check an administrator command carries in

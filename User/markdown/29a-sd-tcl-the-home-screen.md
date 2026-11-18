@@ -121,7 +121,7 @@ and time, and Sign out) stays where it is.
 | F2 | find an action: every entry of the menus in one list (*Go > Terminal*, with its key); type part of a name to narrow it, Enter chooses. An entry that cannot be used now says *(not now)* and only explains why |
 | a right click, Shift-F10 | the menu of the page's actions at the pointer (Shift-F10: in the middle), ending with *Find an action...* (F2). The home screen has one box, so the right click does not move anything first |
 | Ctrl-Q | sign out (asks first; **Cancel** is the button Enter chooses, so a stray Enter signs nobody out). **When you typed `home` at the prompt, Ctrl-Q goes back to that prompt instead** and does not ask; the row then reads *^Q prompt* |
-| Alt-T | the Terminal tile |
+| Alt-T | the Terminal tile (Ctrl-T is the theme on every page) |
 
 Backspace, Alt-T, Ctrl-R, Ctrl-T and Ctrl-K are not on the row of keys at the foot of
 the screen (F1 lists every key). The row shows Enter, F1, F5, Ctrl-Q and /, Esc in a

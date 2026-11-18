@@ -28,7 +28,7 @@ exist, and this account may not call it.
 `kernel(K$INTERNAL, -1) and kernel(K$ADMINISTRATOR, -1)` — internal mode alone
 is not enough, because internal programs are the
 only ones that may set the administrator flag, and `sd-solo -internal` is not itself
-gated: otherwise any account could compile a three-line program that granted
+gated, so any account could otherwise compile a three-line program that grants
 itself administrator rights.
 
 
@@ -88,7 +88,7 @@ itself administrator rights.
 
 | | |
 |---|---|
-| **`fcontrol.int`** | `fcontrol.int(`*a*, *b*, *c*`)` ***(internal)*** — the internal form; `fcontrol` is the public function with openQM's numbers |
+| **`fcontrol.int`** | `fcontrol.int(`*a*, *b*, *c*`)` ***(internal)*** — the internal form; the name `fcontrol` is the public function with openQM's numbers |
 | **`find`** | `find` *x* `in` *arr* {, *occ*} `setting` *f* {, *v* {, *sv*}} `then` … `else` … ***(internal)*** |
 | **`formcsv`** | `formcsv(`*a*`)` ***(internal)*** |
 
@@ -135,7 +135,7 @@ itself administrator rights.
 | | |
 |---|---|
 | **`option`** | `option(`*a*`)` ***(internal)*** |
-| **`ospath`** | `ospath(`*a*, *b*`)` ***(internal)***. **Any program may call the openQM form, with openQM's key numbers, behind the OS access switch;** the internal form keeps its own numbers. See *SD Basic - Status and the Machine* |
+| **`ospath`** | `ospath(`*a*, *b*`)` ***(internal)***. **Any program may call the openQM form, with openQM's key numbers, behind the `os` switch;** the internal form keeps its own numbers. See *SD Basic - Status and the Machine* |
 | **`osrename`** | `osrename(`*a*, *b*`)` ***(internal)*** |
 
 ## P

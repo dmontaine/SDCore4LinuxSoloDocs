@@ -157,7 +157,7 @@ the *Your gates* line, as in `tool.files`.
 | key | does |
 |---|---|
 | Up, Down, PgUp, PgDn, Home, End | move the cursor |
-| **E** | edit the entry in the [IDE](24-sd-tcl-programs-and-the-catalogue.html) (`ide voc name`): the terminal is handed to the IDE, and leaving it brings the page back at the same entry |
+| **E** | edit the entry in the [IDE](24a-sd-tcl-find-program-dictionaries-and-the-ide.html) (`ide voc name`): the terminal is handed to the IDE, and leaving it brings the page back at the same entry |
 | **D** | delete the entry (`delete voc name`) after a box that shows the command, with the id typed |
 | **T** | choose the type shown: all, verbs, files, pointers, paragraphs and sentences, other |
 | **S** | choose the state shown: all, only the entries that differ from the shipped VOC, only broken pointers |

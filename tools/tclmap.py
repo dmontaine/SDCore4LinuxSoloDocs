@@ -78,9 +78,14 @@ if len(roster) < 100:
 # Each entry is (set, markdown filename, verbs).  Keep it in page order.
 
 DOCS = [
+ # nls is explained with getnls() and setnls, on the data-conversion page, where the
+ # three keys it sets are the point.
+ ('User', '06-sd-basic-data-conversion.md', """
+   nls
+ """),
  ('User', '19-sd-tcl-command-processor.md', """
    abort clear.data clr
-   display go if message off pause quit report.src stop break
+   display go if message off pause quit redo report.src stop break
  """),
  # The command stack, the @-variables and the session verbs left 19 for 19a
  # when the page was cut in two.  The twelve below were named by tclmap itself,
@@ -92,22 +97,24 @@ DOCS = [
  ('User', '20-sd-tcl-files-and-records.md', """
    analyze.file clear.file cname compare.files configure.file
    convert.data copy create.file ct delete delete.file dump fixdir fstat
-   hsm import.csv import.json import.xml list.files list.triggers
+   hsm import.csv import.json import.xml list.files list.triggers oscopy
    set.file set.trigger
  """),
  ('User', '21-sd-tcl-query-processor.md', """
-   count list list.item list.label reformat search show sort sort.item
+   count list list.item list.label reformat scan search show sort sort.item
    sort.label sreformat sum
  """),
  ('User', '22-sd-tcl-select-lists.md', """
    clear.select copy.list delete.list form.list get.list
-   merge.list nselect qselect save.list select sselect
+   merge.list nselect qselect save.list select
+   select.dir sort.list sselect
  """),
  ('User', '23-sd-tcl-alternate-key-indexes.md', """
    build.index create.index delete.index list.index
+   rebuild.all.indices selectindex
  """),
  ('User', '24-sd-tcl-programs-and-the-catalogue.md', """
-   basic catalog compile.dict debug delete.catalog
+   basic catalog compile.dict debug decatalog delete.catalog
    delete.common format generate list.common map run
  """),
  ('User', '25-sd-tcl-ed.md', """
@@ -127,13 +134,12 @@ DOCS = [
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
    autologout bell clear.input clear.prompts date date.format echo
-   hush logmsg nls pdf pterm sleep term time tool.keys
+   hush list.term.types logmsg pdf pterm sleep term time tool.keys
  """),
- # 23 Oct 26 Solo carry 14: the home screen page
  ('User', '29a-sd-tcl-the-home-screen.md', """
-   exit home ide menu my.menu
+   exit home menu my.menu
  """),
- # 23 Oct 26 Solo carry 15: the ai verb, and the administrator's AI helper page
+ # the ai verb, and the administrator's AI helper page
  ('User', '29b-sd-tcl-asking-the-ai.md', """
    ai
  """),
@@ -157,6 +163,12 @@ DOCS = [
  # deny.verbs and sync.global.catalog, which Solo added.
  ('User', '19a-sd-tcl-the-command-stack.md', """
    umask
+ """),
+ ('GettingStarted', '04-scheduled-jobs.md', """
+   set.job set.jobs.access tool.jobs
+ """),
+ ('GettingStarted', '06-administrator-commands.md', """
+   run.job
  """),
  ('GettingStarted', '05-account-types.md', """
    set.password
@@ -203,44 +215,28 @@ DOCS = [
  ('GettingStarted', '15-managed-mode.md', """
    deny.verbs sync.global.catalog
  """),
- # 21 Oct 26: the 27 verbs that Solo's first sync from SD Core (LSOLO 52) carried
- # without a page.  Each is written from sdsys/gpl.bp/<program>, its messages and a
- # run in a Solo sandbox, in the User page of its subject; none of it is SD Core's
- # prose.
- ('User', '19-sd-tcl-command-processor.md', """
-   redo
- """),
- ('User', '19a-sd-tcl-the-command-stack.md', """
-   command.logging
- """),
+ # The verbs that were on no page of this map, each given the page that explains it;
+ # every one of them is named there.
  ('User', '20-sd-tcl-files-and-records.md', """
-   file.stat find.file fstat.user
- """),
- ('User', '21-sd-tcl-query-processor.md', """
-   scan
+   file.stat find.file fstat.user profiler set.mode
  """),
  ('User', '22-sd-tcl-select-lists.md', """
-   execute.list move.list select.dir show.list sort.list
+   execute.list move.list show.list
  """),
  ('User', '23-sd-tcl-alternate-key-indexes.md', """
-   analyse.index disable.index rebuild.all.indices selectindex
+   analyse.index disable.index
  """),
  ('User', '24-sd-tcl-programs-and-the-catalogue.md', """
-   decatalog find.program
+   find.program ide
  """),
  ('User', '28-sd-tcl-printing-and-spooling.md', """
    block.print
  """),
  ('User', '29-sd-tcl-the-terminal-and-the-session.md', """
-   block.term list.term.types
+   block.term command.logging
  """),
  ('User', '30-sd-tcl-processes-and-phantoms.md', """
-   list.phantoms profiler
- """),
- # 16 Nov 26: the verbs that were on no page of this map (tclmap said NO PAGE for 21), each given the page that explains it; every one of them
- # was already named there.  copy.listp, set.queue, sp.assign and ! are removed verbs (voc_removed) and left the map the same day.
- ('User', '20-sd-tcl-files-and-records.md', """
-   oscopy set.mode
+   list.phantoms
  """),
  ('User', '29c-sd-tcl-the-development-tools.md', """
    tool.bulk tool.catalog tool.dict tool.files tool.query tool.test tool.voc
@@ -287,7 +283,6 @@ SPLITS = {
     ('User', '17-sd-basic-debugging.md'): ['17a-sd-basic-debugging-full-screen-and-ai.md'],
     ('User', '20-sd-tcl-files-and-records.md'): [
         '20-sd-tcl-files-and-records-2-comparing-triggers-and-import.md'],
-    ('User', '21-sd-tcl-query-processor.md'): ['21a-sd-tcl-query-processor-headings-and-output.md'],
     ('User', '24-sd-tcl-programs-and-the-catalogue.md'): [
         '24a-sd-tcl-find-program-dictionaries-and-the-ide.md', '24b-sd-tcl-the-ide-keys.md',
         '24c-sd-tcl-the-ide-other-files-and-options.md',

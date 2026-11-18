@@ -53,9 +53,7 @@ first character is load-bearing and the remaining thirty are not.
 
 ### Names are tried as typed, then lower, then upper
 
-This port shipped a change here. Where SD used to try the name exactly as typed
-and then in upper case, it now tries **as typed, then lower case, then upper
-case**. That is what lets a lower-case `voc`, `bp` and `newvoc` on disk coexist
+SD tries a name **as typed, then lower case, then upper case**. That is what lets a lower-case `voc`, `bp` and `newvoc` on disk coexist
 with code and habits that still type names in upper case, and it is why you can
 type `list voc` or `LIST VOC` and reach the same file.
 
@@ -160,28 +158,37 @@ Paragraphs nest, and `abort` unwinds all of them.
 redo {times n} {every s} command
 ```
 
-`redo` hands the rest of the line, as typed, to the command processor again and
-again. **Without `times` it goes on until the break key is pressed.**
+Runs *command* again and again, the rest of the line as you typed it. **`times`**
+*n* is how many runs in all (a whole number of 1 or more); left out, it goes on
+until the break key is pressed. **`every`** *s* is the number of whole seconds from
+the *start* of one run to the start of the next, and defaults to 1; a run that
+takes longer than that is followed at once by the next.
 
-| | |
+```
+redo times 3 every 1 date
+```
+
+```
+Tuesday, 13 October 2026  09:48pm
+Tuesday, 13 October 2026  09:48pm
+Tuesday, 13 October 2026  09:48pm
+```
+
+The words in front of the command are checked before anything runs, and a bad
+one stops `redo` with the reason:
+
+| said | when |
 |---|---|
-| `times` *n* | how many runs in all. A whole number of 1 or more; `times 0` is refused with *The number after times must be a whole number of 1 or more* |
-| `every` *s* | the number of seconds **from the start of one run to the start of the next**. The default is 1. A run that takes longer than that is followed at once by the next |
-| *command* | required: with nothing after the options `redo` says *Command required* |
-
-```
-redo times 3 every 1 display tick
-```
-
-```
-tick
-tick
-tick
-```
+| *The number after times must be a whole number of 1 or more* | `times 0`, or a word where the number should be |
+| *The number after every must be a whole number of seconds* | `every x` |
+| *Command required* | nothing after the words |
 
 **`every 0` is accepted, and it means no pause at all**: the command is run
 again the moment it ends, for as long as nobody presses the break key. Give such
 a `redo` a `times`.
+
+**`redo` has no idea what the command does**, so a command that waits for a person
+holds up every later run, and one that changes data changes it every time.
 
 ## Continued in
 

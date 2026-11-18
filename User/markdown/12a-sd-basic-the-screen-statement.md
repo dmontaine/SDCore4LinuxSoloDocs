@@ -174,8 +174,6 @@ for a click on no widget when the program has asked for those): *x* is the colum
 click, and the menu whose title is over it opens instead of the first. A column with no
 title over it (the space to the right of the titles) opens nothing, and the statement
 takes `else`. A title is its label with a blank on each side, from column 0.
-A program compiled by an earlier release that uses `screen menubar` must be compiled
-again.
 
 **Submenus.** A menu whose title begins with `>` is not on the bar: it is a submenu. An
 entry whose *code* is that title opens it beside the entry, with a `>` at its right edge;

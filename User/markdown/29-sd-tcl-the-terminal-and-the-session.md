@@ -103,20 +103,25 @@ misbehaves.
 list.term.types {lptr {n}}
 ```
 
-Lists the terminal types for which SD has a terminfo definition: the names of
-the entries under `terminfo` in the SD system directory, which is what the type
-you give `term` is looked up in. They come out in columns, and the last line
-counts them (an excerpt):
+Lists the terminal types SD has a definition for — the names of the entries under
+`terminfo` in the SD directory, which is what the type in `term` and in the `TERM`
+setting is looked up in — and how many there are. `lptr` sends it to a print unit.
 
 ```
-ansi                      ansi-generic              dec-vt100                 dec-vt220                 dec-vt330                 dec-vt340                 dec-vt400
-dumb                      linux                     ms-vt100                  null                      unknown                   vt100                     vt100-am
+list.term.types
+```
+
+```
+ansi                      ansi-generic              dec-vt100                 dec-vt220                 dec-vt330
+dec-vt340                 dec-vt400                 dumb                      linux                     ms-vt100
 ...
+xterm
+
 36 terminal type(s)
 ```
 
-`lptr` sends the list to a print unit. The list is cut short here, and the count
-depends on the release. **A type that is not on it has no definition of its own**, and SD
+(The list is cut short here: it is 36 names in rows of five on a window 140 columns wide,
+and the count depends on the release.) **A type that is not on it has no definition of its own**, and SD
 substitutes one for it.
 
 ### What a key does: `tool.keys`

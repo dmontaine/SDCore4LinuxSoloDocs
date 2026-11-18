@@ -15,7 +15,7 @@ SD folds case, so a query may be typed in either case. Commands and keywords are
 shown here in lower case. In the tables, *italics* mark something you supply and
 **bold** marks a word typed as it stands; braces mark an optional part.
 
-> **The file queried in the listings on this page is `voc`**, because it is the one file
+> The file queried in the listings is `voc`, because it is the one file
 > every account has and it is interesting enough to ask real questions of.
 
 ## The shape of a query
@@ -54,8 +54,7 @@ themselves, and what they show about the language, are unchanged.
 | **`sum`** | total a field across the records |
 | **`list.item`** · **`sort.item`** | print whole records, field by field, rather than in columns |
 | **`list.label`** · **`sort.label`** | print in label format |
-| **`search`** | select records by looking for text inside them |
-| **`scan`** | the same, and show the lines that hold the text |
+| **`search`** · **`scan`** | select records by looking for text inside them; `scan` also shows the lines that hold it |
 | **`show`** | build a select list interactively |
 | **`reformat`** · **`sreformat`** | write the selected fields out to another file |
 

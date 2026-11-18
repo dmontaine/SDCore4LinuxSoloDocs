@@ -13,31 +13,30 @@ Password:                            <- SD's account password
 ```
 
 **Your password is not sent in clear text.** ssh agrees a key exchange and a cipher with the
-server first (on the test computer, `mlkem768x25519-sha256` and `chacha20-poly1305@openssh.com`),
+server first (for example `mlkem768x25519-sha256` and `chacha20-poly1305@openssh.com`),
 and the password travels inside that encrypted channel. **The first time you connect, ssh shows
 the server's host key fingerprint: check it** against `~/SDCoreSolo/sshd/ssh_host_ed25519_key.pub`
 (`ssh-keygen -lf` on that file), because that is what stops someone posing as your computer.
 The API is different: it uses SCRAM, where the server never receives the password at all.
 
-## How it is arranged (LS1.1-3)
+## How it is arranged
 
 | | |
 |---|---|
 | **Its own port, 4251** | fixed, not an option — like the API's port 4249. The computer's own ssh server, on port 22, is **not used and not touched** |
 | **Run by you, with no `sudo`** | systemd starts one `sshd` for each connection, as your own user, from a socket on port 4251. Nothing stays running between connections |
 | **Your Linux account name and password** | checked by the computer's own login check (PAM) even though this ssh server is not root: it can check the password of the user it runs as. **It is your Linux password, nobody else's.** SD then asks for the account password, as it does everywhere. A key is an optional extra |
-| **Nothing else** | every sign-in runs `sd-solo`: no shell, no `scp` or `sftp`, no port forwarding |
+| **Nothing else** | every sign-in runs `sd-solo`: no shell, no `scp` or general `sftp`, no port forwarding |
 
 **Because the two ssh servers are separate, you can have both products.** If you
 also use SD Core on this computer, you reach that one on port 22 and this one on
-port 4251. Before LS1.1-3 both went through the computer's ssh server and a person
-who used both could not tell them apart.
+port 4251.
 
 ## Turning it on
 
 | | |
 |---|---|
-| **At install** | **on, `local` (this computer only), unless you say otherwise**, as SD Core Solo for Windows does, **and the ssh server is installed for you if the computer does not have it** (as the Windows installer ticks "Install the OpenSSH server" by default). `--ssh off` declines both, `--ssh local` or `--ssh open` (reachable from the network) answers it, and the question the installer asks says plainly when answering would install the package. A managed computer is always `open`. The API is different: it is off unless you ask for it |
+| **At install** | **on, `local` (this computer only), unless you say otherwise, and the ssh server is installed for you if the computer does not have it.** `--ssh off` declines both, `--ssh local` or `--ssh open` (reachable from the network) answers it, and the question the installer asks says plainly when answering would install the package. A managed computer is always `open`. The API is different: it is off unless you ask for it |
 | **Later** | `remote.ssh local` (or `open`, or `off`) inside SD, after `admin` (below); or, from a shell, `bash ~/SDCoreSolo/tools/solo-service.sh ssh ~/SDCoreSolo local` (or `open`, or `off`) |
 | **After an upgrade** | ssh is on, `local`, only if you used ssh before (an upgrade keeps what you had); everything it keeps is below |
 
@@ -96,15 +95,15 @@ runs.** What it says:
 
 **`StrictModes`.** ssh refuses a key file when it, or a folder above it up to your home folder, is
 owned by somebody else or writable by everybody. `solo-ssh.sh setup` checks the same path and says
-which one to fix. (On Ubuntu with its one-person groups, a mode of `0664` or `0775` was accepted
-and `0666` or `0777` was refused; a group with other members may be stricter.)
+which one to fix. On a system where each user has a group of their own (Ubuntu), a mode of `0664`
+or `0775` is accepted and `0666` or `0777` is refused; a group with other members may be stricter.
 
-## On a managed computer: the server's key (LS1.1-2)
+## On a managed computer: the server's key
 
 **You do not add the server's key.** On a managed computer the server installs it
 itself, over the API, after signing in with the global password; the line it
 writes goes in the same key file and is the same kind as the one above, so that key reaches
-`sd-solo` and nothing else. At most four such lines are kept. **From LS1.1-3 the answer
+`sd-solo` and nothing else. At most four such lines are kept. **The answer
 names Solo's own ssh server: the fingerprint of its host key, and the port, 4251.** `key-list`
 shows every key line SD wrote, the server's included. See
 [Managed mode](15-managed-mode.html).
@@ -128,11 +127,20 @@ bash ~/SDCoreSolo/tools/solo-ssh.sh match ~/SDCoreSolo --remove
 **Remove it.** Solo no longer uses it, and while it is there it still sends your port-22 ssh
 logins into Solo.
 
-## The cost: no shell, no scp or sftp
+## The cost: no shell, no scp or general sftp
 
-**On this port there is no shell and no file copy.** The command is
-forced, so there is no file-transfer subsystem left to run and no shell. That is the accepted
+**On port 4251 there is no shell and no general file copy.** The command is
+forced, so there is no system file-transfer subsystem left to run and no shell. That is the accepted
 cost of landing in SD.
+
+**File transfer is the one way in, and it is closed as delivered.** SD has a small sftp
+server of its own for plain-text files. You use it by typing `receive` (to bring files in) or
+`send` (to take copies of records out) in your own SD session, then connecting an sftp client
+with the same ssh login. It is off twice as delivered: `XFER` in `sd.conf` is 0, and the account's
+switch is off (`set.xfer.access`). Turning both on lets a program that knows your Linux password
+bring text into your account while you wait in `receive`, and take copies of records out, into one
+folder each way and nothing else; there is no shell behind it. See *Moving Files In and Out* in the
+User documentation.
 
 **The cost is inbound only.** `scp` or `rsync` running **on** this computer, connecting
 outward, is an ssh *client* and is not affected. So copy files by pulling them from here — or

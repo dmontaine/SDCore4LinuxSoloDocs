@@ -14,8 +14,8 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> **`phantom` and `pdebug` cannot be driven down a pipe**, and the reason
-> is on the page: so they are described rather than shown in a listing.
+> `phantom` and `pdebug` are described rather than shown, for a reason
+> that is on the page: neither can be driven down a pipe.
 
 ## What is not on this page
 
@@ -132,9 +132,11 @@ never started.
 | *Phantom processes cannot be started within a transaction* | inside `begin transaction` |
 | *Failed to create phantom process* | the operating system would not create the process |
 
-A phantom has no terminal to tell you why it could not start. When the new process cannot
-run `sd-solo` at all (or its path is too long), the reason is written to the error log as a
-line that begins `phantom: cannot start a phantom`.
+**A phantom that is created and then cannot run SD's program ends without a word on your
+terminal**, and `phantom` returns as it always did. The reason is written to SD's error
+log as a line beginning `phantom: cannot start a phantom from` and the path of `sd-solo`,
+then the reason; a path too long to start from is a line beginning `phantom: cannot start
+a phantom - the path of`.
 
 > **A phantom cannot be started from a scripted session, and this is the one
 > to know.** When SD is fed commands down a pipe, the phantom child inherits
@@ -199,8 +201,20 @@ program's own text and is not cleared for it.
 holds in memory reaches it** — no `@`-variables, no unnamed common, no open
 files, no active select list. **The command string is the only thing passed**,
 through a record in SD's `$IPC` file. The session's option settings do not go
-with it: a phantom starts with every option off. (There is no `option inherit`
-to pass them on.)
+with it: a phantom starts with every option off. (There is no `option inherit`.)
+
+**The records are sealed.** `$IPC` is a file every SD user's process can
+write, so a phantom does not believe what it finds there. `phantom` makes a
+secret for each phantom (24 random bytes) before it creates anything, gives it
+to the new process in its **environment** (`SD_PHANTOM_NONCE`; the process
+takes it out as it starts, so nothing the phantom runs inherits it), and puts
+an HMAC-SHA256 seal over the command, the `DATA` queue and the log file name in
+the record. The new process makes the seal again from what it read and **runs,
+stacks and sets nothing unless the two are the same**. A phantom whose records
+do not check ends at once, says so in its `como` log and to its parent
+(*Phantom n : start-up records missing or not from the process that started
+it, nothing was run*), and writes a `phantom refused` line to the audit trail.
+If the secret cannot be made, no process is started.
 
 ## What phantoms have I started: `status`
 
@@ -227,7 +241,8 @@ reads is keyed by the parent's user number.
 ## Which phantoms are running: `list.phantoms`
 
 ```
-list.phantoms {user username}
+list.phantoms
+list.phantoms user name
 ```
 
 `listu` limited to the phantom processes, with their user number, process id,

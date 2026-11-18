@@ -1,7 +1,7 @@
 Title: Configuration - The Parameters
 Subtitle: Every parameter SD accepts, by subject, and the parameters that were removed.
 
-This page continues [Configuration](16-configuration.html).
+This page continues [Changing a Parameter from SD](16b-changing-a-parameter-from-sd.html).
 
 ## Sessions and limits
 
@@ -15,7 +15,7 @@ This page continues [Configuration](16-configuration.html).
 | `USERPOOL` | 1023 | The highest user number handed out; user numbers rotate through 1 to this, 0 always takes the lowest free one |
 | `USPLIT` | 0 | `1`: interactive sessions take the lowest free user number and every other process (a phantom, an API session) the highest free one in 1 to `NUMUSERS`, so the two never meet. `PHANTOMS` and `USERPOOL` are ignored while it is on. `config('USPLIT')` reads it |
 | `PHANTOMS` | unset | `base,range` — user numbers kept for phantoms started with `phantom user n`. Nobody else is given one: not a session, not an API session, not a phantom started without `user`. It must lie between 1 and the highest user number, or SD will not start. `config('PHANTOMS')` reads it as `base,range`, null when none are kept |
-| `CLEANUP` | 300 | Seconds between the checks that look for sessions that ended without logging out (a killed terminal, a lost connection) and clear them from the user table. 30 to 3600. `config('CLEANUP')` reads it |
+| `CLEANUP` | 300 | Seconds between the checks that look for sessions that ended without logging out (a killed terminal, a lost connection) and clear them from the user table. 30 to 3600. The daemon wakes every ten seconds, so an interval is kept to within ten seconds; a very short one costs a pass over the user table that often. `config('CLEANUP')` reads it |
 | `PWDELAY` | 3 | Seconds SD waits after a failed network sign-on before it answers; 0 removes the pause |
 | `NETWAIT` | 5 | Seconds to wait for a connection to a server defined for SDNet (`set.server`, `set.netlogin`, a file opened through an `N` pointer): the TCP connection, then the TLS handshake, each. 1 to 3600; zero is refused |
 | `NETREPLY` | 30 | Seconds to wait for each reply of such a server. 1 to 3600; zero is refused. `config('NETWAIT')` and `config('NETREPLY')` read them. See the SDNet page of the User set |
@@ -90,7 +90,7 @@ one of the 14 parameters `set.config` changes: `XFER` is a door, and the limits 
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `SDCLIENT` | 0 | Restricts what an API session may do. Non-zero disables file access outright (no file can be opened, so no dictionary can be evaluated either) and refuses `SDIConv`, `SDOConv`, `SDIConvs` and `SDOConvs` a conversion code that reads a file (`T` with a file) or calls a program (`U`); any non-zero value also refuses `SDOpenSeq` and `SDExecute`; `2` additionally refuses any subroutine not compiled as callable from a client (a subroutine whose name begins with `$` must be so compiled at every setting, `0` included) |
+| `SDCLIENT` | 0 | Restricts what an API session may do. Non-zero disables file access outright (no file can be opened, so no dictionary can be evaluated either) and refuses `SDIConv`, `SDOConv`, `SDIConvs` and `SDOConvs` a conversion code that reads a file (`T` with a file) or calls a program (`U`); any non-zero value also refuses `SDOpenSeq`, `SDExecute`, `SDTrans` and `SDRTrans`; `2` additionally refuses any subroutine not compiled as callable from a client (a subroutine whose name begins with `$` must be so compiled at every setting, `0` included) |
 
 **There is no `APIPORT` in `sd.conf`.** Whether SD listens for
 the API at all, and on which port, is your systemd user unit
@@ -120,7 +120,7 @@ everything.
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `INTPREC` | 13 | Digits of precision in integer arithmetic. Range 0 to 14 |
+| `INTPREC` | 11 | Digits of precision in integer arithmetic. Range 0 to 14 |
 | `FLTDIFF` | 0.00000000002910 | Two floating point numbers closer together than this compare equal |
 | `YEARBASE` | 1930 | The century a two-digit year is read into |
 
@@ -162,11 +162,10 @@ which shell it is, the switch says whether it may be used.
 
 ## Parameters that were removed
 
-Until 2.0-0 seven parameters were parsed and did nothing (`JNLMODE`, `JNLDIR`,
+Thirteen parameters of older releases do not exist. Seven did nothing (`JNLMODE`, `JNLDIR`,
 `CREATUSR`, `CODEPAGE`, `EXCLREM`, `RINGWAIT`, `TXCHAR`), and six more imitated
-another product or chose between ways of working that SD no longer has
-(`APILOGIN`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `PORTMAP`). All thirteen
-are gone; see [A name SD does not recognize stops it starting](16-configuration.html#a-name-sd-does-not-recognize-stops-it-starting)
+another product or chose between ways of working that SD does not have
+(`APILOGIN`, `FILERULE`, `FIXUSERS`, `GDI`, `INVCASE`, `PORTMAP`). See [A name SD does not recognize stops it starting](16-configuration.html#a-name-sd-does-not-recognize-stops-it-starting)
 for what happens to a kept `sd.conf` that still names one. The `PATH:` form
 of a file name went with `FILERULE`: write an F-pointer instead.
 

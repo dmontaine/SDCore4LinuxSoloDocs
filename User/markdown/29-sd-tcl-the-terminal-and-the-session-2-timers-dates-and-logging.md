@@ -60,8 +60,7 @@ ten minutes in which it sent nothing, and its next request fails at once
 (see [SD Client API](37-sd-client-api.html)). The setting belongs to the one session that gave it.
 
 **It works in the full-screen programs too.** The screen library, `ide`, the
-home screen and every tool page wait for a key one second at a time, and each of those waits used to
-start the timer again, so a session left in one of them was never logged out. SD now adds up the time
+home screen and every tool page wait for a key one second at a time, and SD adds up the time
 spent waiting across such short waits: only a key actually typed (or the break key) starts the period
 again, and the logout is the same as at the prompt. A page left open without typing, `tool.sessions`
 included, is therefore logged out like any other session. A program that waits for a key with no time
@@ -196,6 +195,9 @@ from SD BASIC (see [Data Conversion](06-sd-basic-data-conversion.html)). SD Core
 is English only; `nls` has nothing to do with the language of messages, month
 names or day names.
 
+Large letters on the terminal, `block.term`, are described with `block.print` in
+[SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html).
+
 ## Waiting
 
 ```
@@ -254,37 +256,6 @@ a message does not need to say who wrote it. The log is
 `~/SDCoreSolo/errlog`, shared by every session, which makes `logmsg`
 the right way for a phantom or a scheduled job to report something a person will
 read later — there is no terminal to print to and no transcript kept.
-
-## Big letters: `block.term`
-
-```
-block.term text
-```
-
-Writes *text* to the terminal in large letters. Each character is drawn in a
-block 7 rows high and 7 columns wide made of the letter `W`, with two blank
-columns after it, so **eight characters fill an 80 column line**. Long text wraps,
-breaking at a space where it can. Lower case prints as upper case. Letters,
-digits and `. , ! ? - : / + = * ( ) '` have shapes; any other character prints as
-a question mark, and a space is a blank block.
-
-```
-block.term Hi 2
-```
-
-```
- W   W     WWW               WWW
- W   W      W               W   W
- W   W      W                   W
- WWWWW      W                  W
- W   W      W                 W
- W   W      W                W
- W   W     WWW              WWWWW
-```
-
-With no text the verb answers *Text to print required*. `block.print` is the same
-program writing to the default printer; it is described with the printing verbs
-in [SD TCL - Printing and Spooling](28-sd-tcl-printing-and-spooling.html).
 
 ## Reading the documentation: `pdf`
 

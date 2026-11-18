@@ -4,30 +4,21 @@ Subtitle: Comparing files, copying operating system files, triggers, and moving 
 This page continues [SD TCL - Files and
 Records](20-sd-tcl-files-and-records.html).
 
-### Comparing two files: `compare.files`
+## Comparing two files
 
 ```
 compare.files {dict} file1 {dict} file2 {detail}
 ```
 
-Compares the records of two files (a dictionary is named with `dict` in front of
-its file, so a file and its dictionary can be compared with each other or with
-another) and
-counts them in four groups: only in the first, only in the second, in both but
-different, and the same.
+Counts what two files hold: the records **only in the first**, **only in the
+second**, **in both but different**, and **the same**. `detail` lists the ids of
+the first three groups, indented three spaces under their count. A dictionary
+is named with `dict` in front of its file, so a file and its dictionary can be
+compared with each other or with another.
 
 ```
-compare.files T1 T2
+compare.files T1 T2 detail
 ```
-
-```
-Records only in T1: 1
-Records only in T2: 1
-Records in both that differ: 0
-Records that are the same: 1
-```
-
-`detail` lists the record ids of the first three groups under their counts:
 
 ```
 Records only in T1: 1
@@ -39,12 +30,12 @@ Records that are the same: 1
 ```
 
 **`@system.return.code` is 0 when the two files hold the same records and 1 when
-they do not**, so a paragraph can test it. With one file name the verb answers
-*Two file names required*, and a file that will not open stops it (*Cannot open*
-the name). The records of a data collection file are compared as their JSON text,
-so two equal collections count as the same.
+they do not**, so a paragraph can test it. Two names are required (*Two file names
+required*), and a file that will not open stops it (*Cannot open* the name). The
+records of a data collection file are compared as their JSON text, so two equal
+collections count as the same.
 
-### Taking the carriage returns out: `fixdir`
+## Taking the carriage returns out of directory file items
 
 ```
 fixdir file {id ...}
@@ -153,11 +144,14 @@ Modes: PRE.WRITE, PRE.DELETE, POST.WRITE, POST.DELETE, READ, PRE.CLEAR, POST.CLE
 list.triggers {file ...} {lptr {n}}
 ```
 
-`set.trigger` with no option tells you about one file; `list.triggers` does it
-for all of them. It looks at the data part and the dictionary of every file your
-VOC points at with an `F` entry, or only at the files you name, and lists each
-one that has a trigger function with the function's name and the modes it is on
-for:
+**`list.triggers` says the same for every file of the account at once**: the file,
+its trigger function and the modes it is set for, with a count at the end. It looks
+at the data part and the dictionary of every file the account's VOC points to; with
+names after it, only those files.
+
+```
+list.triggers
+```
 
 ```
 File                 Trigger function     Modes
@@ -250,7 +244,7 @@ XML element as `xparse()` gives it, and is refused for CSV and JSON Lines. A fil
 there is asked about (*Overwrite(y/<n>)?*, Enter is no) unless `no.query`.
 
 **All four go through the same gates as `oswrite` and `write`.** The pathnames need the
-account's OS-access switch (`os-on`) for anything outside the account's own directory
+account's OS-access switch (`set.os.access os on`) for anything outside the account's own directory
 (*has no OS access ... can reach by pathname only a directory the administrator opened to
 it*, and nothing is read or written).
 Solo has no edit gates (SD Core also asks whether the account may change a program file, VOC or

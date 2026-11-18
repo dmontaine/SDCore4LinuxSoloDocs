@@ -43,7 +43,7 @@ formlist array {to list}
 | `formlist` | builds a list from a dynamic array you already have |
 
 `selectv f` and `sselectv f` with no `to` are a compile error. (There is no
-`$mode selectv` to make `to` optional.)
+mode that makes `to` optional.)
 
 The sort clauses of the sorted forms may come before or after `to`.
 **`right.aligned`** sorts numeric ids as numbers (1, 9, 10, 100) instead of as

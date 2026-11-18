@@ -64,7 +64,9 @@ question and **never the key question below**.
 **The pin is the hash of the server's public key** (its SubjectPublicKeyInfo), not of its
 certificate, so a certificate renewed over the same key keeps it. Two ways to get it:
 
-- **Typed**: the 64 digits the other server's administrator gives you. Nothing is dialled.
+- **Typed**: the 64 digits the other server's administrator gives you. Nothing is dialled. On an SD Core
+  or an SD Core Solo server the hash is the `public key sha256:` line that `settings.report` prints in
+  its `[api]` section.
 - **`connect`**: every other field is checked first; then one TLS connection is made to *host:port*
   (it waits `NETWAIT` seconds), the hash of the key the server presents is **shown on a line of
   its own**, and you are asked `Trust this key (y/<n>)?`. Only `y` writes the definition. The

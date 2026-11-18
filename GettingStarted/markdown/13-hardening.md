@@ -1,20 +1,20 @@
 Title: Other hardening
-Subtitle: The global catalog, the logs, line endings, and the rest of the smaller changes.
+Subtitle: The global catalog, the pcode library, the logs, line endings, the terminal, and the rest of the smaller changes.
 
 Everything on this page is a change you may notice while testing, grouped by
-what it touches. The identity model and the file permissions are on
+what it touches. The passwords and what each one guards are on
 [Security](12-security.html); this is the remainder.
 
 ## The global catalog
 
 **Nobody changes the global catalog in a session** — not with `admin`, not with
 the global password. `catalog ... global`, and `delete.catalog` of a name that is
-global (a name starting `*`, `!`, `_` or `$`), are refused, and so is a program's
+global (a name starting `!`, `_` or `$`), are refused, and so is a program's
 own `write`, `delete` or `clear` of `global.bp.out` and `gcat`:
 
 ```
 :catalog bp myprog global
-The global catalogue holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog
+The global catalog holds the SD Core server's programs from global.bp.out and is changed only by sync.global.catalog
 ```
 
 This matters because the global catalog holds the programs SD runs for
@@ -33,13 +33,14 @@ says there is nothing to manage.
 use day to day:
 
 ```
-catalog bp myprog          private catalogue, this account
+catalog bp myprog          private catalog, this account
 catalog bp myprog local    this account's VOC
 ```
 
 Both still work, and neither offers to remove a same-named global entry any
 more. The only thing you cannot do is catalog a program whose name starts with
-`*`, `!`, `_` or `$` — those characters mean *global*. Name it without one.
+`!`, `_` or `$` — those characters mean *global*. Name it without one. You may
+**run** a globally cataloged program.
 
 ## The pcode library
 
@@ -76,7 +77,7 @@ journalctl --user -u sd-solo.service
 Every accepted API connection is logged with the address and port it came from:
 
 ```
-sd_Log[115214]: API connection over TCP from 127.0.0.1 port 41506 (SD login required)
+sd_Log[115214]: API connection over TCP from 203.0.113.4 port 51322 (SD login required)
 ```
 
 **Nothing is refused on the strength of it.** This records who connected; it does
@@ -93,7 +94,7 @@ Excel, a record pasted from Notepad — may still carry CR+LF line endings. SD r
 either ending correctly: only the CR+LF pair that ends a line is treated as a line
 ending, so a bare CR that happens to be data is left exactly as it is.
 
-**What SD itself writes is LF only**, for `writeseq`/`writecsv` output,
+**What SD itself writes follows the platform's own convention**, LF only, for `writeseq`/`writecsv` output,
 `como`-captured output and the error log. **SD's CSV statements are documented as
 following RFC 4180**, which technically asks for CR+LF — if you need output
 another program expects to be CR+LF-terminated, check that program's own
@@ -123,7 +124,7 @@ a definition that is not there.
 
 ### The page is 140 × 43, not 80 × 24
 
-**SD's default terminal size is 140 columns by 43 lines**. **A terminal narrower than that makes wide reports
+**SD's default terminal size is 140 columns by 43 lines.** **A terminal narrower than that makes wide reports
 look wrapped or truncated**, which reads as a formatting bug and is not one.
 
 `term` reports the size in force, above the `Device` line:

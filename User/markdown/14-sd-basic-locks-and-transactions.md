@@ -61,8 +61,8 @@ transaction does.
 recordlocked(file.variable, record.id)
 ```
 
-These are the seven codes a program meets, three of them when a
-second session holds the lock:
+There are seven codes below; three of them come from a second session
+holding the lock:
 
 | Code | Meaning |
 |---|---|
@@ -311,8 +311,7 @@ transaction starts and decremented only on the paths that end in a rollback, so
 **every committed transaction leaves the count one too high for the rest of the
 session.** In a run of four unnested transactions the first reports level 1
 and the fourth reports level 2. **Do not test `system(1008)` to
-find out whether you are in a transaction — test `system(1007)`.** This is
-upstream's, not this port's: `sdb64` carries the identical code.
+find out whether you are in a transaction — test `system(1007)`.**
 
 ### Do not nest transactions
 
@@ -346,7 +345,7 @@ are handed to the transaction around it, which alone writes them when it commits
 or throws them away with its own work when it aborts. Afterwards the enclosing
 transaction is the running one again. With the same program compiled
 with and without the directive, the nested transaction taking its own records and
-the parent taking its own, the result is:
+the parent taking its own:
 
 | | with the directive | without it |
 |---|---|---|
@@ -358,7 +357,7 @@ the parent taking its own, the result is:
 
 The directive is *the program's*: it covers the program's own commits, not those
 of a subroutine compiled without it. A client session reaches the same thing with
-`SDTxn(4)` ([SD Client API](37-sd-client-api.html)).
+`SDTxn(4)` ([SD Client API: Select Lists to Error Handling](37-sd-client-api-2-select-lists-and-the-rest.html)).
 
 `set.trigger` attaches a program that runs on every write or delete. A trigger
 runs inside the caller's transaction, so it is bound by the same locking rule.

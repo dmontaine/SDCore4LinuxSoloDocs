@@ -237,9 +237,7 @@ With `m` holding `7`, `7`, `7`:
 > keyword as a **variable name** and the program aborts at run time with
 > *"Unassigned variable USING"*, with both `using` and `USING`.
 >
-> **This is inherited, not introduced by this port** — the `st.matbuild` block
-> in `BCOMP` is byte-identical to the one in the upstream `sdb64` tree. **The
-> delimiter is always a field mark.** If you need another one, use `matbuild`
+> **The delimiter is always a field mark.** If you need another one, use `matbuild`
 > and then `change()`, or build the string with a `for` loop.
 
 `matparse` splits on the delimiter you give and stops when the matrix is full;
@@ -293,10 +291,9 @@ o->method(args)
 o->property = value
 ```
 
-**SD's own client library is a class module.** `gpl.bp/SDCLIENT` is 1,040
-lines with 33 members and both lifecycle hooks — connecting to another SD server
-from BASIC means instantiating it. *(An earlier version of this page said
-nothing in SD used class modules. That was wrong.)*
+**SD's own client library is a class module.** `gpl.bp/sdclient` has public
+members and both lifecycle hooks — connecting to another SD server from BASIC
+means instantiating it.
 
 ## Arguments
 

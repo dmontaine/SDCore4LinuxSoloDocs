@@ -407,9 +407,7 @@ error, because the space changes what it is.
 
 ## What is not here
 
-These existed in OpenQM or earlier SD releases and **are not in SD Core**
-(checked directly in `bcomp`'s own statement table, shared source with SD
-Core for Windows). A program using one will not compile.
+These existed in OpenQM or earlier SD releases and **are not in SD Core**. A program using one will not compile.
 
 | | |
 |---|---|
@@ -421,7 +419,7 @@ Core for Windows). A program using one will not compile.
 | `errmsg` | |
 | `procread` · `procwrite` · `@pib` · `@sib` · `@pob` · `@sob` | the PROC interface |
 
-**`errmsg` is not a statement of the compiler.** `errmsg 1000` is rejected with *"Unrecognized statement"*, the
+**`errmsg` is not in the compiler's statement table.** `errmsg 1000` is rejected with *"Unrecognized statement"*, the
 same message as for any word the compiler does not know (`foobarbaz 1000` gets
 it too).
 

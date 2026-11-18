@@ -157,7 +157,8 @@ are `call` (a subroutine), `open`, `read` (including `readu`, `readv` and
 `matread`), `write`, `delete`, `openseq`, `readseq`, `writeseq`, `execute` (the
 first 32 characters of the command) and `object` (a call of a class module's
 object). Name some after `on` to log only those; none means all of them.
-The names the display shows (files, subroutines, commands, programs) are made safe to print: a
+
+The names the display shows (files, subroutines, commands, programs) are made safe to print in the same way: a
 control character, `del`, a byte from 128 to 159 or a mark character is shown as `?`.
 
 `display` is a list of the event types with a count of each. Type the **number** of
@@ -376,9 +377,11 @@ wrong.
 
 **`cname` on a file renames the VOC record too**, which is the point — the
 name you type and the name on disk stay together. **The new name is stored in lower
-case.** A new name that already exists in any case, or that differs from the old name
-only in case, is refused (*xx is already defined in your VOC*), so no file ever has two
-spellings and the file's only VOC entry is never lost.
+case**, in the VOC and as the file's directory, whatever case you typed: `cname old to NEW`
+leaves the file as `new`. A new name that is already in the VOC in any case, or that differs
+from the old name only in case, is refused with "... is already defined in your VOC", so no
+file ever has two spellings and the file's only VOC entry is never lost. A file that already
+has an upper-case name is not renamed by this.
 
 ## Continued in
 

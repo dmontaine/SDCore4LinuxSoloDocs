@@ -11,7 +11,7 @@ there**, so every switch that account has on that machine applies (on an SD Core
 permission**: an SD Core server allows them only to a remote login its administrator has put in both its write group and
 its administration group (off for every account until he does); a Solo server allows them only to a session signed in
 with its **global password**, and refuses one signed in with the account password with *This session cannot administer
-files here: sign in with the global password*. A Solo with no global password (the delivered state) allows none of them.
+files here: sign in with the global password* (message 14964). A Solo with no global password (the delivered state) allows none of them.
 
 | | |
 |---|---|

@@ -38,18 +38,15 @@
 #     documents 01 to 17, where they were measured, and from BCOMP's own
 #     statement compilers where no page covers them.
 #
+# The data file wins wherever both have an opinion, so a measured shape always
+# beats a derived one.
+#
 #   * THE BUILT-IN FUNCTIONS (bf.rows, 15 Oct 2026) are a third place a name can
 #     live, and need a line each.  A line "@card NAME = ..." or "@admin NAME =
 #     ..." puts one extra line on that page for what the roster cannot name
 #     ($include, the public ospath(), the no-sort-variable forms of sortadd and
 #     its three companions); the script refuses an extra that the roster
 #     already puts on the same page.
-#
-#   13 Nov 2026 (S.227): brought up to SD Core for Linux's generator (bf.rows and
-#   the extras); the page wording below stays Solo's own.
-#
-# The data file wins wherever both have an opinion, so a measured shape always
-# beats a derived one.
 #
 import io
 import os
@@ -386,10 +383,10 @@ exist, and this account may not call it.
 
 **`$internal` needs both halves.** `BCOMP` tests
 `kernel(K$INTERNAL, -1) and kernel(K$ADMINISTRATOR, -1)` — internal mode alone
-was enough until 13 Aug 2026, and it was not safe: internal programs are the
+is not enough, because internal programs are the
 only ones that may set the administrator flag, and `sd-solo -internal` is not itself
-gated, so any account could have compiled a three-line program that granted
-itself administrator rights. That was demonstrated, not theorised.
+gated, so any account could otherwise compile a three-line program that grants
+itself administrator rights.
 
 """
 

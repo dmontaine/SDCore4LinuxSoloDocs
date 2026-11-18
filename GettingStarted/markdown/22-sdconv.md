@@ -2,9 +2,10 @@ Title: sdconv, the Byte Order Convertor
 Subtitle: A tool for turning compiled program files between big-endian and little-endian form: what it converts in this build, what it refuses, and why you will rarely need it.
 
 `sdconv` was written to move SD files between computers that store numbers in
-opposite byte orders. SD Core Solo for Linux is built and tested here on a
-little-endian machine (x86-64). Nothing on this page can say whether a result
-would run on a big-endian machine, because there is none to run it on.
+opposite byte orders. SD Core Solo for Linux runs on little-endian machines
+(x86-64), and so does SD Core for Windows, so a conversion between the two is
+never needed. Whether a converted file would run on a big-endian machine is not
+something this page can say.
 
 > **Read this first: `sdconv` does not convert hashed files.** Given one it says
 > so, changes nothing and exits 1. It converts **compiled program files** only,

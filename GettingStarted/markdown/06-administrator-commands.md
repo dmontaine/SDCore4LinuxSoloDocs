@@ -46,6 +46,7 @@ password is never displayed, stored or logged.
 | `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
+| `set.server`, `delete.server`, `list.servers` | the servers SDNet may reach — the SDNet page of the User set |
 | `set.xfer.access` | show, or turn on and off, file transfer over Solo's ssh (`receive` and `send`, with `XFER=1` in `sd.conf`); off as delivered — [Security](12-security.html), and for the person *Moving Files In and Out* in the User documentation |
 | `set.start.default`, `set.tile`, `set.pins`, `tool.menus` | where a session starts, which tiles the home screen has, whether the account may add its own — [The home screen's settings](#the-home-screens-settings) below |
 | `set.viewer`, `tool.viewers`, `docs.install`, `load.help` | the readers `pdf` may start, the documents it shows, the context help — [Showing a document with pdf](06b1-showing-a-document-with-pdf.html) |
@@ -234,7 +235,7 @@ set.recovery {on | off}
 
 **`set.recovery on`** has the IDE keep a recovery copy of text you have not saved, readable only by
 you in `~/.local/state/sd/recovery/sduser/`, and offer it back when the record is opened again
-after a lost session (*SD Basic - TCL Programs and the Catalogue* describes it). It is **off as
+after a lost session (*SD TCL - Programs and the Catalog* describes it). It is **off as
 delivered**; `set.recovery off` stops new copies (the ones that exist are kept until answered),
 and without a word the verb says which it is. It takes effect at once.
 

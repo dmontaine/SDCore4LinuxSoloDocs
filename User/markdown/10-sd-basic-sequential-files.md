@@ -233,7 +233,8 @@ how a program tells the two apart.
 `waiting 5` can take as long as the characters keep arriving inside five seconds of each other.
 
 A pipe or device is opened by its pathname, so the OS access switch applies as it does to
-any other `openseq` of a path. `get` with no `from` is still a class
+any other `openseq` of a path. It is meant for a named pipe and an ordinary
+file; a serial port or other character device is not covered here. `get` with no `from` is still a class
 module's property declaration, as in [SD Basic - Modern Program Structure](18-sd-basic-modern-program-structure.html).
 
 ## Asking about the file

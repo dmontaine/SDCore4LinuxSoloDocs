@@ -47,8 +47,7 @@ With `a` holding `1`, `2`, `3` as values, and `b` holding a field of
 
 A non-numeric value used where a number was expected stops the program with a
 runtime error, so a class of silent wrong answers is something you can see.
-(There is no `option non.numeric.warning`
-to turn the error into a warning that reads the value as zero.) `option` on its own
+(There is no option that turns the error into a warning that reads the value as zero.) `option` on its own
 lists every option and its current state; `option all off` clears them.
 
 Negative values are handled correctly: `maximum()` of `-5` and `-3` is `-3`.
@@ -276,8 +275,7 @@ the one value it is given.
 ## What is not here
 
 These existed in OpenQM and in earlier SD releases and **are not in SD
-Core** (`bcomp`'s statement table, shared source with SD Core for
-Windows). A program using one will not compile.
+Core**. A program using one will not compile.
 
 | | |
 |---|---|

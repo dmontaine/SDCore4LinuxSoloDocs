@@ -256,8 +256,8 @@ Many equal keys, or keys that arrive already in order, do not
 make a sort slow: the keys of a run are collected and sorted once, so 100,000 equal
 keys take a fraction of a second. A sort with
 `srt$unique`, `srt$compound` or `srt$strict`, or with a right justified key that
-holds numbers and text together, is sorted as before and is not faster. Lowering
-`SORTMEM` is no longer a way to speed up a sort of equal keys.
+holds numbers and text together, is not faster. Lowering
+`SORTMEM` is not a way to speed up a sort of equal keys.
 
 **The values of *flags*.** `srt$left` 0, `srt$right` 1, `srt$compound` 2,
 `srt$right.float` 3 and `srt$strict` 4 choose how two keys are compared, the

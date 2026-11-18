@@ -74,7 +74,8 @@ a cut line back above it. Delete joins lines.
 
 **Find.** Ctrl-F or Ctrl-T asks for text on the bottom row of the area and selects the first
 place it is found from the cursor on; Ctrl-B asks and looks backward. **F3 finds the next one
-and Shift-F3 the one before**, and so does Return on the question, which starts with the last
+and Shift-F3 the one before** (Ctrl-N is left to a program, which may use it for a
+new record), and so does Return on the question, which starts with the last
 text. Case is ignored and the
 search goes on past the end of the text to its start. A bell means there is none.
 
@@ -236,7 +237,7 @@ Things to know:
 - A viewport is not a window of its own: it is drawn into the form, and a later widget
   placed over it is drawn over it (a scroll draws it again too).
 - Scrolling 200 by 60 of sheet (630 widgets) in a window of 138 by 40 takes about a tenth
-  of a second a step. The cost is the widgets in the window.
+  of a second a step, measured. The cost is the widgets in the window.
 
 ## Continued in
 

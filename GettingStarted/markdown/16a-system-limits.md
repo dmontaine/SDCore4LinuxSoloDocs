@@ -28,8 +28,8 @@ and to anything a program assembles in memory.
 
 **A record id may be longer than 63 characters only if `MAXIDLEN` is raised**, and
 the range starts at 63 rather than 0 — a lower value is refused at start-up rather
-than accepted. The ceiling of 255 is compiled, and the comment in the source notes
-that raising it would require major file-format changes.
+than accepted. The ceiling of 255 is compiled; raising it would require major
+file-format changes.
 
 ## Files
 
@@ -123,11 +123,11 @@ verb subset specifically is counted on the SD TCL syntax card in the User set.
 | Parameters readable with `config()` | **55** |
 | Parameters settable for the current session | **23** |
 
-The verb displays `DEBUG` and `FDS` only when they are set, and `TIMEZONE`,
-which is not a file parameter. No parameter is accepted and ignored any more:
-the eleven that were (`APILOGIN`, `CODEPAGE`, `CREATUSR`,
-`EXCLREM`, `FIXUSERS`, `GDI`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and
-`TXCHAR`) were removed, and a line naming one now stops SD from starting;
+The verb displays `DEBUG`, `FDS` and `PHANTOMS` only when they are set, and `TIMEZONE`,
+which is not a file parameter. No parameter is accepted and ignored: the thirteen
+that once were (`APILOGIN`, `CODEPAGE`, `CREATUSR`, `EXCLREM`, `FILERULE`,
+`FIXUSERS`, `GDI`, `INVCASE`, `JNLDIR`, `JNLMODE`, `PORTMAP`, `RINGWAIT` and
+`TXCHAR`) no longer exist, and a line naming one stops SD from starting;
 [Configuration](16-configuration.html) says how the installer takes them out of
 a kept `sd.conf`. `NETFILES` is live: its bit 2 opens API request 29, behind the
 NET gate (see the same page).

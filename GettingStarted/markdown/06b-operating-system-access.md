@@ -12,7 +12,7 @@ independent switches, with `set.os.access`.
 | Switch | What it lets the account do |
 |---|---|
 | **`sh`** | the `sh` verb |
-| **`os`** | `OS.EXECUTE`; `OPENSEQ`, `OPENPATH`, `DIR()`, `DELETESEQ`, `OPENTEMP`, `DIGEST` of a file and the file-system keys of `OSPATH()` on a path **outside the account's own directory**; a print unit's pathname (`SETPTR ... AS PATHNAME`, `SETPU`, a CSV report's `TO` pathname) and its `SPOOLER` command outside it; the embedded Python; the editors `nano` and `micro`; and a VOC pointer to a file outside the account |
+| **`os`** | `OS.EXECUTE`; `OPENSEQ`, `OPENPATH`, `DIR()`, `DELETESEQ`, `OPENTEMP`, `DIGEST` of a file and the file-system keys of `OSPATH()` on a path **outside the account's own directory**; a print unit's pathname (`SETPTR ... AS PATHNAME`, `SETPU`, a CSV report's `TO` pathname) and its `SPOOLER` command outside it; the embedded Python; the editor `micro`; and a VOC pointer to a file outside the account |
 
 **Both are off as delivered, on a new install and on an upgrade unless you said
 yes when the installer asked.** The account's own directory is never asked
@@ -94,15 +94,16 @@ session you are typing in: `sh`, `os` and `net` were loaded when you signed on,
 so a change made later shows there **after the next sign-on**, which is why the
 *Register* column is there (what the next sign-on will load). The AI's gate is
 the helper's own setting, looked at at every request, so the two columns agree;
-if the helper is not running both show a dash and the row says so. The page
-**asks and does not try**: it never tests an operation to find out whether it
+if the helper is not running both show a dash and the row says so. `xfer` and
+`jobs` are read each time they are used, so a change to either reaches you at
+once. The page **asks and does not try**: it never tests an operation to find out whether it
 works.
 
 **What Enter does (administrator only).** It builds one command - `set.os.access
 sh on`, `set.os.access os off`, `set.net.access on`, `set.ai gate on` and so on -
 shows it in a box with what it will do, and runs it only when you answer Run;
 Cancel is what Enter chooses. **Turning a gate ON asks you to type its name**
-(`sh`, `os`, `net` or `ai`), because every one of them reaches beyond SD, and the
+(`sh`, `os`, `net`, `ai`, `xfer` or `jobs`), because every one of them reaches beyond SD, and the
 box says that a gate off as delivered is being turned on and that leaving it off
 is the tighter choice. The verb asks for the administrator itself and writes its
 own audit line (`set.os.access sh on account=sduser`); the page writes only the

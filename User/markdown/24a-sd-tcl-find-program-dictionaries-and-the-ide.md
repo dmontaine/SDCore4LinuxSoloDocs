@@ -4,43 +4,35 @@ Subtitle: find.program, formatting source, dictionaries, named common blocks and
 This page continues [SD TCL - Programs and the
 Catalog](24-sd-tcl-programs-and-the-catalogue.html).
 
-### Where a program is cataloged: `find.program`
+## Which copy will run: `find.program`
 
 ```
 find.program name {detail}
 ```
 
-For the case where the wrong version of a program seems to run because it is
-cataloged in two places. It reports where *name* is, **in the order a program is
-loaded**: the local catalog (a VOC entry that points at the object file), the
-private catalog (the account's `cat` directory, or the directory named by
-`$private.catalogue`) and the global catalog (`gcat` in the system directory).
-For each place it is found it gives the time it was compiled and what it is: a
-program, a subroutine or a function with its number of arguments, or a class
-module.
+For the case where the system seems to run the wrong version of a program
+because it is cataloged in more than one place. It looks in the three places a
+program is loaded from, **in the order they are searched** — the local catalog
+(a VOC entry that points at the object file), the private catalog (the
+account's `cat` directory, or the directory `$private.catalogue` names) and the
+global one (`gcat` in the system directory) — and reports every one that has it:
 
 ```
-find.program p9
+Program is in the local catalog
+   Compiled 10/15/26 20:56:03
+   Subroutine with 2 arguments
+Program is in the private catalog
+   Compiled 10/14/26 09:12:40
+   Subroutine with 2 arguments
 ```
 
-```
-Program is in the private catalogue
-   Compiled 10/21/26 00:06:47
-   Function with 4 arguments
-```
-
-`detail` adds the size of the object code:
-
-```
-   Object code 203 bytes
-```
-
-and the flags the object carries (internal, debug, recursive, trusted, case
-sensitive, may be called by `sdcall`). A name that is cataloged nowhere is
-*cproc is not cataloged*. SD's objects carry no compiler version and no source
-pathname, so neither is shown. **The object files are read as directory file
-records, so you see only what your VOC, the global catalog and the
-operating system access switch let you open.**
+The kind is *Program*, *Subroutine with n arguments*, *Function with n
+arguments* or *Class module*. `detail` adds the object code size in bytes and the
+flags of the object (`internal`, `debug`, `recursive`, `trusted`, `case sensitive`,
+`sdcall`). **SD's object code carries no compiler version and no source
+pathname, so those two lines of openQM's `detail` are not there.** A name found
+nowhere is *xx is not cataloged*. The name is looked for as typed; a global
+program is named with its prefix (`!acc_hold`, `$listphan`).
 
 ## Formatting source
 

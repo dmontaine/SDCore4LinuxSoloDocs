@@ -158,16 +158,16 @@ it would make the pair look like a token** — another `~`, a backtick, a `!`, a
 `-`, a `,`, or a mark. Everywhere else a tilde is left exactly as you wrote it,
 so `a~b` is still `a~b` and ordinary source reads normally.
 
-## The gate — `os-on`, off for a new account
+## The gate — the `os` switch, off as delivered
 
-**`micro` needs the account's `os-on` switch**, the same one as `OS.EXECUTE`
-(and not `sh-on`: an account can be refused the shell and still run the editor,
-or the reverse). SDSYS turns it on with `modify.account` *name* `os-on`; a new
-account does not have it, and an account without it is told so when it types
-the verb. With it the editor runs at once, and what it can read or write outside
-SD is exactly what the account's Linux user may touch, because they are the
-same permissions. See the *Administrator* set's *Accounts and Security* chapter,
-"The operating-system switches: `sh-on` and `os-on`".
+**`micro` needs the account's `os` switch**, the same one as `OS.EXECUTE`
+(and not `sh`: an account can be refused the shell and still run the editor,
+or the reverse). The administrator turns it on with `set.os.access os on`,
+after `admin`; it is off as delivered, and an account without it is told so
+when it types the verb. With it the editor runs at once, and what it can read
+or write outside SD is exactly what your Linux user may touch, because they are
+the same permissions. A change is seen at the next sign-on. See *Operating
+System Access* in the Getting Started set.
 
 ## Who has these verbs
 

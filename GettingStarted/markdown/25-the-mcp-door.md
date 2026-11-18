@@ -39,7 +39,7 @@ It shows the command and its full path in the form MCP clients read (`mcpServers
 
 The first four are marked read-only for the client. **`sd_query` does not take a sentence.** The client gives names and values, and SD builds the `list` itself after checking that every field, condition field and sort field is an item of that file's dictionary; a keyword such as `lptr` is not an item, a value may hold only plain characters, and no quote reaches the query processor. `sd_run` is marked destructive, so a client can ask you before it runs.
 
-**No tool can change a setting of SD, make or remove an account, or reach the administrator.** `sd_run` runs in the account's own session, so the account's own switches apply: while `sh` and `os` are off (as delivered), `sh` and the commands that leave the account are refused through the door as they are at your prompt. See [Operating system access](06b-operating-system-access.html).
+**No tool can change a setting of SD or reach the administrator.** `sd_run` runs in the account's own session, so the account's own switches apply: while `sh` and `os` are off (as delivered), `sh` and the commands that leave the account are refused through the door as they are at your prompt. See [Operating system access](06b-operating-system-access.html).
 
 ## What is written down
 

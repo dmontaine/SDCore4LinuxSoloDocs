@@ -98,8 +98,7 @@ of numbers.
 Both need a real terminal. Neither does anything useful in a phantom, a
 scheduled job or an API session.
 
-**The routine is `!PICKLIST`.** An earlier version of this page called it
-`!PICKLST`, which is the name of the program that holds it; there is no
+**The routine is `!PICKLIST`.** `!PICKLST` is the name of the program that holds it; there is no
 catalog entry of that name, and `call !picklst(...)` stops at run time with
 *"Unable to load '!picklst' object code"*.
 
@@ -112,7 +111,7 @@ with *value* null. If *index.col* is not zero the characters typed (up to ten)
 search that column, which must be sorted, for a shortcut to a row; zero turns
 that off. Up to thirteen rows show at a time. Two cases end the call with
 *value* null and no key pressed: a list so wide that its box would not fit in
-the terminal's width less four columns (a 500-character row, for example). An
+the terminal's width less four columns. An
 empty list ends it the same way after it has shown *"No items to display"* and
 waited for a key. **The box is not
 erased afterwards:** a program that needs the screen under it back must redraw
@@ -139,7 +138,7 @@ It needs a real terminal too, and returns at once without one.
 |---|---|
 | `!PARSER` | `call !parser(key, type, string, keyword, voc.rec, quote.char)` — variable arguments |
 
-`!PARSER` is the tokeniser SD's own verbs use to read their arguments, and the
+`!PARSER` is the tokenizer SD's own verbs use to read their arguments, and the
 keys it takes are defined in `SYSCOM/PARSER.H`. It is the most useful of the
 internal routines and the one most likely to change.
 
@@ -162,7 +161,7 @@ that has not unlocked `admin`, and some change the state of the computer.
 | `!VOC_GUARD` | the `admin` test for a direct change to the VOC, and the refusal of a write to `gcat`, `global.bp.out` and the deny list without the global password |
 | `!EUID_SET` `!EUID_RESTORE` | **do nothing on Solo** — the multiuser product's `setuid`/`setgid` calls |
 | `!IS_USER` `!IS_GROUP` `!IS_GRP_MEMBER` `!IS_SD_USER` | Linux account and group questions |
-| `!PEER_LOCAL` | whether a connection came from this computer |
+| `!PEER_LOCAL` | whether a connection came from this machine |
 | `!SDCLIENT` | the server side of the client API |
 
 **There is no `!ELEVATE`, `!PS_SCRIPT`, `!DELETE_USER` or `!OS_GROUP` here**,

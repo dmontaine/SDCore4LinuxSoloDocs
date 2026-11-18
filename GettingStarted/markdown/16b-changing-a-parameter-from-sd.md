@@ -70,7 +70,7 @@ shows the same sentence in its box:
 | `FDS` | Limits the file descriptors SD uses; SD checks no range: a mistake shows at the next start. |
 | `FLTDIFF` | Changes how every program compares floating point numbers. |
 | `FSYNC` | Trades the safety of data against speed; flag bits that SD does not check. |
-| `GRPDIR` | A directory: where group accounts would be made. Solo has none. |
+| `GRPDIR` | A directory: accounts are found there. |
 | `INTPREC` | Changes the results of arithmetic in programs that already exist. |
 | `MAXIDLEN` | Structural: the longest record id of the whole system, which reaches every file and program. |
 | `MUSTLOCK` | Makes a write fail unless the record is locked first, which can stop programs that exist. |
@@ -96,8 +96,8 @@ shows the same sentence in its box:
 | `TEMPDIR` | A directory: temporary files are written there. |
 | `TERMINFO` | A directory: terminal definitions are read from there. |
 | `USERPOOL` | The highest user number: PHANTOMS is checked against it; a mistake stops SD. |
-| `USRDIR` | A directory: the account is made there. |
-| `XFER` | A door: 1 opens file transfer over ssh once the account's own switch is on (`set.xfer.access on`). |
+| `USRDIR` | A directory: accounts are found there. |
+| `XFER` | A door: 1 opens file transfer over ssh when the account's switch is on. |
 | `XFERFILE` | A transfer limit: raising it lets one file fill more of the disk. |
 | `XFERIDLE` | A transfer limit: raising it keeps an unused slot open longer. |
 | `XFERKIND` | A transfer filter: blank takes any plain-text file. |

@@ -21,6 +21,7 @@ run bp cs06.fizzbuzz
 
 `list examples.bp` names them all; `ct examples.bp cs10.recursion` shows one. There is no
 command to load or remove the programs: the installer puts them in and an upgrade refreshes them.
+If they were not put into the account, installing again over the installation (an upgrade) puts them in.
 
 ## A first course in programming
 

@@ -21,6 +21,11 @@ record. The record id is the file name.
 The `bp` file is a directory file. The dictionaries, and on a managed computer
 `global.bp.out`, are directory files too.
 
+**A file put in the directory from outside** under a name SD's own naming cannot produce (a
+bare `%`, say) is a record SD cannot read by its name: `list`, `count` and `reformat`
+report it as *'name' invalid name*. A name holding a slash, and
+`.` and `..`, are *not found*, and SD does not look outside the file's own directory.
+
 **`dir_dict`**, in the installation directory, is a ready-made dictionary for a directory file whose records are
 plain text. Make the file without a dictionary (or `delete.file` its dictionary), then set field 3 of its VOC
 entry to `@sdsys/dir_dict`. Besides `@id` it has three items, each of which asks the operating system about

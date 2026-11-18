@@ -9,7 +9,7 @@ SD folds case, so a command may be typed in either case. Commands and keywords
 are shown here in lower case. In the tables, *italics* mark something you supply
 and **bold** marks a word typed as it stands; braces mark an optional part.
 
-> **The listings on this page** are in an administrator account. The file queried is `voc`,
+> The file queried in the listings is `voc`,
 > because it is the one file every account has.
 
 ## The one thing to understand first
@@ -144,6 +144,96 @@ select voc with dispatch = "IN" to 4
 is what makes the numbered lists a safe scratch area, and it is why the prompt
 above stayed `:` rather than becoming `::`.
 
+### Moving a list: `move.list`
+
+```
+move.list 3 to 0
+move.list 0 to 5 keep
+```
+
+Moves the ids of list *n* that have not been read to list *m*, replacing what
+*m* held; list *n* is then empty. **`keep`** leaves the source as it was, so
+both lists hold the ids. A list moved onto itself, and an empty list, are left
+as they are. A number outside 0 to 10, a missing number, or a word other than
+`to` and `keep` is refused (*Select list number missing or invalid*,
+*Unexpected token (xx)*) and nothing is moved. `move.list 3 to 0` is how a
+list kept in 3 is made the one the next command uses. It is the command form
+of the `movelist` statement.
+
+### A command for each id: `execute.list`
+
+```
+select voc with type = 'F'
+execute.list analyze.file () ; pause
+```
+
+Runs its commands, separated by semicolons, for each id of list 0 in turn: the
+pair of empty round brackets in a command is replaced by the id, as many times
+as it appears. Every id is taken out of the list before the first command runs,
+so a command that itself uses list 0 does not take ids from the loop, and the
+list is empty afterwards. With no active list nothing is run and nothing is
+said; with no command at all the verb stops with *A command is needed after
+EXECUTE.LIST*.
+
+## Choosing from a list: `show.list`
+
+```
+show.list {n}
+```
+
+Shows the items of active select list *n* (list 0 if no number is given) a page
+at a time, each with its number and an asterisk. **All items start starred.**
+When you quit, the list is made again from the items that still carry an
+asterisk.
+
+| | |
+|---|---|
+| **`s`** *items* | star the items. Just the number does the same |
+| **`c`** *items* | clear the asterisks of the items |
+| **`t`** | top of the list |
+| **`n`** · Return | next page |
+| **`p`** | previous page |
+| **`q`** | quit, keeping the asterisks |
+| **`qc`** | quit, keeping nothing |
+| **`?`** | help |
+
+```
+select t3
+show.list
+```
+
+```
+    1 * a1
+    2 * a2
+    3 * a3
+    4 * a4
+    5 * a5
+: c 3-4
+    1 * a1
+    2 * a2
+    3   a3
+    4   a4
+    5 * a5
+: s 3
+    1 * a1
+    2 * a2
+    3 * a3
+    4   a4
+    5 * a5
+: q
+```
+
+After the `q` above, the list holds `a1`, `a2`, `a3` and `a5`, and the next
+`list t3` shows those four.
+
+*Items* is a number, a range `a-b` with no spaces round the hyphen, `visible`
+(the items on this page) or `all` (`v` and `a` will do); several may be given
+separated by spaces or commas, as `1,4,8-11`. The space after `s` and `c` is
+optional. **`show.list` changes only the list in memory** — it does not save it;
+use `save.list` for that. **`qc` leaves no list at all**, so the command after it
+works on the whole file, not on an empty list. A list that is not active is
+refused (`show.list 7` answers *Select list 7 is not active*).
+
 ## Saving a list by name
 
 Numbered lists last as long as your session. A **saved** list is a record in the
@@ -188,6 +278,34 @@ Deleted saved select list 'zzos'
 the `$savedlists` file to read and write. Within one account it renames or
 duplicates.
 
+### `sort.list`
+
+```
+sort.list name {from file}
+```
+
+Sorts a saved list into ascending order, **as strings**, in place, and says how
+many it saved. `from` names another file of saved lists. There is no descending or
+numeric order (the list `9 10 100` sorts as `10 100 9`).
+
+```
+select.dir /home/pat/reports
+save.list reports
+sort.list reports
+```
+
+```
+4 record(s) selected to select list 0
+4 records saved to select list 'reports'
+4 records saved to select list 'reports'
+```
+
+A list that is not there is *Saved select list 'name' not found*, and no name is
+*Source list name required*. `@system.return.code` is the number of items. The
+file named by `from` is held to the same rule as for `copy`: a VOC can be changed
+only after `admin`, and the global catalog's directories only with the global
+password.
+
 ## Combining two lists
 
 `merge.list` works on **list numbers**: the numbered lists in your session.
@@ -195,8 +313,7 @@ duplicates.
 
 It finds a key of one list in the other without scanning it,
 so lists of tens of thousands of keys merge in seconds
-and the time does not grow with the product of the two lengths. The result
-is what it always was: a union keeps the first list and adds each new key of
+and the time does not grow with the product of the two lengths. A union keeps the first list and adds each new key of
 the second once; an intersection gives the keys of the second list that are in
 the first, a key repeated in the second repeated; a difference takes away one
 occurrence in the first list for each key of the second.
@@ -222,135 +339,11 @@ and `count.sup` suppresses the count line.
 are not in the second, so **the order of the two arguments matters** where it
 does not for union and intersection.
 
-## Going through a list by hand: `show.list`
-
-```
-show.list {n}
-```
-
-Shows the items of an active numbered list (list 0 if you give no number) a page
-at a time, each with its number and **an asterisk when it is selected**. All
-items start selected. You clear and set the asterisks; when you quit, **the list
-is made again from the items that still have one**.
-
-```
-select t3
-show.list
-```
-
-```
-    1 * a1
-    2 * a2
-    3 * a3
-    4 * a4
-    5 * a5
-: c 3-4
-    1 * a1
-    2 * a2
-    3   a3
-    4   a4
-    5 * a5
-: s 3
-    1 * a1
-    2 * a2
-    3 * a3
-    4   a4
-    5 * a5
-: q
-```
-
-| You type | |
-|---|---|
-| `t` | the top of the list |
-| `n` or Return | the next page |
-| `p` | the previous page |
-| `s` *item* · *item* | select the item (the `s` may be left out) |
-| `c` *item* | clear the item |
-| `q` | quit, keeping the items that have an asterisk |
-| `qc` | quit, clearing every item |
-| `?` | help |
-
-An *item* is a number, a range *a*`-`*b* (no spaces round the hyphen), `visible`
-(the items on this page) or `all`, and `visible` and `all` may be shortened to
-`v` and `a`. Several may be given, separated by spaces or commas: `1,4,8-11`. The
-space after `s` and `c` is optional.
-
-After the `q` above, the list holds `a1`, `a2`, `a3` and `a5`, and the next
-`list t3` shows those four. **`qc` leaves no list at all**, so the command after
-it works on the whole file, not on an empty list. A list that is not active is
-refused (`show.list 7` answers *Select list 7 is not active*).
-
-## Sorting a saved list: `sort.list`
-
-```
-sort.list list.name {from file.name}
-```
-
-Sorts a saved list into ascending order **as strings**, in place: `10` comes
-before `9`. The list is in `$savedlists` unless `from` names another file.
-
-```
-sort.list names1
-```
-
-```
-5 records saved to select list 'NAMES1'
-```
-
-`@system.return.code` is the number of items. A list that is not there is
-*Saved select list 'NOSUCH' not found*. The file named by `from` is held to the
-same rule as for `copy`: a VOC can be changed only after `admin`, and the global
-catalog's directories only with the global password.
-
-## Moving a list to another number: `move.list`
-
-```
-move.list src to tgt {keep}
-```
-
-*src* and *tgt* are select list numbers, 0 to 10. The list in *src* moves to
-*tgt*, replacing what *tgt* held, and *src* is empty; with `keep` the source stays
-as it was, so it is a copy. Only the ids of *src* that have not been read are moved.
-A list moved onto itself, and an empty list, are left as they are. It prints nothing
-when it works. A number outside 0 to 10, a missing number, or a word other than `to`
-and `keep` is refused (*Select list number missing or invalid*, *Unexpected token
-(xx)*) and nothing is moved. `move.list 3 to 0` is how a list kept in 3 is made the
-one the next command uses. It is the command form of the `movelist` statement.
-
-
-## A command for each id: `execute.list`
-
-```
-execute.list command {; command ...}
-```
-
-Runs the commands once for each id of the default select list (list 0), in
-order. **A pair of empty round brackets in a command is replaced by the id.**
-Commands are separated by semicolons. The ids are all taken out of the list
-first, so a command that itself uses list 0 does not take ids from the loop. With
-no active list nothing is run.
-
-```
-select t3 with city = "Rome"
-execute.list display found () ; display again ()
-```
-
-```
-found a2
-again a2
-found a4
-again a4
-```
-
-A line with nothing after the verb is refused (*A command is needed after
-EXECUTE.LIST*).
-
 ## Who has these verbs
 
 **All of them are in every account.** Building, saving and combining lists
-is reading, and nothing on this page changes a record. `show.list`,
-`sort.list`, `move.list` and `execute.list` are in every account
-too; `execute.list` changes records only if the commands it runs do.
+is reading, and nothing on this page changes a record. (`select.dir` reads an
+operating system directory, and that is where the OS access switch comes in.)
 
 ## See also
 

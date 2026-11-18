@@ -210,7 +210,7 @@ at a terminal. Everything on this page except `sp.view` can be scripted.
 **On a window of at least 140 by 43 the record view looks like the other
 full-screen pages** (a bigger window is used whole): the top row is a **menu bar** (Esc on its own or F10 opens it) - **File** Spool to a printer (S), Delete the
 item (X), Quit (Ctrl-Q); **View** the page and scroll moves, Theme (Ctrl-T) and Refresh (F5);
-**Help** Keys (Ctrl-K, F1 too) - followed by the file and the record, with `sp.view  user@account` at the right; the record
+**Help** Keys (Ctrl-K, F1 too) - followed by the file and the record, with `sp.view  name@account` at the right; the record
 starts on the row below it, and the bottom four rows are the prompt, a status
 line (the record, its number of lines and where the view is), a border and a
 row of the keys:
@@ -301,25 +301,35 @@ which is what a fresh account reports. **`off`** clears it again.
 
 
 
-## Big letters: `block.print`
+## Large letters: `block.print` and `block.term`
 
 ```
 block.print text
+block.term text
 ```
 
-Prints *text* in large letters on print unit 0, the default printer. Each
-character is drawn in a block 7 rows high and 7 columns wide made of the letter
-`W`, with two blank columns after it, so **eight characters fill an 80 column
-line**. Long text wraps, breaking at a space where it can. Lower case prints as
-upper case. Letters, digits and `. , ! ? - : / + = * ( ) '` have shapes; any other
-character prints as a question mark, and a space is a blank block. The letter
-is always `W`.
+The text in large letters, each character drawn as a 7 by 7 block of the letter **W**
+with two blank columns after it, so that **eight characters fill an 80-column line**.
+`block.print` goes to the default printer (print unit 0), `block.term` to the terminal.
+Long text wraps, breaking at a space where it can; lower case prints as upper case.
+Letters, digits and `. , ! ? - : / + = * ( ) '` have shapes, any other character prints as a
+question mark, and a space is a blank block. **openQM can change the drawing character and the
+shapes through a `$BIGLTRS` record in the VOC of QMSYS. SD has no such record: the letter is
+always W.** With no text the verb answers *Text to print required*.
 
-`block.term` is the same program writing to the terminal; it is described, with a
-listing, in
-[SD TCL - The Terminal and the Session](29-sd-tcl-the-terminal-and-the-session.html).
-openQM can change the drawing character and the shapes through a `$BIGLTRS`
-record in the VOC of QMSYS. SD has no such record: the letter is always `W`.
+```
+block.term Hi 2
+```
+
+```
+ W   W     WWW               WWW
+ W   W      W               W   W
+ W   W      W                   W
+ WWWWW      W                  W
+ W   W      W                 W
+ W   W      W                W
+ W   W     WWW              WWWWW
+```
 
 ## Printing on this port
 
