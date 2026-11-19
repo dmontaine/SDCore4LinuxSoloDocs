@@ -314,7 +314,7 @@ The kernel, `sd.conf`, and the numbered keys.
 | Name | Change | What |
 |---|---|---|
 | `cleanup=n` | Added | seconds between the checks that clear sessions that ended without logging out <!--s 98 g283--> |
-| `config` | Changed | lists the new settings; `config()` reads them |
+| `config` | Changed | lists the new settings; `config()` reads them; `config gpl` and `config contrib` need no shell |
 | `deadlock=2` | Added | saves the lock tables when a deadlock is found <!--s 500--> |
 | `fileinfo()` | Added | the keys 1022 to 1040 as the openQM manual numbers them; `fl$seqtype`, `fl$locks`; 1021 now answers the user numbers <!--s 62 113 498 337--> |
 | `intprec` | Changed | default 11 <!--s 6--> |
