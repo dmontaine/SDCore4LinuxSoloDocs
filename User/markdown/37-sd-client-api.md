@@ -14,20 +14,29 @@ the GettingStarted set.
 
 ## The library
 
-Two names are installed, built from one source in one step:
+The client library is written new for SD Core (a clean-room library under the
+Blue Oak Model License 1.0.0), so an application of any licence may link it,
+and it is the same library for every SD Core product. It is delivered as
+binaries in the release package's `clients` folder; its source is not
+published. The same library has two names:
 
 | | |
 |---|---|
 | `sdclilib.so` | what existing applications ask for |
 | `libsdcli.so` | the ordinary Unix `lib*.so` convention (`-lsdcli` at link time) |
 
+The package holds two builds of it: `clients/Linux64` for OpenSSL 3 and
+`clients/Linux64-openssl4` for OpenSSL 4.
+
 **This port carries no 32-bit build** — a difference from SD Core for
 Windows, which ships a separate pair for QM-heritage applications.
 
 ### Where it is, and how to use it
 
-Built to `bin/` under the source tree, installed alongside the server
-under `~/SDCoreSolo/bin`. Link against it (`-lsdcli`) or load it at
+**The installer puts it in `~/SDCoreSolo/bin`** when it is run from the release
+package, taking the build that matches the OpenSSL the server uses. An install
+made from a copy of the source has none, because the source does not contain
+one; copy the files from a release package's `clients` folder. Link against it (`-lsdcli`) or load it at
 runtime (`dlopen("sdclilib.so", ...)`) the ordinary way for a Linux shared
 library — there is no PATH-order concern the way a Windows DLL search has,
 because Linux resolves a shared library by its own rules (`rpath`,
@@ -41,22 +50,23 @@ other language headers (see [SD Client API: Language Bindings](37b-sd-client-api
 
 | | |
 |---|---|
-| `SDConnect(host, port, user, pass, account)` | over the network, to port **4249**. Use `127.0.0.1` for this computer; `user` is `sduser` |
-| `SDConnectLocal(account)` | **disabled on Solo.** Returns false at once |
+| `SDConnect(host, port, user, pass, account)` | over the network, to port **4249**. Use `127.0.0.1` for this computer; `user` is `sduser`. **Always give the port:** the library is the same one SD Core uses, and with no port it tries SD Core's, 4247 |
+| `SDConnectLocal(account)` | **not available on Solo.** Returns false |
 
 > **`SDConnectUDS` (Unix Domain Socket) is not available, on either
 > port.** It sent its credential over the socket in a way that predates
 > SCRAM, and was removed for the same reason the old cleartext API login was.
 
-### Why SDConnectLocal is disabled
+### Why SDConnectLocal is not available
 
 `SDConnectLocal` sends no password, and every SD Core Solo for Linux session
-proves the account password. It also could not work: it `fork()`s and `exec()`s
-the server at a path it finds from `/etc/sd.conf` (or `$SD_CONFIG`), which a Solo
-tree does not have — so before it was disabled it **hung for ever** waiting on a
-child that never started. It now returns false immediately and the error text
-(`SDError()`) reads *SDConnectLocal is not available in SD Core Solo for Linux -
-connect with SDConnect and the account password*.
+proves the account password, so the Solo server refuses a local session. The
+client library is the one SD Core ships: its `SDConnectLocal` starts SD Core's
+server, which it finds from `/etc/sd.conf` (or `$SD_CONFIG`). A computer with
+only SD Core Solo has neither, so the call returns false and `SDError()` says
+why. **On a computer that also has SD Core, `SDConnectLocal` reaches SD Core,
+not Solo** - connect to Solo with `SDConnect`, port 4249 and the account
+password.
 
 **The login is SCRAM-SHA-256.** A client that sends a password in
 clear is refused. The server sets a puzzle only someone who knows the
@@ -99,7 +109,7 @@ A packet that declares anything else (below 6, negative, or over the limit) is n
 | Function | Returns | Description |
 |---|---|---|
 | `SDConnect(host, port, user, pass, account)` | Boolean | connect over TCP. A connection that fails returns false and `SDError()` says why; the session number it was given is the current one afterwards, so **select the session you were using with `SDSetSession`** before going on |
-| `SDConnectLocal(account)` | Boolean | **disabled on Solo** — always false |
+| `SDConnectLocal(account)` | Boolean | **not available on Solo** — false (see *Why SDConnectLocal is not available*) |
 | `SDConnected()` | Boolean | is a session active |
 | `SDDisconnect()` | none | end the current session |
 | `SDDisconnectAll()` | none | end all sessions |

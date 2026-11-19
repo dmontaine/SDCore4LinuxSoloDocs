@@ -91,7 +91,9 @@ The server side of the API, the client library and the language headers.
 | api server: tls relay filter | Changed | the relay that handles the network's bytes is confined by `no_new_privs` and a system-call filter: it can copy bytes and nothing else, and is killed if it tries to open a file, make a connection or run a program |
 | api sign-in: audit | Added | the first entry to an account writes `api login user= account=` to the audit trail |
 | `autologout` | Changed | reaches an API session; a client hang found while testing it is fixed |
+| client library: C header | Changed | fixed: `syscom/sdclilib.h` declared `SDMarkMapping`, `SDSelectIndex`, `SDSelectLeft`, `SDSelectRight`, `SDSetLeft` and `SDSetRight` with `int` where the library takes 16-bit values |
 | client library: call name | Changed | a subroutine called from the client may have a name as long as the lower of 128 and `maxidlen` (it was 63), as on the server's own `call` |
+| client library: clean room | Changed | the C client library is the one written new for SD Core (Blue Oak Model License 1.0.0), the same for every SD Core product, delivered as binaries in the release package's `clients` folder; the installer puts it in `~/SDCoreSolo/bin`; give `SDConnect` Solo's port 4249 (with none it tries SD Core's 4247); `SDConnectLocal` is still not available, now with the library's own message |
 | client library: collection files | Changed | a record read from a data collection file reaches the client as its JSON text, as `ct` shows it |
 | client library headers | Added | C# (`sdclient.cs`) and PHP (`sdclient.php`) beside the six already there; neither has been run against a runtime |
 | client library: connections | Changed | the number of simultaneous connections is no longer limited |
