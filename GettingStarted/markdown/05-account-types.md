@@ -40,7 +40,8 @@ land in an ordinary session.
 | `sd-solo` with its input piped | the first line of the input, one try |
 | ssh | the same as a terminal, after Solo's own ssh listener (port 4251) has authenticated you by your Linux password (or by a key you have put in Solo's key file) |
 | the API | the client library's password, checked by SCRAM — see [API access](09-api-access.html) |
-| `sd-solo <command>` | the kept copy, below — no typing |
+| `sd-solo "run.job <name>"`, `sd-solo "mcp.call <id>"` | the kept copy, below — no typing |
+| any other `sd-solo <command>` | the first line of its input, as when piped; the kept copy only after `set.stored.access on` |
 
 **A wrong one is answered `Wrong password`.** On a managed computer the global
 password is accepted in its place, and that session also has the administrator
@@ -53,17 +54,23 @@ whoever knows it.
 ### The kept copy
 
 **SD keeps a copy of the account password for you**, in
-`~/SDCoreSolo/$cred/$stored`. A command on the `sd-solo` command line signs in with
-it, which is what lets scripts and scheduled jobs use SD — see
-[Scheduled jobs](04-scheduled-jobs.html). The installer writes it, and
-`set.password` updates it.
+`~/SDCoreSolo/$cred/$stored`. As delivered it signs in only SD's own scheduled
+jobs (`run.job`, see [Scheduled jobs](04-scheduled-jobs.html)) and the MCP door's
+calls (`mcp.call`), each of which has its own switch, off as delivered. **Any other
+command on the `sd-solo` command line needs the password on its input**, and says
+so: *The kept password signs in only SD's scheduled jobs and MCP calls*. The
+administrator can let the kept copy sign in any such command again, as earlier
+releases did, with `set.stored.access on`, and restrict it with
+`set.stored.access off`. The installer writes the copy, and `set.password` updates it.
 
 **It is the password itself, in clear.** Linux has nothing that lets a job with
 no session unlock a secret for you, so SD cannot encrypt it in a way the job
 could then open. The file is mode 0600 in a 0700 directory, so only your Linux
 user can read it — anyone who can read your files can read it, as they could
-read a `~/.pgpass`. Removing the file makes `sd-solo <command>` ask for the password
-on its input instead; the account still works.
+read a `~/.pgpass`. So the restriction decides what SD accepts the copy for; it does
+not keep the copy from your own programs. Removing the file makes every
+`sd-solo <command>` ask for the password on its input instead, scheduled jobs
+included; the account still works.
 
 **It proves the account password only.** It never unlocks the administrator
 commands.

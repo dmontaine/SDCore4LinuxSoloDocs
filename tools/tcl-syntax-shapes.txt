@@ -230,6 +230,7 @@ set.os.access = **`set.os.access`** | **`set.os.access sh on`** | **`set.os.acce
 set.net.access = **`set.net.access`** | **`set.net.access on`** | **`set.net.access off`**
 set.xfer.access = **`set.xfer.access`** | **`set.xfer.access on`** | **`set.xfer.access off`**  —  whether the account may move files with **`receive`** and **`send`** over Solo's ssh (administrator; off as delivered, and **`XFER`** in sd.conf must be 1 too); without a word, says which
 set.jobs.access = **`set.jobs.access`** | **`set.jobs.access on`** | **`set.jobs.access off`**  —  whether SD's scheduled jobs may be made and run (administrator; off as delivered, and off refuses every job at its next run); without a word, says which
+set.stored.access = **`set.stored.access`** | **`set.stored.access on`** | **`set.stored.access off`**  —  whether the kept copy of the account password signs in any one-shot command (administrator; off as delivered, when it signs in only `run.job` and `mcp.call`); without a word, says which
 run.job = **`run.job`** *name*  —  what a job's timer runs (the one-shot **`sd-solo "run.job`** *name***`"`**); refused anywhere else
 sync.global.catalog = **`sync.global.catalog`**
 tool.viewers = **`tool.viewers`**  —  the Bypass programs page (administrator): the readers **`pdf`** may start, those found on this machine

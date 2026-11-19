@@ -9,14 +9,14 @@ have forgotten its arguments, it is here. If you want to know what it
 braces an optional part, and a vertical bar separates alternatives. SD
 folds case, so any of this may be typed in either case.
 
-> This page lists every verb SD ships (**216** of them). The shapes come from the
+> This page lists every verb SD ships (**217** of them). The shapes come from the
 > subject documents, where each verb is described in full.
 
 **The list is the VOC, not an opinion.** It is taken from the
 vocabulary SD installs, so it says what the account actually gets.
 **A verb your account does not have is not refused — the
 name is simply not recognized.** Solo has one account, and it has all
-216 of them; whether a verb needs `admin` is in the GettingStarted set.
+217 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs
 
@@ -191,6 +191,7 @@ name is simply not recognized.** Solo has one account, and it has all
 | **`set.recovery`** | **`set.recovery`** {**`on`** \| **`off`**}  —  whether the IDE keeps a recovery copy of unsaved text (administrator; off as delivered); without a word, says which |
 | **`set.server`** | **`set.server`** *name* *host* *port* *account* {*pin* \| **`connect`**} {**`read`** \| **`write`**} {**`accounts`** *a*`,`*b*`,`…} {**`no.query`**} |
 | **`set.start.default`** | **`set.start.default`** {**`menu`** \| **`terminal`**}  —  where a session starts (the home screen is the delivered start); without a word, says what it is |
+| **`set.stored.access`** | **`set.stored.access`** \| **`set.stored.access on`** \| **`set.stored.access off`**  —  whether the kept copy of the account password signs in any one-shot command (administrator; off as delivered, when it signs in only `run.job` and `mcp.call`); without a word, says which |
 | **`set.tile`** | **`set.tile`** {*account* *tile* **`on`** \| **`off`**}  —  turn a home screen tile off or on for the account (tiles are on as delivered; sign out cannot be turned off); without arguments, says what is off |
 | **`set.trigger`** | **`set.trigger`** *file* *name* {*modes*} |
 | **`set.viewer`** | **`set.viewer`** {{**`add`** \| **`remove`**} **`pdf`** *program*}  —  the programs that may be started without the **`os`** switch to show a document (none is allowed as delivered); without arguments, lists them |

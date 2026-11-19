@@ -58,7 +58,7 @@ you arrived and what you unlocked*, not about which account you are in.
 | | |
 |---|---|
 | **The passwords** | none is stored as such. `$cred` holds a verifier for each — the account, the administrator and the global — that cannot be turned back into a password. It is mode 0700, its files 0600 |
-| **The kept copy** | a copy of the account password **in clear**, in `$cred/$stored`, that lets `sd-solo <command>` sign in without typing. Linux has nothing that lets a job with no session unlock a secret for you, so it cannot be encrypted in a way the job could then open. **Anyone who can read your files can read it**, as they could read a `~/.pgpass`; it keeps it from other Linux users, not from your other programs |
+| **The kept copy** | a copy of the account password **in clear**, in `$cred/$stored`, that lets SD's scheduled jobs (`run.job`) and the MCP door's calls (`mcp.call`) sign in without typing. **Restricted as delivered**: any other `sd-solo <command>` needs the password on its input, until the administrator says `set.stored.access on`. Linux has nothing that lets a job with no session unlock a secret for you, so it cannot be encrypted in a way the job could then open. **Anyone who can read your files can read it**, as they could read a `~/.pgpass`; it keeps it from other Linux users, not from your other programs |
 
 **Whoever can replace a verifier can set a password they know**, and anyone who
 is your Linux user, or `root`, can. That is the limit stated above, not a fault:

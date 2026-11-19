@@ -55,6 +55,7 @@ password is never displayed, stored or logged.
 | `set.viewer`, `tool.viewers`, `docs.install`, `load.help` | the readers `pdf` may start, the documents it shows, the context help — [Showing a document with pdf](06b1-showing-a-document-with-pdf.html) |
 | `set.ai`, `tool.ai` | whether the AI may be used (`set.ai gate on`; off as delivered), its provider, model and key, and the page that does it — [Setting up the AI helper](24a-setting-up-the-ai-helper.html) |
 | `set.jobs.access` | show, or turn on and off, SD's scheduled jobs (`set.job`, `run.job`, `tool.jobs`); off as delivered, and off refuses every job at its next run — [Scheduled jobs](04-scheduled-jobs.html) |
+| `set.stored.access` | show, or turn on and off, whether the kept copy of the account password signs in any `sd-solo <command>`; off as delivered, when it signs in only scheduled jobs (`run.job`) and MCP calls (`mcp.call`) — [Account types](05-account-types.html) |
 | `tool.gates` | all six gates on one page (sh, os, net, ai, file transfer and scheduled jobs), and the page that changes them (any session sees it; Enter changes a gate after `admin`) — [Operating system access](06b-operating-system-access.html) |
 | `tool.sessions` | who is signed on, what is locked, and `logout`, `unlock` and `inhibit.login` on one screen — [Task locks and the sessions screen](06a1-task-locks-and-forcing-a-lock-open.html) |
 | `listu`, `logout all` | [Sessions and locks](06a-sessions-and-locks.html) |

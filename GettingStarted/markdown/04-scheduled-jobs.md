@@ -51,15 +51,16 @@ was off is not made up.
 
 **What a job is.** Two systemd user units of yours,
 `~/.config/systemd/user/sd-solo-job-<name>.timer` and `.service`. The service
-runs `sd-solo "run.job <name>"`, which signs in as every one-shot command does
+runs `sd-solo "run.job <name>"`, which signs in with the kept copy of the account
+password (as delivered, only `run.job` and the MCP door's `mcp.call` may use it)
 and runs the command the job was given; SD keeps the command, not the unit. A
 job's output goes to your journal (`journalctl --user -u sd-solo-job-<name>`),
 and the audit trail has a `run.job start` and a `run.job end` line for every
 run. Change a job with `set.job`, not by editing its units.
 
 **This is not a wall against you.** The definitions (`~/SDCoreSolo/$jobs`) and
-the units are yours, as the programs are: a job adds no way in that a one-shot
-`sd-solo` command does not already have. The password is asked so that a job
+the units are yours, as the programs are, and so is the kept copy of the
+password: a job adds no way in that your own Linux user does not already have. The password is asked so that a job
 is set deliberately, by its owner.
 
 **Uninstalling** removes the timers. When you keep your data, the job
@@ -137,6 +138,7 @@ kept copy, which is already in a private file: `~/SDCoreSolo/$cred/$stored`.
 | | |
 |---|---|
 | *A command given on the sd command line needs the account password on its input* | the kept copy did not work and the command was run at a terminal, with nothing piped in |
+| *The kept password signs in only SD's scheduled jobs and MCP calls* | a cron entry or script ran `sd-solo <command>` itself: make it a job with `set.job`, pipe the password in as above, or have the administrator say `set.stored.access on` |
 | *Wrong password* | the piped password was wrong |
 | *SD has not been started* | the daemon is not running: no linger, or SD was stopped |
 | the job reports success and nothing happened | look in `~/SDCoreSolo/audit`: a sign-in with the kept copy is recorded as `login password account=sduser via=stored` |
