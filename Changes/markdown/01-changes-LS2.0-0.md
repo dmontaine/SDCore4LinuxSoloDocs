@@ -596,6 +596,7 @@ SD's own code. The sections above are the openQM items that were built, with the
 | api server loop | Changed | fixed: a client that hung up before its first request left a server process using 100% of a processor |
 | api server, last reply | Changed | fixed: the reply of a refused API login could be lost when systemd ended the relay as sd exited; sd now lets the relay deliver it (bounded) before it leaves |
 | api server, refused `sdlogto` | Changed | fixed: the session went on naming the refused account, so every later open by VOC name failed; it now stays in the account it was in |
+| api tls relay | Changed | fixed: on Ubuntu 24.04 every API connection was refused ("TLS relay ended before the session started"): its OpenSSL asks the kernel to take over the encryption during the handshake, which the relay's filter stopped; the call is now refused and OpenSSL encrypts itself |
 | client class `sdclient` | Added | the BASIC class gains `getvar`, `revision`, `system`, `trans`, `rtrans`, `txn`, `evaluate`, `evalconv`, `iconv`, `oconv`, `iconvs`, `oconvs`, `openseq`, `readseq`, `readblk`, `writeseq`, `writeblk`, `seek` and `weofseq` |
 | client library: restricted | Changed | fixed two faults under `sdclient 1` and `2`: a heap overrun on a refusal, and a refused call that still ran |
 | client library: `sdchecksum` | Added | a checksum computed on the client |
