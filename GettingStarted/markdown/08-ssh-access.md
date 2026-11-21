@@ -42,7 +42,11 @@ port 4251.
 
 **The installer installs the ssh server package when ssh is on and the computer does not have it** (`openssh-server`,
 which provides the `sshd` program, with your `sudo`), and on Debian and Ubuntu installing it also starts the
-computer's own ssh server on port 22. That is the package's doing; the installer does not change it. **If you do not
+computer's own ssh server on port 22. Solo does not use port 22, so when the installer itself brought the package
+(there was no `sshd` before) and nothing was listening on port 22, it stops and disables that service right after
+the package is installed and says so; Solo's own ssh on 4251 is separate. **If the computer already had an ssh
+server, or port 22 was already open, the installer leaves it exactly as it found it**, and the uninstaller never
+touches port 22. **If you do not
 want the ssh server installed, say `--ssh off`** (or answer `off`). With `--skip-packages` the installer installs
 nothing: with no `sshd` on the computer ssh is then left off, and `--ssh local` or `--ssh open` is refused at the
 start, before anything is built.
@@ -158,7 +162,7 @@ has turned the `sh` switch on (it is off as delivered) — see
 | **`open`** | the listener is `0.0.0.0:4251`. **Allow TCP 4251 in the firewall.** The installer adds the rule if `ufw` is active, or firewalld is running, and you let it use `sudo`; otherwise it tells you. Turned on later with `solo-service.sh ssh <tree> open`, which never uses `sudo`, it prints the one command for the firewall that is running |
 | **Managed** | always `open`: the SD Core for Linux server has to reach port 4251 |
 
-**The installer does not open port 22**, and Solo does not use it.
+**The installer does not open port 22**, and Solo does not use it. A port 22 that was already open when you installed is not Solo's to manage.
 
 **`open` lets anyone who can reach port 4251 try your Linux password.** Solo's ssh checks the password of
 the user who owns it (the computer's own PAM setup may have no lockout,
