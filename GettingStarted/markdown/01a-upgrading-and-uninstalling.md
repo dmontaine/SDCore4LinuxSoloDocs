@@ -182,6 +182,21 @@ documents in `pdf/` and a managed computer's denied commands (`solo.policy`). A
 reinstall that reloads the data puts them back and asks nothing about the doors; an
 `--api`, `--ssh` or `--deny-verbs` you give it still wins.
 
+**When something cannot be put back, the install says so in a red box.** If a
+reinstall that reloads your data could not put something back as it was (the kept
+scheduled jobs that could not be given their timers again, the administrator's
+account switches that could not be carried from the kept register, or the firewall
+rule for the API or ssh), the closing summary starts, right under *SD Core Solo for
+Linux is installed.*, with a boxed, bold red block that lists each one with the exact
+command to type. The uninstaller shows the same kind of block at its very end when it
+could not note the API and ssh doors for the next install. Nothing is printed when
+everything was put back.
+
+**Your screen theme comes back as you had it.** An install, an upgrade or a reload
+leaves the `SCREENTHEME` line of a kept `sd.conf` exactly as it was; a kept file with
+no such line stays on `mono`. Only a new install starts in `paper`, from the shipped
+`sd.conf`.
+
 **The units come first, and the script stops if it cannot remove them.** It looks for
 your systemd user manager under `/run/user/<your number>` when the shell it was
 started from has no `XDG_RUNTIME_DIR` (an `ssh` command or a cron job), removes the unit
