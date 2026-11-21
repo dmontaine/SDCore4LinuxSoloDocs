@@ -5,15 +5,15 @@ This page continues [Installing](01-installation.html).
 
 ## Upgrading
 
-**Run the installer with `--upgrade` while the old release is installed:**
+**Run the new release's installer while the old release is installed:**
 
 ```sh
-bash installsdsolo.sh --upgrade
+bash installsdsolo.sh
 ```
 
-(`--home DIR` if you installed somewhere other than `~/SDCoreSolo`.) Without
-`--upgrade`, an installer meeting an installed tree stops and prints exactly
-this command. **It asks no mode, no passwords and no API or ssh choices,** and
+(`--home DIR` if you installed somewhere other than `~/SDCoreSolo`.) It finds the
+installed tree, says *already installed: upgrading it in place*, and upgrades it;
+no uninstall is needed. `--upgrade` still works and means the same. **It asks no mode, no passwords and no API or ssh choices,** and
 it accepts no option that would change them: an upgrade keeps what is
 installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
 changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html). The
@@ -172,8 +172,15 @@ same). Say `--delete-data` to remove it.
 earlier release added to your `authorized_keys` (**your other keys are not touched**);
 the old `sshd_config.d` block, if you had written one (that needs `sudo`); and the
 installation directory, which holds Solo's own ssh directory — all of it, except
-what `--keep-data` leaves. A firewall rule for port 4251 or 4249 is not removed; the
-script says so.
+what `--keep-data` leaves. **The firewall rules for Solo's own ports, 4249 and 4251,
+stay when you keep the data** (you will probably reinstall) **and are removed when you
+delete it**; the script says which. Port 22 and port 4243 are never touched.
+
+**`--keep-data` also notes the API and ssh doors as they are** (off, this computer
+only, or open), in `doors.saved`, and keeps the PDF reader allow-list (`viewers`), the
+documents in `pdf/` and a managed computer's denied commands (`solo.policy`). A
+reinstall that reloads the data puts them back and asks nothing about the doors; an
+`--api`, `--ssh` or `--deny-verbs` you give it still wins.
 
 **The units come first, and the script stops if it cannot remove them.** It looks for
 your systemd user manager under `/run/user/<your number>` when the shell it was
@@ -226,8 +233,8 @@ terminal, the kept data is reloaded. When nothing was kept the options do nothin
 one control file can serve many computers.
 
 **What it leaves:** linger (a persistent setting of your account that other
-things may rely on), the build packages, and any firewall rule the installer
-added — it says so if it finds one. The last line of a good run is:
+things may rely on), the build packages, and, when the data is kept, the firewall
+rules for ports 4249 and 4251 — it says so if it finds one. The last line of a good run is:
 
 ```
 SOLO DELETE COMPLETE /home/you/SDCoreSolo
