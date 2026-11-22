@@ -463,6 +463,7 @@ compiled with until it is compiled again. More rows are added as the removal goe
 | `adds()`, `subs()`, `muls()`, `divs()` | Removed | added and taken out again in this release: the operators `+ - * /` work element by element on dynamic arrays |
 | four more `option` words | Removed | `no.sel.list.query` (`no.query` alone skips the question *Use active select list?*), `catalogue.local` (`catalog` and `delete.catalog` with no word work on the private catalog; say `local`), `inherit.mfile.path` (a new multifile subfile goes in the directory named for the file unless `pathname` says otherwise) and `correlative.nocase` (a correlative is case blind through its own `A;NOCASE;` flag or an I-type's `$mode nocase.strings`) |
 | `analyse.file` | Removed | the British spelling: write `analyze.file` (the American one stays) |
+| client library: 32-bit | Removed | the 32-bit Windows client (`qmclilib.dll`, `qmclient.dll`) is not in the release: build a 32-bit application again as a 64-bit one; a program written for QM does not work with SD out of the box |
 | `cleardata`, `clearinput`, `clearprompts`, `clearselect` | Removed | the run-together second names of `clear.data`, `clear.input`, `clear.prompts` and `clear.select` (the BASIC statements of the same names are not affected) |
 | `cs` | Removed | second name of `clr`: write `clr` |
 | `delete.catalogue` | Removed | the British spelling: write `delete.catalog` |

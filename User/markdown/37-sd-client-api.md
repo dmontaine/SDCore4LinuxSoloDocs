@@ -28,8 +28,9 @@ published. The same library has two names:
 The package holds two builds of it: `clients/Linux64` for OpenSSL 3 and
 `clients/Linux64-openssl4` for OpenSSL 4.
 
-**This port carries no 32-bit build** — a difference from SD Core for
-Windows, which ships a separate pair for QM-heritage applications.
+**There is no 32-bit client**, for Linux or for Windows: a 32-bit application
+must be built again as a 64-bit one. A program written for QM does not work
+with SD out of the box, because of the changes SD has made.
 
 ### Where it is, and how to use it
 
