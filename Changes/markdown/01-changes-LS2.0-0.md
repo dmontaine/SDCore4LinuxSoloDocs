@@ -151,6 +151,7 @@ Statements, functions, `$mode` words and compiler directives.
 | `$ifdef`, `$ifndef` | Changed | accept `and` and `or` between token names <!--s 219--> |
 | `inmat()` | Changed | after `matches` or `matchfield()` it is the number of the pattern that matched; after `matbuild` and `matwrite` it is the element count; a collection array is accepted <!--s 315 454 591--> |
 | `input ... fill` | Added | shows a fill character in every empty cell of the field <!--s 389--> |
+| `input ... hidden`, `input ... no.echo` | Changed | throws away what was typed ahead before it asks when the answer comes from the keyboard, so keys typed before a password prompt appeared are never the start of the password; answers piped in or stacked with `data` are read as before |
 | `input ... no.echo` | Added | shows nothing as the user types <!--s 168 363--> |
 | `input ... raw` | Added | reads exactly the number of characters given, as they arrive <!--s 548--> |
 | `inputif` | Added | reads a line only if one is already there, else takes `else` <!--s 584--> |
@@ -813,7 +814,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
 | start failure message | Changed | names `sd-solo -stop`; it named `sd -stop`, a command Solo does not install |
 | `term` and a damaged terminfo file | Changed | a terminfo file that is corrupt or cut short keeps the session's current terminal type; it used to leave the session with none |
-| upgrade: conversion to case-insensitive ids | Changed | a file the conversion could not handle is named in the report ("File: " and its path) |
+| upgrade: conversion to case-insensitive ids | Changed | a file the conversion could not handle is named in the report ("File: " and its path); a file an account's VOC points at under the system directory is named only when it is not already case insensitive, so a reload no longer names files with nothing to convert |
 | upgrade: retired files | Changed | an upgrade deletes the files this release stopped shipping; `deletesdsolo.sh --keep-data` keeps the saved VOC copies (`voc_removed.saved`) for the next install |
 | upgrade: retired `sd.conf` parameters | Changed | an upgrade takes the parameters this release no longer has out of a kept `sd.conf` (SD would not start on them) |
 
