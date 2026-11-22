@@ -103,9 +103,9 @@ display, it says so and does nothing.
 When the AI is on (the administrator has chosen a provider, given it a model and a key,
 **and turned the AI gate on with `set.ai gate on`**, which is off as delivered; see
 [Asking the AI](29b-sd-tcl-asking-the-ai.html) and
-*The AI helper* in the GettingStarted set) the home screen has one more row, just above the
-status line, that starts **`AI>`**. Without the AI there is no such row and nothing on this
-page changes.
+*The AI helper* in the GettingStarted set) the home screen has a row that starts **`AI>`**, and under it a
+horizontal rule that keeps it apart from the status line. Without the AI there are no such rows
+and nothing on this page changes.
 
 **Press F6, choose AI > Ask the AI, or click the row**, type
 what you want in your own words, and press Enter:
