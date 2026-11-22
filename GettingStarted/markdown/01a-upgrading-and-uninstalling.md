@@ -187,9 +187,21 @@ reinstall that reloads your data could not put something back as it was (the kep
 scheduled jobs that could not be given their timers again, the administrator's
 account switches that could not be carried from the kept register, or the firewall
 rule for the API or ssh), the closing summary starts, right under *SD Core Solo for
-Linux is installed.*, with a boxed, bold red block that lists each one with the exact
-command to type. The uninstaller shows the same kind of block at its very end when it
-could not note the API and ssh doors for the next install. Nothing is printed when
+Linux is installed.*, with *WARNING: SOME SETTINGS NEED TO BE FIXED.* in bold red.
+Each numbered item gives the lines to type at the colon prompt after you start SD
+Core Solo. Type them one at a time and in order: `admin` asks for the administrator
+password, and `set.job change` asks for the account password.
+
+A job needs the jobs switch on while it is made again, so the item may turn it on
+first and, when it was off before, off again at the end. When a kept definition is
+damaged the line shows `<schedule> <command>`: put in what you had. The box does not
+give reasons; the reason is in the install's output above it. If a step fails when
+you type it, correct what it reports and type it again.
+
+A firewall rule that could not be added has a red warning of its own, with the
+command for a terminal: Solo never changes the firewall from inside SD. The
+uninstaller shows the same kind of box at its very end when it could not note the
+API and ssh doors; do those steps after the next install. Nothing is printed when
 everything was put back.
 
 **Your screen theme comes back as you had it.** An install, an upgrade or a reload
