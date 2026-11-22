@@ -199,6 +199,7 @@ deny.verbs 1: sh
 | **Never denied** | `admin`, `off`, `quit` and `lo` — a list naming one says it is dropped |
 | **Set at installation** | the control file's `deny-verbs=` line, on a new installation only. **On a computer with no global password no session can change the list afterwards** — only the server can — so it is fixed until a new installation |
 | **Kept by an upgrade** | yes — it lives in `~/SDCoreSolo/solo.policy` |
+| **How a name is typed and stored** | in any case: `who`, `WHO` and `Who` name the same command, in `deny.verbs` and at the prompt. The list is stored in lower case; one an older installation stored in capitals works as it did |
 
 **It only adds.** It cannot lift the check an administrator command carries in
 its own code; a command already needing `admin` needs it whatever the list says.

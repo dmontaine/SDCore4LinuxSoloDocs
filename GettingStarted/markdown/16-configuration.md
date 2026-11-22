@@ -143,6 +143,17 @@ it against the range SD enforces and a box has shown the exact command and been 
 other parameters are not changed from SD; editing the file and restarting SD stays the way to change
 them.
 
+**After a change the page offers to restart SD.** When the file then says something else than SD is
+running with, a second box, titled **Restart SD?**, says why the change needs a restart and that **a
+restart stops and starts SD and signs out everyone, this session too**. It offers **Restart** and
+**Not now**; Not now is what Enter chooses, and it leaves the change for the next time SD is started.
+Restart closes the page, clears the screen, says SD is restarting and asks your own systemd to restart
+`sd-solo.service`; the session ends, and you start SD again as usual a few seconds later. If SD does
+not end the session within a minute, or the service is not active (SD was started by hand with
+`sd-solo -start`), the reason is shown and the page comes back. The audit trail gets
+`sd restart app=tool.config status=asked`, or `status=refused`. A value set back to what SD is already
+running with needs no restart, and none is offered.
+
 The page has three views. **P, the parameters**: one row for every parameter SD knows, from the table
 `config.table` in the installation directory, which names every parameter SD reads. The columns are
 the value this SD is running with (what `config()` reports), the value `sd.conf` says now (the file is
