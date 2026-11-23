@@ -814,7 +814,7 @@ Fixes that close a way round a gate, and what the gates now ask.
 | `sdtic` | Changed | with no SDSYS in `sd.conf`, the Solo folder is the system directory, so it runs without `-p` |
 | session whose SD was stopped | Changed | ends at once with a message in syslog and on its terminal, instead of spinning at full processor use for ever |
 | `sh` whose shell cannot be started | Changed | the command ends with status 127; a copy of the session used to carry on in the background |
-| sign-on banner | Changed | `SD Core Solo for Linux, the Essential Multivalue String Database, version LS2.0-0` (it said `SD Core for Linux Solo, ...`) |
+| sign-on banner | Changed | the product's name and version: `SD Core Solo for Linux, version LS2.0-0` (it said `SD Core for Linux Solo, the Essential Multivalue String Database, ...`) |
 | start failure message | Changed | names `sd-solo -stop`; it named `sd -stop`, a command Solo does not install |
 | `term` and a damaged terminfo file | Changed | a terminfo file that is corrupt or cut short keeps the session's current terminal type; it used to leave the session with none |
 | upgrade: conversion to case-insensitive ids | Changed | a file the conversion could not handle is named in the report ("File: " and its path); a file an account's VOC points at under the system directory is named only when it is not already case insensitive, so a reload no longer names files with nothing to convert |

@@ -44,7 +44,7 @@ is not there is a note on the screen, and the installation is complete without i
 
 | | |
 |---|---|
-| Distribution | Debian or Ubuntu based (Linux Mint, Pop!_OS and the like) — read from `/etc/os-release`. Fedora, RHEL and its clones (Rocky, Alma), Arch and openSUSE are not supported. Any other, and those, are refused in words before the installer checks the network, asks a question or uses `sudo` |
+| Distribution | Debian or Ubuntu based (Linux Mint, Pop!_OS and the like) — read from `/etc/os-release`. Installed and tested on Debian 13 and on Ubuntu 24.04 LTS, 26.04 LTS and 26.10. Fedora, RHEL and its clones (Rocky, Alma), Arch and openSUSE are not supported. Any other, and those, are refused in words before the installer checks the network, asks a question or uses `sudo` |
 | Rights | your own ordinary user. **`sudo` is used for these things and only those:** installing the build packages, opening a firewall port you asked for (the API's or ssh's), `loginctl enable-linger`, and — only where SELinux is on and ssh is on — writing Solo's own sign-in rules, `/etc/pam.d/sd-solo-ssh-<you>` (the computer's own rules need root at one step that Solo's ssh server, running as you, cannot pass; OpenSSH 10.0 or later) |
 | The build tools | `git`, `make`, `gcc`, `python3` with its development headers, and `openssl`. Without `--skip-packages` the installer installs them (and `micro`, `lynx`, `libsodium` and `libssl` headers, the console mouse daemon `gpm`, and the ssh server `openssh-server` if ssh is on and the computer has none) with `sudo`; with it, it only checks they are there |
 | A systemd user manager | `systemctl --user` must work. SD runs as your own systemd user service |
