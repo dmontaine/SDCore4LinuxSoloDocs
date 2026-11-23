@@ -9,7 +9,7 @@ repeat them) and forty-nine, all named `!SCREEN_...`, are the routines behind
 the `screen` statement (see
 [The Screen Statement](12a-sd-basic-the-screen-statement.html); they are not
 called directly and are not listed here). This page names the rest that a
-programmer is likely to meet. Solo has no account-creation helpers such as
+programmer is likely to meet. SD Core Solo for Linux has no account-creation helpers such as
 `!CREATE_USER` and `!SET_PASSWD`: it has one account and makes none. They are in
 the global catalog, so your account reaches them without cataloging anything of
 its own.

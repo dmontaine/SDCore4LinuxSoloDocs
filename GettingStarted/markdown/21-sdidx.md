@@ -45,7 +45,7 @@ installer). It is not on your `PATH`, so type the full path. **It opens the
 file's `%0` for read and write even to answer `-q`**, so you need write access
 to the file even to ask where its indexes are (on a copy with the write
 permission removed, `-q` prints *Cannot open data file [13]* and exits 1). Run
-it as yourself, the user who owns the SD directory: Solo has no other. Files it
+it as yourself, the user who owns the SD directory: SD Core Solo for Linux has no other. Files it
 creates (`-m` copies the index to a new file) belong to whoever runs it, with
 that user's umask, so **do not run it as root**: a run as root leaves root-owned
 index files in your tree that you cannot then write, and Solo itself refuses to

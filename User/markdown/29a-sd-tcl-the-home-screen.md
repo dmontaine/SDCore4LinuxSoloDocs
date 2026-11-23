@@ -89,8 +89,8 @@ tiles stand above it. Type `admin`, then `home`, to see it.
 | | **Remote servers** (doors and files) | `tool.remote` |
 | | **AI** (model and key) | `tool.ai` |
 
-(SD Core, the multi-user product, also has a *Switch account* tile and pages for its
-accounts; Solo has one account, so it has none.)
+(SD Core for Linux, the multi-user product, also has a *Switch account* tile and pages for its
+accounts; SD Core Solo for Linux has one account, so it has none.)
 
 **A tile for one of SD's own pages (a `tool.` verb) is left off when that verb is
 not in your account's VOC**, so choosing a tile never ends in an unknown-verb error; when

@@ -163,7 +163,7 @@ phantom or a piped script.
 
 ## Setting no password
 
-**On Solo every session asks for the account password**, and an account with none
+**On SD Core Solo for Linux every session asks for the account password**, and an account with none
 set cannot be signed in to at all — the installer always sets one, or, on a
 computer installed from a control file, the first console session does. See
 [The account and its passwords](05-account-types.html).

@@ -68,7 +68,7 @@ it is refused.
 **On a computer installed from a control file**, until the account password has
 been chosen at the keyboard, only the global password is accepted.
 
-**`SDConnectLocal` is disabled.** It sends no password, which Solo does not
+**`SDConnectLocal` is disabled.** It sends no password, which SD Core Solo for Linux does not
 allow. A client that calls it gets, at once, *SDConnectLocal is not available in
 SD Core Solo for Linux - connect with SDConnect and the account password*. Use
 `SDConnect` to this computer's own address instead (`127.0.0.1`).

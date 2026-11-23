@@ -1,5 +1,5 @@
 Title: SD TCL - Moving Files In and Out
-Subtitle: Bringing a text file into your account, and taking one out, with an sftp program over Solo's ssh login.
+Subtitle: Bringing a text file into your account, and taking one out, with an sftp program over the ssh login of SD Core Solo for Linux.
 
 ```
 receive {overwrite}
@@ -8,7 +8,7 @@ send file id {id ...}
 
 `receive` and `send` move plain-text files between your SD account and another computer: a CSV or JSON
 file to load, the source of a program, a report to take away. You type the command in SD, it waits, and you
-move the files with an **sftp program** on your own computer, signed in to **Solo's own ssh, port 4251, with
+move the files with an **sftp program** on your own computer, signed in to **SD Core Solo for Linux's own ssh, port 4251, with
 your Linux name and password (or a key added to Solo)** - the same login as for `ssh -p 4251` into Solo.
 Nothing can be moved before you type the command or after it ends.
 

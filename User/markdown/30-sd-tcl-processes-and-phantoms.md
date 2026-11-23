@@ -311,7 +311,7 @@ it when the question it was written to answer has been answered.
 |---|---|
 | *User number required* | `pdump` with no number |
 | *Not logged in* | no session has that user number |
-| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set, the session has not typed `admin`, and the target session signed in under another login name; every Solo session has the same one, so it does not arise |
+| *PDUMP not allowed for processes run under other usernames* | the `PDUMP` configuration parameter has bit 1 set, the session has not typed `admin`, and the target session signed in under another login name; every SD Core Solo for Linux session has the same one, so it does not arise |
 
 **It is an event, not a call.** `pdump` marks the target and returns; the target
 writes the file when it next looks at its event flags. A process that is wedged

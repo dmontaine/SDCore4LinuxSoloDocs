@@ -6,10 +6,10 @@ This page continues [SDNet - Files on Another SD Server](42-sd-sdnet.html).
 ## Administering a remote file
 
 These do on the other machine what they do on a local file, **for your remote login and in the account that login entered
-there**, so every switch that account has on that machine applies (on an SD Core server a file named `voc`, `*.bp` or
+there**, so every switch that account has on that machine applies (on an SD Core for Linux server a file named `voc`, `*.bp` or
 `*.dic` still needs that account's edit switch there). They need **a `write` definition here, and the other machine's
 permission**: an SD Core server allows them only to a remote login its administrator has put in both its write group and
-its administration group (off for every account until he does); a Solo server allows them only to a session signed in
+its administration group (off for every account until he does); an SD Core Solo for Linux server allows them only to a session signed in
 with its **global password**, and refuses one signed in with the account password with *This session cannot administer
 files here: sign in with the global password* (message 14964). A Solo with no global password (the delivered state) allows none of them.
 

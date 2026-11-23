@@ -12,7 +12,7 @@ Solo is a **client** of SDNet here, and it is also a **target**:
 | | |
 |---|---|
 | Solo reaches a server (**Solo to Core**, **Solo to Solo**) | **limited**: a program may read, select and query the remote files and their indices; and, **only for a server the administrator defined `write`**, write, delete and lock, and administer a file where the other machine allows it ([the next page](42a-sd-sdnet-administration.html)). Nothing else crosses: no other commands, no programs, no operating system paths. |
-| A SD Core server reaches Solo | through Solo's API login, as any API client does; see *API access* in the GettingStarted set for what that login gives and for API request 29. A session signed in with the **global password** (managed mode) may also administer the account's files; one signed in with the account password may not. |
+| An SD Core for Linux server reaches Solo | through Solo's API login, as any API client does; see *API access* in the GettingStarted set for what that login gives and for API request 29. A session signed in with the **global password** (managed mode) may also administer the account's files; one signed in with the account password may not. |
 
 Commands are shown here in lower case. *Italics* mark something you supply.
 

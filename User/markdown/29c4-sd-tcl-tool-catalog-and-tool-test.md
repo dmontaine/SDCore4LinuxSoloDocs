@@ -22,7 +22,7 @@ tool.catalog
 | State | `current`: the source has not been changed since it was compiled; `stale`: the source's file is newer than the compiled program's, so B compiles it again; `?`: the page could not read one of the two times (the box says why); `-`: not compiled |
 | Cataloged | where the program is cataloged under its own name: `private` (a record of the account's `cat` file; `(older)` or `(newer)` when it is a copy of another compile than the one in the `.out` file), `local` (a VOC entry that points at the compiled program; `as name` when the entry has another name), `global` (SDSYS's catalog has an entry of that name: the page only reports it, and cannot tell whether it is this program) |
 
-The box under the list describes the row under the cursor: the paths of the source and of the compiled program, their sizes and times, current or stale, and the three catalogs in words. The line between the boxes shows the gate **bp-edit** (always `on` in Solo, which has no edit gates) and the number of programs, compiled programs and catalog entries.
+The box under the list describes the row under the cursor: the paths of the source and of the compiled program, their sizes and times, current or stale, and the three catalogs in words. The line between the boxes shows the gate **bp-edit** (always `on` in SD Core Solo for Linux, which has no edit gates) and the number of programs, compiled programs and catalog entries.
 
 ### What the keys do
 

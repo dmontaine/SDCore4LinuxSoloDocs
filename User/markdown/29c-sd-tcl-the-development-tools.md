@@ -13,8 +13,8 @@ access: every change they make is a command you could have typed, run for you af
 exact command. A command that needs `admin` first, or a switch that is off (`set.os.access`), is met as
 the command's own refusal.
 
-**The line *Your gates*.** The pages are SD Core's, and SD Core has three edit gates (`voc-edit`,
-`dict-edit`, `bp-edit`) that its administrator turns on for an account. **Solo has no edit gates**, so the
+**The line *Your gates*.** The pages are SD Core for Linux's, and SD Core has three edit gates (`voc-edit`,
+`dict-edit`, `bp-edit`) that its administrator turns on for an account. **SD Core Solo for Linux has no edit gates**, so the
 line on each page always says all three are `on`. What Solo does guard is the VOC: changing a VOC
 entry by hand needs `admin` first.
 

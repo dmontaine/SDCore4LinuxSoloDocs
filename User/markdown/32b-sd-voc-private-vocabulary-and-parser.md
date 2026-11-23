@@ -11,7 +11,7 @@ SD folds case, so a command may be typed in either case. Commands are shown
 here in lower case. In the tables, *italics* mark something you supply.
 
 > The names `zzpv`, `zzhello` and the like are only examples. What differs on
-> Solo from the multi-user product is who may write the two records, and that is
+> SD Core Solo for Linux from SD Core for Linux, the multi-user product, is who may write the two records, and that is
 > the last section.
 
 ## Where a command is looked for

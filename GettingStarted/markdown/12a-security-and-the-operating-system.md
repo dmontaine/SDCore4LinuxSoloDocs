@@ -40,7 +40,7 @@ from a program; the `os` switch does. See [Managed mode](15-managed-mode.html).
 ## There is no privileged helper
 
 The multiuser SD Core for Linux runs its account and password work through a
-`sudo`-scoped helper, `sd-elevate`. **Solo has none**: nothing in SD ever asks
+`sudo`-scoped helper, `sd-elevate`. **SD Core Solo for Linux has none**: nothing in SD ever asks
 for `root`, and the one place it once ran one — creating accounts — is gone. The
 few things that do need `sudo` — packages, a firewall rule, linger — are done by
 scripts you run, and the scripts say when.

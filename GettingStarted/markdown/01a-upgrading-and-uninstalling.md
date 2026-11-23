@@ -15,7 +15,7 @@ bash installsdsolo.sh
 installed tree, says *already installed: upgrading it in place*, and upgrades it;
 no uninstall is needed. `--upgrade` still works and means the same. **It asks no mode, no passwords and no API or ssh choices,** and
 it accepts no option that would change them: an upgrade keeps what is
-installed (one exception: an installation that used the old ways in for ssh gets Solo's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
+installed (one exception: an installation that used the old ways in for ssh gets SD Core Solo for Linux's own ssh port, below). To change the mode or the API, reinstall; ssh can also be
 changed with `solo-service.sh ssh` — see [ssh access](08-ssh-access.html). The
 only options it takes are `--os-access` and `--viewer` (below), and the one
 question it may ask is about a PDF reader (see [Installing](01-installation.html)).
@@ -62,13 +62,13 @@ started it. An upgrade of such an installation also:
 - **stops SD by its old name**, so the old daemon does not keep running;
 - **removes the old `~/.local/bin/sd`** if it is this installation's (a link to
   `bin/sd`, or the launcher an earlier test build made). **A file of your own
-  called `sd` is left alone, without a message**; plain `sd` is SD Core's name
+  called `sd` is left alone, without a message**; plain `sd` is SD Core for Linux's name
   now, and this release never makes it;
 - **moves the systemd user units** to the new file name;
 - **if an `sshd_config.d` block written by an earlier release still names the
   old file, leaves a link at `bin/sd`** until you remove the block (below).
 
-A program or script of your own that starts SD Core Solo by the file name
+A program or script of your own that starts SD Core Solo for Linux by the file name
 `bin/sd` must now say `bin/sd-solo`.
 
 **Upgrading an installation made before Solo had its own ssh port (LS1.1-3).**
@@ -293,5 +293,5 @@ restores only to Solo (on Linux or on Windows), never onto the multi-user SD Cor
 
 ## Continued in
 
-[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html)
+[Differences from SD Core for Linux LC2.0-0](01b-differences-from-sd-core-lc2-0-0.html)
 — what Solo leaves out, adds, and does differently.

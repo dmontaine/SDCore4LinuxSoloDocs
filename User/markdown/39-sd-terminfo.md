@@ -239,5 +239,5 @@ The compiled definitions live under `~/SDCoreSolo/terminfo`, in
 single-letter directories by first letter. The installation is yours, so you
 run `sdtic` as yourself. Give it `-p` with that path to be sure it writes
 there: without `-p` it looks for the library through the configuration file, and where
-`sd.conf` names no system directory (Solo's never does) it uses the Solo folder, so a plain
+`sd.conf` names no system directory (SD Core Solo for Linux's never does) it uses the Solo folder, so a plain
 `sdtic` also works; `-p` stays the way to be sure.

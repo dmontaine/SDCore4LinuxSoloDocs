@@ -96,7 +96,7 @@ file open the verb says so and nothing changes. The page itself keeps no file op
 index then ask for the id or name, **typed**; a wrong one does nothing. The commands are the ordinary verbs, so
 their checks are the checks, and what the verb says is what the status line shows.
 
-**No gate.** Solo has no `dict-edit` gate, so a dictionary of your account is changed like any other file
+**No gate.** SD Core Solo for Linux has no `dict-edit` gate, so a dictionary of your account is changed like any other file
 of yours. (The dictionary of the VOC, `voc.dic`, is not the VOC and does not need `admin`.)
 
 **Limits.** The page makes data and indirect items; other kinds (links, phrases, text, collection

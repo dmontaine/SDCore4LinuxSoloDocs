@@ -1,8 +1,8 @@
 Title: Managed mode
-Subtitle: What an SD Core for Linux server can do to a Solo computer it manages, and how.
+Subtitle: What an SD Core for Linux server can do to an SD Core Solo for Linux computer it manages, and how.
 
 **A managed computer is a local database that an SD Core for Linux server also
-manages.** The server is the only thing that manages Solo computers. **This page
+manages.** The server is the only thing that manages SD Core Solo for Linux computers. **This page
 will grow** as management features are added to SD Core for Linux — what is here
 is what a managed computer offers the server today.
 

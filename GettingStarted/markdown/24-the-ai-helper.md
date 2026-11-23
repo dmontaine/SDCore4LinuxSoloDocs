@@ -1,7 +1,7 @@
 Title: The AI Helper
 Subtitle: One provider and one model, a key that SD never shows or keeps, and one gate - and what a helper that runs as you can and cannot promise.
 
-SD can ask an AI model a question for you (the `ai` verb, see *SD TCL - Asking the AI* in the User set). This page is for the administrator (`admin` first): it says what is set up, what leaves the computer, how to choose the provider and give it a model and a key, how to turn the gate on and off, and **what is weaker here than in SD Core**.
+SD can ask an AI model a question for you (the `ai` verb, see *SD TCL - Asking the AI* in the User set). This page is for the administrator (`admin` first): it says what is set up, what leaves the computer, how to choose the provider and give it a model and a key, how to turn the gate on and off, and **what is weaker here than in SD Core for Linux**.
 
 > **Nothing is on as delivered.** There is no provider, no key, and the gate is off (each named provider comes with a default model, so the model is the one thing you need not supply). The installer asks nothing about the AI. Until you have done the other three, the `ai` verb says so in words and nothing is sent anywhere. Turning one of them on is your act, and each is one command (or one key on the AI choice page) that can be undone.
 
@@ -24,7 +24,7 @@ SD adds nothing of the account, the session or the data. You can of course type 
 
 Nothing the AI returns is run, and the output of a command is never given back to it. A refusal writes one line to the audit trail (`ai refused why=request ...` or `ai refused why=origin ...`) and never the text. What you type or paste yourself is yours, and is in the preview.
 
-## What is weaker than in SD Core, said plainly
+## What is weaker than in SD Core for Linux, said plainly
 
 SD Core runs the helper as a separate operating system user, `sdai`, in files only root can change, and asks the operating system who is calling. **Solo makes no operating system user and no root-owned file of its own** (that is what makes it a Solo), so none of that is possible. The helper runs **as you**, from your own systemd user manager, with its settings and keys in a private directory of your Solo directory (`ai/`, mode 0700; every file in it mode 0600).
 

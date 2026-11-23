@@ -19,7 +19,7 @@ The page has four boxes:
 
 | box | what it holds |
 |---|---|
-| File | the file chosen, and the *Your gates* line (always `on` in Solo) |
+| File | the file chosen, and the *Your gates* line (always `on` in SD Core Solo for Linux) |
 | Which records | the way the records are chosen, and how many that selects now |
 | What to do to them | up to ten operations, in order |
 | Result | the dry run, the last run, the last run's undo, and before and after of the first twenty records that would change |

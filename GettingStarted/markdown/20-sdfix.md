@@ -46,7 +46,7 @@ it the file is reported as *No SD hashed files found matching given name(s)*
 **Do not run it as root, or with `sudo`.** New files are created with the owner
 and umask of whoever runs the program. `-R` writes a new overflow subfile (`%1`)
 and renames it into place, so after a run as root that file belongs to root and
-you may no longer be able to write it; Solo itself refuses to run as root for the
+you may no longer be able to write it; SD Core Solo for Linux itself refuses to run as root for the
 same reason.
 
 It reads the configuration file named by the environment variable `SD_CONFIG`

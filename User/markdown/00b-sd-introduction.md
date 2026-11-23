@@ -1,4 +1,4 @@
-Title: SD Core - Introduction and Getting Started
+Title: SD Core Solo for Linux - Introduction and Getting Started
 Subtitle: What a multivalue database is, what SD is, the four components, and your first session.
 
 This page orients you to SD Core Solo for Linux: what a multivalue database is,
@@ -140,7 +140,7 @@ Type the administrator password chosen at installation, or, on a managed
 computer, the global password. It lasts until you leave SD or type
 `admin off`. See *Administrator commands* in the GettingStarted set.
 
-## What is not in SD Core
+## What is not in SD Core Solo for Linux
 
 The following were in OpenQM, in ScarletDME, or in upstream `sdb64`, and
 are not in SD Core Solo for Linux:

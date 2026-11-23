@@ -140,7 +140,7 @@ absent.
 ### Files an account may not change: the VOC
 
 The **VOC** (a file called `voc`) can be changed by a program only after `admin`
-(the administrator password); Solo has no `voc-on`, `bp-on` or `dict-on`, so there
+(the administrator password); SD Core Solo for Linux has no `voc-on`, `bp-on` or `dict-on`, so there
 is `admin` or there is not. Without it `write`, `writev`, `delete` and `clearfile`
 on the VOC change nothing and stop the program with an error: `clearfile` with
 *The VOC can only be changed after admin (the administrator password)*, and

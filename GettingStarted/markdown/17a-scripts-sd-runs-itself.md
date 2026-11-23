@@ -1,5 +1,5 @@
 Title: The scripts SD runs itself
-Subtitle: What the installer calls in turn, and what does not exist on Solo.
+Subtitle: What the installer calls in turn, and what does not exist on SD Core Solo for Linux.
 
 This page continues [The installed scripts](17-the-installed-scripts.html).
 
@@ -24,21 +24,21 @@ is closed when the installer has finished:** there is no marker, and nothing but
 an installer step writes one. The audit trail records each admission, with the
 writer.
 
-## What Windows automates that Solo does not
+## What SD Core Solo for Windows automates that SD Core Solo for Linux does not
 
-| Windows Solo | Here |
+| SD Core Solo for Windows | Here |
 |---|---|
 | a scheduled task registered in an elevated step | a systemd user unit, and no elevated step at all |
 | `solo-machine.ps1`, the one administrator consent prompt | nothing: `sudo` is used for packages, a firewall rule and linger, and each is optional or checked first |
-| PowerShell scripts for the firewall and ssh rules | `ufw` if it is active, firewalld (`firewall-cmd`) if it is running, and otherwise a message; `solo-ssh.sh` and `solo-service.sh ssh` for Solo's own ssh listener |
+| PowerShell scripts for the firewall and ssh rules | `ufw` if it is active, firewalld (`firewall-cmd`) if it is running, and otherwise a message; `solo-ssh.sh` and `solo-service.sh ssh` for the ssh listener of SD Core Solo for Linux |
 | `install-summary.log` | the installer's own output, and `journalctl --user -u sd-solo.service` for the service |
 
-## What the multiuser product has that Solo does not
+## What SD Core for Linux has that SD Core Solo for Linux does not
 
 `sd-elevate`, `ssh-forcecommand` and `sd-reconcile-accounts` — the `sudo` helper,
 the `sshd_config` block for the group, and the account-register checker — are
 gone with the accounts, the groups and root. See
-[Not in SD Core](14-not-in-sd-core.html).
+[Not in SD Core Solo for Linux](14-not-in-sd-core.html).
 
 ## See also
 

@@ -142,7 +142,7 @@ list sales by @id name qty price csv as exports r1001 no.query
 ```
 
 writes the record `r1001` of the directory file `exports`. **`as` is a write like any other.**
-Solo has no edit gates to ask of the file you named (SD Core asks them), and the record is locked
+SD Core Solo for Linux has no edit gates to ask of the file you named (SD Core for Linux asks them), and the record is locked
 while the report is written, so a record another session
 holds is not waited for: the command names the holder (`Record 'r1001' is locked by user 5`)
 and writes nothing. The lock is given back when the command ends. `as` needs a directory

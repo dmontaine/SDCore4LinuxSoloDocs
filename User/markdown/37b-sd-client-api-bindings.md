@@ -19,7 +19,7 @@ libraries have the same functions and speak the same protocol and login, so a
 client built on either can connect to a server of either kind. The Visual Basic header, `sdclient.bas`,
 is the exception that proves it: it is for the Windows VB DLL, `sdclient.dll`.
 
-**On Solo, connect with `SDConnect`** to port **4249** (`127.0.0.1` on this
+**On SD Core Solo for Linux, connect with `SDConnect`** to port **4249** (`127.0.0.1` on this
 computer), as `sduser` with the account password. The headers declare
 `SDConnectLocal`, because the library exports it, but on Solo it returns false
 at once (see [SD Client API](37-sd-client-api.html)).

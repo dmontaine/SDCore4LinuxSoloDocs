@@ -139,7 +139,7 @@ switches of your account (`set.os.access`) apply as they would if you had typed 
 The audit trail records that you asked (`ai request account=sduser program=tk_ai
 bytes.out=...`), never what you asked or what came back.
 
-**What is different from SD Core.** Solo has one account, so there is no *Switch account*
+**What is different from SD Core for Linux.** SD Core Solo for Linux has one account, so there is no *Switch account*
 tile to withhold and no per-account permission to ask for: the one switch is the AI gate,
 which the administrator turns on with `set.ai gate on` (never `modify.account`). And the
 helper that talks to the provider runs **as you**, not as a user of its own, so any program

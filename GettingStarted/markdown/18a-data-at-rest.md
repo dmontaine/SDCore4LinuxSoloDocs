@@ -12,7 +12,7 @@ here in lower case.
 
 ## The short version
 
-**Encrypt the whole disk, or at least your home directory.** Solo keeps
+**Encrypt the whole disk, or at least your home directory.** SD Core Solo for Linux keeps
 everything in one folder, `~/SDCoreSolo`, under your own home, so the simple and
 complete answer is the one the operating system already offers: full-disk
 encryption chosen when the distribution is installed, or an encrypted home

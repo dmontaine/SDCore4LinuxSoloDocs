@@ -99,7 +99,7 @@ state on every restart. A reboot always leaves a clean slate; the "segment
 present, daemon dead" case above is about a crash the computer did **not**
 restart from.
 
-**Only one SD Core Solo can run on a computer.** The shared-memory name is
+**Only one SD Core Solo for Linux can run on a computer.** The shared-memory name is
 machine-wide, so a second Solo, for another Linux user, would attach to the
 first one's segment. SD Core for Linux uses a different shared-memory name and
 different ports, so the two products can be installed and run on the same

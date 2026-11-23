@@ -100,8 +100,8 @@ directory called `voc` below the account's own directory is a change to it, as a
 a path as the target gets the same *has no OS access* message (`!oscopy` and `!ioscopy`
 answer `-4`) and nothing is copied; the source is only read, so it is not asked. The
 administrator (after `admin`) and an account with the OS switch on are not asked: the
-second has a shell and reached those files as it always could. (SD Core asks the same
-question for a program file or a dictionary as well; Solo has no edit gates, so the VOC
+second has a shell and reached those files as it always could. (SD Core for Linux asks the same
+question for a program file or a dictionary as well; SD Core Solo for Linux has no edit gates, so the VOC
 is the one place it is asked.)
 
 ## Triggers

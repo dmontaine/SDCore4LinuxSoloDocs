@@ -1,14 +1,14 @@
-Title: Differences from SD Core for Linux L2.0-0
+Title: Differences from SD Core for Linux LC2.0-0
 Subtitle: What SD Core Solo for Linux leaves out, adds and does differently.
 
 **SD Core Solo for Linux LS2.0-0 is the single-user edition of SD Core for Linux
-L2.0-0**, and the language, the query processor, the file system, the editors,
+LC2.0-0**, and the language, the query processor, the file system, the editors,
 the full-screen pages and nearly every command are the same. This page is for a
 reader who knows the multiuser product. The User set applies to both.
 
 ## One user, one account, no root
 
-| SD Core for Linux L2.0-0 | Solo |
+| SD Core for Linux LC2.0-0 | Solo |
 |---|---|
 | many accounts, one per person, made by SDSYS | **one account, `sduser`**, made by the installer. `who` and `@LOGNAME` say `sduser` on every computer, whatever the Linux user is called |
 | SDSYS, entered by logging in to Linux as the `sdsys` user | **SDSYS is never entered.** Nobody logs in to it; the administrator commands run from your own account after `admin` |
@@ -21,7 +21,7 @@ reader who knows the multiuser product. The User set applies to both.
 
 ## Passwords
 
-| SD Core for Linux L2.0-0 | Solo |
+| SD Core for Linux LC2.0-0 | Solo |
 |---|---|
 | a local sign-in asks for no SD password — Linux has authenticated you | **every session asks for the account password**: at the keyboard, over ssh, and through the API |
 | a command on the command line (`sd list customers`) needs no password | **`sd-solo list customers`** uses **a copy of the account password kept for you**, in a file only you can read, so scripts and scheduled jobs need no typing |
@@ -37,7 +37,7 @@ read it, as they could read a `~/.pgpass`. See
 
 ## Administration
 
-| SD Core for Linux L2.0-0 | Solo |
+| SD Core for Linux LC2.0-0 | Solo |
 |---|---|
 | the administrator verbs are SDSYS's, and only SDSYS has them | the same verbs are in your account and **need `admin` first** — including eight that had no check of their own because only SDSYS had them: `CONFIG`, `LISTU`, `LIST.LOCKS`, `LIST.READU`, `LOCK`, `CLEAR.LOCKS`, `SET.DATE`, `CLEAN.ACCOUNT` (`CONFIG GPL` and `CONFIG CONTRIB`, which the sign-on banner tells everyone to type, need no `admin`) |
 | the edit gates `voc-edit`, `bp-edit` and `dict-edit`, per account | **no edit gates.** `ED VOC`, a program's `WRITE` or `DELETE` to the VOC, `COPY` into it, and saving or deleting a sentence with `.S` and `.D` **need `admin`**. What SD writes to the VOC as a side effect — `CREATE.FILE`'s entry, the command stack — does not |
@@ -53,7 +53,7 @@ read it, as they could read a `~/.pgpass`. See
 
 See [Administrator commands](06-administrator-commands.html).
 
-## Only in Solo
+## Only in SD Core Solo for Linux
 
 | | |
 |---|---|
@@ -80,7 +80,7 @@ the first time it connects. See [Managed mode](15-managed-mode.html).
 
 ## Installing and running
 
-| SD Core for Linux L2.0-0 | Solo |
+| SD Core for Linux LC2.0-0 | Solo |
 |---|---|
 | `installsdcore.sh`, run by a user who can `sudo`, installs for the computer | `installsdsolo.sh` installs for **one user, all in `~/SDCoreSolo`**, run as that user. `sudo` only for the build packages, a firewall rule and linger |
 | the installer asks whether a session starts at the home screen or the command prompt | **no question**: a session starts at the home screen; `set.start.default terminal` (after `admin`) changes it |

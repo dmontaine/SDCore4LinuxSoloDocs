@@ -1,5 +1,5 @@
 Title: ssh access
-Subtitle: Reaching SD on this computer over ssh, on Solo's own port, what the installer sets up, and what it costs.
+Subtitle: Reaching SD on this computer over ssh, on SD Core Solo for Linux's own port, what the installer sets up, and what it costs.
 
 **An ssh sign-in on port 4251 lands inside SD.** SD Core Solo for Linux runs its own
 small ssh server for itself. You sign in with your Linux account name and password,
@@ -29,7 +29,7 @@ The API is different: it uses SCRAM, where the server never receives the passwor
 | **Nothing else** | every sign-in runs `sd-solo`: no shell, no `scp` or general `sftp`, no port forwarding |
 
 **Because the two ssh servers are separate, you can have both products.** If you
-also use SD Core on this computer, you reach that one on port 22 and this one on
+also use SD Core for Linux on this computer, you reach that one on port 22 and this one on
 port 4251.
 
 ## Turning it on

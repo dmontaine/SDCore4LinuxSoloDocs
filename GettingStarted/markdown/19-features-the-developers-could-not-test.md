@@ -17,7 +17,7 @@ application depends on them.
 
 ## Installing and running
 
-### Solo's own ssh port, `sudo` and linger
+### SD Core Solo for Linux's own ssh port, `sudo` and linger
 
 **What to expect.** Solo's ssh listener (port 4251) is run for your own user by
 two systemd user units, one `sshd` for each connection. Your Linux password, or a

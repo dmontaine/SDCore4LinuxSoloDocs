@@ -62,7 +62,7 @@ platform: `Linux`, reliably.
 
 | Key | | Value |
 |---|---|---|
-| `32` | the `sdsys` directory | `/home/you/SDCoreSolo` — on Solo the installation directory itself |
+| `32` | the `sdsys` directory | `/home/you/SDCoreSolo` — on SD Core Solo for Linux the installation directory itself |
 | `38` | the temporary directory | `/tmp` (example — falls back to the system default when `TEMPDIR` is unset in `sd.conf`) |
 | `1011` | the configuration file | `/home/you/SDCoreSolo/sd.conf` |
 | `1024` | the directory SD was started in | `/home/don/myproject` (example) |

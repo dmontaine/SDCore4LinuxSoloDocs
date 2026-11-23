@@ -15,7 +15,7 @@ folds case, so any of this may be typed in either case.
 **The list is the VOC, not an opinion.** It is taken from the
 vocabulary SD installs, so it says what the account actually gets.
 **A verb your account does not have is not refused — the
-name is simply not recognized.** Solo has one account, and it has all
+name is simply not recognized.** SD Core Solo for Linux has one account, and it has all
 217 of them; whether a verb needs `admin` is in the GettingStarted set.
 
 ## The verbs

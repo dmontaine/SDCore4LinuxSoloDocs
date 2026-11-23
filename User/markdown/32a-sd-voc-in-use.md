@@ -193,7 +193,7 @@ has no on-disk name to fold.
 and `ED VOC`*name* is how you edit a VOC record by hand. But there is no
 verb whose purpose is to create or modify VOC entries — `set.file` writes
 one kind, `.s` writes two, and everything else is done with `ED` or with
-`copy from voc`. **On Solo every direct change to the VOC needs `admin`** —
+`copy from voc`. **On SD Core Solo for Linux every direct change to the VOC needs `admin`** —
 `ed voc`, a program's `write` or `delete` to it, `copy` into it, `.s` and `.d`
 with a name — and is refused with *The VOC can only be changed after admin*
 without it. What SD writes to the VOC itself — `create.file`'s entry, the command

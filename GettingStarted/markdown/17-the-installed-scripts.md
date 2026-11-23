@@ -1,7 +1,7 @@
 Title: The installed scripts
 Subtitle: The scripts in the installed directory, what each does, and what their exit codes mean.
 
-**Solo ships three scripts into the installed directory, in `~/SDCoreSolo/tools`,
+**SD Core Solo for Linux ships three scripts into the installed directory, in `~/SDCoreSolo/tools`,
 and one that you run from the source repository.** They are there for two
 reasons: so that a step which failed during the installation can be run again
 without reinstalling, and so that a choice made at install time can be changed

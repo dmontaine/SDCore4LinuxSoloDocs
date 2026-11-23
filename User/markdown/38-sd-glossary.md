@@ -1,5 +1,5 @@
 Title: SD Glossary
-Subtitle: Terms used in SD Core documentation, from account to VOC.
+Subtitle: Terms used in SD Core Solo for Linux documentation, from account to VOC.
 
 This glossary defines the terms used throughout the SD Core Solo for Linux
 documentation set. Terms are listed in alphabetical order.
@@ -49,7 +49,7 @@ shipped source for the system programs.
 can be run by name from any account that can reach it. Private
 catalog is per-account; local catalog puts the VOC entry in the
 account's own VOC; global catalog is system-wide and is changed by nobody
-in a session — on a managed computer it is the SD Core server's.
+in a session — on a managed computer it is the SD Core for Linux server's.
 
 **Common block** — a named memory area shared between subroutines.
 Declared with `common` or `common /name/`. Used for passing data

@@ -252,7 +252,7 @@ control file (`os-access=`); with no terminal, or with `--yes` and no answer,
 nothing is turned on, and both are off.
 
 **An upgrade does not ask**: it keeps the two switches as they are (an explicit
-`--os-access sh|os|both` is still applied, and only ever turns a switch on). A Solo from
+`--os-access sh|os|both` is still applied, and only ever turns a switch on). An SD Core Solo for Linux from
 before this release (LS1.1-3) had no switches, its shell and OS access always
 on; after the upgrade it has neither set, so **both are off** until you type
 ADMIN and then `set.os.access sh on` or `set.os.access os on`.

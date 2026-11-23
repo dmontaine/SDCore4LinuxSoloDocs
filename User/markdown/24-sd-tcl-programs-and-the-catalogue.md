@@ -101,7 +101,7 @@ the name of a VOC verb.
 | **local** | a VOC entry in the account, so the name works only there |
 | **global** | `gcat` in the system account — **every account sees it** |
 
-**Nobody catalogs globally on Solo — `admin` or not.** `catalog ... global` is
+**Nobody catalogs globally on SD Core Solo for Linux — `admin` or not.** `catalog ... global` is
 refused with *"The global catalog holds the SD Core server's programs from
 global.bp.out and is changed only by sync.global.catalog"*. **The same refusal
 applies to an implicit global catalog** — one chosen by a `!`, `_` or `$`

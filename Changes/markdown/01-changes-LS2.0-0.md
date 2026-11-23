@@ -4,7 +4,7 @@ Columns: 23 11 66
 
 **This is the list of what changed between LS1.1-3 (9 October 2026) and LS2.0-0 of SD Core Solo for Linux.** The release changelog
 (`sdsys/changelog`) has the full story of each change: what it does, why, and what it does not do. This document is the
-short form. Solo takes the part of SD Core's work that does not need a second user; the rows below say what Solo has, and
+short form. Solo takes the part of SD Core for Linux's work that does not need a second user; the rows below say what Solo has, and
 the section at the end says what is Solo's own.
 
 ## How to read it
@@ -61,7 +61,7 @@ the section at the end says what is Solo's own.
 
 **[REMOVED](#removed)**: what SD no longer has, and what to write instead.
 
-**[New Features Unique to SD Core Solo](#new-features-unique-to-sd-core-solo)**, not part of openQM:
+**[New Features Unique to SD Core Solo for Linux](#new-features-unique-to-sd-core-solo-for-linux)**, not part of openQM:
 [Administration](#administration) · [AI](#ai) · [API and client library](#api-and-client-library) ·
 [Commands](#commands) · [Data formats](#data-formats) · [Encryption](#encryption) · [Files](#files-1) ·
 [Installer](#installer) · [Screen library](#screen-library) · [SDNet](#sdnet) · [Security](#security) · [System](#system-1) ·
@@ -397,7 +397,7 @@ Commands and VOC verbs that every account has, and the command language.
 
 ## TOOLS
 
-The debugger and the editors, from the openQM list. The full-screen tools that are SD's own are under New Features Unique to SD Core Solo.
+The debugger and the editors, from the openQM list. The full-screen tools that are SD's own are under New Features Unique to SD Core Solo for Linux.
 
 | Name | Change | What |
 |---|---|---|
@@ -481,7 +481,7 @@ compiled with until it is compiled again. More rows are added as the removal goe
 | `extract()`, `replace()`, `insert()`, `delete()` and `subr()` | Removed | write `a<f,v>`, `a<f,v> = x`, `ins x before a<f,v>`, `del a<f,v>` and `call` or `deffun` |
 | `procread`, `procwrite`, `@pib`, `@sib`, `@pob`, `@sob` | Removed | leftovers of PROC, which went earlier |
 | `!` (the shell verb) | Removed | write `sh command` |
-| the global catalog prefixes `*` and `-` | Removed | `!` and `$` stay, and `_` names a recursive pcode program; in managed mode the SD Core server's programs are cataloged under their plain names: write `call name`, not `call *name` (see `sync.global.catalog` under New Features Unique to SD Core Solo) <!--s 217--> |
+| the global catalog prefixes `*` and `-` | Removed | `!` and `$` stay, and `_` names a recursive pcode program; in managed mode the SD Core server's programs are cataloged under their plain names: write `call name`, not `call *name` (see `sync.global.catalog` under New Features Unique to SD Core Solo for Linux) <!--s 217--> |
 | the word forms of query operators | Removed | `equal`, `greater`, `less`, `before`, `after`, `matches`, `matching`, `not.matching` and `spoken`: write `eq`, `gt`, `lt`, `like`, `unlike` and `said` (the word `not` stays) |
 | `colour`, `without`, `no.grand.total` | Removed | write `color`, `with no` and `grand.total "'L'"` |
 | fourteen dead query keywords | Removed | `verify`, `verify.sup`, `exclusive`, `creating`, `inquiring`, `portrait`, `odd`, `even`, `mark`, `space`, `no.label`, `no.object`, `static` and `encrypt` were read by nothing; `group` stays |
@@ -505,7 +505,7 @@ compiled with until it is compiled again. More rows are added as the removal goe
 | Fedora support | Removed | the installer now refuses Fedora, as it already refused RHEL and its clones, before it changes anything; Debian and Ubuntu are supported. An LS1.1-3 Fedora system cannot be upgraded: install on Debian or Ubuntu |
 | `sed` option `scroll1` | Removed | added and taken out again in this release: SED is the IDE's editor, page up and page down move a whole page, and the word in `&sed.options&` is passed over |
 
-## New Features Unique to SD Core Solo
+## New Features Unique to SD Core Solo for Linux
 
 Everything in this section is SD Core Solo's own or SD Core's own work that Solo shares. None of it is on the
 openQM list, so none of it has a row in the feature spreadsheet: the administrator's pages and gates, the AI

@@ -51,7 +51,7 @@ other language headers (see [SD Client API: Language Bindings](37b-sd-client-api
 
 | | |
 |---|---|
-| `SDConnect(host, port, user, pass, account)` | over the network, to port **4249**. Use `127.0.0.1` for this computer; `user` is `sduser`. **Always give the port:** the library is the same one SD Core uses, and with no port it tries SD Core's, 4247 |
+| `SDConnect(host, port, user, pass, account)` | over the network, to port **4249**. Use `127.0.0.1` for this computer; `user` is `sduser`. **Always give the port:** the library is the same one SD Core for Linux uses, and with no port it tries SD Core's, 4247 |
 | `SDConnectLocal(account)` | **not available on Solo.** Returns false |
 
 > **`SDConnectUDS` (Unix Domain Socket) is not available, on either

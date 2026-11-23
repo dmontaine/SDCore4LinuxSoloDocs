@@ -12,7 +12,7 @@ here in lower case, which is what this port uses on disk. In the tables,
 *italics* mark something you supply and **bold** marks a word typed as it
 stands; braces mark an optional part.
 
-> **The records on this page are those of a stock account VOC.** On Solo the
+> **The records on this page are those of a stock account VOC.** On SD Core Solo for Linux the
 > installer's account step copies the whole of the shipped `newvoc` into the
 > account's VOC, so the shapes are the same; **the counts below are Solo's own**,
 > those of the shipped `newvoc`.
@@ -62,7 +62,7 @@ first character; a record whose field 1 reads `Verb to ...` is `V`):
 
 **Your account's VOC starts as a copy of exactly this**, and what you add to it
 is yours. The account and grant commands are not in it — see *Differences from
-SD Core for Linux L2.0-0* in the GettingStarted set. (SDSYS's own VOC,
+SD Core for Linux LC2.0-0* in the GettingStarted set. (SDSYS's own VOC,
 which nobody signs in to, is built from the larger `voc_template`: 446 records.)
 
 > **Being in the VOC is not evidence a command works.** A record whose type

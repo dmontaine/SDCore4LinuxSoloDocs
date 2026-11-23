@@ -91,7 +91,7 @@ and pass it back.
 
 | | Value |
 |---|---|
-| `@who` | `sduser` — always, on a Solo computer |
+| `@who` | `sduser` — always, on an SD Core Solo for Linux computer |
 | `@logname` | `sduser` |
 | `@path` | `/home/you/SDCoreSolo/user_accounts/sduser` |
 | `@sdsys` | `/home/you/SDCoreSolo` — the installation directory itself |

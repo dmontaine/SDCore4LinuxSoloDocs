@@ -14,7 +14,7 @@ directory, `~/.sdsolotmp`, builds it there, installs it, and deletes the
 download when it ends.
 
 **From a release zip.** The zip carries the installer, the documentation and
-Solo's complete source (its `source` folder, with a `SHA256SUMS` list of every
+the complete source of SD Core Solo for Linux (its `source` folder, with a `SHA256SUMS` list of every
 file in it), and SD is built from that folder: nothing is downloaded from GitHub.
 Before it asks anything, the installer checks every file of `source` against the
 list and stops with a message if one is changed, missing or not listed;

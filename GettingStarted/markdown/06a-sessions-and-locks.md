@@ -9,7 +9,7 @@ SD folds case, so a command may be typed in either case. Commands are shown here
 in lower case. In the tables, *italics* mark something you supply and **bold**
 marks a word typed as it stands; braces mark an optional part.
 
-> Paths are shown as they read on a Solo computer.
+> Paths are shown as they read on an SD Core Solo for Linux computer.
 
 ## Two things are not on this page, on purpose
 
@@ -150,7 +150,7 @@ are not touched**, and neither are the phantoms the session that set it starts.
 The refusals, and `inhibit.login on` and `off` themselves, are on the audit trail.
 
 **On Solo the session that set it is the only one that can switch it off, and
-nobody new gets in, you included.** On the multiuser SD Core the administrator's
+nobody new gets in, you included.** On SD Core for Linux, the multiuser product, the administrator's
 own new session is let in; on Solo the administrator is a state of a session (you
 type `admin` after signing on), so at the door no new session is one. That cannot
 lock you out: **if the session that set it ends or is killed, the inhibit is ignored

@@ -9,7 +9,7 @@ run examples.bp cs01.hello
 ```
 
 The installer puts the file into the account, and an upgrade refreshes the programs SD ships.
-A program of your own that you add to `examples.bp` under another name is kept. Solo has no
+A program of your own that you add to `examples.bp` under another name is kept. SD Core Solo for Linux has no
 edit gates, so you may change a shipped program in place, but **an upgrade puts the shipped
 programs back**, so to change one for good, copy it to your own `bp` file first:
 

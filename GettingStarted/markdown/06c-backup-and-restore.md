@@ -16,7 +16,7 @@ name, are still accepted). After `admin`, `backup.account` writes
 **one zip file**, named for the computer, the account and the time (for example
 `SD-office-sduser-20261001-144419.zip`), holding the account's
 files and a plain-text description of it. `restore.account archive` puts the
-account back, on this computer or another one. **A backup from another person's SD Core Solo replaces
+account back, on this computer or another one. **A backup from another person's SD Core Solo for Linux replaces
 this account's data**, so it says what will be replaced and asks first (the default
 answer is no; `no.query` skips the question). A backup
 made here restores on SD Core Solo for Windows, and the other way round.
@@ -54,7 +54,7 @@ not its directory; the swap itself is in `sdrestore.log`, not in the audit trail
 
 **It does not:** carry a password; back up SD's own system files or the
 settings; follow symbolic links in the account (any it finds are named and left
-out); or restore a Solo backup onto the multi-user SD Core.
+out); or restore a Solo backup onto SD Core for Linux, the multi-user product.
 
 **`restore.account latest` restores the most recent backup without your
 naming it.** `latest` stands where the archive name goes: SD looks in the

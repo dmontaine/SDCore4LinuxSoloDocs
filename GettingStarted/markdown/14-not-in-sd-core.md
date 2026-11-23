@@ -1,4 +1,4 @@
-Title: Not in SD Core
+Title: Not in SD Core Solo for Linux
 Subtitle: What has been removed, why, and what to use instead.
 
 This page exists so you do not spend time hunting for something that is not
@@ -6,17 +6,17 @@ there. **It names what is gone and what to use in its place; it does not documen
 the removed features themselves.**
 
 Everything here was in OpenQM, in ScarletDME, or in upstream `sdb64`, or in the
-multiuser SD Core for Linux this release was made from, and is not in SD Core for
-Linux Solo. **Most of the removals before Solo were made independently on SD Core
+multiuser SD Core for Linux this release was made from, and is not in SD Core Solo
+for Linux. **Most of the removals before Solo were made independently on SD Core
 for Windows too, for the same reasons.** What the multiuser SD Core for Linux has
 and Solo does not — accounts, groups, `SDSYS`, the root helper — is described on
-[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html).
+[Differences from SD Core for Linux LC2.0-0](01b-differences-from-sd-core-lc2-0-0.html).
 
 > **If you had a use for any of these, say so.** Several were removed on the
 > reasoning that nothing needed them. That reasoning is worth testing against real
 > use.
 
-## Accounts, groups and grants — removed for Solo
+## Accounts, groups and grants — removed for SD Core Solo for Linux
 
 | Gone | Use instead |
 |---|---|
@@ -30,7 +30,7 @@ and Solo does not — accounts, groups, `SDSYS`, the root helper — is describe
 | Group accounts, suspending an account | there is nobody to suspend |
 
 The rest of what Solo leaves out, adds and does differently is on
-[Differences from SD Core for Linux L2.0-0](01b-differences-from-sd-core-l2-0-0.html).
+[Differences from SD Core for Linux LC2.0-0](01b-differences-from-sd-core-lc2-0-0.html).
 
 ## Editors
 
@@ -45,7 +45,7 @@ so it needs no operating-system permission, and it needs a window of 140 columns
 by 43 lines. With it came `ced`, a full-screen editor for a record that is a data
 collection, and `ide`, a workbench for programs and files.
 
-**SD Core Solo's own full-screen editing is `sed` and `micro`**, which open the
+**SD Core Solo for Linux's own full-screen editing is `sed` and `micro`**, which open the
 record in each program by name — see
 [Development and file commands](07-programmer-commands.html#editors), which also says
 what they are good for and what they cannot do. **`edit` is not one of them: it

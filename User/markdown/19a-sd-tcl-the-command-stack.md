@@ -129,7 +129,7 @@ show it.
 39 sduser
 ```
 
-**There is no `logto` in SD Core Solo.** There is
+**There is no `logto` in SD Core Solo for Linux.** There is
 one account, `sduser`, so there is nowhere to switch to, and SDSYS is never
 entered on a Solo computer: the administrator commands are in your own account
 behind `admin`. Typed anyway, `logto` answers like any word that is not a

@@ -45,7 +45,7 @@ password is never displayed, stored or logged.
 | `update.accounts` | refresh the account's VOC |
 | `list.voc.removed`, `restore.voc` | the VOC records SD no longer ships, and putting back one the update removed — [`update.accounts`](#updateaccounts) below |
 | `set.os.access` | show, or turn on and off, the shell and OS access switches — [Operating system access](06b-operating-system-access.html) |
-| `remote.ssh`, `remote.api`, `tool.remote` | whether Solo's ssh server and the API are off, local or open — [ssh access](08-ssh-access.html), [API access](09-api-access.html) |
+| `remote.ssh`, `remote.api`, `tool.remote` | whether SD Core Solo for Linux's ssh server and the API are off, local or open — [ssh access](08-ssh-access.html), [API access](09-api-access.html) |
 | `backup.account`, `restore.account`, `set.backup.directory`, `tool.backups`, `settings.report` | [Backing up and restoring the account](06c-backup-and-restore.html) |
 | `set.recovery` | the IDE's recovery copy of text you have not saved |
 | `set.net.access` | show, or turn on and off, the NET gate (API request 29, with `NETFILES=2`) — [API access](09-api-access.html) |
@@ -260,4 +260,4 @@ verbs write the audit trail, in lower case; the page only runs them.
 There is no `append.sd.path`: the installer links `sd-solo` into `~/.local/bin`, and
 whether that directory is on your PATH is between you and your shell's startup
 file. There are no `create.account`, `delete.account`, `modify.account`,
-`grant`, `revoke` or `list.grants` — see [Not in SD Core](14-not-in-sd-core.html).
+`grant`, `revoke` or `list.grants` — see [Not in SD Core Solo for Linux](14-not-in-sd-core.html).

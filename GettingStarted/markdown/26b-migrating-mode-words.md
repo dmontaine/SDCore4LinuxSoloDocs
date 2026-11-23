@@ -59,7 +59,7 @@ the VOC; the first one found is used. One entry to a line.
 
 | line | what it does | also described in |
 |---|---|---|
-| `catalog` {`local`\|`global`} {`no.query`} | a program that compiles with no errors is cataloged under its own name, as the `catalog` verb would, in the mode given; `no.query` leaves out the question about replacing. In Solo nobody changes the global catalog, so `global` is refused | here |
+| `catalog` {`local`\|`global`} {`no.query`} | a program that compiles with no errors is cataloged under its own name, as the `catalog` verb would, in the mode given; `no.query` leaves out the question about replacing. In SD Core Solo for Linux nobody changes the global catalog, so `global` is refused | here |
 | `no.catalog` | cancels an earlier `catalog` line | here |
 | `define` *name* {*value*} | defines a token as `$define` does, for `$ifdef` and for use in the source; the value is a number or a quoted string | here |
 | `debugging` | every program is compiled for the debugger | here |
